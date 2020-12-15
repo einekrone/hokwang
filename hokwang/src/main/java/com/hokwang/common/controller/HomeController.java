@@ -1,4 +1,4 @@
-package com.hokwang.controller;
+package com.hokwang.common.controller;
 
 import java.io.IOException;
 
@@ -15,4 +15,7 @@ public class HomeController {
 	public ModelAndView test(HttpServletResponse response) throws IOException{
 		return new ModelAndView("home");
 	}
+	
+	
+	
 }

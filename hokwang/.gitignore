@@ -1,3 +1,6 @@
-/pom.xml
-/.project
-/.classpath
+.project
+.classpath
+/target/*
+/target
+*.class
+/.settings/

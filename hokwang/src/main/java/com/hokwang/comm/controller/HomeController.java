@@ -16,6 +16,8 @@ public class HomeController {
 		return new ModelAndView("home");
 	}
 	
-	
-	
+//	@RequestMapping(value="/base")      
+//	 public String base() {
+//	    return "base";            
+//	  }
 }

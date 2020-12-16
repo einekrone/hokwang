@@ -20,4 +20,9 @@ public class HomeController {
 	 public String usermsg() {
 	    return "user/tab1";            
 	  }
+	
+	@RequestMapping(value="/mypage")      
+	 public String mypage() {
+	    return "user/mypage";            
+	  }
 }

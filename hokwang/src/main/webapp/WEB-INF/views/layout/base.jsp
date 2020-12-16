@@ -57,19 +57,19 @@
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade show active" id="reserve">
-							<jsp:include page="/WEB-INF/views/theme.jsp" />
+							<jsp:include page="/WEB-INF/views/reserve.jsp" />
 						</div>
 						<div class="tab-pane fade" id="diagnosis">
-							<jsp:include page="/WEB-INF/views/tab1.jsp" />
+							<jsp:include page="/WEB-INF/views/diagnosis.jsp" />
 						</div>
 						<div class="tab-pane fade" id="patient">
-							<jsp:include page="/WEB-INF/views/tab1.jsp" />
+							<jsp:include page="/WEB-INF/views/patient.jsp" />
 						</div>
 						<div class="tab-pane fade" id="schedule">
-							<jsp:include page="/WEB-INF/views/tab1.jsp" />
+							<jsp:include page="/WEB-INF/views/schedule.jsp" />
 						</div>
 						<div class="tab-pane fade" id="medicine">
-							<jsp:include page="/WEB-INF/views/tab1.jsp" />
+							<jsp:include page="/WEB-INF/views/medicine.jsp" />
 						</div>
 						<div class="tab-pane fade" id="sales">
 							<jsp:include page="/WEB-INF/views/sales.jsp" />

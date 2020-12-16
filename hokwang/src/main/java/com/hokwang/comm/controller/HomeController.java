@@ -13,11 +13,11 @@ public class HomeController {
 
 	@RequestMapping(value="/")
 	public ModelAndView test(HttpServletResponse response) throws IOException{
-		return new ModelAndView("home");
+		return new ModelAndView("login");
 	}
 	
-//	@RequestMapping(value="/base")      
-//	 public String base() {
-//	    return "base";            
-//	  }
+	@RequestMapping(value="/usermsg")      
+	 public String usermsg() {
+	    return "user/tab1";            
+	  }
 }

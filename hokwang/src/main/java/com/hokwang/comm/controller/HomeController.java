@@ -1,4 +1,4 @@
-package com.hokwang.common.controller;
+package com.hokwang.comm.controller;
 
 import java.io.IOException;
 

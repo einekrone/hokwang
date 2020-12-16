@@ -7,30 +7,46 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container-fluid" style="margin-top: 10px!important;">
+	<div class="container-fluid" style="margin-top: 10px !important;">
 		<!-- Content Row -->
 		<div class="row">
 
 			<!-- Earnings (Monthly) Card Example -->
 			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 50px;">
-					<div class="card-body">
-						
+				<form style="margin: 0 0 10px 0!important; width: 100%;"
+					class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					<div class="input-group">
+						<input type="text" class="form-control border-0 small"
+							placeholder="예약환자명" aria-label="Search"
+							aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
 					</div>
-				</div>
+				</form>
 				<div class="card shadow py-2" style="height: 300px;">
 					<div class="card-body">
-						
+						<p>환자정보</p>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 100px;">
+				<div class="card shadow py-2" style="height: 100px; margin: 10px 0;">
 					<div class="card-body">
-						
+						<p>특이사항</p>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 50px;">
+				<div class="card shadow py-2" style="height: 330px;">
 					<div class="card-body">
-						
+						<p>진료/예약 이력</p>
+						<table border="1" style=" border-collapse: collapse; width: 100%; text-align: center;">
+							<tr>
+								<td>No</td>
+								<td>일시</td>
+								<td>설명</td>
+								<td>사진</td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>

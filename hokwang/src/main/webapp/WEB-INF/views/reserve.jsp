@@ -26,7 +26,7 @@
 						</div>
 					</div>
 				</form>
-				<div class="card shadow py-2" style="height: 300px;">
+				<div class="card shadow py-2" style="height: 250px;">
 					<div class="card-body">
 						<p>환자정보</p>
 					</div>
@@ -36,7 +36,7 @@
 						<p>특이사항</p>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 330px;">
+				<div class="card shadow py-2" style="height: 380px;">
 					<div class="card-body">
 						<p>진료/예약 이력</p>
 						<table border="1" style=" border-collapse: collapse; width: 100%; text-align: center;">
@@ -58,12 +58,9 @@
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
 								<div
-									class="text-xs font-weight-bold text-success text-uppercase mb-1">
-									Earnings (Annual)</div>
+									class="text-s font-weight-bold text-success text-uppercase mb-1">
+									전체 예약 환자</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-							</div>
-							<div class="col-auto">
-								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>

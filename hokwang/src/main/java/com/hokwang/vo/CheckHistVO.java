@@ -1,4 +1,4 @@
-package com.hokwang.VO;
+package com.hokwang.vo;
 
 import java.sql.Date;
 

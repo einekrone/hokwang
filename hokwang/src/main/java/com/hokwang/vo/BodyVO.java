@@ -1,11 +1,11 @@
-package com.hokwang.VO;
+package com.hokwang.vo;
 
 import java.sql.Date;
 
 import lombok.Data;
 
 @Data
-public class BodyVo {//키,몸무게
+public class BodyVO {//키,몸무게
 	String body_no;//키,몸무게 번호
 	String body_height;//키
 	String body_weight;//몸무게

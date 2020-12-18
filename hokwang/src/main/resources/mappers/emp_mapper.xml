@@ -4,63 +4,53 @@
 
 <mapper namespace="com.hokwang.dao.EmpMapper">
 
-<!-- 단건조회  -->
+	<!-- 단건조회 -->
 	<select id="getEmp" parameterType="emp" resultType="emp">
-		SELECT  
-		        first_name,
-				last_name,
-				email,
-				hire_date,
-				job_id
+		SELECT
+		first_name,
+		last_name,
+		email,
+		hire_date,
+		job_id
 		FROM employees
 		WHERE employee_id = #{employeeId}
 	</select>
-	
-<!-- 전체조회  -->	
-	<select id="getEmpList" resultType="emp">
-		SELECT rownum id, e.* 
-		  FROM employees e
-		<where>  
-		  <if test="departmentId != null">
-		       department_id = #{departmentId}
-		  </if>  
-	      <if test="employeeId != null">
-            and employee_id = #{employeeId}
-          </if>  
-          <if test="salary != null">
-            <![CDATA[ and salary < #{salary} ]]>
-          </if>    
-          <if test="firstName != null">
-            and upper(first_name) like '%' || upper(#{firstName}) || '%'
-          </if> 
-          <if test="employeeIds != null">
-            and employee_id in  
-                <foreach collection="employeeIds" item="id" 
-                         open="(" close=")" separator=",">
-                    #{id}
-                </foreach>
-          </if>      
-        </where>	
-		 ORDER BY first_name 
+
+	<!-- 전체조회 -->
+	<!-- <select id="getEmpList" resultType="emp"> SELECT rownum id, e.* FROM 
+		employees e <where> <if test="departmentId != null"> department_id = #{departmentId} 
+		</if> <if test="employeeId != null"> and employee_id = #{employeeId} </if> 
+		<if test="salary != null"> <![CDATA[ and salary < #{salary} ]]> </if> <if 
+		test="firstName != null"> and upper(first_name) like '%' || upper(#{firstName}) 
+		|| '%' </if> <if test="employeeIds != null"> and employee_id in <foreach 
+		collection="employeeIds" item="id" open="(" close=")" separator=","> #{id} 
+		</foreach> </if> </where> ORDER BY first_name </select> -->
+	<select id="getEmpList" parameterType="emp" resultType="emp">
+		SELECT *
+		FROM employees
+		WHERE employee_id = #{employeeId}
 	</select>
 
-<!--  사원등록    -->
+
+
+	<!-- 사원등록 -->
 	<insert id="insertEmp" parameterType="emp">
-		INSERT INTO EMPLOYEES (	employee_id, 
-								first_name, 
-								last_name,
-								email,
-								hire_date,
-								job_id
-								)
-	 	                VALUES(
-	 	               			#{employeeId},
-	 	               			#{firstName},
-	 	               			#{lastName},
-	 	               			#{email},
-	 	               			#{hireDate},
-	 	               			#{jobId})
+		INSERT INTO EMPLOYEES (
+		employee_id,
+		first_name,
+		last_name,
+		email,
+		hire_date,
+		job_id
+		)
+		VALUES(
+		#{employeeId},
+		#{firstName},
+		#{lastName},
+		#{email},
+		#{hireDate},
+		#{jobId})
 	</insert>
-	
+
 
 </mapper>

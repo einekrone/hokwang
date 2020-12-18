@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+/*---- 선없는 테이블 ----*/
+
+#noborder_table{
+	border-collapse: collapse;
+	border: none;
+}
+
+#nbda{
+	border: none;
+}

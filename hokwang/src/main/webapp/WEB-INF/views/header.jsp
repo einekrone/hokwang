@@ -15,7 +15,6 @@
 
 		<!-- Topbar Navbar -->
 		<ul class="navbar-nav ml-auto">
-			</a>
 			<!-- Dropdown - Messages -->
 			<div
 				class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
@@ -33,8 +32,10 @@
 					</div>
 				</form>
 			</div>
+			
+			<li class="nav-item dropdown no-arrow mx-1">
+				<input style="margin-top: 20px;" type="button" value="로그인" id="loginBtn" />
 			</li>
-
 			<!-- Nav Item - Messages -->
 			<li class="nav-item dropdown no-arrow mx-1"><a
 				class="nav-link dropdown-toggle" href="#" id="messagesDropdown"

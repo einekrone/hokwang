@@ -34,7 +34,7 @@
 			</div>
 			
 			<li class="nav-item dropdown no-arrow mx-1">
-				<input style="margin-top: 20px;" type="button" value="로그인" id="loginBtn" />
+				<input style="margin-top: 20px;" type="button" value="홈" id="homeBtn" onclick="location.href='resv'" />
 			</li>
 			<!-- Nav Item - Messages -->
 			<li class="nav-item dropdown no-arrow mx-1"><a

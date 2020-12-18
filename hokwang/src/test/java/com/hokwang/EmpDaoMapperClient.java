@@ -18,8 +18,5 @@ public class EmpDaoMapperClient {
 	@Test
 	public void empdaoTest() {
 		System.out.println(empDAO.getEmpList(null));
-		
 	}
-	
-
 }

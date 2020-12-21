@@ -24,7 +24,7 @@
 						<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<image src="${pageContext.request.contextPath}/img/dignosis/baby.jpeg" id="title_logo"></image>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
@@ -119,7 +119,7 @@
 			
 
 			<!-- 진료 2 -->
-			<div class="col-xl-6 col-md-6 mb-4">
+			<div class="col-xl-5 col-md-6 mb-4">
 			
 			<!-- 사진 -->
 			<div class="card shadow py-2" style="height: 300px; float: left; width : 50%">
@@ -192,15 +192,12 @@
 									<td>급성 배고픔</td>	
 								</tr>
 								<tr>
-									<th>처방</th>
-									<td>
-										 <td>이탈리안 비엠티</td>
-										 <tr>
-										 	<td>1 </td>
-										 	<td>1</td>
-										 	<td>1</td>
-										 </tr>
-									</td>	
+									<th>처방</th>			
+									<td>이탈리안 비엠티</td>
+									<td>에그마요추가</td>
+									<td>아메리칸치즈</td>
+									<td>랜치</td>
+									<td>후추</td>	
 								</tr>
 							</table>
 						</div>
@@ -208,9 +205,99 @@
 				</div>
 			</div>
 			<!-- 진료 4 -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 840px;">
-					<div class="card-body">88</div>
+			<div class="col-xl-4 col-md-6 mb-4">
+			
+			<!-- 외래기록 -->
+				<div class="card shadow py-2" style="height: 200px;">
+					<div class="card-body">
+					<!-- Title -->
+							<div>
+							<!-- logo -->
+							<div class="title_logo">
+								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+						
+							<!-- content -->
+								<span class="tit" style="font-weight: 600;">외래기록</span>
+							</div>
+						</div>
+						
+						<!--소견내용  -->
+						<div>
+							<input class="cont" id="patient_records" name="records">
+						</div>
+						</div>
+				</div>
+				
+			<!-- 상병 -->	
+				<div class="card shadow py-2" style="height: 320px;">
+					<div class="card-body">
+					<!-- Title -->
+							<div>
+							<!-- logo -->
+							<div class="title_logo">
+								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+						
+							<!-- content -->
+								<span class="tit" style="font-weight: 600;">상병</span>
+							</div>
+						</div>
+						<!-- 상병 내용 table -->
+						
+						<table>
+							<tr>
+								<td>코드</td>
+								<td>상병명</td>
+								<td>좌 우</td>
+							</tr>
+							<tr>
+								<td>123</td>
+								<td>급성 비인두염[감기]</td>
+								<td><span style="margin: 4px 0 0 5px;">좌</span>
+								<input class="chk" type="checkbox">
+								<span style="margin: 4px 0 0 5px;">우</span>
+								<input class="chk" type="checkbox"></td>
+							</tr>
+						</table>
+						</div>
+				</div>
+				
+			<!-- 처방 -->	
+				<div class="card shadow py-2" style="height: 320px;">
+					<div class="card-body">
+					<!-- Title -->
+							<div>
+							<!-- logo -->
+							<div class="title_logo">
+								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+						
+							<!-- content -->
+								<span class="tit" style="font-weight: 600;">처방</span>
+							</div>
+						</div>
+						
+						<!-- 처방 내용 table -->
+						
+						<table>
+							<tr>
+								<td>코드</td>
+								<td>처방명</td>
+								<td>용량</td>
+								<td>일투</td>
+								<td>일수</td>
+								<td>용법</td>
+								<td>특정내역</td>
+							</tr>
+							<tr>
+								<td>123</td>
+								<td>어린이부루펜시럽(내복)</td>
+								<td>28</td>
+								<td>4</td>
+								<td>2</td>
+								<td>fev</td>
+								<td></td>
+							</tr>
+						</table>
+						</div>
 				</div>
 			</div>
 		</div>

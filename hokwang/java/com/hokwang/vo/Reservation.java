@@ -5,7 +5,7 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class ReservationVO {//예약
+public class Reservation {//예약
 
 	String resv_no;//예약 번호
 	Date resv_date;//예약 날짜

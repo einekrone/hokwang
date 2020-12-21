@@ -9,5 +9,6 @@
 	</settings>
 	<typeAliases>
 		<package name="com.hokwang.vo"/>
+		<package name="com.hokwang.dao"/>
 	</typeAliases>
 </configuration>  

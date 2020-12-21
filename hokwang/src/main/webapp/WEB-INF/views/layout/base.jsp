@@ -45,7 +45,7 @@
 				<jsp:include page="/WEB-INF/views/header.jsp" />
 				<div style="padding: 5px;" class=" nav-tabs">
 					<ul>
-						<li><a href="reserve">예약</a></li>
+						<li><a href="resve">예약</a></li>
 						<li><a href="diagnosis">진료</a></li>
 						<li><a href="patient">환자관리</a></li>
 						<li><a href="schedule">근태관리</a></li>
@@ -55,11 +55,6 @@
 					</ul>
 					<div></div>
 				</div>
-
-				<!-- Begin Page Content -->
-
-				<!-- /.container-fluid -->
-
 			</div>
 			<!-- End of Main Content -->
 

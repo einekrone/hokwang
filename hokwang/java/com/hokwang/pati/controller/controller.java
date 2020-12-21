@@ -21,14 +21,5 @@ public class controller {
 	  
 	  return "patient";//jsp경로
 	}
-	
-	@RequestMapping("/reserve") //.do 같은거
-	public String createForm2(Model model){
-	 // model.addAttribute("name", "우청1234");
-	 // model.addAttribute("id", "아이디들어가는곳");
-	 // model.addAttribute("city", "대구");
-	  
-	  return "reserve";//jsp경로
-	}
 
 }

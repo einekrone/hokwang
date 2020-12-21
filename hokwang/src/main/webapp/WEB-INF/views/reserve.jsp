@@ -16,6 +16,10 @@
 .table th {
 	padding: 10px !important;
 }
+
+.ui-tabs .ui-tabs-panel {
+	padding: 0 !important;
+}
 </style>
 </head>
 <body>
@@ -33,7 +37,8 @@
 			});
 		});
 	</script>
-	<div class="container-fluid" style="margin-top: 10px !important;">
+	<div class="container-fluid"
+		style="margin-top: 10px !important; padding: 0 !important; height: 100%;">
 		<!-- Content Row -->
 		<div class="row">
 

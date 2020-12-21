@@ -34,7 +34,7 @@
 			</div>
 			
 			<li class="nav-item dropdown no-arrow mx-1">
-				<input style="margin-top: 20px;" type="button" value="홈" id="homeBtn" onclick="location.href='resv'" />
+				<input style="margin-top: 20px;" type="button" value="홈" id="homeBtn" onclick="location.href='base'" />
 			</li>
 			<!-- Nav Item - Messages -->
 			<li class="nav-item dropdown no-arrow mx-1"><a

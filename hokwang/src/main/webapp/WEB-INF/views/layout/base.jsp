@@ -16,7 +16,8 @@
 <title>호광병원</title>
 
 <!-- Custom fonts for this template-->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -49,10 +50,10 @@
 						<li><a href="patient">환자관리</a></li>
 						<li><a href="schedule">근태관리</a></li>
 						<li><a href="medicine">약품관리</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="sales">매출</a></li>
+						<li><a href="sales">매출</a></li>
+
 					</ul>
-					<div ></div>
+					<div></div>
 				</div>
 
 				<!-- Begin Page Content -->
@@ -99,7 +100,7 @@
 	<!-- Bootstrap core JavaScript-->
 	<script
 		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -112,7 +113,7 @@
 		src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
-<%-- 	<script
+	<%-- 	<script
 		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script> --%>
 
 	<!-- Page level custom scripts -->
@@ -123,7 +124,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$(".nav-tabs").tabs({
-				  active: 0
+				active : 0
 			});
 		})
 	</script>

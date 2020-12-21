@@ -31,6 +31,14 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+	
+<script type="text/javascript">
+function idSearch_click() {
+	{#background_modal}.show();
+	
+}
+
+</script>
 </head>
 <body>
 	<section class="content">
@@ -71,15 +79,35 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">아이디 찾기</h5>
+					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
+					
 					<button class="close" type="button" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">아이디</div>
+				<div class="modal-body">
+				<div id="searchI">
+					<div class="form-group">
+						<label class="font-weight-bold" for="inputName_1">이름</label>
+						<div>
+							<input type="text" class="form-control" id="inputName_1" name="inputName_1" placeholder="ex) 갓민수">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="font-weight-bold" for="inputPhone_1">휴대폰번호</label>
+						<div>
+							<input type="text" class="form-control" id="inputPhone_1" name="inputPhone_1" placeholder="ex) 01077779999">
+						</div>
+					</div>
+				</div>
+				
+				
+				</div>
 				<div class="modal-footer">
-					<a class="btn btn-primary" href="#">찾기</a>
+				
+					<a class="btn btn-primary" href="#" onclick="idSearch_click()">찾기</a>
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
 				</div>
@@ -99,7 +127,21 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">비밀번호</div>
+				<div class="modal-body">
+
+					<div class="form-group">
+						<label class="font-weight-bold" for="inputDepartment_1">사원번호</label>
+						<div>
+							<input type="text" class="form-control" id="inputDepartment_1" name="inputDepartment_1" placeholder="ex) 사원번호">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold" for="inputEmail_1">이메일</label>
+						<div>
+							<input type="text" class="form-control" id="inputEmail_1" name="inputEmail_1" placeholder="ex) hokwang@hk.com">
+						</div>
+					</div>
+				</div>
 				<div class="modal-footer">
 					<a class="btn btn-primary" href="#">찾기</a>
 					<button class="btn btn-secondary" type="button"
@@ -108,7 +150,17 @@
 			</div>
 		</div>
 	</div>
-
+<div id="background_modal" class="background_modal">
+	<div class="modal_contents">
+		<h4>
+			<b>손님 아이디는?</b><span class="close">&times;</span>
+		</h4><br>
+			<h2 id="id_value"></h2>
+		<br>
+		<button type="button" id="pwSearch_btn" class="btn peach-gradient btn-rounded waves-effect">
+		<i class="fa fa-envelope"></i>비밀번호 찾기</button>
+	</div>
+</div>
 
 	<!-- Bootstrap core JavaScript-->
 	<script

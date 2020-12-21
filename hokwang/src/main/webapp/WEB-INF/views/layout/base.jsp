@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +16,7 @@
 <title>호광병원</title>
 
 <!-- Custom fonts for this template-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -40,41 +42,17 @@
 			<!-- Main Content -->
 			<div id="content">
 				<jsp:include page="/WEB-INF/views/header.jsp" />
-				<div style="padding: 5px;">
-					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active"
-							data-toggle="tab" href="#reserve">예약</a></li>
+				<div style="padding: 5px;" class=" nav-tabs">
+					<ul>
+						<li><a href="reserve">예약</a></li>
+						<li><a href="diagnosis">진료</a></li>
+						<li><a href="patient">환자관리</a></li>
+						<li><a href="schedule">근태관리</a></li>
+						<li><a href="medicine">약품관리</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#diagnosis">진료</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#patient">환자관리</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#schedule">근태관리</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#medicine">약품관리</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#sales">매출</a></li>
+							href="sales">매출</a></li>
 					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade show active" id="reserve">
-							<jsp:include page="/WEB-INF/views/reserve.jsp" />
-						</div>
-						<div class="tab-pane fade" id="diagnosis">
-							<jsp:include page="/WEB-INF/views/diagnosis.jsp" />
-						</div>
-						<div class="tab-pane fade" id="patient">
-							<jsp:include page="/WEB-INF/views/patient.jsp" />
-						</div>
-						<div class="tab-pane fade" id="schedule">
-							<jsp:include page="/WEB-INF/views/schedule.jsp" />
-						</div>
-						<div class="tab-pane fade" id="medicine">
-							<jsp:include page="/WEB-INF/views/medicine.jsp" />
-						</div>
-						<div class="tab-pane fade" id="sales">
-							<jsp:include page="/WEB-INF/views/sales.jsp" />
-						</div>
-					</div>
+					<div ></div>
 				</div>
 
 				<!-- Begin Page Content -->
@@ -119,22 +97,36 @@
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 	<!-- Custom scripts for all pages-->
-	<script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
-	<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+<%-- 	<script
+		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script> --%>
 
 	<!-- Page level custom scripts -->
-	<script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
-
+	<script
+		src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(".nav-tabs").tabs({
+				  active: 0
+			});
+		})
+	</script>
 </body>
 
 </html>

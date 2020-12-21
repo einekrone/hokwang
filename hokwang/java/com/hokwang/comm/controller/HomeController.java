@@ -30,4 +30,8 @@ public class HomeController {
 	 public String reserv() {
 	    return "reservation";            
 	  }
+	@RequestMapping(value="/base")
+	 public String base() {
+	    return "layout/base";            
+	  }
 }

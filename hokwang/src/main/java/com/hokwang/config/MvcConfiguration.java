@@ -9,13 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class MvcConfiguration implements WebMvcConfigurer{
 
-//	@Bean
-//	public ViewResolver getViewResolver(){
-//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//		resolver.setPrefix("/WEB-INF/views/");
-//		resolver.setSuffix(".jsp");
-//		return resolver;
-//	}
+	@Bean
+	public ViewResolver getViewResolver(){
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".jsp");
+		return resolver;
+	}
 	
 	@Override
 	 public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

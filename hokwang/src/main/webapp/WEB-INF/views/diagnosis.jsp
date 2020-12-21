@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/diagnosis.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <!-- 진료 전체 -->
@@ -24,7 +25,7 @@
 						<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/img/dignosis/baby.jpeg" id="title_logo"></image>
+								<i class="fas fa-user"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
@@ -82,7 +83,7 @@
 						<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="fas fa-check"></i>
 						
 							<!-- content -->
 								<span class="tit" id="baby_unusual_title" style="font-weight: 600;">특이사항</span>
@@ -95,6 +96,18 @@
 			<!-- 환자리스트 -->	
 				<div class="card shadow py-2" style="height: 410px;">
 					<div class="card-body">
+					<!-- Title -->
+						<div>
+							<!-- logo -->
+							<div class="title_logo">
+								<i class="fas fa-user"></i>
+						
+							<!-- content -->
+								<span class="tit" style="font-weight: 600;">환자리스트</span>
+							</div>
+						</div>
+					
+					
 						<div id="content">
 						<%-- 	<jsp:include page="#" /> --%>
 
@@ -128,7 +141,7 @@
 						<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="far fa-image"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">상세 사진</span>
@@ -158,7 +171,7 @@
 							<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="fas fa-file-medical"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">진료 기록</span>
@@ -214,7 +227,7 @@
 							<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="fas fa-pencil-alt"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">외래기록</span>
@@ -235,7 +248,7 @@
 							<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="fas fa-stethoscope"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">상병</span>
@@ -268,7 +281,7 @@
 							<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<image src="${pageContext.request.contextPath}/DD.JPG" id="title_logo"></image>
+								<i class="fas fa-capsules"></i>
 						
 							<!-- content -->
 								<span class="tit" style="font-weight: 600;">처방</span>

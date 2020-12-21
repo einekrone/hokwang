@@ -12,6 +12,11 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+.table th {
+	padding: 10px !important;
+}
+</style>
 </head>
 <body>
 
@@ -49,43 +54,85 @@
 				</form>
 				<div class="card shadow py-2" style="height: 250px;">
 					<div class="card-body">
-						<p>환자정보</p>
+						<p class="text-s font-weight-bold text-success">환자정보</p>
+						<div style="float: left; width: 50%;">
+							<table>
+								<tr>
+									<td>No</td>
+									<td>회원 번호</td>
+								</tr>
+								<tr>
+									<td>No</td>
+									<td>회원 번호</td>
+								</tr>
+							</table>
+						</div>
+						<div style="float: left; width: 50%;">
+							<table>
+								<tr>
+									<td>No</td>
+									<td>회원 번호</td>
+								</tr>
+								<tr>
+									<td>No</td>
+									<td>회원 번호</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 100px; margin: 10px 0;">
+				<div class="card shadow py-2" style="height: 150px; margin: 10px 0;">
 					<div class="card-body">
-						<p>특이사항</p>
+						<p class="text-s font-weight-bold text-danger"
+							style="margin-bottom: 3px !important;">특이사항</p>
+						<div style="overflow: auto; width: 100%; height: 85px;">특이사항
+							내용 여기는 DIV 스타일에 overflow: scroll; 속성을 주었다. 내용의 양에 관계없이 항상 스크롤바가
+							표시된다. ====> 이 글은 예를 보이기 위한 것이므로 읽을 필요가 없다. 여기는 DIV 스타일에 overflow:
+							scroll; 속성을 주었다.</div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 380px;">
+				<div class="card shadow py-2" style="height: 330px;">
 					<div class="card-body">
-						<p>진료/예약 이력</p>
-						<table border="1"
-							style="border-collapse: collapse; width: 100%; text-align: center;">
-							<tr>
-								<td>No</td>
-								<td>일시</td>
-								<td>설명</td>
-								<td>사진</td>
-							</tr>
+						<p class="text-s font-weight-bold text-success">진료/예약 이력</p>
+						<table class="table text-center">
+							<thead>
+								<tr>
+									<th class="text-center">No</th>
+									<th class="text-center">일시</th>
+									<th class="text-center">설명</th>
+									<th class="text-center">사진</th>
+								</tr>
+							</thead>
+							<tbody id="listCont"></tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 
 			<!-- 2번 -->
-			<div class="col-xl-3 col-md-6 mb-4 column">
+			<div class="col-xl-4 col-md-6 mb-4 column">
 				<div class="card shadow py-2" style="height: 800px;">
 					<div class="card-body">
-						<div class="text-s font-weight-bold text-primary"
-							style="margin-bottom: 20px;">
+						<div class="text-s font-weight-bold" style="margin-bottom: 20px;">
 							<!-- <span>전체 예약 환자</span><span style="float: right;"><input type="checkbox" />당일 환자</span> -->
-							<span>전체 예약 환자</span> <span
-								class="mb-0 font-weight-bold text-gray-800"
+							<span class="text-primary">전체 예약 환자</span> <span
+								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat"
-								id="cb4" type="checkbox" /> <label class="tgl-btn" for="cb4"></label>
+								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>
+							<table class="table text-center">
+								<thead>
+									<tr>
+										<th class="text-center">예약번호</th>
+										<th class="text-center">일시</th>
+										<th class="text-center">성명</th>
+										<th class="text-center">생년월일</th>
+										<th class="text-center">진료실</th>
+									</tr>
+								</thead>
+								<tbody id="listCont"></tbody>
+							</table>
 						</div>
 
 						<!-- 여기에 예약 환자 목록 -->
@@ -94,20 +141,50 @@
 			</div>
 
 			<!-- 3번 -->
-			<div class="col-xl-3 col-md-6 mb-4">
+			<div class="col-xl-2 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 260px;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold">진료실 1</p>
+						<table class="table text-center">
+							<thead>
+								<tr>
+									<th class="text-center">No</th>
+									<th class="text-center">일시</th>
+									<th class="text-center">성명</th>
+								</tr>
+							</thead>
+							<tbody id="listCont"></tbody>
+						</table>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold">진료실 2</p>
+						<table class="table text-center">
+							<thead>
+								<tr>
+									<th class="text-center">No</th>
+									<th class="text-center">일시</th>
+									<th class="text-center">성명</th>
+								</tr>
+							</thead>
+							<tbody id="listCont"></tbody>
+						</table>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold">진료실 3</p>
+						<table class="table text-center">
+							<thead>
+								<tr>
+									<th class="text-center">No</th>
+									<th class="text-center">일시</th>
+									<th class="text-center">성명</th>
+								</tr>
+							</thead>
+							<tbody id="listCont"></tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -116,12 +193,46 @@
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 395px;">
 					<div class="card-body">
-						<p class="text-s font-weight-bold text-warning">수납 대기</p>
+						<div style="height: 35px;">
+							<span class="text-s font-weight-bold text-danger">수납 대기</span> <span
+								class="mb-0 font-weight-bold"
+								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
+								style="float: right;"> <input class="tgl tgl-flat"
+								id="cb4" type="checkbox" /> <label class="tgl-btn" for="cb4"></label>
+							</span>
+						</div>
+						<div style="overflow: auto;">
+							<table class="table text-center">
+								<thead>
+									<tr>
+										<th class="text-center" style="width: 40px;">No</th>
+										<th class="text-center">일시</th>
+										<th class="text-center">성명</th>
+										<th class="text-center">금액</th>
+										<th class="text-center">상태</th>
+									</tr>
+								</thead>
+								<tbody id="listCont"></tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 395px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-info">수납 완료</p>
+						<div style="overflow: auto;">
+							<table class="table text-center">
+								<thead>
+									<tr>
+										<th class="text-center" style="width: 40px;">No</th>
+										<th class="text-center">성명</th>
+										<th class="text-center">금액</th>
+										<th class="text-center">결제일</th>
+									</tr>
+								</thead>
+								<tbody id="listCont"></tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -25,4 +25,9 @@ public class HomeController {
 	 public String mypage() {
 	    return "user/mypage";            
 	  }
+	
+	@RequestMapping(value="/resv")
+	 public String reserv() {
+	    return "reservation";            
+	  }
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,8 @@
 <script src="${pageContext.request.contextPath}/resources/packages/timegrid/main.min.js"></script></head>
 <script src='${pageContext.request.contextPath}/resources/packages/core/locales/ko.js'></script>
 
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 html, body {
   margin: 0;
@@ -62,7 +65,27 @@ html, body {
  
 <div id='calendar'></div>
 
-
+<!-- modal -->
+<div id="dialog-form" title="일정">
+  <p class="validateTips">일정을 등록하세요</p>
+ 
+  <form>
+    <fieldset>
+      <label>일정?</label>
+      <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"><br>
+      <label>휴가일자</label><br>
+      <input type="date" name="work_stdate">&nbsp;~&nbsp;<input type="date" name="work_endate">
+      <br>
+      <label>사유</label><br>
+      <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"><br>
+      <button>저장</button>
+      <button>취소</button>
+    </fieldset>
+  </form>
+</div>
  <script>
 	//달력 조회
    
@@ -86,29 +109,60 @@ html, body {
         
      	
         var calendar = new Calendar(calendarEl, {
+           
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            initialView:'dayGridMonth',
+           
+            
+            
           },
-          editable: true
+          editable: true,
+          selectable: true
           
+         
+
         });
 
         calendar.render();
         
         
-        $('td').click(function() {
-        	   
-           
-
-      });
+        
+        
+     
 
     
     
 
 
+</script>
+<script>
+$(function(){
+	var dialog, form,
+	dialog = $( "#dialog-form" ).dialog({
+	      autoOpen: false,
+	      height: 400,
+	      width: 350,
+	      modal: true,
+
+	        Cancel: function() {
+	          dialog.dialog( "close" );
+	        },
+	      
+	      close: function() {
+	        //form[ 0 ].reset();
+	        //allFields.removeClass( "ui-state-error" );
+	      }
+	    });
+	
+	$('td').on('click',function(){
+		dialog.dialog("open");
+	});
+	
+})
 </script>
 </body>
 </html>

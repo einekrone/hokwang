@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<BabyVO> getBabyList(BabyVO vo) {
 		// TODO Auto-generated method stub
-		return userDAO.getDiagList();
+		return null;
 	}
 	@Override
 	public List<Map> getUserListMap(BabyVO user) {

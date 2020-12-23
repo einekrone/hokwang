@@ -24,16 +24,40 @@
 </head>
 <script type="text/javascript">
 	$(function() {
+		console.log("function");
 		resvList();	// 전체 예약 환자
 		
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
-			if ($('.tgl-flat').is(":checked")) {
+			// 전체 예약 환자
+			if ($('.rsvTg').is(":checked")) {
 				keyword = "today";
 			} else {
-				keyword = "all";
+				// 수납 대기
+				if ($('.priceTg').is(":checked")) {
+					keyword = "today2";
+				} else {
+					keyword = "all";
+				}
 			}
+			
 			console.log(">> " + keyword);
+		});
+
+		$("body").on("click", "#resvList tr", function(){
+			//$(this).children().css("backgroundColor", "lightcoral");
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("예약번호 : "+td.eq(0).text());
+		});
+
+		$("body").on("change", "#officeSel", function(){
+			console.log("change : "+$("#officeSel option:selected").val());
 		});
 	});
 	
@@ -53,13 +77,13 @@
 	function resvListResult(data) {
 		$("#resvList").empty();
 		$.each(data, function(idx, item) {
-			console.log(">>>>"+item.resv_date);
 			$('<tr>')
-			.append($('<td>').html(item.RESV_NO))
+			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
 			.append($('<td>').html(item.RESV_DATETIME))
 			.append($('<td>').html(item.BABY_NAME))
 			.append($('<td>').html(item.BABY_REGNO1))
-			.append($('<td>').html('<select><option>1</option><option>2</option></select>'))
+			.append($('<td onclick="event.cancelBubble=true">').html('<select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>'))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#resvList');
 		});
 	}
@@ -75,7 +99,7 @@
 				<form style="margin: 0 0 10px 0 !important; width: 100%;"
 					class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 					<div class="input-group">
-						<input type="text" class="form-control border-0 small"
+						<input type="text" class="form-control border-0 small" id="searchPati"
 							placeholder="예약환자명" aria-label="Search"
 							aria-describedby="basic-addon2">
 						<div class="input-group-append">
@@ -147,17 +171,16 @@
 				<div class="card shadow py-2" style="height: 800px;">
 					<div class="card-body">
 						<div class="text-s font-weight-bold" style="margin-bottom: 20px;">
-							<!-- <span>전체 예약 환자</span><span style="float: right;"><input type="checkbox" />당일 환자</span> -->
 							<span class="text-primary">전체 예약 환자</span> <span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
-								style="float: right;"> <input class="tgl tgl-flat"
+								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>
 							<table class="table text-center">
 								<thead>
 									<tr>
-										<th class="text-center">예약번호</th>
+										<th class="text-center" style="width: 50px;">예약번호</th>
 										<th class="text-center">일시</th>
 										<th class="text-center">성명</th>
 										<th class="text-center">생년월일</th>
@@ -226,11 +249,11 @@
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 395px;">
 					<div class="card-body">
-						<div style="height: 35px;">
-							<span class="text-s font-weight-bold text-danger">수납 대기</span> <span
+						<div style="height: 40px;">
+							<span class="text-s font-weight-bold text-danger">미수납 / 수납 대기</span> <span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
-								style="float: right;"> <input class="tgl tgl-flat"
+								style="float: right;"> <input class="tgl tgl-flat priceTg"
 								id="cb4" type="checkbox" /> <label class="tgl-btn" for="cb4"></label>
 							</span>
 						</div>

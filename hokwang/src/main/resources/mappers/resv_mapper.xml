@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="resvMapper">
-	<select id="getResvList" parameterType="reservation"
-		resultType="reservation">
-		SELECT * FROM RESERVATION
+<mapper namespace="com.hokwang.dao.ResvMapper">
+	<select id="getResvList" resultType="map">
+		SELECT R.RESV_NO, R.RESV_DATE || ' ' || R.RESV_TIME AS
+		RESV_DATETIME, B.BABY_NAME, B.BABY_REGNO1
+		FROM RESERVATION R, BABY B
+		WHERE R.BABY_NO = B.BABY_NO
 		ORDER BY RESV_NO
 	</select>
 </mapper>

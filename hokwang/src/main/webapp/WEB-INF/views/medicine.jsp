@@ -5,6 +5,54 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- <script src="jquery.jqGrid-4.4.3/js/jquery-1.7.2.min.js"></script>
+ --><!-- <script src="jquery.jqGrid-4.4.3/js/i18n/grid.locale-kr.js"></script>
+<script src="jquery.jqGrid-4.4.3/js/jquery.jqGrid.min.js"></script> -->
+<script src="./resources/json.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		medicineList();
+	});
+	
+	function medicineList() {
+		$.ajax({
+			//url : "http://apis.data.go.kr/1470000/MdcinPatentInfoService/getMdcinPatentInfoList?serviceKey=9WNgCMAquzZlWmN4n%2Fn2noX%2FYPGO6FK5FMU8Jh0XgryTTRUlglPOn14fxnTwaL8CMtu2%2FEy3kglKLsnuxRCNgQ%3D%3D",
+			url:"http://apis.data.go.kr/1470000/MdcinPatentInfoService/getMdcinPatentInfoList?serviceKey=9WNgCMAquzZlWmN4n%2Fn2noX%2FYPGO6FK5FMU8Jh0XgryTTRUlglPOn14fxnTwaL8CMtu2%2FEy3kglKLsnuxRCNgQ%3D%3D",
+			type : 'GET',
+			//contentType:'application/json;charset=utf-8',
+			dataType : 'xml',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data){
+				console.log(data); 
+			}
+		});
+	}
+	
+	function babyListResult(data) {
+		$("#factory_tbody").empty();
+		$.each(data, function(idx, item) {
+					$('<tr>')
+					.append($('<td>').html(item.baby_no))
+					.append($('<td>').html(item.baby_name))
+					.append($('<td>').html(item.baby_blood))
+					.append($('<td>').html(item.baby_gender))
+					.append($('<td>').html('<button id=\'btnSelect\'>조회</button>'))
+					.append($('<td>').html('<button id=\'btnDelete\'>삭제</button>'))
+				    .appendTo('#aaa');
+		});//each
+	}
+	
+	
+	
+	
+	
+	
+</script>
+
+
 </head>
 <body>
 	<div class="container-fluid" style="margin-top: 10px !important;">

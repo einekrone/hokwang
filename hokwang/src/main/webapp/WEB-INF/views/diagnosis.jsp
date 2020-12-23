@@ -22,7 +22,7 @@
 
 	function babyList() {
 		$.ajax({
-			url : 'diagnosis',
+			url : 'ajax/diagnosis',
 			type : 'GET',
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
@@ -33,20 +33,21 @@
 		});
 	}
 
-	function babyListResult() {
-		$("tbody").empty();
+	function babyListResult(data) {
+		$("#aaa").empty();
 		$.each(data, function(idx, item) {
-			$('<tr>').append($('<td>').html(item.baby_no)).append(
-					$('<td>').html(item.baby_name)).append(
-					$('<td>').html(item.baby_blood)).append(
-					$('<td>').html(item.baby_gender)).append(
-					$('<td>').html('<button id=\'btnSelect\'>조회</button>'))
-					.append(
-							$('<td>').html(
-									'<button id=\'btnDelete\'>삭제</button>'))
-				.appendTo('tbody');
+					$('<tr>')
+					.append($('<td>').html(item.baby_no))
+					.append($('<td>').html(item.baby_name))
+					.append($('<td>').html(item.baby_blood))
+					.append($('<td>').html(item.baby_gender))
+					.append($('<td>').html('<button id=\'btnSelect\'>조회</button>'))
+					.append($('<td>').html('<button id=\'btnDelete\'>삭제</button>'))
+				    .appendTo('#aaa');
 		});//each
 	}
+	
+	
 </script>
 </head>
 <body>
@@ -316,7 +317,7 @@
 									<th class="text-center">거주지</th>
 								</tr>
 							</thead>
-							<tbody></tbody>
+							<tbody id="aaa"></tbody>
 						</table>
 						<!-- 						<table>
 							<tr>
@@ -333,8 +334,6 @@
 								<input class="chk" type="checkbox"></td>
 							</tr>
 						</table> -->
-						<table id="list1"></table>
-						<div id="pager1"></div>
 					</div>
 				</div>
 

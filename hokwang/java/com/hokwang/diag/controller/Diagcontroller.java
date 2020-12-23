@@ -17,13 +17,27 @@ import com.hokwang.vo.BabyVO;
 public class Diagcontroller {
 	@Autowired
 	DiagMapper dao;
-	
-	@ResponseBody
+
+	// 페이지이동하는
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", dao.getDiagList());
 		mav.setViewName("diagnosis");
 		return mav;
 	}
+
+	// 아작스
+
+	@ResponseBody
+	@RequestMapping("/ajax/diagnosis")
+	public List<BabyVO> diagtest(Model model, BabyVO vo) {
+		return dao.getDiagList();
+	}
+
+	/*
+	 * @RequestMapping("/ajax/diagnosis") public ModelAndView diagtest(BabyVO vo) {
+	 * ModelAndView mav = new ModelAndView(); mav.addObject(dao.getDiagList());
+	 * return mav; }
+	 */
+
 }

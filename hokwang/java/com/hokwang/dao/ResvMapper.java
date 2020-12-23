@@ -1,10 +1,11 @@
 package com.hokwang.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hokwang.vo.Reservation;
 
 public interface ResvMapper {
 
-	public List<Reservation> getResvList(Reservation resv);
+	public List<Map<String, Object>> getResvList();
 }

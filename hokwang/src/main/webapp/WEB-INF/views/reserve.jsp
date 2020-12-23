@@ -22,21 +22,49 @@
 }
 </style>
 </head>
-<body>
-
-	<script type="text/javascript">
-		$(function() {
-			$('.tgl-flat').change(function() {
-				searchType = "chkType";
-				if ($('.tgl-flat').is(":checked")) {
-					keyword = "today";
-				} else {
-					keyword = "all";
-				}
-				console.log(">> " + keyword);
-			});
+<script type="text/javascript">
+	$(function() {
+		resvList();	// 전체 예약 환자
+		
+		$('.tgl-flat').change(function() {
+			searchType = "chkType";
+			if ($('.tgl-flat').is(":checked")) {
+				keyword = "today";
+			} else {
+				keyword = "all";
+			}
+			console.log(">> " + keyword);
 		});
-	</script>
+	});
+	
+	function resvList() {
+		$.ajax({
+			url : 'ajax/resvList',
+			type : 'GET',
+			//contentType:'application/json;charset=utf-8',
+			dataType : 'json',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : resvListResult
+		});
+	}
+	
+	function resvListResult(data) {
+		$("#resvList").empty();
+		$.each(data, function(idx, item) {
+			console.log(">>>>"+item.resv_date);
+			$('<tr>')
+			.append($('<td>').html(item.RESV_NO))
+			.append($('<td>').html(item.RESV_DATETIME))
+			.append($('<td>').html(item.BABY_NAME))
+			.append($('<td>').html(item.BABY_REGNO1))
+			.append($('<td>').html('<select><option>1</option><option>2</option></select>'))
+		    .appendTo('#resvList');
+		});
+	}
+</script>
+<body>
 	<div class="container-fluid"
 		style="margin-top: 10px !important; padding: 0 !important; height: 100%;">
 		<!-- Content Row -->
@@ -136,7 +164,7 @@
 										<th class="text-center">진료실</th>
 									</tr>
 								</thead>
-								<tbody id="listCont"></tbody>
+								<tbody id="resvList"></tbody>
 							</table>
 						</div>
 

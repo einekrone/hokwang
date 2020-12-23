@@ -9,43 +9,25 @@
 	href="${pageContext.request.contextPath}/css/diagnosis.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="jquery.jqGrid-4.4.3/css/ui.jqgrid.css">
-
-<script src="jquery.jqGrid-4.4.3/js/jquery-1.7.2.min.js"></script>
-<script src="jquery.jqGrid-4.4.3/js/i18n/grid.locale-kr.js"></script>
-<script src="jquery.jqGrid-4.4.3/js/jquery.jqGrid.min.js"></script>
 <script src="./resources/json.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		babyList();
+		infoList();
 	});
 
-	function babyList() {
+	function infoList() {
 		$.ajax({
-			url : 'ajax/diagnosis',
+			url : 'ajax/Info',
 			type : 'GET',
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : babyListResult
+			success : infoListResult
 		});
 	}
 
-	function babyListResult(data) {
-		$("#aaa").empty();
-		$.each(data, function(idx, item) {
-					$('<tr>')
-					.append($('<td>').html(item.baby_no))
-					.append($('<td>').html(item.baby_name))
-					.append($('<td>').html(item.baby_blood))
-					.append($('<td>').html(item.baby_gender))
-					.append($('<td>').html('<button id=\'btnSelect\'>조회</button>'))
-					.append($('<td>').html('<button id=\'btnDelete\'>삭제</button>'))
-				    .appendTo('#aaa');
-		});//each
-	}
 	
 	
 </script>
@@ -308,17 +290,7 @@
 							</div>
 						</div>
 						<!-- 상병 내용 table -->
-						<table class="table text-center">
-							<thead>
-								<tr>
-									<th class="text-center">아이디</th>
-									<th class="text-center">이름</th>
-									<th class="text-center">성별</th>
-									<th class="text-center">거주지</th>
-								</tr>
-							</thead>
-							<tbody id="aaa"></tbody>
-						</table>
+
 						<!-- 						<table>
 							<tr>
 								<td>코드</td>

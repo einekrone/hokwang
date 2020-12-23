@@ -22,7 +22,7 @@ public class Diagcontroller {
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", dao.getDiagList(vo));
+		mav.addObject("list", dao.getDiagList());
 		mav.setViewName("diagnosis");
 		return mav;
 	}

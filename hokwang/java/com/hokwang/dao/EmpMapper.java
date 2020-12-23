@@ -8,7 +8,7 @@ import com.hokwang.vo.Emp;
 public interface EmpMapper {
 
 	public Emp getEmp(Emp empVO);
-	public List<Emp> getEmpList(Emp emp);
+	public List<Emp> getEmpList();
 	public void empInsert(Emp empVO);
 	public String getName(Integer id);
 	public List<Map<String, Object>> getEmpMap();

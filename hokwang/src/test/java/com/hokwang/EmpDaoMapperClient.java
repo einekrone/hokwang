@@ -17,6 +17,6 @@ public class EmpDaoMapperClient {
 	@Autowired EmpMapper empDAO;
 	@Test
 	public void empdaoTest() {
-		System.out.println(empDAO.getEmpList(null));
+		System.out.println(empDAO.getEmpList());
 	}
 }

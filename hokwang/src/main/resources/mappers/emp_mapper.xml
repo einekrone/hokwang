@@ -25,10 +25,10 @@
 		|| '%' </if> <if test="employeeIds != null"> and employee_id in <foreach 
 		collection="employeeIds" item="id" open="(" close=")" separator=","> #{id} 
 		</foreach> </if> </where> ORDER BY first_name </select> -->
-	<select id="getEmpList" parameterType="emp" resultType="emp">
+	<select id="getEmpList" resultType="emp">
 		SELECT *
 		FROM employees
-		WHERE employee_id = #{employeeId}
+	<!-- 	WHERE employee_id = #{employeeId} -->
 	</select>
 
 

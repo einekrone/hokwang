@@ -6,5 +6,5 @@ import com.hokwang.vo.BabyVO;
 
 public interface DiagMapper {
 
-	public List<BabyVO> getDiagList(BabyVO baby);
+	public List<BabyVO> getDiagList();
 }

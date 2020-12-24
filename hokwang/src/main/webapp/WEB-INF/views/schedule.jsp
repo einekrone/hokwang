@@ -53,7 +53,7 @@ html, body {
 
 </head>
 <body>
-
+<!-- 드래그 이벤트 -->
 <div id="external-events">
     <p>
       <strong>사유</strong>
@@ -69,10 +69,10 @@ html, body {
 <div id="dialog-form" title="일정">
   <p class="validateTips">일정을 등록하세요</p>
  
-  <form>
+  <form id="form1">
     <fieldset>
-      <label>일정?</label>
-      <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"><br>
+      <label>근무일자</label>
+      <input type="date" name="work_date" id="work_date" class="text ui-widget-content ui-corner-all"><br>
       <label>휴가일자</label><br>
       <input type="date" name="work_stdate">&nbsp;~&nbsp;<input type="date" name="work_endate">
       <br>
@@ -81,22 +81,39 @@ html, body {
  
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"><br>
-      <button>저장</button>
-      <button>취소</button>
+      <div>
+      <input type="button"  class="btn btn-primary" value="등록"  id="btnInsert" /> 
+      </div>
     </fieldset>
   </form>
 </div>
  <script>
-	//달력 조회
+	
    
         var Calendar = FullCalendar.Calendar;
-        var Draggable = FullCalendarInteraction.Draggable;
+        var Draggable = FullCalendarInteraction.Draggable;//드래그
      
-        var containerEl = document.getElementById('external-events');
+        var containerEl = document.getElementById('external-events');//드래그 이벤트
         var calendarEl = document.getElementById('calendar');
-       
+        
+
+       	//modal
+        var dialog, form,
+		 dialog = $( "#dialog-form" ).dialog({
+		      autoOpen: false,
+		      height: 400,
+		      width: 350,
+		      modal: true,
+		      
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        },
+		      
+		      close: function() {
+		      }
+		    }); 
      
-     	//드래그
+     	//드래그 function
         new Draggable(containerEl, {
           itemSelector: '.fc-event',
           eventData: function(eventEl) {
@@ -107,62 +124,38 @@ html, body {
         });
      	
         
-     	
+      //캘린더 속성
         var calendar = new Calendar(calendarEl, {
-           
+          locale:'ko', //한국어 설정
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             initialView:'dayGridMonth',
-           
-            
+         	
             
           },
-          editable: true,
-          selectable: true
+          selectable: true,//선택한 날짜 표시
+          editable: true,//달력에 있는 이벤트 드래그
           
-         
+		 dateClick: function(){ //날짜클릭시 dialog 오픈
+			 dialog.dialog("open");
+		 },
+		 eventClick: function(arg) { //드래그 이벤트 클릭시 삭제
+		        if (confirm('삭제하시겠습니까?')) {
+		          arg.event.remove()
+		        }
+		      },
+		calendar.addEvent :
+		    	
+		 }
+		 
 
         });
-
         calendar.render();
+ 
         
-        
-        
-        
-     
-
-    
-    
-
-
-</script>
-<script>
-$(function(){
-	var dialog, form,
-	dialog = $( "#dialog-form" ).dialog({
-	      autoOpen: false,
-	      height: 400,
-	      width: 350,
-	      modal: true,
-
-	        Cancel: function() {
-	          dialog.dialog( "close" );
-	        },
-	      
-	      close: function() {
-	        //form[ 0 ].reset();
-	        //allFields.removeClass( "ui-state-error" );
-	      }
-	    });
-	
-	$('td').on('click',function(){
-		dialog.dialog("open");
-	});
-	
-})
 </script>
 </body>
 </html>

@@ -1,91 +1,145 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+	
+		var keyword = "";
+	
+		function patientList(keyword) {
+			console.log("patientList");
+			$.ajax({
+				url : 'ajax/patientList',
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					keyword : keyword
+				},
+				error : function(xhr,status,msg){
+					alert("상태값:"+status + "Http에러메세지"+msg)
+				},
+				success : patientListResult
+			});
+		}
+		
+	function patientListResult(data){
+		console.log("patientLIstResult결과");
+		$("#patientList").empty();
+		$.each(data,function(idx,item){
+			$("<tr>")
+			.append($("<td id='patientNo' value='"+item.BABY_NO+"'>").html(item.BABY_NO))
+			.append($("<td>").html(item.BABY_NAME))
+			.append($("<td>").html(item.BABY_REGNO1))
+			.append($("<td>").html(item.BABY_GENDER))
+			.append($('<td style="display:none;">').html(item.BABY_NO)
+			.appendTo('#resvList');
+		});
+	})
+	}
 
-		<!-- Content Row -->
-		<div class="row">
+</script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- Content Row -->
+	<div class="row">
 
-			<!-- 1 -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 400px;">
-					<div class="card-body">환자정보</div>
-				</div>
-				<div class="card shadow py-2" style="height: 400px;">
-					<div class="card-body">
-						체중 신장 차트
-						<div class="chart-area">
-							<canvas id="myAreaChart"></canvas>
-						</div>
+		<!-- 1 -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card shadow py-2" style="height: 400px;">
+				<div class="card-body">환자정보</div>
+			</div>
+			<div class="card shadow py-2" style="height: 400px;">
+				<div class="card-body">
+					체중 신장 차트
+					<div class="chart-area">
+						<canvas id="myAreaChart"></canvas>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- 2-->
-			<div class="col-xl-6 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 400px;">
-					전체환자 리스트
-					<table border="1">
-						<tr align=center>
-							<td >번호</td>
-							<td >이름</td>
-							<td >생년월일</td>
-							<td >전화번호</td>
+		<!-- 2-->
+		<div class="col-xl-6 col-md-6 mb-4">
+			<div class="card shadow py-2" style="height: 400px;">
+				<span class="text-primary">전체 예약 환자</span> <span
+					class="mb-0 font-weight-bold"
+					style="float: right; margin: 4px 0 0 5px;"> <label
+					class="tgl-btn" for="cb1"></label>
+				</span>
+				<table class="table text-center">
+					<thead>
+						<tr>
+							<th class="text-center" style="width: 50px;">번호</th>
+							<th class="text-center">이름</th>
+							<th class="text-center">생년월일</th>
+							<th class="text-center">성별</th>
+							<!-- <th class="text-center">부모님이름</th> -->
 						</tr>
-						<tr align=center>
-							<td >${name}</td>
-							<td >${id}</td>
-							<td >3</td>
-							<td >4</td>
-						</tr>
-					</table>
-					<!--전체환자 리스트  -->
-				</div>
-				<div class="card shadow py-2"
-					style="height: 400px; float: left; width: 50%">
-					환자 진료 내역
-					<table border="1">
-						<tr align=center>
-							<td >번호</td>
-							<td >이름</td>
-							<td >생년월일</td>
-							<td >전화번호</td>
-						</tr>
-					</table>
-					<!-- 환자 진료 리스트 -->
-				</div>
-				<div class="card shadow py-2"
-					style="height: 400px; float: left; width: 50%">
-					환자 진료 내역
-					<!-- 환지 진료 리스트 -->
-				</div>
+					</thead>
+					<tbody id="patientList"></tbody>
+					<tr align=center>
+						<td></td>
+						<td></td>
+						<td>3</td>
+						<td>4</td>
+					</tr>
+				</table>
+				<!--전체환자 리스트  -->
 			</div>
+			<div class="card shadow py-2"
+				style="height: 400px; float: left; width: 50%">
+				환자 진료 내역
+				<table border="1">
+					<tr align=center>
+						<td>번호</td>
+						<td>이름</td>
+						<td>생년월일</td>
+						<td>전화번호</td>
+					</tr>
+				</table>
+				<!-- 환자 진료 리스트 -->
+			</div>
+			<div class="card shadow py-2"
+				style="height: 400px; float: left; width: 50%">
+				환자 진료 내역
+				<!-- 환지 진료 리스트 -->
+			</div>
+		</div>
 
-			<!-- Pending Requests Card Example -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 800px;">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-									접종</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800"
-									style="float: left">
-									18
-									<table border="1" width="250px" >
-										<tr >
-											<td align=center>접종명</td>
-											<td align=center>상태</td>
-										</tr>
-										<tr >
-											<td align=center>접종명</td>
-											<td align=center><input type="button" id="" name="" value="접종완료"></td>
-										</tr>
-									</table>
-									<input type="text" id="" name="" value="접종완료" style="width:250px">
-								</div>
+		<!-- Pending Requests Card Example -->
+		<div class="col-xl-3 col-md-6 mb-4">
+			<div class="card shadow py-2" style="height: 800px;">
+				<div class="card-body">
+					<div class="row no-gutters align-items-center">
+						<div class="col mr-2">
+							<div
+								class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+								접종</div>
+							<div class="h5 mb-0 font-weight-bold text-gray-800"
+								style="float: left">
+								18
+								<table border="1" width="250px">
+									<tr>
+										<td align=center>접종명</td>
+										<td align=center>상태</td>
+									</tr>
+									<tr>
+										<td align=center>접종명</td>
+										<td align=center><input type="button" id="" name=""
+											value="접종완료"></td>
+									</tr>
+								</table>
+								<input type="text" id="" name="" value="접종완료"
+									style="width: 250px">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+</body>
+</html>

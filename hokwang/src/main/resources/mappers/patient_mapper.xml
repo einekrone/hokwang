@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.hokwang.dao.patientMapper">
+ 	<select id="allpatientList" resultType="babyVO" >
+ 		select a.baby_no,a.baby_name,a.baby_gender,a.baby_regno1, b.parent_name from baby a,parent b where a.parent_no=b.parent_no;
+ 	</select>
+ </mapper>

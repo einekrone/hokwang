@@ -5,7 +5,7 @@
 <mapper namespace="com.hokwang.dao.ResvMapper">
 	<select id="getResvList" resultType="map">
 		SELECT R.RESV_NO, R.RESV_DATE || ' ' || R.RESV_TIME AS
-		RESV_DATETIME, B.BABY_NAME, B.BABY_REGNO1
+		RESV_DATETIME, B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO
 		FROM RESERVATION R, BABY B
 		WHERE R.BABY_NO = B.BABY_NO
 		ORDER BY RESV_NO

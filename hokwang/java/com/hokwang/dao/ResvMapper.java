@@ -3,9 +3,12 @@ package com.hokwang.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.hokwang.vo.Reservation;
+import com.hokwang.vo.ResvSearch;
 
 public interface ResvMapper {
 
-	public List<Map<String, Object>> getResvList();
+	public List<Map<String, Object>> getResvList(ResvSearch vo);
 }

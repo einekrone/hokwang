@@ -24,8 +24,10 @@
 </head>
 <script type="text/javascript">
 	$(function() {
-		console.log("function");
-		resvList();	// 전체 예약 환자
+		var searchType = "";
+		var keyword = "";
+		
+		resvList(searchType, keyword);	// 전체 예약 환자
 		
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -42,6 +44,7 @@
 			}
 			
 			console.log(">> " + keyword);
+			resvList(searchType, keyword);
 		});
 
 		$("body").on("click", "#resvList tr", function(){
@@ -61,12 +64,17 @@
 		});
 	});
 	
-	function resvList() {
+	function resvList(searchType, keyword) {
+		console.log("resvList");
 		$.ajax({
 			url : 'ajax/resvList',
 			type : 'GET',
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
+			data : {
+				searchType : searchType,
+				keyword : keyword
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -75,6 +83,7 @@
 	}
 	
 	function resvListResult(data) {
+		console.log("resvListResult");
 		$("#resvList").empty();
 		$.each(data, function(idx, item) {
 			$('<tr>')

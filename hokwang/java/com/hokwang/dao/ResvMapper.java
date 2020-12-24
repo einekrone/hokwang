@@ -11,4 +11,5 @@ import com.hokwang.vo.ResvSearch;
 public interface ResvMapper {
 
 	public List<Map<String, Object>> getResvList(ResvSearch vo);
+	public List<Map<String, Object>> getResvHistList(Reservation vo);
 }

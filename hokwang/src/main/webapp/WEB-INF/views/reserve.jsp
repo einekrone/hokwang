@@ -47,7 +47,16 @@
 			console.log(">> " + keyword);
 			resvList(searchType, keyword);
 		});
+		
+		resvHstList();
 
+		$("body").on("change", "#officeSel", function(){
+			console.log("change : "+$("#officeSel option:selected").val());
+		});
+	});
+	
+	// 진료/예약 이력 목록
+	function resvHstList() {
 		$("body").on("click", "#resvList tr", function(){
 			//$(this).children().css("backgroundColor", "lightcoral");
 			var tdArr = new Array();
@@ -57,13 +66,36 @@
 				tdArr.push(td.eq(i).text());
 			});
 			
-			console.log("예약번호 : "+td.eq(0).text());
+			console.log("아기번호 : "+td.eq(5).text());
+			
+			$.ajax({
+				url : 'ajax/resvHstList',
+				data : {
+					baby_no : td.eq(5).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : resvHstListResult
+			});
 		});
-
-		$("body").on("change", "#officeSel", function(){
-			console.log("change : "+$("#officeSel option:selected").val());
+	}
+	
+	function resvHstListResult(data) {
+		console.log("resvHstListResult");
+		$("#resvHstList").empty();		
+		$.each(data, function(idx, item) {
+			console.log(">> "+item.RESV_MEMO);
+			$('<tr>')
+			.append($('<td>').html(item.RESV_NO))
+			.append($('<td>').html(item.RESV_DATE))
+			.append($('<td>').html(item.RESV_DETAIL))
+			.append($('<td>').html('<button>사진</button>'))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
+		    .appendTo('#resvHstList');
 		});
-	});
+	}
 	
 	function resvList(searchType, keyword) {
 		$.ajax({
@@ -99,7 +131,6 @@
 		    .appendTo('#resvList');
 			
 			if(date == today) {
-				console.log("같음");
 				$("#regno"+idx+"").eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
 			} else {
 				$("#regno"+idx+"").eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
@@ -179,7 +210,7 @@
 									<th class="text-center">사진</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="resvHstList"></tbody>
 						</table>
 					</div>
 				</div>

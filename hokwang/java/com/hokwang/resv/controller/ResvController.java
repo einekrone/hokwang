@@ -29,9 +29,17 @@ public class ResvController {
 		return mav;
 	}
 
+	// 전체 예약 리스트 조회
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
-	public List<Map<String, Object>> resvList(ResvSearch vo, HttpServletRequest request) {
+	public List<Map<String, Object>> getResvList(ResvSearch vo) {
 		return resvSvc.getResvList(vo);
+	}
+	
+	// 선택된 환자 예약/진료 이력 리스트 조회
+	@ResponseBody
+	@RequestMapping("/ajax/resvHstList")
+	public List<Map<String, Object>> getResvHistList(Reservation vo) {
+		return resvSvc.getResvHistList(vo);
 	}
 }

@@ -9,12 +9,22 @@
 		B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO, R.RESV_ROOM
 		FROM RESERVATION R, BABY B
 		WHERE R.BABY_NO = B.BABY_NO
-		<if
-			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today'">
 				AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE
+	</select>
+	
+	<select id="getResvHistList" resultType="map"
+		parameterType="reservation">
+		SELECT * FROM RESERVATION
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				BABY_NO = ${baby_no}
+			</if>
+		</where>
+		ORDER BY RESV_NO
 	</select>
 </mapper>

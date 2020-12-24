@@ -15,5 +15,5 @@ public class EmployeeVO {//관리자
 	String emp_author;//권한
 	String emp_lic;//면허번호
 	String emp_room;//진료실
-
+	String emp_profile; //이미지
 }

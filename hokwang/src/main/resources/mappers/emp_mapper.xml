@@ -6,14 +6,18 @@
 
 	<!-- 단건조회 -->
 	<select id="getEmp" parameterType="emp" resultType="emp">
-		SELECT
-		first_name,
-		last_name,
-		email,
-		hire_date,
-		job_id
-		FROM employees
-		WHERE employee_id = #{employeeId}
+		emp_no, <!-- 사원번호 -->
+		emp_name,
+		emp_regno, <!-- 주민번호 -->
+		emp_tel,
+		emp_pwd,
+		emp_addr,
+		emp_post,
+		emp_author,
+		emp_lic, <!-- 면허번호 -->
+		emp_profile <!-- 이미지 -->
+		FROM employee
+		WHERE emp_no = #{emp_no}
 	</select>
 
 	<!-- 전체조회 -->
@@ -28,7 +32,7 @@
 	<select id="getEmpList" resultType="emp">
 		SELECT *
 		FROM employees
-	<!-- 	WHERE employee_id = #{employeeId} -->
+		<!-- WHERE employee_id = #{employeeId} -->
 	</select>
 
 

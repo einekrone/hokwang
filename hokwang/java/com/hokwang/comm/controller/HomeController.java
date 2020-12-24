@@ -24,10 +24,10 @@ public class HomeController {
 		return "user/tab1";
 	}
 
-	@RequestMapping(value = "/mypage")
-	public String mypage() {
-		return "user/mypage";
-	}
+	/*
+	 * @RequestMapping(value = "/mypage") public String mypage() { return
+	 * "user/mypage"; }
+	 */
 
 	@RequestMapping(value = "/base")
 	public String base() {

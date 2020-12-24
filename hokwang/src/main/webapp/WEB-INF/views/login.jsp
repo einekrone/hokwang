@@ -22,9 +22,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp" />
-	<form method="post">
+	<form action="login" method="post">
 		<input type="hidden" name="redirectUrl">
-		
+	</form>
 			<legend>로그인 정보 입력폼</legend>
 					<div class="form-group">
 							<label for="loginId">사원번호</label> 
@@ -37,7 +37,7 @@
 					</div>
 					
 					<input style="margin-top: 20px;" type="button" value="로그인"
-							  id="homeBtn" onclick="location.href='resv'" />
+							  id="homeBtn" onclick="location.href='base'" />
 						
 					<div>
 						<input type="checkbox" id="keepLogin" name="keepLogin">

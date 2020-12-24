@@ -147,9 +147,9 @@ html, body {
 		          arg.event.remove()
 		        }
 		      },
-		calendar.addEvent :
+		
 		    	
-		 }
+		 
 		 
 
         });

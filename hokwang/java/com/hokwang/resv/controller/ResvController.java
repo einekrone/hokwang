@@ -32,9 +32,6 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
 	public List<Map<String, Object>> resvList(ResvSearch vo, HttpServletRequest request) {
-		System.out.println(">>1? "+request.getParameter("searchType"));
-		System.out.println(">>2? "+request.getParameter("keyword"));
-		System.out.println("목록 불러오는곳");
 		return resvSvc.getResvList(vo);
 	}
 }

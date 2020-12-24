@@ -23,6 +23,7 @@
 </style>
 </head>
 <script type="text/javascript">
+
 	$(function() {
 		var searchType = "";
 		var keyword = "";
@@ -65,7 +66,6 @@
 	});
 	
 	function resvList(searchType, keyword) {
-		console.log("resvList");
 		$.ajax({
 			url : 'ajax/resvList',
 			type : 'GET',
@@ -86,14 +86,24 @@
 		console.log("resvListResult");
 		$("#resvList").empty();
 		$.each(data, function(idx, item) {
+			var date = item.RESV_DATETIME.substring(0,10);
+			var d = new Date();
+		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+			
 			$('<tr>')
 			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
 			.append($('<td>').html(item.RESV_DATETIME))
 			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td>').html(item.BABY_REGNO1))
-			.append($('<td onclick="event.cancelBubble=true">').html('<select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>'))
+			.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
 			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#resvList');
+			
+			if(date == today) {
+				console.log("같음");
+				$("#regno"+idx+"").eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+			} else {
+				$("#regno"+idx+"").eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
+			}
 		});
 	}
 </script>
@@ -108,8 +118,8 @@
 				<form style="margin: 0 0 10px 0 !important; width: 100%;"
 					class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 					<div class="input-group">
-						<input type="text" class="form-control border-0 small" id="searchPati"
-							placeholder="예약환자명" aria-label="Search"
+						<input type="text" class="form-control border-0 small"
+							id="searchPati" placeholder="예약환자명" aria-label="Search"
 							aria-describedby="basic-addon2">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button">
@@ -189,7 +199,7 @@
 							<table class="table text-center">
 								<thead>
 									<tr>
-										<th class="text-center" style="width: 50px;">예약번호</th>
+										<th class="text-center" style="min-width: 50px;">예약번호</th>
 										<th class="text-center">일시</th>
 										<th class="text-center">성명</th>
 										<th class="text-center">생년월일</th>
@@ -259,11 +269,12 @@
 				<div class="card shadow py-2" style="height: 395px;">
 					<div class="card-body">
 						<div style="height: 40px;">
-							<span class="text-s font-weight-bold text-danger">미수납 / 수납 대기</span> <span
-								class="mb-0 font-weight-bold"
+							<span class="text-s font-weight-bold text-danger">미수납 / 수납
+								대기</span> <span class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
-								style="float: right;"> <input class="tgl tgl-flat priceTg"
-								id="cb4" type="checkbox" /> <label class="tgl-btn" for="cb4"></label>
+								style="float: right;"> <input
+								class="tgl tgl-flat priceTg" id="cb4" type="checkbox" /> <label
+								class="tgl-btn" for="cb4"></label>
 							</span>
 						</div>
 						<div style="overflow: auto;">

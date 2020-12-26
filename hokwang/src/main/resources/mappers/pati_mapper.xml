@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hokwang.dao.PatientMapper">
+	<select id="getPatientList" resultType="map"
+		parameterType="babyVO">
+		select * from baby
+		<where>
+			<if test="baby_no !=null and baby_no != ''">
+				baby_no = ${baby_no}
+			</if>
+		</where>
+		order by baby_no
+	</select>
+	<select id="diagnosisRecord" resultType="map"
+		parameterType="DiagnosisVO">
+		SELECT * FROM diagnosis
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				DIAG_NO = ${DIAG_NO}
+			</if>
+		</where>
+		ORDER BY DIAG_NO
+	</select>
+</mapper>

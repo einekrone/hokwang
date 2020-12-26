@@ -16,14 +16,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.dao.EmpMapper;
-import com.hokwang.service.EmpService;
 import com.hokwang.vo.EmployeeVO;
 
 @Controller
 public class MypageController {
 	@Autowired
 	EmpMapper empmapper;
-	EmpService service;
+	//EmpService service;
 	
 	//페이지이동
 	@RequestMapping("/mypage") //.do 같은거

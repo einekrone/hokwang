@@ -5,10 +5,9 @@
 <mapper namespace="com.hokwang.dao.EmployeeMapper">
 
 	<!-- 로그인 단건조회 -->
-	<select id="getEmp" parameterType="emp" resultType="emp">
+	<select id="getEmp" parameterType="employeeVO" resultType="employeeVO">
 		SELECT emp_no, <!-- 사원번호 -->
 			   emp_pwd
-
 		FROM employee
 		WHERE emp_no = #{emp_no}
 		AND emp_pwd = #{emp_pwd}		

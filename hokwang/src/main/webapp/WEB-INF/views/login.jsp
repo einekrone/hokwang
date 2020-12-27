@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,24 +153,26 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<form action="login" method="post">
 		<input type="hidden" name="redirectUrl">
 		<div class="page-header" style="background-size: cover; background-position: top center;">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-4 col-md-6 ml-auto mr-auto">
 						<div class="card">
-							<form class="form" method="post" action="login" onsubmit="return false">
 								<div class="card-header text-center">
 									<h4 class="card-title">Login</h4>
 								</div>
 								<div class="card-body">
+								<!-- 로그인  -->
+								<c:if test="${emp_vo == null}">
+										<form action='<c:url value='/login'/>' method="post">
 									<div class="row">
 										<div class="col-lg-10 col-md-6 ml-auto mr-auto">
 											<div class="input-group1">
 												<div class="input-group1-prepend">
 													<span class="input-group1-text"> <i	class="material-icons">person_outline</i> </span>
 												</div>
+												
 												<div class="form-group">
 													<input type="text" class="form-control" placeholder="ID..."	id="emp_no" name="emp_no"> 
 													<span class="bmd-help" id="id-warning"></span>
@@ -189,6 +193,13 @@
 									<div class="text-center">
 										<input type="submit" class="btn-lg" value="로그인">
 									</div>
+										</form>
+								</c:if>
+								
+								<c:if test="${emp_vo != null }">
+								<c:redirect url="/base"/>
+								</c:if>
+								<!-- 로그인 끝 -->
 								</div>
 								<div class="card-footer">
 									<span class="txt_find" style="">
@@ -196,7 +207,7 @@
 									<a href="#" data-toggle="modal" data-target="#pwModal">	비밀번호찾기 </a>
 									</span>
 								</div>
-							</form>
+						
 						</div>
 					</div>
 				</div>

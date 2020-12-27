@@ -23,12 +23,26 @@
 
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
-		SELECT * FROM RESERVATION
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
+		R.RESV_DETAIL, R.BABY_NO, D.DIAG_PHOTO
+		FROM RESERVATION R LEFT JOIN
+		DIAGNOSIS D
+		ON R.RESV_NO = D.RESV_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				BABY_NO = ${baby_no}
+				AND BABY_NO = ${baby_no}
 			</if>
 		</where>
 		ORDER BY RESV_NO
+	</select>
+
+	<select id="getPtInfo" resultType="map"
+		parameterType="reservation">
+		SELECT B.*, P.* FROM BABY B, PARENT P
+		WHERE B.PARENT_NO = P.PARENT_NO
+		<if test="baby_no != null and baby_no != ''">
+			AND BABY_NO = ${baby_no}
+		</if>
+		ORDER BY BABY_NO
 	</select>
 </mapper>

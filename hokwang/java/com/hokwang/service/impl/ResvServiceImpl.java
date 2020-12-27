@@ -26,5 +26,10 @@ public class ResvServiceImpl implements ResvService {
 	public List<Map<String, Object>> getResvHistList(Reservation vo) {
 		return resvDao.getResvHistList(vo);
 	}
+
+	@Override
+	public Map<String, Object> getPtInfo(Reservation vo) {
+		return resvDao.getPtInfo(vo);
+	}
 	
 }

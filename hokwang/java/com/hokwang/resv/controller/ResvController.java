@@ -42,4 +42,11 @@ public class ResvController {
 	public List<Map<String, Object>> getResvHistList(Reservation vo) {
 		return resvSvc.getResvHistList(vo);
 	}
+	
+	// 선택된 환자 상세 정보
+	@ResponseBody
+	@RequestMapping("/ajax/ptInfo")
+	public Map<String, Object> getPtInfo(Reservation vo) {
+		return resvSvc.getPtInfo(vo);
+	}
 }

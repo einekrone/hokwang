@@ -55,7 +55,51 @@
 		});
 	});
 	
-	// 진료/예약 이력 목록
+	function resvList(searchType, keyword) {
+		$.ajax({
+			url : 'ajax/resvList',
+			type : 'GET',
+			//contentType:'application/json;charset=utf-8',
+			dataType : 'json',
+			data : {
+				searchType : searchType,
+				keyword : keyword
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : resvListResult
+		});
+	}
+	
+	function resvListResult(data) {
+		$("#resvList").empty();
+		$.each(data, function(idx, item) {
+			var date = item.RESV_DATETIME.substring(0,10);
+			var d = new Date();
+		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+			
+			$('<tr>')
+			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+			.append($('<td>').html(item.RESV_DATETIME))
+			.append($('<td>').html(item.BABY_NAME))
+			.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
+		    .appendTo('#resvList');
+			
+			if(date == today) {
+				$("#regno"+idx+"").eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+			} else {
+				if(typeof item.RESV_ROOM == 'undefined') {
+					$("#regno"+idx+"").eq(-1).after('<td id="room"></td>')
+				} else {
+					$("#regno"+idx+"").eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
+				}
+			}
+		});
+	}
+	
+	// 환자목록 클릭 시 진료/예약 이력 목록 출력
 	function resvHstList() {
 		$("body").on("click", "#resvList tr", function(){
 			//$(this).children().css("backgroundColor", "lightcoral");
@@ -79,14 +123,25 @@
 				},
 				success : resvHstListResult
 			});
+			
+			$.ajax({
+				url : 'ajax/ptInfo',
+				data : {
+					baby_no : td.eq(5).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : ptInfoResult
+			});
 		});
 	}
 	
 	function resvHstListResult(data) {
-		console.log("resvHstListResult");
-		$("#resvHstList").empty();		
+		$("#resvHstList").empty();
 		$.each(data, function(idx, item) {
-			console.log(">> "+item.RESV_MEMO);
+			console.log("ph> "+item.DIAG_PHOTO);
 			$('<tr>')
 			.append($('<td>').html(item.RESV_NO))
 			.append($('<td>').html(item.RESV_DATE))
@@ -97,45 +152,27 @@
 		});
 	}
 	
-	function resvList(searchType, keyword) {
-		$.ajax({
-			url : 'ajax/resvList',
-			type : 'GET',
-			//contentType:'application/json;charset=utf-8',
-			dataType : 'json',
-			data : {
-				searchType : searchType,
-				keyword : keyword
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : resvListResult
-		});
+	function RPAD(str, padStr, padLen) {
+		str = str.toString().substr(1,1);
+	    while (padLen>1){
+	        str += padStr;
+	        padLen--;
+	    }
+	    return str;
 	}
 	
-	function resvListResult(data) {
-		console.log("resvListResult");
-		$("#resvList").empty();
-		$.each(data, function(idx, item) {
-			var date = item.RESV_DATETIME.substring(0,10);
-			var d = new Date();
-		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-			
-			$('<tr>')
-			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-			.append($('<td>').html(item.RESV_DATETIME))
-			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
-		    .appendTo('#resvList');
-			
-			if(date == today) {
-				$("#regno"+idx+"").eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
-			} else {
-				$("#regno"+idx+"").eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
-			}
-		});
+	function ptInfoResult(data) {
+		$("#ptInfo").empty();
+		var regno2 = data.BABY_REGNO2;
+		regno2 = RPAD(regno2, '*', 7);
+		$("#ptInfo")
+		.append($('<p>').html('이름 : ' + data.BABY_NAME+" ("+data.BABY_BLOOD+"형, "+data.BABY_GENDER+")"))
+		.append($('<p>').html('주민번호 : ' + data.BABY_REGNO1+'-'+regno2))
+		.append($('<p>').html('방문 여부 : ' + data.BABY_VISIT))
+		.append($('<hr>'))
+		.append($('<p>').html('보호자명 : ' + data.PARENT_NAME))
+		.append($('<p>').html('연락처 : ' + data.PARENT_TEL))
+		.append($('<p>').html('주소 : ' + data.PARENT_ADDR+' '+data.PARENT_ADDRDETAIL+' '+data.PARENT_POST))
 	}
 </script>
 <body>
@@ -162,37 +199,14 @@
 				<div class="card shadow py-2" style="height: 250px;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-success">환자정보</p>
-						<div style="float: left; width: 50%;">
-							<table>
-								<tr>
-									<td>No</td>
-									<td>회원 번호</td>
-								</tr>
-								<tr>
-									<td>No</td>
-									<td>회원 번호</td>
-								</tr>
-							</table>
-						</div>
-						<div style="float: left; width: 50%;">
-							<table>
-								<tr>
-									<td>No</td>
-									<td>회원 번호</td>
-								</tr>
-								<tr>
-									<td>No</td>
-									<td>회원 번호</td>
-								</tr>
-							</table>
-						</div>
+						<div style="width: 100%; height: 160px; overflow: auto;" id="ptInfo"></div>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 150px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-danger"
 							style="margin-bottom: 3px !important;">특이사항</p>
-						<div style="overflow: auto; width: 100%; height: 85px;">특이사항
+						<div style="overflow: auto; width: 100%; height: 85px;" id="resvDetail">특이사항
 							내용 여기는 DIV 스타일에 overflow: scroll; 속성을 주었다. 내용의 양에 관계없이 항상 스크롤바가
 							표시된다. ====> 이 글은 예를 보이기 위한 것이므로 읽을 필요가 없다. 여기는 DIV 스타일에 overflow:
 							scroll; 속성을 주었다.</div>

@@ -10,4 +10,5 @@ public interface ResvService {
 
 	public List<Map<String, Object>> getResvList(ResvSearch vo);
 	public List<Map<String, Object>> getResvHistList(Reservation vo);
+	public Map<String, Object> getPtInfo(Reservation vo);
 }

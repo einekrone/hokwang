@@ -29,6 +29,8 @@
 		var keyword = "";
 		
 		resvList(searchType, keyword);	// 전체 예약 환자
+		resvHstList();	// 환자 이력
+		resvUniq();		// 특이사항
 		
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -47,8 +49,6 @@
 			console.log(">> " + keyword);
 			resvList(searchType, keyword);
 		});
-		
-		resvHstList();
 
 		$("body").on("change", "#officeSel", function(){
 			console.log("change : "+$("#officeSel option:selected").val());
@@ -97,6 +97,38 @@
 				}
 			}
 		});
+	}
+	
+	// 진료/예약 이력 목록 클릭 시 특이사항 출력
+	function resvUniq() {
+		$("body").on("click", "#resvHstList tr", function() {
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("예약번호 : "+td.eq(0).text());
+			
+			$.ajax({
+				url : 'ajax/uniqInfo',
+				data : {
+					resv_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : resvUniqResult
+			});
+		});
+	}
+	
+	function resvUniqResult(data) {
+		console.log("resvUniqResult");
+		$("#resvDetail").empty();
+		$("#resvDetail").append(data.RESV_MEMO);
 	}
 	
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력

@@ -31,5 +31,10 @@ public class ResvServiceImpl implements ResvService {
 	public Map<String, Object> getPtInfo(Reservation vo) {
 		return resvDao.getPtInfo(vo);
 	}
+
+	@Override
+	public Map<String, Object> getUniqInfo(Reservation vo) {
+		return resvDao.getUniqInfo(vo);
+	}
 	
 }

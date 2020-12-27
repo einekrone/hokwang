@@ -30,7 +30,7 @@
 		ON R.RESV_NO = D.RESV_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				AND BABY_NO = ${baby_no}
+				BABY_NO = ${baby_no}
 			</if>
 		</where>
 		ORDER BY RESV_NO
@@ -43,6 +43,15 @@
 		<if test="baby_no != null and baby_no != ''">
 			AND BABY_NO = ${baby_no}
 		</if>
-		ORDER BY BABY_NO
+	</select>
+
+	<select id="getUniqInfo" resultType="map"
+		parameterType="reservation">
+		SELECT * FROM RESERVATION
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = TO_CHAR(${resv_no})
+			</if>
+		</where>
 	</select>
 </mapper>

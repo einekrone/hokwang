@@ -49,4 +49,11 @@ public class ResvController {
 	public Map<String, Object> getPtInfo(Reservation vo) {
 		return resvSvc.getPtInfo(vo);
 	}
+	
+	// 선택된 환자 특이사항 정보
+	@ResponseBody
+	@RequestMapping("/ajax/uniqInfo")
+	public Map<String, Object> getUniqInfo(Reservation vo) {
+		return resvSvc.getUniqInfo(vo);
+	}
 }

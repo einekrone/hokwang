@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import co.company.spring.common.AuthCheckInterceptor;
@@ -44,5 +45,11 @@ public class MvcConfiguration implements WebMvcConfigurer{
 		registry.addResourceHandler("/images/**").addResourceLocations("/images/");
 	}
 	
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+	    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+	    interceptor.setParamName("lang");
+	    return interceptor;
+	}
 	
 }

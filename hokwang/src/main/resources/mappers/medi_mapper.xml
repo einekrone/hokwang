@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- medi_mapper.xml -->
+<mapper namespace="com.hokwang.dao.MediMapper">
+	<select id="getMediList" resultType="medicineVO">
+		select medi_no, medi_com, medi_name, medi_composition
+		from medicine
+	</select>
+</mapper>

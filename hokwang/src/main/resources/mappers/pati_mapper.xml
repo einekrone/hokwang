@@ -16,8 +16,8 @@
 		parameterType="DiagnosisVO">
 		SELECT * FROM diagnosis
 		<where>
-			<if test="baby_no != null and baby_no != ''">
-				DIAG_NO = ${DIAG_NO}
+			<if test="RESV_NO != null and RESV_NO != ''">
+				RESV_NO = ${RESV_NO}
 			</if>
 		</where>
 		ORDER BY DIAG_NO

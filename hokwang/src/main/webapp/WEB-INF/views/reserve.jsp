@@ -22,15 +22,17 @@
 	padding: 0 !important;
 }
 
-#picBtn {
+button {
 	border-radius: 5px;
 	border: 0;
 	outline: 0;
+	padding: 10px;
 }
 </style>
 </head>
 <script type="text/javascript">
 	$(function() {
+		var imgsrc = "";
 		var searchType = "";
 		var keyword = "";
 
@@ -188,6 +190,8 @@
 		$("#resvHstList").empty();
 		$.each(data, function(idx, item) {
 			console.log("ph> "+item.DIAG_PHOTO);
+			imgsrc = item.DIAG_PHOTO;
+			imgsrc = "undraw_profile.svg";
 			$('<tr>')
 			.append($('<td>').html(item.RESV_NO))
 			.append($('<td>').html(item.RESV_DATE))
@@ -195,6 +199,20 @@
 			.append($('<td>').html('<button id="picBtn" type="button" data-toggle="modal" data-target="#picPopup">사진</button>'))
 			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#resvHstList');
+			
+			//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
+			if(imgsrc != null || imgsrc != "") {
+				$("#imgShow").attr("src", "${pageContext.request.contextPath}/resources/img/"+imgsrc);
+			}
+			
+			var d = new Date();
+		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+		    if(item.RESV_DATE == today) {
+				$("#imgMBtn").css("display", "none");
+			} else {
+				$("#imgInput").css("display", "none");
+				$("#imgRBtn").css("display", "none");
+			}
 		});
 	}
 
@@ -413,11 +431,15 @@
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<input>
+				<div class="modal-body text-center">
+					<input type="file" id="imgInput"><br>
+					<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
+					<img id="imgShow" style="width: 420px; height: 420px;"><br>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">Cancel</button>
+				<div class="modal-footer text-center" style="justify-content: center !important;">
+					<button type="button" style="margin: 0 25px;" id="imgRBtn">등록</button>
+					<button type="button" style="margin: 0 25px;" id="imgMBtn">수정</button>
+					<button class="btn btn-primary" style="margin: 0 25px;" id="imgRBtn" type="button" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

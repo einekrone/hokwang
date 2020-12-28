@@ -199,6 +199,9 @@
 								<c:if test="${emp_vo != null }">
 								<c:redirect url="/base"/>
 								</c:if>
+								<c:if test="${msg == false }">
+									<%out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>"); %>
+								</c:if>
 								<!-- 로그인 끝 -->
 								</div>
 								<div class="card-footer">

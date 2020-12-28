@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.hokwang.dao.EmpMapper;
 import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 
@@ -41,12 +40,11 @@ public class LoginController {
 		if(vo == null) {
 			session.setAttribute("emp_vo", null);
 			rttr.addFlashAttribute("msg", false);
-			System.out.println("emp_vo1 =" + emp_vo);
+			System.out.println("emp_vo1 실패시 =" + vo);
 		} else {
 			session.setAttribute("emp_vo", vo);
-			System.out.println("emp_vo2 =" + vo);
+			System.out.println("emp_vo2 성공시 =" + vo);
 		}
-		System.out.println("emp_vo3=" + vo);
 	
 		return "redirect:/";
 		

@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class MedicineVO {//약
-	String medi_no;//약 번호
-	String medi_route;//투여 경로
-	String medi_formul;//제형 구분
-	String medi_ingre;//일반명(성분)
+	String medi_no;//약 코드
+	String medi_com;//회사명
+	String medi_name;//약 이름
+	String medi_composition;//약 구성요소
 
 }

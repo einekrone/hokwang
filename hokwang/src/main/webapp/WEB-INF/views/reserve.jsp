@@ -12,6 +12,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 .table th {
 	padding: 10px !important;
@@ -20,18 +21,25 @@
 .ui-tabs .ui-tabs-panel {
 	padding: 0 !important;
 }
+
+button {
+	border-radius: 5px;
+	border: 0;
+	outline: 0;
+	padding: 10px;
+}
 </style>
 </head>
 <script type="text/javascript">
-
 	$(function() {
+		var imgsrc = "";
 		var searchType = "";
 		var keyword = "";
-		
-		resvList(searchType, keyword);	// 전체 예약 환자
-		resvHstList();	// 환자 이력
-		resvUniq();		// 특이사항
-		
+
+		resvList(searchType, keyword); // 전체 예약 환자
+		resvHstList(); // 환자 이력
+		resvUniq(); // 특이사항
+
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
 			// 전체 예약 환자
@@ -45,16 +53,24 @@
 					keyword = "all";
 				}
 			}
-			
+
 			console.log(">> " + keyword);
 			resvList(searchType, keyword);
 		});
 
-		$("body").on("change", "#officeSel", function(){
-			console.log("change : "+$("#officeSel option:selected").val());
+		$("body").on("change", "#officeSel", function() {
+			console.log("change : " + $("#officeSel option:selected").val());
+		});
+
+		// 예약환자명 검색
+		$("#searchPati").click(function() {
+			var keyword = $("#keyword").val();
+			console.log("keyword : " + keyword);
+			resvList("resvSearch", keyword);
+			$("#keyword").val("");
 		});
 	});
-	
+
 	function resvList(searchType, keyword) {
 		$.ajax({
 			url : 'ajax/resvList',
@@ -71,7 +87,7 @@
 			success : resvListResult
 		});
 	}
-	
+
 	function resvListResult(data) {
 		$("#resvList").empty();
 		$.each(data, function(idx, item) {
@@ -98,19 +114,19 @@
 			}
 		});
 	}
-	
+
 	// 진료/예약 이력 목록 클릭 시 특이사항 출력
 	function resvUniq() {
 		$("body").on("click", "#resvHstList tr", function() {
 			var tdArr = new Array();
 			var td = $(this).children();
-			
+
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-			
-			console.log("예약번호 : "+td.eq(0).text());
-			
+
+			console.log("예약번호 : " + td.eq(0).text());
+
 			$.ajax({
 				url : 'ajax/uniqInfo',
 				data : {
@@ -124,26 +140,26 @@
 			});
 		});
 	}
-	
+
 	function resvUniqResult(data) {
 		console.log("resvUniqResult");
 		$("#resvDetail").empty();
 		$("#resvDetail").append(data.RESV_MEMO);
 	}
-	
+
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력
 	function resvHstList() {
-		$("body").on("click", "#resvList tr", function(){
+		$("body").on("click", "#resvList tr", function() {
 			//$(this).children().css("backgroundColor", "lightcoral");
 			var tdArr = new Array();
 			var td = $(this).children();
-			
+
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-			
-			console.log("아기번호 : "+td.eq(5).text());
-			
+
+			console.log("아기번호 : " + td.eq(5).text());
+
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {
@@ -155,7 +171,7 @@
 				},
 				success : resvHstListResult
 			});
-			
+
 			$.ajax({
 				url : 'ajax/ptInfo',
 				data : {
@@ -169,30 +185,46 @@
 			});
 		});
 	}
-	
+
 	function resvHstListResult(data) {
 		$("#resvHstList").empty();
 		$.each(data, function(idx, item) {
 			console.log("ph> "+item.DIAG_PHOTO);
+			imgsrc = item.DIAG_PHOTO;
+			imgsrc = "undraw_profile.svg";
 			$('<tr>')
 			.append($('<td>').html(item.RESV_NO))
 			.append($('<td>').html(item.RESV_DATE))
 			.append($('<td>').html(item.RESV_DETAIL))
-			.append($('<td>').html('<button>사진</button>'))
+			.append($('<td>').html('<button id="picBtn" type="button" data-toggle="modal" data-target="#picPopup">사진</button>'))
 			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#resvHstList');
+			
+			//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
+			if(imgsrc != null || imgsrc != "") {
+				$("#imgShow").attr("src", "${pageContext.request.contextPath}/resources/img/"+imgsrc);
+			}
+			
+			var d = new Date();
+		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+		    if(item.RESV_DATE == today) {
+				$("#imgMBtn").css("display", "none");
+			} else {
+				$("#imgInput").css("display", "none");
+				$("#imgRBtn").css("display", "none");
+			}
 		});
 	}
-	
+
 	function RPAD(str, padStr, padLen) {
-		str = str.toString().substr(1,1);
-	    while (padLen>1){
-	        str += padStr;
-	        padLen--;
-	    }
-	    return str;
+		str = str.toString().substr(1, 1);
+		while (padLen > 1) {
+			str += padStr;
+			padLen--;
+		}
+		return str;
 	}
-	
+
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
@@ -219,10 +251,10 @@
 					class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 					<div class="input-group">
 						<input type="text" class="form-control border-0 small"
-							id="searchPati" placeholder="예약환자명" aria-label="Search"
-							aria-describedby="basic-addon2">
+							name="keyword" id="keyword" placeholder="예약환자명"
+							aria-label="Search" aria-describedby="basic-addon2">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button">
+							<button class="btn btn-primary" type="button" id="searchPati">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div>
@@ -231,17 +263,16 @@
 				<div class="card shadow py-2" style="height: 250px;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-success">환자정보</p>
-						<div style="width: 100%; height: 160px; overflow: auto;" id="ptInfo"></div>
+						<div style="width: 100%; height: 160px; overflow: auto;"
+							id="ptInfo"></div>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 150px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-danger"
 							style="margin-bottom: 3px !important;">특이사항</p>
-						<div style="overflow: auto; width: 100%; height: 85px;" id="resvDetail">특이사항
-							내용 여기는 DIV 스타일에 overflow: scroll; 속성을 주었다. 내용의 양에 관계없이 항상 스크롤바가
-							표시된다. ====> 이 글은 예를 보이기 위한 것이므로 읽을 필요가 없다. 여기는 DIV 스타일에 overflow:
-							scroll; 속성을 주었다.</div>
+						<div style="overflow: auto; width: 100%; height: 85px;"
+							id="resvDetail"></div>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 330px;">
@@ -276,7 +307,7 @@
 							<table class="table text-center">
 								<thead>
 									<tr>
-										<th class="text-center" style="min-width: 50px;">예약번호</th>
+										<th class="text-center">예약번호</th>
 										<th class="text-center">일시</th>
 										<th class="text-center">성명</th>
 										<th class="text-center">생년월일</th>
@@ -286,8 +317,6 @@
 								<tbody id="resvList"></tbody>
 							</table>
 						</div>
-
-						<!-- 여기에 예약 환자 목록 -->
 					</div>
 				</div>
 			</div>
@@ -387,6 +416,30 @@
 							</table>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="picPopup">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">진료 사진 관리</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<input type="file" id="imgInput"><br>
+					<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
+					<img id="imgShow" style="width: 420px; height: 420px;"><br>
+				</div>
+				<div class="modal-footer text-center" style="justify-content: center !important;">
+					<button type="button" style="margin: 0 25px;" id="imgRBtn">등록</button>
+					<button type="button" style="margin: 0 25px;" id="imgMBtn">수정</button>
+					<button class="btn btn-primary" style="margin: 0 25px;" id="imgRBtn" type="button" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

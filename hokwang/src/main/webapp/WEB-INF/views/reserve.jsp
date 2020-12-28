@@ -40,6 +40,8 @@ button {
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
 
+		nonPayList(searchType, keyword);	// 미수납/수납대기 목록
+
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
 			// 전체 예약 환자
@@ -70,6 +72,37 @@ button {
 			$("#keyword").val("");
 		});
 	});
+	
+	function nonPayList(searchType, keyword) {
+		$.ajax({
+			url : 'ajax/nonPayList',
+			type : 'GET',
+			//contentType:'application/json;charset=utf-8',
+			dataType : 'json',
+			data : {
+				searchType : searchType,
+				keyword : keyword
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : nonPayListResult
+		});
+	}
+	
+	function nonPayListResult(data) {
+		$("#nonPayList").empty();
+		$.each(data, function(idx, item) {
+			$('<tr>')
+			.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.PAY_NO))
+			.append($('<td>').html(item.PAY_DATE))
+			.append($('<td>').html(item.BABY_NAME))
+			.append($('<td id="regno'+idx+'">').html(item.PAY_PRICE))
+			.append($('<td>').html(item.BABY_NAME))
+			.append($('<td style="display:none;">').html(item.PAY_STATE))
+		    .appendTo('#nonPayList');
+		}
+	}
 
 	function resvList(searchType, keyword) {
 		$.ajax({
@@ -394,7 +427,7 @@ button {
 										<th class="text-center">상태</th>
 									</tr>
 								</thead>
-								<tbody id="listCont"></tbody>
+								<tbody id="nonPayList"></tbody>
 							</table>
 						</div>
 					</div>

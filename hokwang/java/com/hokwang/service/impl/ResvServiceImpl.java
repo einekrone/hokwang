@@ -36,5 +36,10 @@ public class ResvServiceImpl implements ResvService {
 	public Map<String, Object> getUniqInfo(Reservation vo) {
 		return resvDao.getUniqInfo(vo);
 	}
+
+	@Override
+	public List<Map<String, Object>> getNonPayList(ResvSearch vo) {
+		return resvDao.getNonPayList(vo);
+	}
 	
 }

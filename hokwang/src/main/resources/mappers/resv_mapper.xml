@@ -57,4 +57,23 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="getNonPayList" resultType="map" parameterType="resvSearch">
+		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') AS PAY_DATE, P.PAY_PRICE, P.PAY_STATE, B.*
+		FROM PAYMENT P, DIAGNOSIS D, RESERVATION R, BABY B
+		WHERE P.DIAG_NO = D.DIAG_NO
+			AND D.RESV_NO = R.RESV_NO
+			AND R.BABY_NO = B.BABY_NO
+			AND P.PAY_STATE IN('N', 'W')
+		<if
+			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<if test="searchType == 'chkType' and keyword == 'today'">
+				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+			</if>
+			<if test="searchType == 'resvSearch'">
+				AND B.BABY_NAME LIKE '%${keyword}%'
+			</if>
+		</if>
+		ORDER BY R.RESV_NO, R.RESV_TYPE
+	</select>
 </mapper>

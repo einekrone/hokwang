@@ -56,4 +56,11 @@ public class ResvController {
 	public Map<String, Object> getUniqInfo(Reservation vo) {
 		return resvSvc.getUniqInfo(vo);
 	}
+	
+	// 미수납/수납대기 리스트 조회
+	@ResponseBody
+	@RequestMapping("/ajax/nonPayList")
+	public List<Map<String, Object>> getNonPayList(ResvSearch vo) {
+		return resvSvc.getNonPayList(vo);
+	}
 }

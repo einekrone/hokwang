@@ -12,4 +12,5 @@ public interface ResvService {
 	public List<Map<String, Object>> getResvHistList(Reservation vo);
 	public Map<String, Object> getPtInfo(Reservation vo);
 	public Map<String, Object> getUniqInfo(Reservation vo);
+	public List<Map<String, Object>> getNonPayList(ResvSearch vo);
 }

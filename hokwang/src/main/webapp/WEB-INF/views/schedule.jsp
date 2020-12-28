@@ -74,16 +74,17 @@ html, body {
   <form id="form1">
     <fieldset>
     <label>카테고리</label>
-    <select name="work_ctg">
+    <select id="work_ctg" name="work_ctg" onchange="ctgchange()">
+    	<option value="">선택</option>
     	<option value="work">근무</option>
     	<option value="holiday">휴가</option>
     </select><br>
-      <label>근무일자</label>
-      <input type="date" name="work_date" id="work_date" class="text ui-widget-content ui-corner-all work_date"><br>
+      <label id="work">근무일자</label>
+      <input type="date" name="work_date" id="work_date" class="work_date"><br>
      
-      <label>휴가일자</label><br>
-      <input type="date" class="work_date" name="work_stdate">&nbsp;~&nbsp;<input type="date"  id="work_endate"name="work_endate">
-      <br>
+      <label id="holiday">휴가일자</label><br>
+      <input type="date" class="work_date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date"  id="work_endate"name="work_endate"><br>
+      
       <label>사유</label><br>
       <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
  
@@ -96,6 +97,23 @@ html, body {
   </form>
 </div>
  <script>
+ 		function ctgchange(){
+ 			//alert("aa");
+ 			if($("#work_ctg").val() =="work"){
+ 				$("#work_stdate").hide();
+ 				$("#work_endate").hide();
+ 				$("#holiday").hide();
+ 				$("#work").show();
+ 				$("#work_date").show();
+ 			}else if($("#work_ctg").val() =="holiday"){
+ 				$("#work_date").hide();
+ 				$("#holiday").hide();
+ 				$("#holiday").show();
+ 				$("#work").hide();
+ 				$("#work_stdate").show();
+ 				$("#work_endate").show();
+ 			}
+ 		}
 	
    
         var Calendar = FullCalendar.Calendar;
@@ -113,11 +131,6 @@ html, body {
 		      height: 400,
 		      width: 350,
 		      modal: true,
-		      
-		        Cancel: function() {
-		          dialog.dialog( "close" );
-		        },
-		      
 		      close: function() {
 		      }
 		    }); 
@@ -136,6 +149,9 @@ html, body {
       //캘린더 속성
         var calendar = new Calendar(calendarEl, {
           locale:'ko', //한국어 설정
+          events:{
+        	  url:"getScheList"
+          },
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
             left: 'prev,next today',
@@ -146,35 +162,52 @@ html, body {
             
           },
           selectable: true,//선택한 날짜 표시
-         // editable: true,//달력에 있는 이벤트 드래그
-          
+          editable: true,//달력에 있는 이벤트 드래그
+         
 		 select: function(arg){ //날짜클릭시 dialog 오픈
-			 var start = moment(arg.start).format('YYYY-MM-DD');
+			var start = moment(arg.start).format('YYYY-MM-DD');
 		 	var end = moment(arg.end).format('YYYY-MM-DD');
 			 $('.work_date').val(start)
 			 $('#work_endate').val(end)
-			 
-			 console.log(start);
+			 //console.log(start);
 			 dialog.dialog("open");
 		
 		 },
-		/* eventClick: function(arg) { //드래그 이벤트 클릭시 삭제
+		 eventClick: function(arg) { //이벤트 클릭시 삭제
 		        if (confirm('삭제하시겠습니까?')) {
 		          arg.event.remove()
 		        }
-		     },*/ 
+		     }, 
 
 
         });
         calendar.render();
  
       $('#btnInsert').on('click',function(){
+    	  $.ajax({
+    		  url:"schedule",
+    		  type:'POST',
+    		  dataType:'json',
+    		  data : JSON.stringify($("#form1").serialize()),
+    		  contentType: 'application/json',
+    		  success:function(){
+    			  alert("success");
+    		  },
+    		  error:function(){
+    			  alert("fail");
+    		  }
+    	  })
 		 calendar.addEvent({
             title: $('#work_cause').val(),
             start: $('#work_date').val(),
-            end:$('#work_endate').val()
-          })
+            end: $('#work_endate').val()
+          });
+		 dialog.dialog( "close" );
+		
        });
+      
+
+      
        
 </script>
 </body>

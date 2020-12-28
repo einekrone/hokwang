@@ -3,44 +3,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript">
-	
-		var keyword = "";
-	
-		function patientList(keyword) {
-			console.log("patientList");
-			$.ajax({
-				url : 'ajax/patientList',
-				type : 'GET',
-				dataType : 'json',
-				data : {
-					keyword : keyword
-				},
-				error : function(xhr,status,msg){
-					alert("상태값:"+status + "Http에러메세지"+msg)
-				},
-				success : patientListResult
-			});
-		}
-		
-	function patientListResult(data){
-		console.log("patientLIstResult결과");
-		$("#patientList").empty();
-		$.each(data,function(idx,item){
-			$("<tr>")
-			.append($("<td id='patientNo' value='"+item.BABY_NO+"'>").html(item.BABY_NO))
-			.append($("<td>").html(item.BABY_NAME))
-			.append($("<td>").html(item.BABY_REGNO1))
-			.append($("<td>").html(item.BABY_GENDER))
-			.append($('<td style="display:none;">').html(item.BABY_NO)
-			.appendTo('#resvList');
-		});
-	})
-	}
-
-</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	$(function() {
+		//$(document).ready() = $(function(){}) 
+		//body태그의 모든 태그들이 
+		//출력된 다음에 호출이 되는 코드입니다.
+		var keyword = "";
+		patientList(keyword); //전체 환자 리스트
+		//diagnosisRecord();
+	})
+	function patientList(keyword) {
+
+		var keyword = "";
+
+		$.ajax({
+			url : "ajax/patientList",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				keyword : keyword
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : patientListResult
+
+		});/* end of ajax */
+
+	}/* end of function */
+	function patientListResult(data) {
+		console.log("patientListResult전체환자 리스트 출력 콘솔");
+		//console.log("아기번호 : "+td.eq(5).text());
+		$("#patientList").empty();
+		$.each(data, function(idx, item) {
+
+			$("<tr>").append(
+					$("<td id='patientNo' value= '"+item.BABY_NO+"'>").html(
+							item.BABY_NO)).append(
+					$("<td>").html(item.BABY_NAME)).append(
+					$("<td id='regno "+idx+"'>").html(item.BABY_REGNO1))
+					.append($("<td>").html(item.BABY_REGNO2))
+					//.append($('<td style="display:none;">').html(item.BABY_NO))
+					.appendTo('#patientList');
+		})/* end of ajax  */
+	}
+	/* function diagnosisRecord(){
+		$("body").on("click", "#patientList tr",function(){
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i){
+				tdArr.push(td.eq(i).text());
+			});//end of each function
+			console.log("아기번호 : "+td.eq(5).text());
+		
+			$.ajax({
+				url: "ajax/diagnosisRecord",
+				data : {
+					baby_no : td.eq(5).text()
+				},
+				dataType : "JSON",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : diagnosisRecordResult
+			});//end of ajax
+		});//end of onclick function
+	}//end of function
+	
+	function diagnosisRecordResult(data){
+		console.log("진료기록 리스트 출력");
+		$("#diagnosisRecord").empty();
+		 var data = item.DIAG_TIME.substring(0,10);
+		 var d = new Date();
+		 var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+		$.each(data,function(idx,item){
+			$("<tr>")
+			.append($("<td>").html(item.DIAG_NO))
+			.append($("<td>").html(item.DIAG_TIME))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
+			.appendTo('#diagnosisRecord');
+			
+		});//endonf each function
+	}//end of fucntion */
+	
+</script>
 </head>
 <body>
 	<!-- Content Row -->
@@ -64,41 +113,33 @@
 		<!-- 2-->
 		<div class="col-xl-6 col-md-6 mb-4">
 			<div class="card shadow py-2" style="height: 400px;">
-				<span class="text-primary">전체 예약 환자</span> <span
-					class="mb-0 font-weight-bold"
-					style="float: right; margin: 4px 0 0 5px;"> <label
-					class="tgl-btn" for="cb1"></label>
-				</span>
-				<table class="table text-center">
-					<thead>
-						<tr>
-							<th class="text-center" style="width: 50px;">번호</th>
-							<th class="text-center">이름</th>
-							<th class="text-center">생년월일</th>
-							<th class="text-center">성별</th>
-							<!-- <th class="text-center">부모님이름</th> -->
-						</tr>
-					</thead>
-					<tbody id="patientList"></tbody>
-					<tr align=center>
-						<td></td>
-						<td></td>
-						<td>3</td>
-						<td>4</td>
-					</tr>
-				</table>
+				<div class="text-s font-weight-bold" style="margin-bottom: 20px;">
+					<span class="text-primary">전체 환자 리스트</span>
+					<table class="table text-center">
+						<thead>
+							<tr>
+								<th class="text-center">환자번호</th>
+								<th class="text-center">성명</th>
+								<th class="text-center">생년월일</th>
+								<th class="text-center">주민번호</th>
+							</tr>
+						</thead>
+						<tbody id="patientList"></tbody>
+					</table>
+				</div>
 				<!--전체환자 리스트  -->
 			</div>
 			<div class="card shadow py-2"
 				style="height: 400px; float: left; width: 50%">
 				환자 진료 내역
 				<table border="1">
+				<thead>
 					<tr align=center>
 						<td>번호</td>
-						<td>이름</td>
-						<td>생년월일</td>
-						<td>전화번호</td>
+						<td>진료 시간</td>
 					</tr>
+					</thead>
+					<tbody id="diagnosisRecord"></tbody>
 				</table>
 				<!-- 환자 진료 리스트 -->
 			</div>

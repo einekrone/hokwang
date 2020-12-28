@@ -3,14 +3,11 @@ package com.hokwang.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.hokwang.service.PatientService;
 import com.hokwang.vo.BabyVO;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hokwang.vo.DiagnosisVO;
+
 public interface PatientMapper {
 	
-	public List<Map<String, Object>> AllpatientList(BabyVO vo);
-		
-	
-
+	public List<Map<String, Object>> getPatientList(BabyVO vo);//전체 환자 리스트
+	public List<Map<String,Object>> diagnosisRecord(DiagnosisVO vo);//진료기록
 }

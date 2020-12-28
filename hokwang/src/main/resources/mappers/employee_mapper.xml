@@ -2,23 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hokwang.dao.EmpMapper">
+<mapper namespace="com.hokwang.dao.EmployeeMapper">
 
-	<!-- 단건조회 -->
-	<select id="getEmp" parameterType="emp" resultType="emp">
-		emp_no, <!-- 사원번호 -->
-		emp_name,
-		emp_regno, <!-- 주민번호 -->
-		emp_tel,
-		emp_pwd,
-		emp_addr,
-		emp_post,
-		emp_author,
-		emp_lic, <!-- 면허번호 -->
-		emp_profile <!-- 이미지 -->
+	<!-- 로그인 단건조회 -->
+	<select id="getEmp" parameterType="employeeVO" resultType="employeeVO">
+		SELECT emp_no, <!-- 사원번호 -->
+			   emp_pwd
 		FROM employee
 		WHERE emp_no = #{emp_no}
+		AND emp_pwd = #{emp_pwd}		
 	</select>
+
+
 
 	<!-- 전체조회 -->
 	<!-- <select id="getEmpList" resultType="emp"> SELECT rownum id, e.* FROM 
@@ -29,9 +24,10 @@
 		|| '%' </if> <if test="employeeIds != null"> and employee_id in <foreach 
 		collection="employeeIds" item="id" open="(" close=")" separator=","> #{id} 
 		</foreach> </if> </where> ORDER BY first_name </select> -->
+	
 	<select id="getEmpList" resultType="emp">
 		SELECT *
-		FROM employees
+		FROM employee
 		<!-- WHERE employee_id = #{employeeId} -->
 	</select>
 

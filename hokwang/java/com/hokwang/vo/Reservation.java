@@ -17,7 +17,5 @@ public class Reservation {//예약
 	String resv_room;//예약된 진료실
 	
 	String resv_datetime;	// 예약 일시
-	
-//	String baby_name;//이름
-//	String baby_regno1;//주민번호1
+	String baby_no;		// 아기번호
 }

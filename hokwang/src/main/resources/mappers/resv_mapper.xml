@@ -5,16 +5,53 @@
 <mapper namespace="com.hokwang.dao.ResvMapper">
 	<select id="getResvList" resultType="map"
 		parameterType="resvSearch">
-		SELECT R.RESV_NO, R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME,
-		B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') || ' ' ||
+		R.RESV_TIME AS RESV_DATETIME,
+		B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO,
+		R.RESV_ROOM
 		FROM RESERVATION R, BABY B
 		WHERE R.BABY_NO = B.BABY_NO
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today'">
-				AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+				AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
+				'YYYY-MM-DD')
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE
+	</select>
+
+	<select id="getResvHistList" resultType="map"
+		parameterType="reservation">
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
+		R.RESV_DETAIL, R.BABY_NO, D.DIAG_PHOTO
+		FROM RESERVATION R LEFT JOIN
+		DIAGNOSIS D
+		ON R.RESV_NO = D.RESV_NO
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				BABY_NO = ${baby_no}
+			</if>
+		</where>
+		ORDER BY RESV_NO
+	</select>
+
+	<select id="getPtInfo" resultType="map"
+		parameterType="reservation">
+		SELECT B.*, P.* FROM BABY B, PARENT P
+		WHERE B.PARENT_NO = P.PARENT_NO
+		<if test="baby_no != null and baby_no != ''">
+			AND BABY_NO = ${baby_no}
+		</if>
+	</select>
+
+	<select id="getUniqInfo" resultType="map"
+		parameterType="reservation">
+		SELECT * FROM RESERVATION
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = TO_CHAR(${resv_no})
+			</if>
+		</where>
 	</select>
 </mapper>

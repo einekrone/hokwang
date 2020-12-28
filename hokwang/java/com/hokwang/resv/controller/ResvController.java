@@ -29,13 +29,31 @@ public class ResvController {
 		return mav;
 	}
 
+	// 전체 예약 리스트 조회
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
-	public List<Map<String, Object>> resvList(ResvSearch vo, HttpServletRequest request) {
-		
-		System.out.println(">>1? "+request.getParameter("searchType"));
-		System.out.println(">>2? "+request.getParameter("keyword"));
-		System.out.println("목록 불러오는곳");
+	public List<Map<String, Object>> getResvList(ResvSearch vo) {
 		return resvSvc.getResvList(vo);
+	}
+	
+	// 선택된 환자 예약/진료 이력 리스트 조회
+	@ResponseBody
+	@RequestMapping("/ajax/resvHstList")
+	public List<Map<String, Object>> getResvHistList(Reservation vo) {
+		return resvSvc.getResvHistList(vo);
+	}
+	
+	// 선택된 환자 상세 정보
+	@ResponseBody
+	@RequestMapping("/ajax/ptInfo")
+	public Map<String, Object> getPtInfo(Reservation vo) {
+		return resvSvc.getPtInfo(vo);
+	}
+	
+	// 선택된 환자 특이사항 정보
+	@ResponseBody
+	@RequestMapping("/ajax/uniqInfo")
+	public Map<String, Object> getUniqInfo(Reservation vo) {
+		return resvSvc.getUniqInfo(vo);
 	}
 }

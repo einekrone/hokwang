@@ -9,16 +9,21 @@ import org.springframework.stereotype.Service;
 import com.hokwang.dao.PatientMapper;
 import com.hokwang.service.PatientService;
 import com.hokwang.vo.BabyVO;
-@Service("patientService")
-public class PatientServiceImpl implements PatientService{
-	@Autowired  PatientMapper patientDAO;
-	
+import com.hokwang.vo.DiagnosisVO;
+
+@Service
+public class PatientServiceImpl implements PatientService {
+	@Autowired PatientMapper patientDAO;
 	
 	@Override
-	public List<Map<String, Object>> AllpatientList(BabyVO vo) {
-		System.out.println("전체환자 리스트 call");
+	public List<Map<String, Object>> getPatientList(BabyVO vo) {
 		
-		return patientDAO.AllpatientList(vo);
+		return patientDAO.getPatientList(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> diagnosisRecord(DiagnosisVO vo) {
+		return patientDAO.diagnosisRecord(vo);
 	}
 
 }

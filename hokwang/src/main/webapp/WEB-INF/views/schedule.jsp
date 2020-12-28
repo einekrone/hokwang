@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +15,10 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
 <style>
-html, body {
+html, body { 
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -53,7 +55,7 @@ html, body {
 
 </head>
 <body>
-
+<!-- 드래그 이벤트 
 <div id="external-events">
     <p>
       <strong>사유</strong>
@@ -61,7 +63,7 @@ html, body {
     <div class="fc-event">병가</div>
     <div class="fc-event">휴가</div>
     <div class="fc-event">근무</div>
-  </div>
+  </div>-->
  
 <div id='calendar'></div>
 
@@ -69,34 +71,58 @@ html, body {
 <div id="dialog-form" title="일정">
   <p class="validateTips">일정을 등록하세요</p>
  
-  <form>
+  <form id="form1">
     <fieldset>
-      <label>일정?</label>
-      <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"><br>
+    <label>카테고리</label>
+    <select name="work_ctg">
+    	<option value="work">근무</option>
+    	<option value="holiday">휴가</option>
+    </select><br>
+      <label>근무일자</label>
+      <input type="date" name="work_date" id="work_date" class="text ui-widget-content ui-corner-all work_date"><br>
+     
       <label>휴가일자</label><br>
-      <input type="date" name="work_stdate">&nbsp;~&nbsp;<input type="date" name="work_endate">
+      <input type="date" class="work_date" name="work_stdate">&nbsp;~&nbsp;<input type="date"  id="work_endate"name="work_endate">
       <br>
       <label>사유</label><br>
       <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
  
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"><br>
-      <button>저장</button>
-      <button>취소</button>
+      <div>
+      <input type="button"  class="btn btn-primary" value="등록"  id="btnInsert" /> 
+      </div>
     </fieldset>
   </form>
 </div>
  <script>
-	//달력 조회
+	
    
         var Calendar = FullCalendar.Calendar;
-        var Draggable = FullCalendarInteraction.Draggable;
+        var Draggable = FullCalendarInteraction.Draggable;//드래그
      
-        var containerEl = document.getElementById('external-events');
+       // var containerEl = document.getElementById('external-events');//드래그 이벤트
         var calendarEl = document.getElementById('calendar');
-       
+        
+		
+
+       	//modal
+        var dialog
+		 dialog = $( "#dialog-form" ).dialog({
+		      autoOpen: false,
+		      height: 400,
+		      width: 350,
+		      modal: true,
+		      
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        },
+		      
+		      close: function() {
+		      }
+		    }); 
      
-     	//드래그
+     	/*드래그 function
         new Draggable(containerEl, {
           itemSelector: '.fc-event',
           eventData: function(eventEl) {
@@ -104,65 +130,52 @@ html, body {
               title: eventEl.innerText
             };
           }
-        });
+        });*/
      	
         
-     	
+      //캘린더 속성
         var calendar = new Calendar(calendarEl, {
-           
+          locale:'ko', //한국어 설정
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             initialView:'dayGridMonth',
-           
-            
+         	
             
           },
-          editable: true,
-          selectable: true
+          selectable: true,//선택한 날짜 표시
+         // editable: true,//달력에 있는 이벤트 드래그
           
-         
+		 select: function(arg){ //날짜클릭시 dialog 오픈
+			 var start = moment(arg.start).format('YYYY-MM-DD');
+		 	var end = moment(arg.end).format('YYYY-MM-DD');
+			 $('.work_date').val(start)
+			 $('#work_endate').val(end)
+			 
+			 console.log(start);
+			 dialog.dialog("open");
+		
+		 },
+		/* eventClick: function(arg) { //드래그 이벤트 클릭시 삭제
+		        if (confirm('삭제하시겠습니까?')) {
+		          arg.event.remove()
+		        }
+		     },*/ 
+
 
         });
-
         calendar.render();
-        
-        
-        
-        
-     
-
-    
-    
-
-
-</script>
-<script>
-$(function(){
-	var dialog, form,
-	dialog = $( "#dialog-form" ).dialog({
-	      autoOpen: false,
-	      height: 400,
-	      width: 350,
-	      modal: true,
-
-	        Cancel: function() {
-	          dialog.dialog( "close" );
-	        },
-	      
-	      close: function() {
-	        //form[ 0 ].reset();
-	        //allFields.removeClass( "ui-state-error" );
-	      }
-	    });
-	
-	$('td').on('click',function(){
-		dialog.dialog("open");
-	});
-	
-})
+ 
+      $('#btnInsert').on('click',function(){
+		 calendar.addEvent({
+            title: $('#work_cause').val(),
+            start: $('#work_date').val(),
+            end:$('#work_endate').val()
+          })
+       });
+       
 </script>
 </body>
 </html>

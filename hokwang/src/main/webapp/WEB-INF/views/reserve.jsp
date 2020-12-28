@@ -94,14 +94,21 @@ button {
 		$("#nonPayList").empty();
 		$.each(data, function(idx, item) {
 			$('<tr>')
-			.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.PAY_NO))
+			.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.RESV_NO))
 			.append($('<td>').html(item.PAY_DATE))
 			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td id="regno'+idx+'">').html(item.PAY_PRICE))
-			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td style="display:none;">').html(item.PAY_STATE))
+			.append($('<td id="price'+idx+'">').html(item.PAY_PRICE))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#nonPayList');
-		}
+			
+			if(item.PAY_STATE == 'W') {	// 수납대기(계좌이체)
+				console.log("W "+"#price"+idx);
+				$("#price"+idx).eq(-1).after('<td><button id="stBtn">승인</button></td>');
+			} else if(item.PAY_STATE == 'N') {	// 미수납
+				console.log("N "+"#price"+idx);
+				$("#price"+idx).eq(-1).after('<td>미수납</td>');
+			}
+		});
 	}
 
 	function resvList(searchType, keyword) {
@@ -137,12 +144,12 @@ button {
 		    .appendTo('#resvList');
 			
 			if(date == today) {
-				$("#regno"+idx+"").eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+				$("#regno"+idx).eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
 			} else {
 				if(typeof item.RESV_ROOM == 'undefined') {
-					$("#regno"+idx+"").eq(-1).after('<td id="room"></td>')
+					$("#regno"+idx).eq(-1).after('<td id="room"></td>')
 				} else {
-					$("#regno"+idx+"").eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
+					$("#regno"+idx).eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
 				}
 			}
 		});
@@ -330,21 +337,21 @@ button {
 			<div class="col-xl-4 col-md-6 mb-4 column">
 				<div class="card shadow py-2" style="height: 800px;">
 					<div class="card-body">
-						<div class="text-s font-weight-bold" style="margin-bottom: 20px;">
-							<span class="text-primary">전체 예약 환자</span> <span
+						<div class="text-s" style="margin-bottom: 20px;">
+							<span class="text-primary font-weight-bold">전체 예약 환자</span> <span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>
 							<table class="table text-center">
-								<thead>
+								<thead class="font-weight-bold text-center">
 									<tr>
-										<th class="text-center">예약번호</th>
-										<th class="text-center">일시</th>
-										<th class="text-center">성명</th>
-										<th class="text-center">생년월일</th>
-										<th class="text-center">진료실</th>
+										<th>예약번호</th>
+										<th>일시</th>
+										<th>성명</th>
+										<th style="width: 100px;">생년월일</th>
+										<th style="width: 70px;">진료실</th>
 									</tr>
 								</thead>
 								<tbody id="resvList"></tbody>
@@ -420,9 +427,9 @@ button {
 							<table class="table text-center">
 								<thead>
 									<tr>
-										<th class="text-center" style="width: 40px;">No</th>
+										<th class="text-center">예약번호</th>
 										<th class="text-center">일시</th>
-										<th class="text-center">성명</th>
+										<th class="text-center" style="width: 100px;">성명</th>
 										<th class="text-center">금액</th>
 										<th class="text-center">상태</th>
 									</tr>

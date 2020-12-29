@@ -12,7 +12,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <style type="text/css">
 .table th {
 	padding: 10px !important;
@@ -28,6 +28,43 @@ button {
 	outline: 0;
 	padding: 10px;
 }
+
+.img1 {
+	padding: 3px;
+	width: 200px;
+	height: 200px;
+}
+
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	width: 75px;
+}
+
+.filebox input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.filebox {
+	float: left;
+	padding-right: 600px;
+}
 </style>
 </head>
 <script type="text/javascript">
@@ -40,7 +77,7 @@ button {
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
 
-		nonPayList(searchType, keyword);	// 미수납/수납대기 목록
+		nonPayList(searchType, keyword); // 미수납/수납대기 목록
 
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -72,7 +109,7 @@ button {
 			$("#keyword").val("");
 		});
 	});
-	
+
 	function nonPayList(searchType, keyword) {
 		$.ajax({
 			url : 'ajax/nonPayList',
@@ -89,24 +126,26 @@ button {
 			success : nonPayListResult
 		});
 	}
-	
+
 	function nonPayListResult(data) {
 		$("#nonPayList").empty();
 		$.each(data, function(idx, item) {
-			$('<tr>')
-			.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.RESV_NO))
-			.append($('<td>').html(item.PAY_DATE))
-			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td id="price'+idx+'">').html(item.PAY_PRICE))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
-		    .appendTo('#nonPayList');
-			
-			if(item.PAY_STATE == 'W') {	// 수납대기(계좌이체)
-				console.log("W "+"#price"+idx);
-				$("#price"+idx).eq(-1).after('<td><button id="stBtn">승인</button></td>');
-			} else if(item.PAY_STATE == 'N') {	// 미수납
-				console.log("N "+"#price"+idx);
-				$("#price"+idx).eq(-1).after('<td>미수납</td>');
+			$('<tr>').append(
+					$('<td id="resvNo" value="'+item.PAY_NO+'">').html(
+							item.RESV_NO))
+					.append($('<td>').html(item.PAY_DATE)).append(
+							$('<td>').html(item.BABY_NAME)).append(
+							$('<td id="price'+idx+'">').html(item.PAY_PRICE))
+					.append($('<td style="display:none;">').html(item.BABY_NO))
+					.appendTo('#nonPayList');
+
+			if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
+				console.log("W " + "#price" + idx);
+				$("#price" + idx).eq(-1).after(
+						'<td><button id="stBtn">승인</button></td>');
+			} else if (item.PAY_STATE == 'N') { // 미수납
+				console.log("N " + "#price" + idx);
+				$("#price" + idx).eq(-1).after('<td>미수납</td>');
 			}
 		});
 	}
@@ -130,29 +169,45 @@ button {
 
 	function resvListResult(data) {
 		$("#resvList").empty();
-		$.each(data, function(idx, item) {
-			var date = item.RESV_DATETIME.substring(0,10);
-			var d = new Date();
-		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-			
-			$('<tr>')
-			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-			.append($('<td>').html(item.RESV_DATETIME))
-			.append($('<td>').html(item.BABY_NAME))
-			.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
-		    .appendTo('#resvList');
-			
-			if(date == today) {
-				$("#regno"+idx).eq(-1).after('<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
-			} else {
-				if(typeof item.RESV_ROOM == 'undefined') {
-					$("#regno"+idx).eq(-1).after('<td id="room"></td>')
-				} else {
-					$("#regno"+idx).eq(-1).after('<td id="room">'+item.RESV_ROOM+'</td>')
-				}
-			}
-		});
+		$
+				.each(
+						data,
+						function(idx, item) {
+							var date = item.RESV_DATETIME.substring(0, 10);
+							var d = new Date();
+							var today = d.getFullYear() + '-'
+									+ (d.getMonth() + 1) + '-' + d.getDate();
+
+							$('<tr>')
+									.append(
+											$(
+													'<td id="resvNo" value="'+item.RESV_NO+'">')
+													.html(item.RESV_NO))
+									.append($('<td>').html(item.RESV_DATETIME))
+									.append($('<td>').html(item.BABY_NAME))
+									.append(
+											$('<td id="regno'+idx+'">').html(
+													item.BABY_REGNO1)).append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
+									.appendTo('#resvList');
+
+							if (date == today) {
+								$("#regno" + idx)
+										.eq(-1)
+										.after(
+												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+							} else {
+								if (typeof item.RESV_ROOM == 'undefined') {
+									$("#regno" + idx).eq(-1).after(
+											'<td id="room"></td>')
+								} else {
+									$("#regno" + idx).eq(-1).after(
+											'<td id="room">' + item.RESV_ROOM
+													+ '</td>')
+								}
+							}
+						});
 	}
 
 	// 진료/예약 이력 목록 클릭 시 특이사항 출력
@@ -228,32 +283,44 @@ button {
 
 	function resvHstListResult(data) {
 		$("#resvHstList").empty();
-		$.each(data, function(idx, item) {
-			console.log("ph> "+item.DIAG_PHOTO);
-			imgsrc = item.DIAG_PHOTO;
-			imgsrc = "undraw_profile.svg";
-			$('<tr>')
-			.append($('<td>').html(item.RESV_NO))
-			.append($('<td>').html(item.RESV_DATE))
-			.append($('<td>').html(item.RESV_DETAIL))
-			.append($('<td>').html('<button id="picBtn" type="button" data-toggle="modal" data-target="#picPopup">사진</button>'))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
-		    .appendTo('#resvHstList');
-			
-			//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
-			if(imgsrc != null || imgsrc != "") {
-				$("#imgShow").attr("src", "${pageContext.request.contextPath}/resources/img/"+imgsrc);
-			}
-			
-			var d = new Date();
-		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-		    if(item.RESV_DATE == today) {
-				$("#imgMBtn").css("display", "none");
-			} else {
-				$("#imgInput").css("display", "none");
-				$("#imgRBtn").css("display", "none");
-			}
-		});
+		$
+				.each(
+						data,
+						function(idx, item) {
+							console.log("ph> " + item.DIAG_PHOTO);
+							imgsrc = item.DIAG_PHOTO;
+							imgsrc = "undraw_profile.svg";
+							$('<tr>')
+									.append($('<td>').html(item.RESV_NO))
+									.append($('<td>').html(item.RESV_DATE))
+									.append($('<td>').html(item.RESV_DETAIL))
+									.append(
+											$('<td>')
+													.html(
+															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup">사진</button>'))
+									.append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
+									.appendTo('#resvHstList');
+
+							//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
+							if (imgsrc != null || imgsrc != "") {
+								$("#imgShow").attr(
+										"src",
+										"${pageContext.request.contextPath}/resources/img/"
+												+ imgsrc);
+							}
+
+							var d = new Date();
+							var today = d.getFullYear() + '-'
+									+ (d.getMonth() + 1) + '-' + d.getDate();
+							if (item.RESV_DATE == today) {
+								$("#imgDBtn").css("display", "none");
+							} else {
+								$("#imgInput").css("display", "none");
+								$("#imgRBtn").css("display", "none");
+							}
+						});
 	}
 
 	function RPAD(str, padStr, padLen) {
@@ -269,14 +336,57 @@ button {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
 		regno2 = RPAD(regno2, '*', 7);
-		$("#ptInfo")
-		.append($('<p>').html('이름 : ' + data.BABY_NAME+" ("+data.BABY_BLOOD+"형, "+data.BABY_GENDER+")"))
-		.append($('<p>').html('주민번호 : ' + data.BABY_REGNO1+'-'+regno2))
-		.append($('<p>').html('방문 여부 : ' + data.BABY_VISIT))
-		.append($('<hr>'))
-		.append($('<p>').html('보호자명 : ' + data.PARENT_NAME))
-		.append($('<p>').html('연락처 : ' + data.PARENT_TEL))
-		.append($('<p>').html('주소 : ' + data.PARENT_ADDR+' '+data.PARENT_ADDRDETAIL+' '+data.PARENT_POST))
+		$("#ptInfo").append(
+				$('<p>').html(
+						'이름 : ' + data.BABY_NAME + " (" + data.BABY_BLOOD
+								+ "형, " + data.BABY_GENDER + ")")).append(
+				$('<p>').html('주민번호 : ' + data.BABY_REGNO1 + '-' + regno2))
+				.append($('<p>').html('방문 여부 : ' + data.BABY_VISIT)).append(
+						$('<hr>')).append(
+						$('<p>').html('보호자명 : ' + data.PARENT_NAME)).append(
+						$('<p>').html('연락처 : ' + data.PARENT_TEL)).append(
+						$('<p>').html(
+								'주소 : ' + data.PARENT_ADDR + ' '
+										+ data.PARENT_ADDRDETAIL + ' '
+										+ data.PARENT_POST))
+	}
+	
+	function setImages(event) {
+	    var sel_files = [];
+	    var files = event.target.files;
+	    var filesArr = Array.prototype.slice.call(files);
+	    filesArr.forEach(function(f){
+	       console.log(f.type);
+	       if(f.type.match('image/JPEG') || f.type.match('image/PNG')|| f.type.match('image/jpg')){
+	          alert("파일확장자를 바꿔주세요.");
+	          return;
+	       }
+	       sel_files.push(f);
+	       
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+	       var img = document.createElement("img");
+	       img.setAttribute("src", event.target.result);
+	       img.className = "img1"
+	       document.querySelector("#imgShow").appendChild(img);
+	    };
+	    reader.readAsDataURL(f);
+	    });      
+	 }
+	
+	function imgRegist() {
+		console.log("imgRegist");
+		$.ajax({
+			url : 'ajax/imgManage',
+			data : {
+				baby_no : td.eq(5).text()
+			},
+			dataType : 'json',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : resvHstListResult
+		});
 	}
 </script>
 <body>
@@ -293,6 +403,8 @@ button {
 						<input type="text" class="form-control border-0 small"
 							name="keyword" id="keyword" placeholder="예약환자명"
 							aria-label="Search" aria-describedby="basic-addon2">
+						<button id="imgBtn" type="button" data-toggle="modal"
+							data-target="#imgPopup">사진</button>
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" id="searchPati">
 								<i class="fas fa-search fa-sm"></i>
@@ -461,7 +573,7 @@ button {
 		</div>
 	</div>
 
-	<div class="modal fade" id="picPopup">
+	<div class="modal fade" id="imgPopup">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -471,15 +583,20 @@ button {
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>
-				<div class="modal-body text-center">
-					<input type="file" id="imgInput"><br>
+				<div class="modal-body">
+					<div class="filebox">
+						<label for="imgInput">업로드</label> <input type="file"
+							id="imgInput" name="imgInput" multiple
+							onchange="setImages(event);">
+					</div>
 					<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
-					<img id="imgShow" style="width: 420px; height: 420px;"><br>
+					<div id="imgShow"><br>
 				</div>
-				<div class="modal-footer text-center" style="justify-content: center !important;">
-					<button type="button" style="margin: 0 25px;" id="imgRBtn">등록</button>
-					<button type="button" style="margin: 0 25px;" id="imgMBtn">수정</button>
-					<button class="btn btn-primary" style="margin: 0 25px;" id="imgRBtn" type="button" data-dismiss="modal">취소</button>
+				<div class="modal-footer text-center"
+					style="justify-content: center !important;">
+					<button class="btn-primary" type="button" style="margin: 0 25px;" id="imgRBtn" onclick="imgRegist()">등록/수정</button>
+					<button class="btn-danger" type="button" style="margin: 0 25px;" id="imgDBtn">삭제</button>
+					<button type="button" style="margin: 0 25px;" id="imgRBtn" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

@@ -13,8 +13,8 @@
 <script src="${pageContext.request.contextPath}/resources/packages/timegrid/main.min.js"></script></head>
 <script src='${pageContext.request.contextPath}/resources/packages/core/locales/ko.js'></script>
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
 <style>

@@ -17,14 +17,30 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="./resources/json.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		medicineList();
 		totalMediList();
 		check();
+		insertMedicine();
 
 	});
+	
+	function insertMedicine(){
+		$("body").on("click","#factory_tbody tr", function() {
+			tds = $(this).find('td');
+			console.log(tds.eq(0).text());
+			console.log(tds.eq(1).text());
+			console.log(tds.eq(2).text());
+			console.log(tds.eq(3).text());
+			
+		});
+		
+	}
+	
+	
+	
 
 	function check() {
 		$('#Val').on("keyup", function() {
@@ -102,9 +118,7 @@
 															'form-control')
 															.find("MTRAL_CODE")
 															.text() + '</td>';
-											info += '<td>'
-													+ '<button class="form-control">추가</button>'
-													+ '</td>';
+		
 											info += '</tr>';
 											$('#factory_tbody').append(info);
 										});
@@ -127,7 +141,7 @@
 							<col width="40%" />
 							<col width="40%" />
 							<col width="30%" />
-							<col width="15%" />
+							
 						</colgroup>
 
 						<thead align="center">
@@ -136,7 +150,7 @@
 								<th width="15%">제품명</th>
 								<th width="20%">성분</th>
 								<th width="35%">제품코드</th>
-								<th width="15%">추가</th>
+								
 								<!-- <th width="15%"><input type="button" value="추가"></th> -->
 							</tr>
 						</thead>

@@ -3,21 +3,32 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.DiagMapper">
-	<select id="getResvList" resultType="map" parameterType="resvSearch">
-		SELECT R.RESV_NO, 
-		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME, 
-		B.BABY_NAME, 
-		B.BABY_REGNO1, 
+	<select id="getResvList" resultType="map"
+		parameterType="resvSearch">
+		SELECT R.RESV_NO,
+		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME,
+		B.BABY_NAME,
+		B.BABY_REGNO1, R.RESV_STATUS,
 		B.BABY_NO
 		FROM RESERVATION R, BABY B
 		WHERE R.BABY_NO = B.BABY_NO
-		ORDER BY RESV_NO
+		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
+		'YYYY-MM-DD')
+		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
+			<if test="searchType == 'chkType' and keyword == 'Y'">
+			AND R.RESV_STATUS = 'Y'
+			</if>
+			<if test="searchType == 'chkType' and keyword != 'Y'">
+			AND R.RESV_STATUS != 'Y'
+			</if>
+		</if>
+		ORDER BY RESV_NO,RESV_DATE
 	</select>
-	
-		<select id="getResvHistList" resultType="map"
+
+	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
-		R.RESV_DETAIL, R.BABY_NO, D.DIAG_PHOTO
+		R.RESV_DETAIL, R.BABY_NO
 		FROM RESERVATION R LEFT JOIN
 		DIAGNOSIS D
 		ON R.RESV_NO = D.RESV_NO
@@ -28,14 +39,15 @@
 		</where>
 		ORDER BY RESV_NO
 	</select>
-	
+
 	<select id="getInfoList" resultType="map">
-		SELECT * FROM DIAGVIEW1
-			<if test="baby_no != null and baby_no != ''">
-		WHERE BABY_NO = #{baby_no}
-			</if>
+		SELECT B.*, P.* FROM BABY B, PARENT P
+		WHERE B.PARENT_NO = P.PARENT_NO
+		<if test="baby_no != null and baby_no != ''">
+			AND BABY_NO = #{baby_no}
+		</if>
 	</select>
-	
+
 	<select id="getUniqInfo" resultType="map"
 		parameterType="reservation">
 		SELECT * FROM RESERVATION
@@ -44,5 +56,12 @@
 				RESV_NO = TO_CHAR(#{resv_no})
 			</if>
 		</where>
+	</select>
+	<select id="getBodyList" parameterType="BodyVO"
+	resultType="BodyVO">
+	SELECT * 
+	FROM 
+	BODYINFO 
+	WHERE BABY_NO = #{baby_no}
 	</select>
 </mapper>

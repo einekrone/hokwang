@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -47,7 +48,7 @@ public class Diagcontroller {
 	@ResponseBody
 	@RequestMapping("/ajax/Info")
 	public Map<String, Object> getInfoList(Reservation vo) {
-		return diagDao.getInfoList();
+		return diagDao.getInfoList(vo);
 	}
 
 	
@@ -57,6 +58,11 @@ public class Diagcontroller {
 	public Map<String, Object> getUniqInfo(Reservation vo) {
 		return diagDao.getUniqInfo(vo);
 	}
-	
+	// 선택된 환자 특이사항 정보
+	@ResponseBody
+	@RequestMapping("/ajax/BodyInfo")
+	public BodyVO getBodyList(BodyVO vo) {
+		return diagDao.getBodyList(vo);
+	}
 
 }

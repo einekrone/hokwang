@@ -5,18 +5,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.hokwang.dao.DiagMapper;
 import com.hokwang.service.DiagService;
+import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
 public class DiagServiceImpl implements DiagService{
 
 	@Autowired
-	DiagService service;
+	DiagMapper service;
 	
 	@Override
-	public Map<String, Object> getInfoList() {
-		return service.getInfoList();
+	public Map<String, Object> getInfoList(Reservation vo) {
+		return service.getInfoList(vo);
 	}
 
 	@Override
@@ -33,6 +35,11 @@ public class DiagServiceImpl implements DiagService{
 	@Override
 	public Map<String, Object> getUniqInfo(Reservation vo) {
 		return service.getUniqInfo(vo);
+	}
+
+	@Override
+	public BodyVO getBodyList(BodyVO vo) {
+		return service.getBodyList(vo);
 	}
 
 }

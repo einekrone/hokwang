@@ -7,10 +7,21 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/diagnosis.css">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<style>
+div.dataTables_wrapper div.dataTables_paginate {
+	margin-right: 30%;
+}
+</style>
+<script src="./resources/json.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var searchType = "";
@@ -19,8 +30,38 @@
 		waitList();
 		resvHstList();
 		resvUniq();
+		
+		$('.tgl-flat').change(function() {
+			searchType = "chkType";
+			if ($('.rsvTg').is(":checked")) {
+				keyword = "Y";
+			} 
+		console.log(">> " + keyword);
+		resvList(searchType, keyword);
+		
+		google.load('visualization','1',{
+		    'packages' : ['corechart']
+		});
+		 google.setOnLoadCallback(drawChart);
 	});
-
+});
+	//구글차트(키/몸무게)
+	function drawChart() {
+		$.ajax({
+			url : 'ajax/BodyInfo',
+			type : 'GET',
+			//contentType:'application/json;charset=utf-8',
+			dataType : 'json',
+			data : {
+				searchType : searchType,
+				keyword : keyword
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : waitListResult
+		});
+	}
 	//대기환자 함수
 	function waitList(searchType, keyword) {
 		$.ajax({
@@ -55,6 +96,26 @@
 			.append($('<td style="display:none;">').html(item.BABY_NO))
 		    .appendTo('#waitList');
 		});
+		// Korean
+		  var lang_kor = {
+		        "paginate" : {
+		            "first" : "첫 페이지",
+		            "last" : "마지막 페이지",
+		            "next" : "다음",
+		            "previous" : "이전"
+		        }
+		}
+		$('#waitList_table').DataTable({
+			// 표시 건수기능 숨기기
+			lengthChange: false,
+			// 검색 기능 숨기기
+			searching: false,
+			// 정렬 기능 숨기기
+			ordering: false,
+			// 정보 표시 숨기기
+			info: false,
+			scrollY: 200,
+			language : lang_kor});
 	}
 	// 진료/예약 이력 목록 클릭 시 특이사항 출력
 	function resvUniq() {
@@ -151,11 +212,8 @@
 		.append($('<p>').html('연락처 : ' + data.PARENT_TEL))
 		.append($('<p>').html('주소 : ' + data.PARENT_ADDR+' '+data.PARENT_ADDRDETAIL+' '+data.PARENT_POST))
 	}
-	
-	
-	
-	
-	
+
+
 </script>
 </head>
 <body>
@@ -179,7 +237,8 @@
 
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
-								<div style="width: 100%; height: 160px; overflow: auto;" id="Info"></div>
+								<div style="width: 100%; height: 160px; overflow: auto;"
+									id="Info"></div>
 							</div>
 						</div>
 					</div>
@@ -200,7 +259,8 @@
 								<span class="tit" id="baby_unusual_title"
 									style="font-weight: 600;">특이사항</span>
 							</div>
-							<div style="width: 100%; height: 160px; overflow: auto;" id="baby_unusual"></div>
+							<div style="width: 100%; height: 160px; overflow: auto;"
+								id="baby_unusual"></div>
 						</div>
 
 					</div>
@@ -215,40 +275,27 @@
 								<i class="fas fa-user"></i>
 
 								<!-- content -->
-								<span class="tit" style="font-weight: 600;">환자리스트</span>
+								<span class="tit" style="font-weight: 600;">환자리스트</span> <span
+									class="mb-0 font-weight-bold"
+									style="float: right; margin: 4px 0 0 5px;">진료완료</span> <span
+									style="float: right;"><input class="tgl tgl-flat rsvTg"
+									id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
+								</span>
 							</div>
 						</div>
-
-
 						<div id="content">
-							<%-- 	<jsp:include page="#" /> --%>
-
-							<ul class="nav nav-tabs">
-								<li class="nav-item"><a class="nav-link active"data-toggle="tab" 
-									href="wait_baby">대기환자</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="complete_baby">완료환자</a></li>
-							</ul>
-
-							<div class="tab-content">
-								<div class="tab-pane fade show active" id="wait_baby">
-									<table class="table text-center" id="noborder_table">
-										<thead>
-											<tr id="nbda">
-												<th class="text-center">NO</th>
-												<th class="text-center">일시</th>
-												<th class="text-center">성명</th>
-												<th class="text-center">생년월일</th>
-											</tr>
-										</thead>
-										<tbody id="waitList"></tbody>
-									</table>
-								</div>
-								<div class="tab-pane fade" id="complete_baby">
-									 	
-								</div>
-							</div>
-							<!-- /.container-fluid -->
+							<table class="table text-center" id="waitList_table">
+								<thead>
+									<tr id="nbda">
+										<th class="text-center">NO</th>
+										<th class="text-center">일시</th>
+										<th class="text-center">성명</th>
+										<th class="text-center">생년월일</th>
+										<th style="display: none;"></th>
+									</tr>
+								</thead>
+								<tbody id="waitList"></tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -309,9 +356,9 @@
 						<!-- 진료 기록 -->
 						<div style="width: 40%; float: left">
 							<table id="noborder_table">
-									<thead>
+								<thead>
 									<tr id="nbab">
-										<th class="text-center">일시</th>		
+										<th class="text-center">일시</th>
 									</tr>
 								</thead>
 								<tbody id="HistoryList"></tbody>

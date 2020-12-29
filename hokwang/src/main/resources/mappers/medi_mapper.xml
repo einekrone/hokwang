@@ -7,4 +7,16 @@
 		select medi_no, medi_com, medi_name, medi_composition
 		from medicine
 	</select>
+	
+	<insert id="saveMedi" parameterType="medicineVO">
+	    insert into medicine(medi_no,medi_com,medi_name,medi_composition) values(#{medi_no},#{medi_com},#{medi_name},#{medi_composition}) 
+	</insert>
+	
+	<select id="selectMedi" parameterType="medicineVO" resultType="medicineVO">
+		select medi_no, medi_com, medi_name, medi_composition
+		from medicine
+		where medi_no=#{medi_no}
+	</select>
+	
+	
 </mapper>

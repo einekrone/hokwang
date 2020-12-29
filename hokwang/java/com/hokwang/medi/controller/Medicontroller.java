@@ -73,8 +73,22 @@ public class Medicontroller {
 
 	@ResponseBody
 	@RequestMapping("/ajax/getMediList")
-	public List<MedicineVO> getInfoList(Model model, MedicineVO vo) {
+	public List<MedicineVO> getInfoList(Model model,MedicineVO vo) {
 		return dao.getMediList();
 	}
 
+	@ResponseBody
+	@RequestMapping("/ajax/saveMedi")
+	public int saveInfo(Model model,MedicineVO vo) {
+		MedicineVO checkvo = new MedicineVO();
+		checkvo = dao.selectMedi(vo);
+		if((checkvo == null)) {
+			return dao.saveMedi(vo);			
+		}
+		else
+			return 0;
+		
+	}
+	
+	
 }

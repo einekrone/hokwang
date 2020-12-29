@@ -20,4 +20,15 @@ public class MediServiceImpl implements MediService {
 		return mediDao.getMediList();
 	}
 	
+	@Override
+	public int saveMedi(MedicineVO vo) {
+		return mediDao.saveMedi(vo);
+	}
+	
+	@Override
+	public MedicineVO selectMedi(MedicineVO vo) {
+		return mediDao.selectMedi(vo);
+	}
+	
+	
 }

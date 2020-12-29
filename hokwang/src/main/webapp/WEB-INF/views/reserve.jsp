@@ -386,6 +386,7 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
+		console.log("주민번호: "+regno2+"이름 : "+data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(

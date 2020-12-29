@@ -31,14 +31,18 @@ public class PatientController {
 	
 	@ResponseBody//전체 환자 리스트 요청 메소드
 	@RequestMapping("ajax/patientList")
-	public List<Map<String,Object>> getPatientList(BabyVO vo){
-		return patientService.getPatientList(vo);
+	public List<BabyVO> allpatientList(BabyVO vo){
+		return patientService.allpatientList(vo);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/diagnosisRecord")
-	public List<Map<String,Object>> diagnosisRecord(DiagnosisVO vo){
+	public List<DiagnosisVO> diagnosisRecord(BabyVO vo){
 		return patientService.diagnosisRecord(vo);
-		
+	}
+	@ResponseBody
+	@RequestMapping("/ajax/patientInfo")
+	public List<Map<String, Object>> patientInfo(BabyVO vo) {
+		return patientService.patientInfo(vo);
 	}
 }

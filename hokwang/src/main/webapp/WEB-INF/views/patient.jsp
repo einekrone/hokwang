@@ -35,34 +35,38 @@
 	}/* end of function */
 	function patientListResult(data) {
 		console.log("patientListResult전체환자 리스트 출력 콘솔");
-		//console.log("예약번호 : "+td.eq(5).text());
+
 		$("#patientList").empty();
 		$.each(data, function(idx, item) {
 
 			$("<tr>").append(
-					$("<td id=' ' value= '"+item.BABY_NO+"'>").html(item.BABY_NO))
-					.append($("<td>").html(item.BABY_NAME))
-					.append($("<td id='regno "+idx+"'>").html(item.BABY_REGNO1))
-					.append($("<td>").html(item.BABY_REGNO2))
-					.append($('<td style="display:none;">').html(item.resv_no))
+					$("<td id='baby_no' value= '"+item.baby_no+"'>").html(
+							item.baby_no)).append(
+					$("<td>").html(item.baby_name)).append(
+					$("<td id='regno "+idx+"'>").html(item.baby_regno1))
+					.append($("<td>").html(item.baby_regno2)).append(
+							$('<td style="display:none;">').html(item.baby_no))
 					.appendTo('#patientList');
+			//console.log("예약번호 : "+td.eq(5).text());
 		})/* end of ajax  */
 	}
-	
-	 function diagnosisRecord(){//환자 진료내역
-		$("body").on("click", "#patientList tr",function(){
+
+	function diagnosisRecord() {//환자 진료내역
+
+		$("body").on("click", "#patientList tr", function() {
 			var tdArr = new Array();
 			var td = $(this).children();
-			
-			td.each(function(i){
+
+			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});//end of each function
-			console.log("예약번호 호출 : "+td.eq(5).text());
+
 			console.log("환자클릭시 진료기록 요청");
+			console.log("아기번호 : " + td.eq(4).text());
 			$.ajax({
-				url: "ajax/diagnosisRecord",
+				url : "ajax/diagnosisRecord",
 				data : {
-					resv_no : td.eq(5).text()
+					baby_no : td.eq(4).text()
 				},
 				dataType : "JSON",
 				error : function(xhr, status, msg) {
@@ -70,25 +74,56 @@
 				},
 				success : diagnosisRecordResult
 			});//end of ajax
+			$.ajax({
+				url : "ajax/patientInfo",
+				data : {
+					baby_no : td.eq(4).text()
+				},
+				dataType : "json",
+				error : function(xhr, status, msg) {
+					alert("상태값" + status + " Http에러메세지: " + msg)
+				},
+				success : patientInfoResult
+			});
 		});//end of onclick function
 	}//end of function
+	function RPAD(str,padStr,padLen){
+		str = str.toString().substr(1,1); //주민번호 첫글자
+		while(padLen > 1){
+			str += padStr; //뒤에서 부터
+			padLen --; //글자길이만큼 뒤에서부터 감소
+		}
+		return str;
+	}
 	
-	function diagnosisRecordResult(data){
+	function patientInfoResult(data) {
+		$("#ptInfo").empty();
+		var regno2 = data.BABY_REGNO2;
+		console.log("주민번호: "+regno2+"이름 : "+data.BABY_NAME);
+		regno2 = RPAD(regno2, '*', 7);
+		$("#ptInfo").append($("<p>").html("이름 : "+data.BABY_NAME + " ("+data.BABY_BLOOD
+		+"형, " +data.BABY_GENDER + ")"))
+		.append($("<p>").html("주민번호: "+data.BABYREGNO1+ "-"+REGNO2))
+		.append($("<p>").html("방문 여부 : "+data.BABY_VISIT))
+		.append($("<hr>"))
+		.append($("<p>").html("보호자명 : "+data.PARENT_NAME))
+		.append($("<p>").html("연락처 : "+data.PARENT_TEL))
+		.append($("<p>").html("주소 : "+data.PARENT_ADDR+" "+data.PARENT_ADDRDETAIL+" "+data.PARENT_POST))
+	}
+
+	function diagnosisRecordResult(data) {
 		console.log("진료기록 리스트 출력");
 		$("#diagnosisRecord").empty();
-		 var data = item.DIAG_TIME.substring(0,10);
-		 var d = new Date();
-		 var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-		$.each(data,function(idx,item){
-			$("<tr>")
-			.append($("<td>").html(item.DIAG_NO))
-			.append($("<td>").html(item.DIAG_TIME))
-			.append($('<td style="display:none;">').html(item.resv_no))
-			.appendTo('#diagnosisRecord');
-			
+
+		$.each(data, function(idx, item) {
+			$("<tr>").append($("<td>").html(item.diag_no)).append(
+					$("<td>").html(item.diag_time)).append(
+					$('<td style="display:none;">').html(item.resv_no))
+					.appendTo('#diagnosisRecord');
+			console.log(item.diag_no);
 		});//endonf each function
-	}//end of fucntion 
-	
+
+	}//end of fucntion
 </script>
 </head>
 <body>
@@ -98,7 +133,11 @@
 		<!-- 1 -->
 		<div class="col-xl-3 col-md-6 mb-4">
 			<div class="card shadow py-2" style="height: 400px;">
-				<div class="card-body">환자정보</div>
+				<div class="card-body">
+					<p class="text-s font-weight-bold text-success">환자정보</p>
+					<div style="width: 100%; height: 160px; overflow: auto;"
+						id="ptInfo"></div>
+				</div>
 			</div>
 			<div class="card shadow py-2" style="height: 400px;">
 				<div class="card-body">
@@ -133,11 +172,11 @@
 				style="height: 400px; float: left; width: 50%">
 				환자 진료 내역
 				<table border="1">
-				<thead>
-					<tr align=center>
-						<td>번호</td>
-						<td>진료 시간</td>
-					</tr>
+					<thead>
+						<tr align=center>
+							<td>번호</td>
+							<td>진료 시간</td>
+						</tr>
 					</thead>
 					<tbody id="diagnosisRecord"></tbody>
 				</table>

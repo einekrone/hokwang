@@ -1,9 +1,12 @@
 package com.hokwang.vo;
 
 
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
 
 @Data
+@Component
 public class BabyVO { //아기
 	String baby_no;//아기번호
 	String baby_name;//이름

@@ -8,6 +8,7 @@ import com.hokwang.vo.DiagnosisVO;
 
 public interface PatientMapper {
 	
-	public List<Map<String, Object>> getPatientList(BabyVO vo);//전체 환자 리스트
-	public List<Map<String,Object>> diagnosisRecord(DiagnosisVO vo);//진료기록
+	public List<BabyVO> allpatientList(BabyVO vo);//전체 환자 리스트
+	public List<DiagnosisVO> diagnosisRecord(BabyVO vo);//진료기록
+	public List<Map<String,Object>> patientInfo(BabyVO vo);
 }

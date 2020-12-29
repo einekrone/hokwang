@@ -2,27 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hokwang.dao.PatientMapper">
-	<select id="getPatientList" resultType="map"
-		parameterType="BabyJoinToDiagnosisVO">
-		select
-		a.baby_no,a.baby_name,a.baby_regno1,a.baby_regno2,b.resv_no
-		from baby a,reservation b 
-		<where>
-			<if test="baby_no !=null and baby_no != ''">
-			 	a.baby_no=b.baby_no and a.baby_no = ${baby_no}
+
+	 	<select id="allpatientList" resultType="babyVO" parameterType="babyVO">
+ 		select * from baby
+ 		<where>
+			<if test="baby_no != null and baby_no != ''">
+				baby_no = #{baby_no} 
 			</if>
 		</where>
-		order by baby_no
-	</select>
+			order by baby_no
+ 	</select>
+
 	
-	<select id="diagnosisRecord" resultType="map"
-		parameterType="BabyJoinToDiagnosisVO">
+	<select id="diagnosisRecord" resultType="diagnosisVO"
+		parameterType="babyVO">
 		select * from diagnosis
 		<where>
-			<if test="RESV_NO != null and RESV_NO != ''">
-				resv_no = ${resv_no}
+			<if test="baby_no != null and baby_no != ''">
+				resv_no in (select resv_no from reservation where baby_no = #{baby_no})
 			</if>
 		</where>
 		order by diag_no
+	</select>
+	
+	<select id="patientInfo" resultType="map" parameterType="babyVO">
+		SELECT B.*, P.* FROM BABY B, PARENT P
+		WHERE B.PARENT_NO = P.PARENT_NO
+		<if test="baby_no != null and baby_no != ''">
+			AND BABY_NO=#{baby_no}
+		</if>
 	</select>
 </mapper>

@@ -1,28 +1,20 @@
 package com.hokwang.emp.controller;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hokwang.dao.EmpMapper;
+import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 
 @Controller
 public class MypageController {
 	@Autowired
-	EmpMapper empmapper;
-	//EmpService service;
+	
+	EmployeeService service;
 	
 	//페이지이동
 	@RequestMapping("/mypage") //.do 같은거

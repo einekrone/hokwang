@@ -3,20 +3,46 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.DiagMapper">
+	<select id="getResvList" resultType="map" parameterType="resvSearch">
+		SELECT R.RESV_NO, 
+		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME, 
+		B.BABY_NAME, 
+		B.BABY_REGNO1, 
+		B.BABY_NO
+		FROM RESERVATION R, BABY B
+		WHERE R.BABY_NO = B.BABY_NO
+		ORDER BY RESV_NO
+	</select>
+	
+		<select id="getResvHistList" resultType="map"
+		parameterType="reservation">
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
+		R.RESV_DETAIL, R.BABY_NO, D.DIAG_PHOTO
+		FROM RESERVATION R LEFT JOIN
+		DIAGNOSIS D
+		ON R.RESV_NO = D.RESV_NO
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				BABY_NO = #{baby_no}
+			</if>
+		</where>
+		ORDER BY RESV_NO
+	</select>
+	
 	<select id="getInfoList" resultType="map">
-		SELECT A.BABY_NO "baby_no",
-			A.BABY_NAME "baby_name",
-			A.BABY_REGNO1 "baby_regno1",
-			A.BABY_REGNO2 "baby_regno2",
-			A.BABY_BLOOD "baby_blood",
-			A.BABY_GENDER "baby_gender",
-			A.BABY_VISIT "baby_visit",
-			B.PARENT_NAME "parent_name",
-			B.PARENT_TEL "parent_tel",
-			B.PARENT_ADDR "parent_addr",
-			B.PARENT_ADDRDETAIL "parent_addrdetail"
-		FROM BABY A, PARENT B
-		WHERE A.PARENT_NO = B.PARENT_NO
-		AND BABY_NO = 1
+		SELECT * FROM DIAGVIEW1
+			<if test="baby_no != null and baby_no != ''">
+		WHERE BABY_NO = #{baby_no}
+			</if>
+	</select>
+	
+	<select id="getUniqInfo" resultType="map"
+		parameterType="reservation">
+		SELECT * FROM RESERVATION
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = TO_CHAR(#{resv_no})
+			</if>
+		</where>
 	</select>
 </mapper>

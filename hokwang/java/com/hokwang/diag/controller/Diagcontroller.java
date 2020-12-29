@@ -5,18 +5,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.Reservation;
+import com.hokwang.vo.ResvSearch;
 
 @Controller
 public class Diagcontroller {
 	@Autowired
-	DiagMapper dao;
+	DiagMapper diagDao;
+	
 
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
@@ -26,13 +28,35 @@ public class Diagcontroller {
 		return mav;
 	}
 
-	// 아작스
-
+	// 대기환자 리스트
 	@ResponseBody
-	@RequestMapping("/ajax/Info")
-	public List<Map<String, Object>> getInfoList(Model model, BabyVO vo) {
-		return dao.getInfoList();
+	@RequestMapping("/ajax/waitList")
+	public List<Map<String, Object>> getWaitList(ResvSearch vo) {
+		return diagDao.getResvList(vo);
 	}
 
+	
+	// 선택된 환자 예약/진료 이력 리스트 조회
+	@ResponseBody
+	@RequestMapping("/ajax/HistoryList")
+	public List<Map<String, Object>> getResvHistList(Reservation vo) {
+		return diagDao.getResvHistList(vo);
+	}
+	
+	//선택된 환자 정보 출력
+	@ResponseBody
+	@RequestMapping("/ajax/Info")
+	public Map<String, Object> getInfoList(Reservation vo) {
+		return diagDao.getInfoList();
+	}
+
+	
+	// 선택된 환자 특이사항 정보
+	@ResponseBody
+	@RequestMapping("/ajax/MemoInfo")
+	public Map<String, Object> getUniqInfo(Reservation vo) {
+		return diagDao.getUniqInfo(vo);
+	}
+	
 
 }

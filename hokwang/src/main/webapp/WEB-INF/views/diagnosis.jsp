@@ -6,30 +6,154 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/diagnosis.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="./resources/json.min.js"></script>
+	href="${pageContext.request.contextPath}/resources/css/diagnosis.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		infoList();
+		var searchType = "";
+		var keyword = "";
+		
+		waitList();
+		resvHstList();
+		resvUniq();
 	});
 
-	function infoList() {
+	//대기환자 함수
+	function waitList(searchType, keyword) {
 		$.ajax({
-			url : 'ajax/Info',
+			url : 'ajax/waitList',
 			type : 'GET',
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
+			data : {
+				searchType : searchType,
+				keyword : keyword
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : function(data){
-				console.log(data);
-			} 
+			success : waitListResult
+		});
+	}
+	
+	//대기환자 리스트 출력
+	function waitListResult(data) {
+		$("#waitList").empty();
+		$.each(data, function(idx, item) {
+			var date = item.RESV_DATETIME.substring(0,10);
+			var d = new Date();
+		    var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+			
+			$('<tr>')
+			.append($('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+			.append($('<td>').html(item.RESV_DATETIME))
+			.append($('<td>').html(item.BABY_NAME))
+			.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
+		    .appendTo('#waitList');
+		});
+	}
+	// 진료/예약 이력 목록 클릭 시 특이사항 출력
+	function resvUniq() {
+		$("body").on("click", "#HistoryList tr", function() {
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("예약번호 : "+td.eq(0).text());
+	
+			$.ajax({
+				url : 'ajax/MemoInfo',
+				data : {
+					resv_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : MemoResult
+			});
+		});
+	}
+	
+	function MemoResult(data) {
+		$("#baby_unusual").empty();
+		$("#baby_unusual").append(data.RESV_MEMO);
+	}
+	
+	// 환자목록 클릭 시 진료/예약 이력 목록 출력
+	function resvHstList() {
+		$("body").on("click", "#waitList tr", function(){
+
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("아기번호 : "+td.eq(4).text());
+			
+			$.ajax({
+				url : 'ajax/HistoryList',
+				data : {
+					baby_no : td.eq(4).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : HistoryListResult
+			});
+			
+			$.ajax({
+				url : 'ajax/Info',
+				data : {
+					baby_no : td.eq(4).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : InfoResult
+			});
+		});
+	}
+	
+	function HistoryListResult(data) {
+		$("#HistoryList").empty();
+		$.each(data, function(idx, item) {
+			$('<tr>')
+			.append($('<td style="display:none;">').html(item.RESV_NO))
+			.append($('<td>').html(item.RESV_DATE))
+			.append($('<td style="display:none;">').html(item.RESV_DETAIL))
+			.append($('<td style="display:none;">').html(item.RESV_NO))
+			.append($('<td style="display:none;">').html(item.BABY_NO))
+		    .appendTo('#HistoryList');
 		});
 	}
 
+	function InfoResult(data) {
+		$("#Info").empty();
+		//var regno2 = data.BABY_REGNO2;
+		$("#Info")
+		.append($('<p>').html('NO : '+ data.BABY_NO))
+		.append($('<p>').html('이름 : ' + data.BABY_NAME+" ("+data.BABY_BLOOD+"형, "+data.BABY_GENDER+")"))
+		.append($('<p>').html('주민번호 : ' + data.BABY_REGNO1+'-'+data.BABY_REGNO2))
+		.append($('<hr>'))
+		.append($('<p>').html('보호자명 : ' + data.PARENT_NAME))
+		.append($('<p>').html('연락처 : ' + data.PARENT_TEL))
+		.append($('<p>').html('주소 : ' + data.PARENT_ADDR+' '+data.PARENT_ADDRDETAIL+' '+data.PARENT_POST))
+	}
+	
+	
+	
 	
 	
 </script>
@@ -55,51 +179,9 @@
 
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
+								<div style="width: 100%; height: 160px; overflow: auto;" id="Info"></div>
 							</div>
 						</div>
-
-						<!-- 환자기초정보 -->
-						<table id="noborder_table">
-							<tr class="baby_info_wrapper" id="nbda">
-								<td><span class="" id="baby_no">No.1</span></td>
-								<td><span class="" id="baby_name">이동욱</span></td>
-								<td><span class="" id="baby_birth">남/336개월</span></td>
-							</tr>
-						</table>
-
-						<!-- 환자 상세정보 -->
-						<table id="noborder_table">
-							<!-- 주민등록번호 -->
-							<tr id="nbda">
-								<th class="tit" id="baby_regno_title">주민등록번호</th>
-								<td><span class="cont" id="baby_regno1">930402</span> - <span
-									class="cont" id="baby_regno2">1611111</span></td>
-							</tr>
-							<!-- 혈액형 -->
-							<tr id="nbda">
-								<th><span class="tit" id="baby_blood"></span>혈액형</th>
-								<td><span class="cont" id="baby_blood">청일이형</span></td>
-							</tr>
-
-							<!-- 보호자정보 -->
-							<tr id="nbda">
-								<th><span class="tit" id="baby_blood"></span>보호자정보</th>
-							</tr>
-							<!-- 보호자이름 -->
-							<tr id="nbda">
-								<th><span class="tit" id="parent_name_title"></span>보호자이름</th>
-								<td><span class="cont" id="baby_blood">공유</span></td>
-							</tr>
-
-							<!-- 주소 -->
-							<tr id="nbda">
-								<th><span class="tit" id="parent_addr_title"></span>주소</th>
-								<td><span class="cont" id="parent_addr">대구광역시 수성구
-										무학로</span></td>
-								<td><span class="cont" id="parent_addrDetail">999길
-										999-999</span></td>
-							</tr>
-						</table>
 					</div>
 					<!-- end of wrapeer -->
 				</div>
@@ -118,7 +200,7 @@
 								<span class="tit" id="baby_unusual_title"
 									style="font-weight: 600;">특이사항</span>
 							</div>
-							<span class="cont" id="baby_unusual">너무 잘생김</span>
+							<div style="width: 100%; height: 160px; overflow: auto;" id="baby_unusual"></div>
 						</div>
 
 					</div>
@@ -142,20 +224,28 @@
 							<%-- 	<jsp:include page="#" /> --%>
 
 							<ul class="nav nav-tabs">
-								<li class="nav-item"><a class="nav-link active"
-									data-toggle="tab" href="#">대기환자</a></li>
+								<li class="nav-item"><a class="nav-link active"data-toggle="tab" 
+									href="wait_baby">대기환자</a></li>
 								<li class="nav-item"><a class="nav-link" data-toggle="tab"
-									href="#">당일예약</a></li>
+									href="complete_baby">완료환자</a></li>
 							</ul>
 
 							<div class="tab-content">
-								<div class="tab-pane fade show active" id="reserve">
-									<%-- 	<jsp:include page="" /> --%>
+								<div class="tab-pane fade show active" id="wait_baby">
+									<table class="table text-center" id="noborder_table">
+										<thead>
+											<tr id="nbda">
+												<th class="text-center">NO</th>
+												<th class="text-center">일시</th>
+												<th class="text-center">성명</th>
+												<th class="text-center">생년월일</th>
+											</tr>
+										</thead>
+										<tbody id="waitList"></tbody>
+									</table>
 								</div>
-								<div class="tab-pane fade" id="diagnosis">
-
-
-									<%-- <jsp:include page="" /> --%>
+								<div class="tab-pane fade" id="complete_baby">
+									 	
 								</div>
 							</div>
 							<!-- /.container-fluid -->
@@ -219,10 +309,12 @@
 						<!-- 진료 기록 -->
 						<div style="width: 40%; float: left">
 							<table id="noborder_table">
-								<tr id="nbab">
-									<td>2020-12-18</td>
-									<td>코끼리</td>
-								</tr>
+									<thead>
+									<tr id="nbab">
+										<th class="text-center">일시</th>		
+									</tr>
+								</thead>
+								<tbody id="HistoryList"></tbody>
 							</table>
 						</div>
 

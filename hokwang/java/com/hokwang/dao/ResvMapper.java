@@ -15,4 +15,5 @@ public interface ResvMapper {
 	public Map<String, Object> getPtInfo(Reservation vo);
 	public Map<String, Object> getUniqInfo(Reservation vo);
 	public List<Map<String, Object>> getNonPayList(ResvSearch vo);
+	public String imgManage(Reservation vo);
 }

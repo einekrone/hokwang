@@ -379,13 +379,15 @@ button {
 		$.ajax({
 			url : 'ajax/imgManage',
 			data : {
-				baby_no : td.eq(5).text()
+				diag_no : td.eq(0).text()	// 진료번호
 			},
 			dataType : 'json',
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : resvHstListResult
+			success : function() {
+				
+			}
 		});
 	}
 </script>

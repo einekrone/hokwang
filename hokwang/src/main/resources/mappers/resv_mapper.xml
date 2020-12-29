@@ -27,10 +27,10 @@
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
-		R.RESV_DETAIL, R.BABY_NO, D.DIAG_PHOTO
+		R.RESV_DETAIL, R.BABY_NO, I.IMG_ADDR
 		FROM RESERVATION R LEFT JOIN
-		DIAGNOSIS D
-		ON R.RESV_NO = D.RESV_NO
+		DIAGNOSIS D ON R.RESV_NO = D.RESV_NO,
+		DIAGNOSIS D LEFT JOIN IMAGES I ON D.DIAG_NO = I.DIAG_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
 				BABY_NO = ${baby_no}
@@ -63,9 +63,11 @@
 		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYMMDD') AS PAY_DATE,
 		P.PAY_PRICE,
 		P.PAY_STATE, B.*, D.RESV_NO
-		FROM PAYMENT P, DIAGNOSIS D, RESERVATION R, BABY B
+		FROM PAYMENT P, DIAGNOSIS D,
+		RESERVATION R, BABY B
 		WHERE P.DIAG_NO = D.DIAG_NO
-		AND D.RESV_NO = R.RESV_NO
+		AND D.RESV_NO =
+		R.RESV_NO
 		AND R.BABY_NO = B.BABY_NO
 		AND P.PAY_STATE IN('N', 'W')
 		<if
@@ -80,4 +82,8 @@
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE
 	</select>
+
+	<insert id="imgManage" parameterType="reservation">
+		
+	</insert>
 </mapper>

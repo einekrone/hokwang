@@ -41,5 +41,10 @@ public class ResvServiceImpl implements ResvService {
 	public List<Map<String, Object>> getNonPayList(ResvSearch vo) {
 		return resvDao.getNonPayList(vo);
 	}
+
+	@Override
+	public String imgManage(Reservation vo) {
+		return resvDao.imgManage(vo);
+	}
 	
 }

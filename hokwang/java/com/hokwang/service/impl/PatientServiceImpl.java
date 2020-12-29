@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hokwang.dao.PatientMapper;
 import com.hokwang.service.PatientService;
+import com.hokwang.vo.BabyJoinToDiagnosisVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.DiagnosisVO;
 

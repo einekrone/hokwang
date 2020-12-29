@@ -3,23 +3,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hokwang.dao.PatientMapper">
 	<select id="getPatientList" resultType="map"
-		parameterType="babyVO">
-		select * from baby
+		parameterType="BabyJoinToDiagnosisVO">
+		select
+		a.baby_no,a.baby_name,a.baby_regno1,a.baby_regno2,b.resv_no
+		from baby a,reservation b 
 		<where>
 			<if test="baby_no !=null and baby_no != ''">
-				baby_no = ${baby_no}
+			 	a.baby_no=b.baby_no and a.baby_no = ${baby_no}
 			</if>
 		</where>
 		order by baby_no
 	</select>
+	
 	<select id="diagnosisRecord" resultType="map"
-		parameterType="DiagnosisVO">
-		SELECT * FROM diagnosis
+		parameterType="BabyJoinToDiagnosisVO">
+		select * from diagnosis
 		<where>
-			<if test="baby_no != null and baby_no != ''">
-				DIAG_NO = ${DIAG_NO}
+			<if test="RESV_NO != null and RESV_NO != ''">
+				resv_no = ${resv_no}
 			</if>
 		</where>
-		ORDER BY DIAG_NO
+		order by diag_no
 	</select>
 </mapper>

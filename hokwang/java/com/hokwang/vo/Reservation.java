@@ -18,4 +18,5 @@ public class Reservation {//예약
 	
 	String resv_datetime;	// 예약 일시
 	String baby_no;		// 아기번호
+	String diag_photo;//사진
 }

@@ -89,13 +89,14 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
+					<a class="btn btn-primary" href="logout">Logout</a>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

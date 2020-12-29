@@ -4,9 +4,12 @@
 
 <mapper namespace="com.hokwang.dao.ScheMapper">
 <!-- 전체 조회 -->
-	<select id="getScheList" parameterType="ManagementVO" resultType="ManagementVO">
-		SELECT *
+	<select id="getScheList" parameterType="ManagementVO" resultType="map">
+		SELECT WORK_CAUSE "title",
+			   TO_CHAR(WORK_STDATE,'YYYY-MM-dd') "start",
+			   TO_CHAR(WORK_ENDATE,'YYYY-MM-dd') "end"
 		FROM management
+		WHERE work_stdate is not null
 	</select>
 <!-- 일정 등록 -->
 <insert id="insertSche" parameterType="ManagementVO">
@@ -29,6 +32,12 @@
 								#{work_cause})
 						
 </insert>
+
+<!-- 삭제 -->
+<delete id="deleteSche">
+	DELETE MANAGEMENT
+	WHERE work_no = #{work_no}
+</delete>
 
 
 </mapper>

@@ -154,7 +154,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 		<input type="hidden" name="redirectUrl">
-		<div class="page-header" style="background-size: cover; background-position: top center;">
+		<div class="page-header" style=" background-size: cover; background-position: top center;">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-4 col-md-6 ml-auto mr-auto">
@@ -210,63 +210,11 @@
 									<a href="#" data-toggle="modal" data-target="#pwModal">	비밀번호찾기 </a>
 									</span>
 								</div>
-						
+								
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 </body>
-
-<!-- <script>
-
-	// **문서 실행
-	$(document).ready(function(){	
-		// loginForm post submit
-		$('#login').submit(function(){
-			// id, pw null값으로 안 넘어가도록 check하기 위해 값 받아오기
-			var emp_no = $('#emp_no').val();
-			var emp_pwd = $('#emp_pwd').val();
-			// id, pw 값 확인하기
-			console.log("emp_no: " + emp_no + "+ emp_pwd: " + emp_pwd);
-			// id, pw null값으로 안 넘어가도록 check
-			if(emp_no == ""){	// id 값 null
-				$('#pw-warning').html("");
-				$('#id-warning').html("아이디를 입력해주세요.");
-				$('#emp_no').focus();
-			} else if(emp_pwd == ""){	// pw 값 null
-				$('#id-warning').html("");
-				$('#pw-warning').html("패스워드를 입력해주세요.");
-				$('#emp_pwd').focus();
-			} else{	// id, pw 둘 다 not null
-				//체크 후 ajax로 서버와 비동기통신
-				$.ajax({
-					url: "<c:url value='/tiles/login' />",
-					type: 'POST',
-					data: $('#login').serialize(),
-					success: function(data){
-						console.log("로그인 성공");
-						if(data == 'loginfailed'){
-							alert("등록되지 않은 아이디거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.");
-							//input box, warning span 모두 빈 값으로 초기화
-							$('#emp_no').val("");
-							$('#emp_pwd').val("");
-							$('#id-warning').html("");
-							$('#pw-warning').html("");
-						} else if(data == 'unverified'){					
-							//******이메일 미인증 사용자 창으로 이동******
-							location.href = "<c:url value='/member/verify/unVerified' />";
-						} else{
-							//******mypage로 이동******
-							location.href = "<c:url value='/member/myPage' />";
-						}
-					},
-					error: function(data){
-						console.log("에러");
-					}
-				});			
-			}		
-		});
-	});
-</script> -->
 </html>

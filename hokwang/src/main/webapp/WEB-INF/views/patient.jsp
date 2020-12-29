@@ -12,7 +12,7 @@
 		//출력된 다음에 호출이 되는 코드입니다.
 		var keyword = "";
 		patientList(keyword); //전체 환자 리스트
-		//diagnosisRecord();
+		diagnosisRecord();
 	})
 	function patientList(keyword) {
 
@@ -35,21 +35,21 @@
 	}/* end of function */
 	function patientListResult(data) {
 		console.log("patientListResult전체환자 리스트 출력 콘솔");
-		//console.log("아기번호 : "+td.eq(5).text());
+		//console.log("예약번호 : "+td.eq(5).text());
 		$("#patientList").empty();
 		$.each(data, function(idx, item) {
 
 			$("<tr>").append(
-					$("<td id='patientNo' value= '"+item.BABY_NO+"'>").html(
-							item.BABY_NO)).append(
-					$("<td>").html(item.BABY_NAME)).append(
-					$("<td id='regno "+idx+"'>").html(item.BABY_REGNO1))
+					$("<td id=' ' value= '"+item.BABY_NO+"'>").html(item.BABY_NO))
+					.append($("<td>").html(item.BABY_NAME))
+					.append($("<td id='regno "+idx+"'>").html(item.BABY_REGNO1))
 					.append($("<td>").html(item.BABY_REGNO2))
-					//.append($('<td style="display:none;">').html(item.BABY_NO))
+					.append($('<td style="display:none;">').html(item.resv_no))
 					.appendTo('#patientList');
 		})/* end of ajax  */
 	}
-	/* function diagnosisRecord(){
+	
+	 function diagnosisRecord(){//환자 진료내역
 		$("body").on("click", "#patientList tr",function(){
 			var tdArr = new Array();
 			var td = $(this).children();
@@ -57,16 +57,16 @@
 			td.each(function(i){
 				tdArr.push(td.eq(i).text());
 			});//end of each function
-			console.log("아기번호 : "+td.eq(5).text());
-		
+			console.log("예약번호 호출 : "+td.eq(5).text());
+			console.log("환자클릭시 진료기록 요청");
 			$.ajax({
 				url: "ajax/diagnosisRecord",
 				data : {
-					baby_no : td.eq(5).text()
+					resv_no : td.eq(5).text()
 				},
 				dataType : "JSON",
 				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					alert("상태값 :" + status + " Http에러메시지 : 일단진료기록에러임" + msg);
 				},
 				success : diagnosisRecordResult
 			});//end of ajax
@@ -83,11 +83,11 @@
 			$("<tr>")
 			.append($("<td>").html(item.DIAG_NO))
 			.append($("<td>").html(item.DIAG_TIME))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
+			.append($('<td style="display:none;">').html(item.resv_no))
 			.appendTo('#diagnosisRecord');
 			
 		});//endonf each function
-	}//end of fucntion */
+	}//end of fucntion 
 	
 </script>
 </head>

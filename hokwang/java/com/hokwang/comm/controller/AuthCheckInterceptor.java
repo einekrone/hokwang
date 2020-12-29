@@ -1,4 +1,4 @@
-package co.company.spring.common;
+package com.hokwang.comm.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

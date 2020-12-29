@@ -13,6 +13,5 @@ public class BabyVO { //아기
 	String baby_gender;//성별
 	String baby_visit;//방문여부
 	String baby_pic;//사진
-	
 
 }

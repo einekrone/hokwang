@@ -31,7 +31,7 @@ public class LoginController {
 	 * loginForm() { return "login"; }
 	 */
 	//로그인처리부분
-	@RequestMapping(value="/login", method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/login", method= {RequestMethod.GET, RequestMethod.POST})
 	public String employeeLogin(EmployeeVO emp_vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception{
 		
 		HttpSession session = req.getSession();
@@ -59,7 +59,7 @@ public class LoginController {
 	@GetMapping("/logout") //로그아웃
 	public String logout(HttpSession session) {
 		session.invalidate(); //세션무효화
-		return "login";
+		return "redirect:/";
 	}
 	/*
 	 * @ResponseBody

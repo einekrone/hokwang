@@ -13,6 +13,11 @@
 		AND emp_pwd = #{emp_pwd}		
 	</select>
 
+	<select id="getEmpList" resultType="emp">
+		SELECT *
+		FROM employee
+		WHERE emp_no = #{emp_no}
+	</select>
 
 
 	<!-- 전체조회 -->
@@ -25,11 +30,6 @@
 		collection="employeeIds" item="id" open="(" close=")" separator=","> #{id} 
 		</foreach> </if> </where> ORDER BY first_name </select> -->
 	
-	<select id="getEmpList" resultType="emp">
-		SELECT *
-		FROM employee
-		<!-- WHERE employee_id = #{employeeId} -->
-	</select>
 
 
 

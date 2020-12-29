@@ -3,13 +3,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.ScheMapper">
-<!-- 전체 조회 -->
+<!-- 조회 -->
 	<select id="getScheList" parameterType="ManagementVO" resultType="map">
 		SELECT WORK_CAUSE "title",
-			   TO_CHAR(WORK_STDATE,'YYYY-MM-dd') "start",
-			   TO_CHAR(WORK_ENDATE,'YYYY-MM-dd') "end"
+			  CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') 
+			       ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD') 
+			  end "start",
+			 CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') 
+			       ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD') 
+			  end "end"
 		FROM management
-		WHERE work_stdate is not null
+		WHERE work_date is not null or work_stdate is not null
+		
 	</select>
 <!-- 일정 등록 -->
 <insert id="insertSche" parameterType="ManagementVO">
@@ -17,17 +22,17 @@
 		SELECT NVL(MAX(WORK_NO),0)+1 FROM MANAGEMENT
 	</selectKey>
 	INSERT INTO MANAGEMENT( work_no,
-							work_date,
-							work_stdate,
-							work_endate,
+							<if test="work_ctg == 'work'">work_date,</if>
+							<if test="work_ctg == 'holiday'">work_stdate,
+							work_endate,</if>
 							work_ctg,
 							work_cause
 							)
 						VALUES(
 								#{work_no},
-								#{work_date},
-								#{work_stdate},
-								#{work_endate},
+								<if test="work_ctg == 'work'">#{work_date},</if>
+								<if test="work_ctg == 'holiday'">#{work_stdate},
+								#{work_endate},</if>
 								#{work_ctg},
 								#{work_cause})
 						

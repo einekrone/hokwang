@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.dao.ScheMapper;
@@ -27,6 +27,12 @@ public class ScheController {
 	@RequestMapping("/getScheList")
 	public List<ManagementVO> getScheList(ManagementVO sche){
 		return dao.getScheList(sche);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="/insertSche", method = RequestMethod.POST)
+	public int insert(Model model, ManagementVO sche) {
+		return dao.insertSche(sche);
 	}
 	
 	

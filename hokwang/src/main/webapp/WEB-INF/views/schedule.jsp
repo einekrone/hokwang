@@ -46,6 +46,7 @@
   margin: 20px auto;
 }
 
+
 </style>
 
 </head>
@@ -78,7 +79,7 @@
       <input type="date" name="work_date" id="work_date" class="work_date"><br>
      
       <label id="holiday">휴가일자</label><br>
-      <input type="date" class="work_date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date"  id="work_endate"name="work_endate"><br>
+      <input type="date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date"  id="work_endate"name="work_endate"><br>
       
       <label>사유</label><br>
       <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
@@ -123,8 +124,8 @@
         var dialog
 		 dialog = $( "#dialog-form" ).dialog({
 		      autoOpen: false,
-		      height: 400,
-		      width: 350,
+		      height: 450,
+		      width: 400,
 		      modal: true,
 		      close: function() {
 		      }
@@ -146,6 +147,7 @@
           locale:'ko', //한국어 설정
           events:{
         	  url:"getScheList"
+	  
           },
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
@@ -162,48 +164,54 @@
 		 select: function(arg){ //날짜클릭시 dialog 오픈
 			var start = moment(arg.start).format('YYYY-MM-DD');
 		 	var end = moment(arg.end).format('YYYY-MM-DD');
-			 $('.work_date').val(start)
+			 $('#work_stdate').val(start)
+			 $('#work_date').val(start)
 			 $('#work_endate').val(end)
 			 //console.log(start);
 			 dialog.dialog("open");
 		
 		 },
-		 eventClick: function(arg) { //이벤트 클릭시 삭제
-		        if (confirm('삭제하시겠습니까?')) {
-		          arg.event.remove()
-		        }
-		     }, 
-
-
-        });
-        calendar.render();
- 
-      $('#btnInsert').on('click',function(){
-    	  $.ajax({
-    		  url:"schedule",
-    		  type:'POST',
-    		  dataType:'json',
-    		  data : JSON.stringify($("#form1").serialize()),
-    		  contentType: 'application/json',
-    		  success:function(){
-    			  alert("success");
-    		  },
-    		  error:function(){
-    			  alert("fail");
-    		  }
-    	  })
-		 calendar.addEvent({
-            title: $('#work_cause').val(),
-            start: $('#work_date').val(),
-            end: $('#work_endate').val()
-          });
-		 dialog.dialog( "close" );
 		
-       });
-      
+		eventClick : function(arg) { //이벤트 클릭시 삭제
+				if (confirm('삭제하시겠습니까?')) {
+					$.ajax({
+						url : "deleteSche/" + work_no,
+						type : 'DELETE',
+						dataType : 'json',
+						success : function() {
+							arg.event.remove()
 
-      
-       
-</script>
+						},
+						error : function() {
+							alert("error");
+						}
+					})
+				}
+			},
+
+		});
+		calendar.render();
+
+		$('#btnInsert').on('click', function() {
+			$.ajax({
+				url : "insertSche",
+				type : 'POST',
+				dataType : 'json',
+				data : $("#form1").serialize(),
+				//contentType: 'application/json',
+				success : function() {
+					calendar.addEvent({
+						title : $('#work_cause').val(),
+						start : $('#work_stdate').val(),
+						end : $('#work_endate').val()
+					});
+				},
+				error : function() {
+					alert("fail");
+				}
+			})
+			dialog.dialog("close");
+		});
+	</script>
 </body>
 </html>

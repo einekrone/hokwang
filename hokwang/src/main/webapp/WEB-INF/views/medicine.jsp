@@ -32,45 +32,45 @@
 		$('#btnSave').on("click",function(){
 			console.log($('.card-com').text());
 			$.ajax({
-				url : "ajax/getMediList",
-				type : 'GET',
+				url : "ajax/saveMedi",
+				type : 'POST',
 				dataType : 'json',
 				data : {
-					medi_com : 
-					medi_name
-					medi_composition
-					medi_no:
+					medi_com : $('.card-com').text(),
+					medi_name : $('.card-name').text(),
+					medi_composition : $('.card-composition').text(),
+					medi_no : $('.card-no').text(),
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data){
-					
+					if(data==0){
+						alert("이미 저장된 값입니다.");
+					}
+					else
+						alert("저장완료되었습니다.");
+						totalMediList();
 				}
 			});
 		
 		});
 	}
 	
-	
-	
-	
-	
-	
-	
+	//모달띄우기
 	function modalCheck(){
 		$('#exampleModal').on('show.bs.modal', function(event) {
 			var tds = $(event.relatedTarget).find('td');
 			var modal = $(this);
 			modal.find('.card-com').text(tds.eq(0).text());
-			modal.find('.card-product').text(tds.eq(1).text())
+			modal.find('.card-name').text(tds.eq(1).text())
 			modal.find('.card-composition').text(tds.eq(2).text())
 			modal.find('.card-no').text(tds.eq(3).text())
 			
 		});
 		
 	}
-	
+	//검색
 	function check() {
 		$('#Val').on("keyup", function() {
 			if (event.keyCode == 13) {
@@ -79,7 +79,7 @@
 			}
 		})
 	}
-
+	//DB에서 저장된 약 정보 값가져오기
 	function totalMediList() {
 		$.ajax({
 			url : "ajax/getMediList",
@@ -91,7 +91,7 @@
 			success : mediResultList
 		})
 	}
-
+	//dataTable사용
 	function mediResultList(data) {
 		console.log(data);
 		$("#mediTotalList").empty();
@@ -99,13 +99,15 @@
 			$('<tr>').append($('<td>').html(item.medi_no)).append(
 					$('<td>').html(item.medi_com)).append(
 					$('<td>').html(item.medi_name)).append(
-					$('<td>').html(item.medi_composition)).appendTo(
-					'#mediTotalList');
-
+					$('<td>').html(item.medi_composition)).appendTo('#mediTotalList');
 		});
 		$('#use_table').DataTable();
+		
+		
+		
 	}
 
+	//api에서 약 api가져오기
 	function medicineList() {
 		$
 				.ajax({
@@ -175,10 +177,10 @@
 
 						<thead align="center">
 							<tr>
-								<th width="15%">회사명</th>
-								<th width="15%">제품명</th>
-								<th width="20%">성분</th>
-								<th width="35%">제품코드</th>
+								<th width="30%">회사명</th>
+								<th width="40%">제품명</th>
+								<th width="40%">성분</th>
+								<th width="30%">제품코드</th>
 								
 								<!-- <th width="15%"><input type="button" value="추가"></th> -->
 							</tr>
@@ -240,7 +242,7 @@
 					<div class="card" style="width: 18rem;">
 						<div class="card-body">
 							회사 명 : <h5 class="card-com">회사명</h5>
-							약 이름 : <h5 class="card-product">약이름</h5>
+							약 이름 : <h5 class="card-name">약이름</h5>
 							약 성분 : <h5 class="card-composition">약성분</h5>
 							약 번호:<h5 class="card-no">약번호</h5>
 						</div>

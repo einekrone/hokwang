@@ -47,7 +47,7 @@
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script> --%>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$(".nav-tabs").tabs({

@@ -18,12 +18,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
 <style>
-html, body { 
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
-}
+
 #external-events {
   position: fixed;
   z-index: 2;

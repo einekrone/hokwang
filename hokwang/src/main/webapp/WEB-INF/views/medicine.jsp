@@ -23,25 +23,54 @@
 		medicineList();
 		totalMediList();
 		check();
-		insertMedicine();
+		modalCheck();
+		saveMedi();
 
 	});
 	
-	function insertMedicine(){
-		$("body").on("click","#factory_tbody tr", function() {
-			tds = $(this).find('td');
-			console.log(tds.eq(0).text());
-			console.log(tds.eq(1).text());
-			console.log(tds.eq(2).text());
-			console.log(tds.eq(3).text());
+	function saveMedi(){
+		$('#btnSave').on("click",function(){
+			console.log($('.card-com').text());
+			$.ajax({
+				url : "ajax/getMediList",
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					medi_com : 
+					medi_name
+					medi_composition
+					medi_no:
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data){
+					
+				}
+			});
+		
+		});
+	}
+	
+	
+	
+	
+	
+	
+	
+	function modalCheck(){
+		$('#exampleModal').on('show.bs.modal', function(event) {
+			var tds = $(event.relatedTarget).find('td');
+			var modal = $(this);
+			modal.find('.card-com').text(tds.eq(0).text());
+			modal.find('.card-product').text(tds.eq(1).text())
+			modal.find('.card-composition').text(tds.eq(2).text())
+			modal.find('.card-no').text(tds.eq(3).text())
 			
 		});
 		
 	}
 	
-	
-	
-
 	function check() {
 		$('#Val').on("keyup", function() {
 			if (event.keyCode == 13) {
@@ -97,7 +126,7 @@
 								.find("item")
 								.each(
 										function() {
-											var info = '<tr>';
+											var info = '<tr data-toggle="modal" data-target="#exampleModal">';
 											info += '<td>'
 													+ $(this).addClass(
 															'form-control')
@@ -195,5 +224,36 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">약품 확인</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							회사 명 : <h5 class="card-com">회사명</h5>
+							약 이름 : <h5 class="card-product">약이름</h5>
+							약 성분 : <h5 class="card-composition">약성분</h5>
+							약 번호:<h5 class="card-no">약번호</h5>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnSave" name="btnSave">Save</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 </body>
 </html>

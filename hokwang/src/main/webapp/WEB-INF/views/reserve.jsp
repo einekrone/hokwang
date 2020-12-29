@@ -97,6 +97,7 @@ button {
 			resvList(searchType, keyword);
 		});
 
+		// todo: 진료실 onchange
 		$("body").on("change", "#officeSel", function() {
 			console.log("change : " + $("#officeSel option:selected").val());
 		});
@@ -104,12 +105,60 @@ button {
 		// 예약환자명 검색
 		$("#searchPati").click(function() {
 			var keyword = $("#keyword").val();
-			console.log("keyword : " + keyword);
 			resvList("resvSearch", keyword);
 			$("#keyword").val("");
 		});
+
+		// 이미지 저장시 diag_no
+		$("body").on("click", "#imgBtn", function() {
+			var diagNo = $(this).data("num");
+			imgForm.diag_no.value = diagNo;
+			console.log("diagNo2 :: " + imgForm.diag_no.value);
+
+			$.ajax({
+				url : 'ajax/imgList',
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					diag_no : imgForm.diag_no.value
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : imgListResult
+			});
+		});
+
+		// 이미지 목록
+		/* $("#imgPopup").on("show.bs.modal", function() {
+			console.log("imgPopup open");
+			console.log("diagNo?? :: "+imgForm.diag_no.value);
+			// todo
+			var tdArr = new Array();
+			var td = $(this).children();
+			console.log(">>this : " + $(this));
+			console.log(">>td : " + td);
+
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+
+			console.log(">>1 : " + td.eq(0).text());
+		}); */
 	});
 
+	function imgListResult(data) {
+		console.log("imgListResult");
+		$.each(data, function(idx, item) {
+			console.log("?? "+item.IMG_ADDR);
+			var img = document.createElement("img");
+			img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + item.IMG_ADDR);
+			img.className="img1";
+			document.querySelector("#imgShow").appendChild(img);
+		});
+	}
+
+	// 미수납/수납대기
 	function nonPayList(searchType, keyword) {
 		$.ajax({
 			url : 'ajax/nonPayList',
@@ -140,11 +189,9 @@ button {
 					.appendTo('#nonPayList');
 
 			if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
-				console.log("W " + "#price" + idx);
 				$("#price" + idx).eq(-1).after(
 						'<td><button id="stBtn">승인</button></td>');
 			} else if (item.PAY_STATE == 'N') { // 미수납
-				console.log("N " + "#price" + idx);
 				$("#price" + idx).eq(-1).after('<td>미수납</td>');
 			}
 		});
@@ -220,7 +267,7 @@ button {
 				tdArr.push(td.eq(i).text());
 			});
 
-			console.log("예약번호 : " + td.eq(0).text());
+			//console.log("예약번호 : " + td.eq(0).text());
 
 			$.ajax({
 				url : 'ajax/uniqInfo',
@@ -237,7 +284,6 @@ button {
 	}
 
 	function resvUniqResult(data) {
-		console.log("resvUniqResult");
 		$("#resvDetail").empty();
 		$("#resvDetail").append(data.RESV_MEMO);
 	}
@@ -253,7 +299,7 @@ button {
 				tdArr.push(td.eq(i).text());
 			});
 
-			console.log("아기번호 : " + td.eq(5).text());
+			//console.log("아기번호 : " + td.eq(5).text());
 
 			$.ajax({
 				url : 'ajax/resvHstList',
@@ -287,9 +333,13 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log("ph> " + item.DIAG_PHOTO);
-							imgsrc = item.DIAG_PHOTO;
-							imgsrc = "undraw_profile.svg";
+							var diagNo = "";
+							if (typeof item.DIAG_NO != 'undefined') {
+								diagNo = item.DIAG_NO;
+								console.log("ph2> " + diagNo);
+							}
+							//console.log("ph> " + item.IMG_ADDR);
+							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
 							$('<tr>')
 									.append($('<td>').html(item.RESV_NO))
 									.append($('<td>').html(item.RESV_DATE))
@@ -297,29 +347,30 @@ button {
 									.append(
 											$('<td>')
 													.html(
-															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup">사진</button>'))
+															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+diagNo+'">사진</button>'))
 									.append(
 											$('<td style="display:none;">')
 													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
 
+							// todo: 이미지 삽입은 이력 목록이 출력될때가 아니라 목록에 사진 버튼을 눌렀을때/이미지 팝업이 열렸을 때 삽입
 							//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
-							if (imgsrc != null || imgsrc != "") {
-								$("#imgShow").attr(
-										"src",
-										"${pageContext.request.contextPath}/resources/img/"
-												+ imgsrc);
-							}
+							/* if (imgsrc != null || imgsrc != "") {
+								var img = document.createElement("img");
+								img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + imgsrc);
+								img.className="img1";
+								document.querySelector("#imgShow").appendChild(img);
+							} */
 
 							var d = new Date();
 							var today = d.getFullYear() + '-'
 									+ (d.getMonth() + 1) + '-' + d.getDate();
-							if (item.RESV_DATE == today) {
+							/* if (item.RESV_DATE == today) {
 								$("#imgDBtn").css("display", "none");
 							} else {
 								$("#imgInput").css("display", "none");
 								$("#imgRBtn").css("display", "none");
-							}
+							} */
 						});
 	}
 
@@ -350,44 +401,28 @@ button {
 										+ data.PARENT_ADDRDETAIL + ' '
 										+ data.PARENT_POST))
 	}
-	
+
 	function setImages(event) {
-	    var sel_files = [];
-	    var files = event.target.files;
-	    var filesArr = Array.prototype.slice.call(files);
-	    filesArr.forEach(function(f){
-	       console.log(f.type);
-	       if(f.type.match('image/JPEG') || f.type.match('image/PNG')|| f.type.match('image/jpg')){
-	          alert("파일확장자를 바꿔주세요.");
-	          return;
-	       }
-	       sel_files.push(f);
-	       
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
-	       var img = document.createElement("img");
-	       img.setAttribute("src", event.target.result);
-	       img.className = "img1"
-	       document.querySelector("#imgShow").appendChild(img);
-	    };
-	    reader.readAsDataURL(f);
-	    });      
-	 }
-	
-	function imgRegist() {
-		console.log("imgRegist");
-		$.ajax({
-			url : 'ajax/imgManage',
-			data : {
-				diag_no : td.eq(0).text()	// 진료번호
-			},
-			dataType : 'json',
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function() {
-				
+		var sel_files = [];
+		var files = event.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		filesArr.forEach(function(f) {
+			console.log(f.type);
+			if (f.type.match('image/JPEG') || f.type.match('image/PNG')
+					|| f.type.match('image/jpg')) {
+				alert("파일확장자를 바꿔주세요.");
+				return;
 			}
+			sel_files.push(f);
+
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				var img = document.createElement("img");
+				img.setAttribute("src", event.target.result);
+				img.className = "img1"
+				document.querySelector("#imgShow").appendChild(img);
+			};
+			reader.readAsDataURL(f);
 		});
 	}
 </script>
@@ -586,19 +621,28 @@ button {
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="filebox">
-						<label for="imgInput">업로드</label> <input type="file"
-							id="imgInput" name="imgInput" multiple
-							onchange="setImages(event);">
-					</div>
-					<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
-					<div id="imgShow"><br>
-				</div>
-				<div class="modal-footer text-center"
-					style="justify-content: center !important;">
-					<button class="btn-primary" type="button" style="margin: 0 25px;" id="imgRBtn" onclick="imgRegist()">등록/수정</button>
-					<button class="btn-danger" type="button" style="margin: 0 25px;" id="imgDBtn">삭제</button>
-					<button type="button" style="margin: 0 25px;" id="imgRBtn" data-dismiss="modal">취소</button>
+					<form action="ajax/imgManage" method="post"
+						enctype="multipart/form-data" id="imgForm" name="imgForm">
+						<input type="hidden" name="diag_no" value="">
+						<div class="filebox">
+							<label for="imgInput">업로드</label> <input type="file"
+								id="imgInput" name="imgInput" multiple
+								onchange="setImages(event);">
+						</div>
+						<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
+						<div id="imgShow">
+							<br>
+						</div>
+						<div class="modal-footer text-center"
+							style="justify-content: center !important;">
+							<button class="btn-primary" type="submit" style="margin: 0 25px;"
+								id="imgRBtn">등록/수정</button>
+							<button class="btn-danger" type="button" style="margin: 0 25px;"
+								id="imgDBtn">삭제</button>
+							<button type="button" style="margin: 0 25px;" id="imgCBtn"
+								data-dismiss="modal">취소</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.service.ResvService;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -67,10 +68,10 @@ public class ResvController {
 		return resvSvc.getNonPayList(vo);
 	}
 
-	// 진료 사진 관리(등록,삭제,조회)
+	// 진료 사진 관리(등록)
 	@ResponseBody
 	@RequestMapping("/ajax/imgManage")
-	public String imgManage(HttpServletRequest request, Reservation vo) throws IllegalStateException, IOException {
+	public void imgManage(HttpServletRequest request, Images vo) throws IllegalStateException, IOException {
 		System.out.println("imgManage>>");
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartFile = multipartRequest.getFile("imgInput");
@@ -78,8 +79,16 @@ public class ResvController {
 			String path = request.getSession().getServletContext().getRealPath("/resources/img"); // 업로드할 경로
 			// getOriginalFilename : 업로드 후 파일명
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
-			vo.setDiag_photo(multipartFile.getOriginalFilename());
+			vo.setImg_addr(multipartFile.getOriginalFilename());
+			System.out.println("imgAddr : "+vo.getImg_addr());
 		}
-		return resvSvc.imgManage(vo);
+		resvSvc.imgManage(vo);
+	}
+	
+	// 진료 사진 관리(조회)
+	@ResponseBody
+	@RequestMapping("/ajax/imgList")
+	public List<Map<String, Object>> getImgList(Images vo) {
+		return resvSvc.getImgList(vo);
 	}
 }

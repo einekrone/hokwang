@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hokwang.dao.ResvMapper;
 import com.hokwang.service.ResvService;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -43,8 +44,13 @@ public class ResvServiceImpl implements ResvService {
 	}
 
 	@Override
-	public String imgManage(Reservation vo) {
-		return resvDao.imgManage(vo);
+	public void imgManage(Images vo) {
+		resvDao.imgManage(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> getImgList(Images vo) {
+		return resvDao.getImgList(vo);
 	}
 	
 }

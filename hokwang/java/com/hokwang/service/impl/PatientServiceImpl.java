@@ -11,6 +11,7 @@ import com.hokwang.service.PatientService;
 import com.hokwang.vo.BabyJoinToDiagnosisVOAndReser;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.DiagnosisVO;
+import com.hokwang.vo.PrescriptionVO;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -29,9 +30,15 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public List<Map<String, Object>> patientInfo(BabyVO vo) {//환자상세정보
+	public Map<String, Object> patientInfo(BabyVO vo) {//환자상세정보
 		// TODO Auto-generated method stub
 		return patientDAO.patientInfo(vo);
+	}
+
+	@Override
+	public Map<String, Object> mediName(PrescriptionVO vo) {
+		
+		return patientDAO.mediName(vo);
 	}
 
 }

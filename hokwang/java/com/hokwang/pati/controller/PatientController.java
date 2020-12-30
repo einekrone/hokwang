@@ -42,7 +42,7 @@ public class PatientController {
 	}
 	@ResponseBody
 	@RequestMapping("/ajax/patientInfo")
-	public List<Map<String, Object>> patientInfo(BabyVO vo) {
+	public Map<String, Object> patientInfo(BabyVO vo) {
 		return patientService.patientInfo(vo);
 	}
 }

@@ -97,13 +97,14 @@
 	}
 	
 	function patientInfoResult(data) {
-		$("#ptInfo").empty();
+		$("#ptInfo2").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: "+regno2+"이름 : "+data.BABY_NAME);
+		console.log("주민번호: "+data.BABY_REGNO2+"이름 : "+data.BABY_NAME);
+		console.log(data);
 		regno2 = RPAD(regno2, '*', 7);
-		$("#ptInfo").append($("<p>").html("이름 : "+data.BABY_NAME + " ("+data.BABY_BLOOD
-		+"형, " +data.BABY_GENDER + ")"))
-		.append($("<p>").html("주민번호: "+data.BABYREGNO1+ "-"+REGNO2))
+		$("#ptInfo2")
+		.append($("<p>").html("이름 : "+data.BABY_NAME + " ("+data.BABY_BLOOD+"형, " +data.BABY_GENDER + ")"))
+		.append($("<p>").html("주민번호: "+data.BABY_REGNO1+ "-"+data.BABY_REGNO2))
 		.append($("<p>").html("방문 여부 : "+data.BABY_VISIT))
 		.append($("<hr>"))
 		.append($("<p>").html("보호자명 : "+data.PARENT_NAME))
@@ -136,7 +137,7 @@
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-success">환자정보</p>
 					<div style="width: 100%; height: 160px; overflow: auto;"
-						id="ptInfo"></div>
+						id="ptInfo2"></div>
 				</div>
 			</div>
 			<div class="card shadow py-2" style="height: 400px;">

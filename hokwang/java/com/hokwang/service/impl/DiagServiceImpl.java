@@ -46,4 +46,10 @@ public class DiagServiceImpl implements DiagService{
 		return service.getBodyList(vo);
 	}
 
+	@Override
+	public DiagnosisVO getDiagDetail(DiagnosisVO vo) {
+
+		return service.getDiagDetail(vo);
+	}
+
 }

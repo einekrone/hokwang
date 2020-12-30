@@ -30,6 +30,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		waitList();
 		resvHstList();
 		resvUniq();
+		getDiagDetail();
 		
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -62,6 +63,38 @@ div.dataTables_wrapper div.dataTables_paginate {
 			success : 
 		});
 	} */
+	//진료날짜/의사소견 출력
+	function getDiagDetail() {
+		$("body").on("click", "#HistoryList tr", function() {
+			var tdArr = new Array();
+			var td = $(this).children();
+			
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("진료번호 : "+td.eq(0).text());
+
+			$.ajax({
+				url : 'ajax/DiagDetail',
+				data : {
+					diag_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getDiagDetailResult
+			});
+		});
+	}
+	function getDiagDetailResult(data) {
+		$("#diagDetail").empty();
+		$("#diagDetail")
+		.append($('<p>').html('진료일 : ' + data.DIAG_TIME))
+		.append($('<p>').html('의사소견 : ' + data.DIAG_MEMO))
+	}
+	
 	//대기환자 함수
 	function waitList(searchType, keyword) {
 		$.ajax({
@@ -362,26 +395,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 						<!-- 진료 기록 상세 -->
 						<div style="width: 60%; float: right;">
-							<table id="noborder_table">
-								<tr id="nbab">
-									<th>날짜</th>
-									<td>2020-12-18</td>
-								</tr>
-								<tr>
-									<th>기록</th>
-									<td>배가 고파서 밥을 먹었다.</td>
-								</tr>
+							<table id="noborder_table" >
+								<div id="diagDetail" style="overflow: auto; width: 100%;"></div>
 								<tr>
 									<th>상병</th>
-									<td>급성 배고픔</td>
 								</tr>
 								<tr>
 									<th>처방</th>
 									<td>이탈리안 비엠티</td>
-									<td>에그마요추가</td>
-									<td>아메리칸치즈</td>
-									<td>랜치</td>
-									<td>후추</td>
 								</tr>
 							</table>
 						</div>

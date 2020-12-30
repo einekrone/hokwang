@@ -21,7 +21,6 @@ public class Diagcontroller {
 	@Autowired
 	DiagMapper diagDao;
 	
-
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {
@@ -37,7 +36,6 @@ public class Diagcontroller {
 		return diagDao.getResvList(vo);
 	}
 
-	
 	// 선택된 환자 예약/진료 이력 리스트 조회
 	@ResponseBody
 	@RequestMapping("/ajax/HistoryList")
@@ -52,18 +50,22 @@ public class Diagcontroller {
 		return diagDao.getInfoList(vo);
 	}
 
-	
 	// 선택된 환자 특이사항 정보
 	@ResponseBody
 	@RequestMapping("/ajax/MemoInfo")
 	public Map<String, Object> getUniqInfo(Reservation vo) {
 		return diagDao.getUniqInfo(vo);
 	}
-	// 선택된 환자 특이사항 정보
+	// 선택된 환자 키/몸무게 정보
 	@ResponseBody
 	@RequestMapping("/ajax/BodyInfo")
 	public BodyVO getBodyList(BodyVO vo) {
 		return diagDao.getBodyList(vo);
 	}
-
+	// 진료날짜/의사소견 출력
+	@ResponseBody
+	@RequestMapping("/ajax/DiagDetail")
+	public DiagnosisVO getDiagDetail(DiagnosisVO vo) {
+		return diagDao.getDiagDetail(vo);
+	}
 }

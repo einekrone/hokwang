@@ -17,8 +17,8 @@
 		ORDER BY RESV_NO,RESV_DATE
 	</select>
 
-	<select id="getResvHistList" resultType="diagnosisVO"
-		parameterType="babyVO">
+	<select id="getResvHistList" resultType="DiagnosisVO"
+		parameterType="BabyVO">
 		SELECT * FROM DIAGNOSIS
 		<where>
 			<if test="baby_no != null and baby_no != ''">
@@ -52,5 +52,8 @@
 	BODYINFO 
 	WHERE BABY_NO = #{baby_no}
 	</select>
-	
+	<select id="getDiagDetail" resultType="DiagnosisVO">
+	SELECT * FROM DIAGNOSIS
+	WHERE DIAG_NO = #{diag_no}
+	</select>
 </mapper>

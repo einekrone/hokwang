@@ -17,4 +17,5 @@ public interface ResvService {
 	public int imgInsert(Images vo);
 	public int imgDelete(Images vo);
 	public List<Map<String, Object>> getImgList(Images vo);
+	public List<Map<String, Object>> getRoomList();
 }

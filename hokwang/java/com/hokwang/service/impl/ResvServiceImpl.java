@@ -55,8 +55,12 @@ public class ResvServiceImpl implements ResvService {
 
 	@Override
 	public int imgDelete(Images vo) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Map<String, Object>> getRoomList() {
+		return resvDao.getRoomList();
 	}
 	
 }

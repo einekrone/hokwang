@@ -102,4 +102,11 @@ public class ResvController {
 	public List<Map<String, Object>> getImgList(Images vo) {
 		return resvSvc.getImgList(vo);
 	}
+
+	// 대기자 조회
+	@ResponseBody
+	@RequestMapping("/ajax/roomList")
+	public List<Map<String, Object>> getRoomList() {
+		return resvSvc.getRoomList();
+	}
 }

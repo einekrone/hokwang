@@ -78,6 +78,7 @@ button {
 		resvUniq(); // 특이사항
 		imgSave(); // 이미지 등록
 		imgDelete(); // 이미지 삭제
+		roomList();	// 진료실 대기환자 목록
 
 		nonPayList(searchType, keyword); // 미수납/수납대기 목록
 
@@ -270,12 +271,47 @@ button {
 			}
 		});
 	}
+	
+	function roomList() {
+		$.ajax({
+			url : 'ajax/roomList',
+			type : 'GET',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : roomListResult
+		});
+	}
+	
+	function roomListResult(data) {
+		// item.진료실번호 해서 각각 알맞은 곳에 출력
+		console.log("roomListResult");
+		$.each(data, function(idx, item) {
+			console.log("1: "+item.RESV_NO + ", 2: "+item.BABY_NAME+", 3: "+item.RESV_ROOM);
+			
+			if(item.RESV_ROOM == 1) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+						.append($('<td>').html(item.BABY_NAME))
+						.appendTo('#room1');
+			} else if(item.RESV_ROOM == 2) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+						.append($('<td>').html(item.BABY_NAME))
+						.appendTo('#room2');
+			} else if(item.RESV_ROOM == 3) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+						.append($('<td>').html(item.BABY_NAME))
+						.appendTo('#room3');
+			}
+		});
+	}
 
 	function resvList(searchType, keyword) {
 		$.ajax({
 			url : 'ajax/resvList',
 			type : 'GET',
-			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
 				searchType : searchType,
@@ -313,7 +349,7 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
-							if (date == today) {
+							if (date == today && (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
@@ -579,7 +615,7 @@ button {
 			<!-- 3번 -->
 			<div class="col-xl-2 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body">
+					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 1</p>
 						<table class="table text-center">
 							<thead>
@@ -593,7 +629,7 @@ button {
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px; margin: 10px 0;">
-					<div class="card-body">
+					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 2</p>
 						<table class="table text-center">
 							<thead>
@@ -607,7 +643,7 @@ button {
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body">
+					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 3</p>
 						<table class="table text-center">
 							<thead>

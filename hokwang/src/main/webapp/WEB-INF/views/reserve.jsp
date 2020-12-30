@@ -72,15 +72,16 @@ button {
 		var imgsrc = "";
 		var searchType = "";
 		var keyword = "";
+		var keyword2 = "";
 
 		resvList(searchType, keyword); // 전체 예약 환자
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
 		imgSave(); // 이미지 등록
 		imgDelete(); // 이미지 삭제
-		roomList();	// 진료실 대기환자 목록
+		roomList(); // 진료실 대기환자 목록
 
-		nonPayList(searchType, keyword); // 미수납/수납대기 목록
+		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
 
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -88,39 +89,47 @@ button {
 			if ($('.rsvTg').is(":checked")) {
 				keyword = "today";
 			} else {
-				// 수납 대기
-				if ($('.priceTg').is(":checked")) {
-					keyword = "today2";
-				} else {
-					keyword = "all";
-				}
+				keyword = "all";
 			}
 
-			console.log(">> " + keyword);
+			// 수납 대기
+			if ($('.priceTg').is(":checked")) {
+				keyword2 = "today2";
+			} else {
+				keyword2 = "all";
+			}
+
 			resvList(searchType, keyword);
+			nonPayList(searchType, keyword2);
 		});
 
 		// todo: 진료실 onchange
-		$("body").on("change", "#officeSel", function() {
-			var offSel = $("#officeSel option:selected").val();
-			console.log("change : " + offSel);
-			if(offSel != "-") {
-				console.log("진료실로 이동");
-				var tdArr = new Array();
-				var td = $(this).parent().siblings();
+		$("body").on(
+				"change",
+				"#officeSel",
+				function() {
+					var offSel = $("#officeSel option:selected").val();
+					console.log("change : " + offSel);
+					if (offSel != "-") {
+						console.log("진료실로 이동");
+						var tdArr = new Array();
+						var td = $(this).parent().siblings();
 
-				td.each(function(i) {
-					tdArr.push(td.eq(i).text());
+						td.each(function(i) {
+							tdArr.push(td.eq(i).text());
+						});
+
+						console.log("??1 : " + td.eq(0).text());
+						console.log("??2 : " + td.eq(2).text());
+						$('<tr>').append(
+								$(
+										'<td id="resvNo" value="'
+												+ td.eq(0).text() + '">').html(
+										td.eq(0).text())).append(
+								$('<td>').html(td.eq(2).text())).appendTo(
+								'#room1');
+					}
 				});
-
-				console.log("??1 : " + td.eq(0).text());
-				console.log("??2 : " + td.eq(2).text());
-				$('<tr>').append(
-						$('<td id="resvNo" value="'+td.eq(0).text()+'">').html(td.eq(0).text()))
-						.append($('<td>').html(td.eq(2).text()))
-						.appendTo('#room1');
-			}
-		});
 
 		// 예약환자명 검색
 		$("#searchPati").click(function() {
@@ -212,20 +221,20 @@ button {
 	function imgDelete() {
 		$("#imgDBtn").on("click", function() {
 			var chk = $('#imgForm input:checkbox').is(':checked');
-			console.log("chk : "+chk);
-			if(chk) {	// true
+			console.log("chk : " + chk);
+			if (chk) { // true
 				$.ajax({
 					url : 'ajax/imgDelete',
 					dataType : 'json',
-					data: $("#imgForm").serialize(),
+					data : $("#imgForm").serialize(),
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function() {
 						var chk = $("[name='imgChk']:checked");
-						for(var i=0; i< chk.length; i++) {
-							$(chk[i]).next().remove();	// 이미지
-							$(chk[i]).remove();	// 체크박스
+						for (var i = 0; i < chk.length; i++) {
+							$(chk[i]).next().remove(); // 이미지
+							$(chk[i]).remove(); // 체크박스
 						}
 					}
 				});
@@ -238,7 +247,6 @@ button {
 		$.ajax({
 			url : 'ajax/nonPayList',
 			type : 'GET',
-			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
 				searchType : searchType,
@@ -271,7 +279,7 @@ button {
 			}
 		});
 	}
-	
+
 	function roomList() {
 		$.ajax({
 			url : 'ajax/roomList',
@@ -282,28 +290,29 @@ button {
 			success : roomListResult
 		});
 	}
-	
+
 	function roomListResult(data) {
 		// item.진료실번호 해서 각각 알맞은 곳에 출력
 		console.log("roomListResult");
 		$.each(data, function(idx, item) {
-			console.log("1: "+item.RESV_NO + ", 2: "+item.BABY_NAME+", 3: "+item.RESV_ROOM);
-			
-			if(item.RESV_ROOM == 1) {
+			console.log("1: " + item.RESV_NO + ", 2: " + item.BABY_NAME
+					+ ", 3: " + item.RESV_ROOM);
+
+			if (item.RESV_ROOM == 1) {
 				$('<tr>').append(
-						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-						.append($('<td>').html(item.BABY_NAME))
-						.appendTo('#room1');
-			} else if(item.RESV_ROOM == 2) {
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
+			} else if (item.RESV_ROOM == 2) {
 				$('<tr>').append(
-						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-						.append($('<td>').html(item.BABY_NAME))
-						.appendTo('#room2');
-			} else if(item.RESV_ROOM == 3) {
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
+			} else if (item.RESV_ROOM == 3) {
 				$('<tr>').append(
-						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-						.append($('<td>').html(item.BABY_NAME))
-						.appendTo('#room3');
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room3');
 			}
 		});
 	}
@@ -349,7 +358,8 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
-							if (date == today && (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
+							if (date == today
+									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
@@ -587,7 +597,8 @@ button {
 			<!-- 2번 -->
 			<div class="col-xl-4 col-md-6 mb-4 column">
 				<div class="card shadow py-2" style="height: 800px;">
-					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span> <span
 								class="mb-0 font-weight-bold"
@@ -615,7 +626,8 @@ button {
 			<!-- 3번 -->
 			<div class="col-xl-2 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 1</p>
 						<table class="table text-center">
 							<thead>
@@ -629,7 +641,8 @@ button {
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px; margin: 10px 0;">
-					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 2</p>
 						<table class="table text-center">
 							<thead>
@@ -643,7 +656,8 @@ button {
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 3</p>
 						<table class="table text-center">
 							<thead>
@@ -734,7 +748,8 @@ button {
 							<button class="btn-primary" type="button" style="margin: 0 25px;"
 								id="imgRBtn">등록/수정</button>
 							<button class="btn-danger" type="button" style="margin: 0 25px;"
-								id="imgDBtn">삭제</button> <!-- disabled -->
+								id="imgDBtn">삭제</button>
+							<!-- disabled -->
 							<button type="button" style="margin: 0 25px;" id="imgCBtn"
 								data-dismiss="modal">취소</button>
 						</div>

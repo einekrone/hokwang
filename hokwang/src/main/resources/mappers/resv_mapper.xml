@@ -22,7 +22,7 @@
 				AND B.BABY_NAME LIKE '%#{keyword}%'
 			</if>
 		</if>
-		ORDER BY R.RESV_NO, R.RESV_TYPE
+		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
 	</select>
 
 	<select id="getResvHistList" resultType="map"
@@ -74,12 +74,8 @@
 		AND P.PAY_STATE IN('N', 'W')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			<if test="searchType == 'chkType' and keyword == 'today'">
-				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
-				'YYYY-MM-DD')
-			</if>
-			<if test="searchType == 'resvSearch'">
-				AND B.BABY_NAME LIKE '%#{keyword}%'
+			<if test="searchType == 'chkType' and keyword == 'today2'">
+				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE

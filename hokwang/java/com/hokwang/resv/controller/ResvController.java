@@ -70,9 +70,9 @@ public class ResvController {
 
 	// 진료 사진 관리(등록)
 	@ResponseBody
-	@RequestMapping("/ajax/imgManage")
-	public void imgManage(HttpServletRequest request, Images vo) throws IllegalStateException, IOException {
-		System.out.println("imgManage>>");
+	@RequestMapping("/ajax/imgInsert")
+	public int imgInsert(HttpServletRequest request, Images vo) throws IllegalStateException, IOException {
+		System.out.println("imgInsert>>");
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartFile = multipartRequest.getFile("imgInput");
 		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
@@ -81,8 +81,19 @@ public class ResvController {
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
 			vo.setImg_addr(multipartFile.getOriginalFilename());
 			System.out.println("imgAddr : "+vo.getImg_addr());
+			System.out.println("no : "+vo.getDiag_no());
 		}
-		resvSvc.imgManage(vo);
+		return resvSvc.imgInsert(vo);
+	}
+
+	// 진료 사진 관리(삭제)
+	@ResponseBody
+	@RequestMapping("/ajax/imgDelete")
+	public int imgDelete(HttpServletRequest request, Images vo) {
+		System.out.println("imgDelete>>");
+		
+//		return resvSvc.imgDelete(vo);
+		return 0;
 	}
 	
 	// 진료 사진 관리(조회)

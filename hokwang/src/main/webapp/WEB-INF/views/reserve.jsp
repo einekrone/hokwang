@@ -76,6 +76,8 @@ button {
 		resvList(searchType, keyword); // 전체 예약 환자
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
+		imgSave(); // 이미지 등록
+		imgDelete(); // 이미지 삭제
 
 		nonPayList(searchType, keyword); // 미수납/수납대기 목록
 
@@ -109,52 +111,107 @@ button {
 			$("#keyword").val("");
 		});
 
-		// 이미지 저장시 diag_no
+		// 등록된 이미지 목록
 		$("body").on("click", "#imgBtn", function() {
 			var diagNo = $(this).data("num");
-			imgForm.diag_no.value = diagNo;
-			console.log("diagNo2 :: " + imgForm.diag_no.value);
+			$("#diag_no").val(diagNo);
+			$("#imgShow").empty();
+			imgList();
+		});
+	});
 
+	function imgList() {
+		if ($("#diag_no").val() != "") {
 			$.ajax({
 				url : 'ajax/imgList',
 				type : 'GET',
 				dataType : 'json',
 				data : {
-					diag_no : imgForm.diag_no.value
+					diag_no : $("#diag_no").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : imgListResult
 			});
-		});
-
-		// 이미지 목록
-		/* $("#imgPopup").on("show.bs.modal", function() {
-			console.log("imgPopup open");
-			console.log("diagNo?? :: "+imgForm.diag_no.value);
-			// todo
-			var tdArr = new Array();
-			var td = $(this).children();
-			console.log(">>this : " + $(this));
-			console.log(">>td : " + td);
-
-			td.each(function(i) {
-				tdArr.push(td.eq(i).text());
-			});
-
-			console.log(">>1 : " + td.eq(0).text());
-		}); */
-	});
+		}
+	}
 
 	function imgListResult(data) {
 		console.log("imgListResult");
+		$("#imgShow").empty();
 		$.each(data, function(idx, item) {
-			console.log("?? "+item.IMG_ADDR);
+			console.log("?? " + item.IMG_ADDR);
 			var img = document.createElement("img");
-			img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + item.IMG_ADDR);
-			img.className="img1";
+			img.setAttribute("src",
+					"${pageContext.request.contextPath}/resources/img/"
+							+ item.IMG_ADDR);
+			img.className = "img1";
+			img.setAttribute('style', 'margin:0 15px;');
+
+			var check = document.createElement('input');
+			check.setAttribute('type', 'checkbox');
+			check.setAttribute('id', 'imgChk');
+			check.setAttribute('value', item.IMG_NO);
+			document.querySelector("#imgShow").appendChild(check);
 			document.querySelector("#imgShow").appendChild(img);
+		});
+	}
+
+	function imgSave() {
+		$("#imgRBtn").on("click", function() {
+			var formData = new FormData();
+			var inputFile = $('input[name="imgInput"]');
+			var files = inputFile[0].files;
+			console.log("files : " + files.length);
+			if (files.length > 0) {
+				for (var i = 0; i < files.length; i++) {
+					formData.append('imgInput', files[i]);
+				}
+				formData.append('diag_no', $("#diag_no").val());
+
+				$.ajax({
+					url : 'ajax/imgInsert',
+					type : 'POST',
+					processData : false,
+					contentType : false,
+					dataType : 'json',
+					data : formData,
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						console.log("imgSave 성공");
+						$("#imgShow").empty();
+						imgList();
+						imgForm.reset();
+					}
+				});
+			}
+		});
+	}
+
+	function imgDelete() {
+		$("#imgDBtn").on("click", function() {
+			var chk = $('#imgForm input:checkbox').is(':checked');
+			console.log("chk : "+chk);
+			if(chk) {	// true
+				$.ajax({
+					url : 'ajax/imgDelete',
+					dataType : 'json',
+					data: $("#imgForm").serialize(),
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function() {
+						var chk = $("[name='imgChk']:checked");
+						for(var i=0; i< chk.length; i++) {
+							$(chk[i]).next().remove();	// 이미지
+							$(chk[i]).remove();	// 체크박스
+						}
+					}
+				});
+			}
 		});
 	}
 
@@ -291,7 +348,6 @@ button {
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력
 	function resvHstList() {
 		$("body").on("click", "#resvList tr", function() {
-			//$(this).children().css("backgroundColor", "lightcoral");
 			var tdArr = new Array();
 			var td = $(this).children();
 
@@ -386,7 +442,7 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: "+regno2+"이름 : "+data.BABY_NAME);
+		console.log("주민번호: " + regno2 + "이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(
@@ -465,11 +521,14 @@ button {
 							id="resvDetail"></div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 330px;">
-					<div class="card-body">
+				<div class="card shadow py-2" style="height: 326px">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
+						<!-- style="position:sticky; position: absolute; top:5px;" -->
 						<p class="text-s font-weight-bold text-success">진료/예약 이력</p>
 						<table class="table text-center">
 							<thead>
+								<!-- style="position:sticky; position: absolute; top:35px;" -->
 								<tr>
 									<th class="text-center">No</th>
 									<th class="text-center">일시</th>
@@ -613,7 +672,7 @@ button {
 
 	<div class="modal fade" id="imgPopup">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content" style="width: 520px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">진료 사진 관리</h5>
 					<button class="close" type="button" data-dismiss="modal"
@@ -622,24 +681,21 @@ button {
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="ajax/imgManage" method="post"
-						enctype="multipart/form-data" id="imgForm" name="imgForm">
-						<input type="hidden" name="diag_no" value="">
+					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
+						<input type="hidden" id="diag_no" value="">
 						<div class="filebox">
 							<label for="imgInput">업로드</label> <input type="file"
-								id="imgInput" name="imgInput" multiple
+								id="imgInput" name="imgInput" multiple accept="image/*"
 								onchange="setImages(event);">
 						</div>
-						<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
-						<div id="imgShow">
-							<br>
-						</div>
+						<div id="imgShow"
+							style="height: 640px; overflow-y: auto; width: 100%;"></div>
 						<div class="modal-footer text-center"
 							style="justify-content: center !important;">
-							<button class="btn-primary" type="submit" style="margin: 0 25px;"
+							<button class="btn-primary" type="button" style="margin: 0 25px;"
 								id="imgRBtn">등록/수정</button>
 							<button class="btn-danger" type="button" style="margin: 0 25px;"
-								id="imgDBtn">삭제</button>
+								id="imgDBtn">삭제</button> <!-- disabled -->
 							<button type="button" style="margin: 0 25px;" id="imgCBtn"
 								data-dismiss="modal">취소</button>
 						</div>

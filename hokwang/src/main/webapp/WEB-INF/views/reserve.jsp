@@ -101,7 +101,24 @@ button {
 
 		// todo: 진료실 onchange
 		$("body").on("change", "#officeSel", function() {
-			console.log("change : " + $("#officeSel option:selected").val());
+			var offSel = $("#officeSel option:selected").val();
+			console.log("change : " + offSel);
+			if(offSel != "-") {
+				console.log("진료실로 이동");
+				var tdArr = new Array();
+				var td = $(this).parent().siblings();
+
+				td.each(function(i) {
+					tdArr.push(td.eq(i).text());
+				});
+
+				console.log("??1 : " + td.eq(0).text());
+				console.log("??2 : " + td.eq(2).text());
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+td.eq(0).text()+'">').html(td.eq(0).text()))
+						.append($('<td>').html(td.eq(2).text()))
+						.appendTo('#room1');
+			}
 		});
 
 		// 예약환자명 검색
@@ -300,7 +317,7 @@ button {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(
@@ -409,15 +426,6 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
 
-							// todo: 이미지 삽입은 이력 목록이 출력될때가 아니라 목록에 사진 버튼을 눌렀을때/이미지 팝업이 열렸을 때 삽입
-							//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
-							/* if (imgsrc != null || imgsrc != "") {
-								var img = document.createElement("img");
-								img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + imgsrc);
-								img.className="img1";
-								document.querySelector("#imgShow").appendChild(img);
-							} */
-
 							var d = new Date();
 							var today = d.getFullYear() + '-'
 									+ (d.getMonth() + 1) + '-' + d.getDate();
@@ -442,7 +450,7 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: " + regno2 + "이름 : " + data.BABY_NAME);
+		console.log("주민번호: " + regno2 + ", 이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(
@@ -497,8 +505,6 @@ button {
 						<input type="text" class="form-control border-0 small"
 							name="keyword" id="keyword" placeholder="예약환자명"
 							aria-label="Search" aria-describedby="basic-addon2">
-						<button id="imgBtn" type="button" data-toggle="modal"
-							data-target="#imgPopup">사진</button>
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" id="searchPati">
 								<i class="fas fa-search fa-sm"></i>
@@ -545,7 +551,7 @@ button {
 			<!-- 2번 -->
 			<div class="col-xl-4 col-md-6 mb-4 column">
 				<div class="card shadow py-2" style="height: 800px;">
-					<div class="card-body">
+					<div class="card-body" style="overflow-y: auto; border-collapse: collapse;">
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span> <span
 								class="mb-0 font-weight-bold"
@@ -579,11 +585,10 @@ button {
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room1"></tbody>
 						</table>
 					</div>
 				</div>
@@ -594,11 +599,10 @@ button {
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room2"></tbody>
 						</table>
 					</div>
 				</div>
@@ -609,11 +613,10 @@ button {
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room3"></tbody>
 						</table>
 					</div>
 				</div>

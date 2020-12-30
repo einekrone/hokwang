@@ -3,8 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.DiagMapper">
-	<select id="getResvList" resultType="map"
-		parameterType="resvSearch">
+	<select id="getResvList" resultType="map">
 		SELECT R.RESV_NO,
 		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME,
 		B.BABY_NAME,
@@ -14,30 +13,19 @@
 		WHERE R.BABY_NO = B.BABY_NO
 		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
 		'YYYY-MM-DD')
-		<if test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			<if test="searchType == 'chkType' and keyword == 'Y'">
-			AND R.RESV_STATUS = 'Y'
-			</if>
-			<if test="searchType == 'chkType' and keyword != 'Y'">
-			AND R.RESV_STATUS != 'Y'
-			</if>
-		</if>
+		AND R.RESV_STATUS != 'Y'
 		ORDER BY RESV_NO,RESV_DATE
 	</select>
 
-	<select id="getResvHistList" resultType="map"
-		parameterType="reservation">
-		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
-		R.RESV_DETAIL, R.BABY_NO
-		FROM RESERVATION R LEFT JOIN
-		DIAGNOSIS D
-		ON R.RESV_NO = D.RESV_NO
+	<select id="getResvHistList" resultType="diagnosisVO"
+		parameterType="babyVO">
+		SELECT * FROM DIAGNOSIS
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				BABY_NO = #{baby_no}
+				RESV_NO IN (SELECT RESV_NO FROM RESERVATION WHERE BABY_NO = #{baby_no})
 			</if>
 		</where>
-		ORDER BY RESV_NO
+		ORDER BY DIAG_NO
 	</select>
 
 	<select id="getInfoList" resultType="map">
@@ -53,7 +41,7 @@
 		SELECT * FROM RESERVATION
 		<where>
 			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = TO_CHAR(#{resv_no})
+				RESV_NO = #{resv_no}
 			</if>
 		</where>
 	</select>
@@ -64,4 +52,5 @@
 	BODYINFO 
 	WHERE BABY_NO = #{baby_no}
 	</select>
+	
 </mapper>

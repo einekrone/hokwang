@@ -42,10 +42,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 		google.load('visualization','1',{
 		    'packages' : ['corechart']
 		});
-		 google.setOnLoadCallback(drawChart);
+		
+		google.setOnLoadCallback(drawChart);
 	});
 });
-	//구글차트(키/몸무게)
+/* 	//구글차트(키/몸무게)
 	function drawChart() {
 		$.ajax({
 			url : 'ajax/BodyInfo',
@@ -53,15 +54,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
-				searchType : searchType,
-				keyword : keyword
+				
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : waitListResult
+			success : 
 		});
-	}
+	} */
 	//대기환자 함수
 	function waitList(searchType, keyword) {
 		$.ajax({
@@ -127,12 +127,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 				tdArr.push(td.eq(i).text());
 			});
 			
-			console.log("예약번호 : "+td.eq(0).text());
-	
+			console.log("진료번호 : "+td.eq(0).text());
+			console.log("예약번호 : "+td.eq(2).text());
+
 			$.ajax({
 				url : 'ajax/MemoInfo',
 				data : {
-					resv_no : td.eq(0).text()
+					resv_no : td.eq(2).text()
 				},
 				dataType : 'json',
 				error : function(xhr, status, msg) {
@@ -148,7 +149,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		$("#baby_unusual").append(data.RESV_MEMO);
 	}
 	
-	// 환자목록 클릭 시 진료/예약 이력 목록 출력
+	// 환자목록 클릭 시 진료기록 목록 출력
 	function resvHstList() {
 		$("body").on("click", "#waitList tr", function(){
 
@@ -190,13 +191,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 	function HistoryListResult(data) {
 		$("#HistoryList").empty();
 		$.each(data, function(idx, item) {
-			$('<tr>')
-			.append($('<td style="display:none;">').html(item.RESV_NO))
-			.append($('<td>').html(item.RESV_DATE))
-			.append($('<td style="display:none;">').html(item.RESV_DETAIL))
-			.append($('<td style="display:none;">').html(item.RESV_NO))
-			.append($('<td style="display:none;">').html(item.BABY_NO))
+			$("<tr>")
+			.append($('<td style="display:none;">').html(item.diag_no))
+			.append($("<td>").html(item.diag_time))
+			.append($('<td style="display:none;">').html(item.resv_no))
 		    .appendTo('#HistoryList');
+			console.log(item.diag_no);
 		});
 	}
 
@@ -275,12 +275,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<i class="fas fa-user"></i>
 
 								<!-- content -->
-								<span class="tit" style="font-weight: 600;">환자리스트</span> <span
-									class="mb-0 font-weight-bold"
-									style="float: right; margin: 4px 0 0 5px;">진료완료</span> <span
-									style="float: right;"><input class="tgl tgl-flat rsvTg"
-									id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
-								</span>
+								<span class="tit" style="font-weight: 600;">환자리스트</span> 
 							</div>
 						</div>
 						<div id="content">
@@ -289,7 +284,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 									<tr id="nbda">
 										<th class="text-center">NO</th>
 										<th class="text-center">일시</th>
-										<th class="text-center">성명</th>
+										<th class="text-center" style ="width: 80%;">성명</th>
 										<th class="text-center">생년월일</th>
 										<th style="display: none;"></th>
 									</tr>

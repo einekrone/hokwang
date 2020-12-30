@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
+import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -40,7 +41,7 @@ public class Diagcontroller {
 	// 선택된 환자 예약/진료 이력 리스트 조회
 	@ResponseBody
 	@RequestMapping("/ajax/HistoryList")
-	public List<Map<String, Object>> getResvHistList(Reservation vo) {
+	public List<DiagnosisVO> getResvHistList(BabyVO vo) {
 		return diagDao.getResvHistList(vo);
 	}
 	

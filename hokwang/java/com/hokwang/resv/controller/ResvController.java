@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.service.ResvService;
 import com.hokwang.vo.Images;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -108,5 +109,12 @@ public class ResvController {
 	@RequestMapping("/ajax/roomList")
 	public List<Map<String, Object>> getRoomList() {
 		return resvSvc.getRoomList();
+	}
+
+	// 수납 승인 결제 정보
+	@ResponseBody
+	@RequestMapping("/ajax/payInfo")
+	public Map<String, Object> getPayInfo(PaymentVO vo) {
+		return resvSvc.getPayInfo(vo);
 	}
 }

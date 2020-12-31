@@ -7,10 +7,12 @@
 		parameterType="resvSearch">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') || ' ' ||
 		R.RESV_TIME AS RESV_DATETIME, R.RESV_STATUS,
-		B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO,
+		B.BABY_NAME,
+		B.BABY_REGNO1, B.BABY_NO,
 		R.RESV_ROOM
 		FROM RESERVATION R, BABY B
-		WHERE R.BABY_NO = B.BABY_NO
+		WHERE
+		R.BABY_NO = B.BABY_NO
 		AND R.RESV_STATUS IN ('N', 'I')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
@@ -75,7 +77,8 @@
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today2'">
-				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
+				'YYYY-MM-DD')
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE
@@ -113,5 +116,18 @@
 		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
 		'YYYY-MM-DD')
 		ORDER BY R.RESV_TIME, R.RESV_TYPE
+	</select>
+
+	<select id="getPayInfo" resultType="map"
+		parameterType="paymentVO">
+		SELECT P.*, D.RESV_NO, B.BABY_NAME, PA.PARENT_NAME, TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') as PAY_DATEE
+		FROM PAYMENT P, DIAGNOSIS D, RESERVATION R, BABY B, PARENT PA
+		WHERE P.DIAG_NO = D.DIAG_NO
+		AND D.RESV_NO = R.RESV_NO
+		AND R.BABY_NO = B.BABY_NO
+		AND B.PARENT_NO = PA.PARENT_NO
+		<if test="pay_no != null and pay_no != ''">
+			AND P.PAY_NO = #{pay_no}
+		</if>
 	</select>
 </mapper>

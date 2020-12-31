@@ -127,7 +127,7 @@ button {
 												+ td.eq(0).text() + '">').html(
 										td.eq(0).text())).append(
 								$('<td>').html(td.eq(2).text())).appendTo(
-								'#room1');
+								'#room' + offSel); // todo 올바르게 됐는지 확인
 					}
 				});
 
@@ -145,7 +145,45 @@ button {
 			$("#imgShow").empty();
 			imgList();
 		});
+
+		// 계좌 이체한 보호자 정보 + 이체 정보
+		$("body").on("click", "#stBtn", function() {
+			var payNo = $(this).data("num");
+			console.log("수납 승인 버튼 : " + payNo);
+			$("#payInfo").empty();
+			payInfo(payNo);
+		});
 	});
+
+	function payInfo(payNo) {
+		$.ajax({
+			url : 'ajax/payInfo',
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				pay_no : payNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : payInfoResult
+		});
+	}
+
+	function payInfoResult(data) {
+		console.log("payInfoResult : " + data.BABY_NAME);
+		$("#payInfo").empty();
+		$("#payInfo")
+				.append($('<p>').html('보호자 : ' + data.PARENT_NAME))
+				.append($('<p>').html('환자 : ' + data.BABY_NAME))
+				.append($('<hr>'))
+				.append($('<h4>').html('[ 결제 정보 ]').css('font-weight','bold'))
+				.append($('<p>').html('결제 금액 : ' + data.PAY_PRICE))
+				.append($('<p>').html('결제일 : ' + data.PAY_DATEE))
+				.append($('<p>').html('결제 수단 : 계좌이체'))
+				.append($('<p>').html(data.PAY_BANK + "은행 " + data.PAY_ACCOUNT))
+				.append($('<p style="display:none;">').html(item.PAY_NO));
+	}
 
 	function imgList() {
 		if ($("#diag_no").val() != "") {
@@ -261,23 +299,33 @@ button {
 
 	function nonPayListResult(data) {
 		$("#nonPayList").empty();
-		$.each(data, function(idx, item) {
-			$('<tr>').append(
-					$('<td id="resvNo" value="'+item.PAY_NO+'">').html(
-							item.RESV_NO))
-					.append($('<td>').html(item.PAY_DATE)).append(
-							$('<td>').html(item.BABY_NAME)).append(
-							$('<td id="price'+idx+'">').html(item.PAY_PRICE))
-					.append($('<td style="display:none;">').html(item.BABY_NO))
-					.appendTo('#nonPayList');
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$('<tr>')
+									.append(
+											$(
+													'<td id="resvNo" value="'+item.PAY_NO+'">')
+													.html(item.RESV_NO))
+									.append($('<td>').html(item.PAY_DATE))
+									.append($('<td>').html(item.BABY_NAME))
+									.append(
+											$('<td id="price'+idx+'">').html(
+													item.PAY_PRICE)).append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
+									.appendTo('#nonPayList');
 
-			if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
-				$("#price" + idx).eq(-1).after(
-						'<td><button id="stBtn">승인</button></td>');
-			} else if (item.PAY_STATE == 'N') { // 미수납
-				$("#price" + idx).eq(-1).after('<td>미수납</td>');
-			}
-		});
+							if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
+								$("#price" + idx)
+										.eq(-1)
+										.after(
+												'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-num="'+item.PAY_NO+'">승인</button></td>');
+							} else if (item.PAY_STATE == 'N') { // 미수납
+								$("#price" + idx).eq(-1).after('<td>미수납</td>');
+							}
+						});
 	}
 
 	function roomList() {
@@ -299,16 +347,19 @@ button {
 					+ ", 3: " + item.RESV_ROOM);
 
 			if (item.RESV_ROOM == 1) {
+				$("#room1").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
 						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
 			} else if (item.RESV_ROOM == 2) {
+				$("#room2").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
 						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
 			} else if (item.RESV_ROOM == 3) {
+				$("#room3").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
@@ -510,7 +561,7 @@ button {
 						$('<p>').html(
 								'주소 : ' + data.PARENT_ADDR + ' '
 										+ data.PARENT_ADDRDETAIL + ' '
-										+ data.PARENT_POST))
+										+ data.PARENT_POST));
 	}
 
 	function setImages(event) {
@@ -754,6 +805,49 @@ button {
 								data-dismiss="modal">취소</button>
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="stPopup">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 520px;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">수납 대기 승인</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="payInfo"
+						style="height: 300px; overflow-y: auto; width: 100%;"></div>
+					<div class="modal-footer text-center"
+						style="justify-content: center !important;">
+						<button class="btn-primary" type="button" style="margin: 0 25px;"
+							id="stRBtn" data-toggle="modal" data-target="#stChkPop">승인</button>
+						<button type="button" style="margin: 0 25px;" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="stChkPop">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 520px;">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<p style="font-size: 25px; width: 100%;">결제를 승인하시겠습니까?</p>
+					<button class="btn-primary" type="button" style="margin: 0 25px;"
+						id="stRBtn2">승인</button>
+					<button type="button" style="margin: 0 25px;" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

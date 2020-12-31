@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hokwang.dao.ResvMapper;
 import com.hokwang.service.ResvService;
 import com.hokwang.vo.Images;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -61,6 +62,11 @@ public class ResvServiceImpl implements ResvService {
 	@Override
 	public List<Map<String, Object>> getRoomList() {
 		return resvDao.getRoomList();
+	}
+
+	@Override
+	public Map<String, Object> getPayInfo(PaymentVO vo) {
+		return resvDao.getPayInfo(vo);
 	}
 	
 }

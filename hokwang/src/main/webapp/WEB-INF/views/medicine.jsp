@@ -25,7 +25,7 @@
 		check();
 		modalCheck();
 		saveMedi();
-
+		delMedi();
 	});
 	
 	function saveMedi(){

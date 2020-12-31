@@ -21,7 +21,7 @@ public class DBConfiguration {
 		dataSource.setUrl(DB_URL);
 		dataSource.setUsername(DB_USER);
 		dataSource.setPassword(DB_PASSWORD);
-		dataSource.setMaxTotal(5);
+		dataSource.setMaxTotal(10);
 		dataSource.setDefaultAutoCommit(false);
 		return dataSource;
 	}

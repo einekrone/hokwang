@@ -36,7 +36,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Map<String, Object> mediName(PrescriptionVO vo) {
+	public Map<String, Object> mediName(PrescriptionVO vo) {//상세 진료 약이름
 		
 		return patientDAO.mediName(vo);
 	}

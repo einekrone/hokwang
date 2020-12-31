@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.service.PatientService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.DiagnosisVO;
+import com.hokwang.vo.PrescriptionVO;
 
 @org.springframework.stereotype.Controller
 public class PatientController {
@@ -36,13 +37,20 @@ public class PatientController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/ajax/diagnosisRecord")
+	@RequestMapping("/ajax/diagnosisRecord")//진료기록
 	public List<DiagnosisVO> diagnosisRecord(BabyVO vo){
 		return patientService.diagnosisRecord(vo);
 	}
+	
 	@ResponseBody
-	@RequestMapping("/ajax/patientInfo")
+	@RequestMapping("/ajax/patientInfo")//상세환자정보
 	public Map<String, Object> patientInfo(BabyVO vo) {
 		return patientService.patientInfo(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/dignosisDetail")//진료 약이름상세
+	public Map<String,Object> mediName(PrescriptionVO vo){
+		return patientService.mediName(vo);
 	}
 }

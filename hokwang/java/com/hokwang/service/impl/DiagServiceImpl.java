@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hokwang.dao.DiagMapper;
 import com.hokwang.service.DiagService;
+import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
+import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
+@Service
 public class DiagServiceImpl implements DiagService{
 
 	@Autowired
@@ -28,7 +32,7 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getResvHistList(Reservation vo) {
+	public List<DiagnosisVO> getResvHistList(BabyVO vo) {
 		return service.getResvHistList(vo);
 	}
 
@@ -40,6 +44,12 @@ public class DiagServiceImpl implements DiagService{
 	@Override
 	public BodyVO getBodyList(BodyVO vo) {
 		return service.getBodyList(vo);
+	}
+
+	@Override
+	public DiagnosisVO getDiagDetail(DiagnosisVO vo) {
+
+		return service.getDiagDetail(vo);
 	}
 
 }

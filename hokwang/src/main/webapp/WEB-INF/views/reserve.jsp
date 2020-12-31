@@ -72,12 +72,16 @@ button {
 		var imgsrc = "";
 		var searchType = "";
 		var keyword = "";
+		var keyword2 = "";
 
 		resvList(searchType, keyword); // 전체 예약 환자
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
+		imgSave(); // 이미지 등록
+		imgDelete(); // 이미지 삭제
+		roomList(); // 진료실 대기환자 목록
 
-		nonPayList(searchType, keyword); // 미수납/수납대기 목록
+		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
 
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -85,22 +89,47 @@ button {
 			if ($('.rsvTg').is(":checked")) {
 				keyword = "today";
 			} else {
-				// 수납 대기
-				if ($('.priceTg').is(":checked")) {
-					keyword = "today2";
-				} else {
-					keyword = "all";
-				}
+				keyword = "all";
 			}
 
-			console.log(">> " + keyword);
+			// 수납 대기
+			if ($('.priceTg').is(":checked")) {
+				keyword2 = "today2";
+			} else {
+				keyword2 = "all";
+			}
+
 			resvList(searchType, keyword);
+			nonPayList(searchType, keyword2);
 		});
 
 		// todo: 진료실 onchange
-		$("body").on("change", "#officeSel", function() {
-			console.log("change : " + $("#officeSel option:selected").val());
-		});
+		$("body").on(
+				"change",
+				"#officeSel",
+				function() {
+					var offSel = $("#officeSel option:selected").val();
+					console.log("change : " + offSel);
+					if (offSel != "-") {
+						console.log("진료실로 이동");
+						var tdArr = new Array();
+						var td = $(this).parent().siblings();
+
+						td.each(function(i) {
+							tdArr.push(td.eq(i).text());
+						});
+
+						console.log("??1 : " + td.eq(0).text());
+						console.log("??2 : " + td.eq(2).text());
+						$('<tr>').append(
+								$(
+										'<td id="resvNo" value="'
+												+ td.eq(0).text() + '">').html(
+										td.eq(0).text())).append(
+								$('<td>').html(td.eq(2).text())).appendTo(
+								'#room1');
+					}
+				});
 
 		// 예약환자명 검색
 		$("#searchPati").click(function() {
@@ -109,52 +138,107 @@ button {
 			$("#keyword").val("");
 		});
 
-		// 이미지 저장시 diag_no
+		// 등록된 이미지 목록
 		$("body").on("click", "#imgBtn", function() {
 			var diagNo = $(this).data("num");
-			imgForm.diag_no.value = diagNo;
-			console.log("diagNo2 :: " + imgForm.diag_no.value);
+			$("#diag_no").val(diagNo);
+			$("#imgShow").empty();
+			imgList();
+		});
+	});
 
+	function imgList() {
+		if ($("#diag_no").val() != "") {
 			$.ajax({
 				url : 'ajax/imgList',
 				type : 'GET',
 				dataType : 'json',
 				data : {
-					diag_no : imgForm.diag_no.value
+					diag_no : $("#diag_no").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : imgListResult
 			});
-		});
-
-		// 이미지 목록
-		/* $("#imgPopup").on("show.bs.modal", function() {
-			console.log("imgPopup open");
-			console.log("diagNo?? :: "+imgForm.diag_no.value);
-			// todo
-			var tdArr = new Array();
-			var td = $(this).children();
-			console.log(">>this : " + $(this));
-			console.log(">>td : " + td);
-
-			td.each(function(i) {
-				tdArr.push(td.eq(i).text());
-			});
-
-			console.log(">>1 : " + td.eq(0).text());
-		}); */
-	});
+		}
+	}
 
 	function imgListResult(data) {
 		console.log("imgListResult");
+		$("#imgShow").empty();
 		$.each(data, function(idx, item) {
-			console.log("?? "+item.IMG_ADDR);
+			console.log("?? " + item.IMG_ADDR);
 			var img = document.createElement("img");
-			img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + item.IMG_ADDR);
-			img.className="img1";
+			img.setAttribute("src",
+					"${pageContext.request.contextPath}/resources/img/"
+							+ item.IMG_ADDR);
+			img.className = "img1";
+			img.setAttribute('style', 'margin:0 15px;');
+
+			var check = document.createElement('input');
+			check.setAttribute('type', 'checkbox');
+			check.setAttribute('id', 'imgChk');
+			check.setAttribute('value', item.IMG_NO);
+			document.querySelector("#imgShow").appendChild(check);
 			document.querySelector("#imgShow").appendChild(img);
+		});
+	}
+
+	function imgSave() {
+		$("#imgRBtn").on("click", function() {
+			var formData = new FormData();
+			var inputFile = $('input[name="imgInput"]');
+			var files = inputFile[0].files;
+			console.log("files : " + files.length);
+			if (files.length > 0) {
+				for (var i = 0; i < files.length; i++) {
+					formData.append('imgInput', files[i]);
+				}
+				formData.append('diag_no', $("#diag_no").val());
+
+				$.ajax({
+					url : 'ajax/imgInsert',
+					type : 'POST',
+					processData : false,
+					contentType : false,
+					dataType : 'json',
+					data : formData,
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						console.log("imgSave 성공");
+						$("#imgShow").empty();
+						imgList();
+						imgForm.reset();
+					}
+				});
+			}
+		});
+	}
+
+	function imgDelete() {
+		$("#imgDBtn").on("click", function() {
+			var chk = $('#imgForm input:checkbox').is(':checked');
+			console.log("chk : " + chk);
+			if (chk) { // true
+				$.ajax({
+					url : 'ajax/imgDelete',
+					dataType : 'json',
+					data : $("#imgForm").serialize(),
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function() {
+						var chk = $("[name='imgChk']:checked");
+						for (var i = 0; i < chk.length; i++) {
+							$(chk[i]).next().remove(); // 이미지
+							$(chk[i]).remove(); // 체크박스
+						}
+					}
+				});
+			}
 		});
 	}
 
@@ -163,7 +247,6 @@ button {
 		$.ajax({
 			url : 'ajax/nonPayList',
 			type : 'GET',
-			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
 				searchType : searchType,
@@ -197,11 +280,47 @@ button {
 		});
 	}
 
+	function roomList() {
+		$.ajax({
+			url : 'ajax/roomList',
+			type : 'GET',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : roomListResult
+		});
+	}
+
+	function roomListResult(data) {
+		// item.진료실번호 해서 각각 알맞은 곳에 출력
+		console.log("roomListResult");
+		$.each(data, function(idx, item) {
+			console.log("1: " + item.RESV_NO + ", 2: " + item.BABY_NAME
+					+ ", 3: " + item.RESV_ROOM);
+
+			if (item.RESV_ROOM == 1) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
+			} else if (item.RESV_ROOM == 2) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
+			} else if (item.RESV_ROOM == 3) {
+				$('<tr>').append(
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).appendTo('#room3');
+			}
+		});
+	}
+
 	function resvList(searchType, keyword) {
 		$.ajax({
 			url : 'ajax/resvList',
 			type : 'GET',
-			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
 				searchType : searchType,
@@ -239,11 +358,12 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
-							if (date == today) {
+							if (date == today
+									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(
@@ -291,7 +411,6 @@ button {
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력
 	function resvHstList() {
 		$("body").on("click", "#resvList tr", function() {
-			//$(this).children().css("backgroundColor", "lightcoral");
 			var tdArr = new Array();
 			var td = $(this).children();
 
@@ -353,15 +472,6 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
 
-							// todo: 이미지 삽입은 이력 목록이 출력될때가 아니라 목록에 사진 버튼을 눌렀을때/이미지 팝업이 열렸을 때 삽입
-							//src="${pageContext.request.contextPath}/resources/img/${imgsrc}"
-							/* if (imgsrc != null || imgsrc != "") {
-								var img = document.createElement("img");
-								img.setAttribute("src","${pageContext.request.contextPath}/resources/img/" + imgsrc);
-								img.className="img1";
-								document.querySelector("#imgShow").appendChild(img);
-							} */
-
 							var d = new Date();
 							var today = d.getFullYear() + '-'
 									+ (d.getMonth() + 1) + '-' + d.getDate();
@@ -386,7 +496,7 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: "+regno2+"이름 : "+data.BABY_NAME);
+		console.log("주민번호: " + regno2 + ", 이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(
@@ -441,8 +551,6 @@ button {
 						<input type="text" class="form-control border-0 small"
 							name="keyword" id="keyword" placeholder="예약환자명"
 							aria-label="Search" aria-describedby="basic-addon2">
-						<button id="imgBtn" type="button" data-toggle="modal"
-							data-target="#imgPopup">사진</button>
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" id="searchPati">
 								<i class="fas fa-search fa-sm"></i>
@@ -465,11 +573,14 @@ button {
 							id="resvDetail"></div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 330px;">
-					<div class="card-body">
+				<div class="card shadow py-2" style="height: 326px">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
+						<!-- style="position:sticky; position: absolute; top:5px;" -->
 						<p class="text-s font-weight-bold text-success">진료/예약 이력</p>
 						<table class="table text-center">
 							<thead>
+								<!-- style="position:sticky; position: absolute; top:35px;" -->
 								<tr>
 									<th class="text-center">No</th>
 									<th class="text-center">일시</th>
@@ -486,7 +597,8 @@ button {
 			<!-- 2번 -->
 			<div class="col-xl-4 col-md-6 mb-4 column">
 				<div class="card shadow py-2" style="height: 800px;">
-					<div class="card-body">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span> <span
 								class="mb-0 font-weight-bold"
@@ -514,47 +626,47 @@ button {
 			<!-- 3번 -->
 			<div class="col-xl-2 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 1</p>
 						<table class="table text-center">
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room1"></tbody>
 						</table>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px; margin: 10px 0;">
-					<div class="card-body">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 2</p>
 						<table class="table text-center">
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room2"></tbody>
 						</table>
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 260px;">
-					<div class="card-body">
+					<div class="card-body"
+						style="overflow-y: auto; border-collapse: collapse;">
 						<p class="text-s font-weight-bold">진료실 3</p>
 						<table class="table text-center">
 							<thead>
 								<tr>
 									<th class="text-center">No</th>
-									<th class="text-center">일시</th>
 									<th class="text-center">성명</th>
 								</tr>
 							</thead>
-							<tbody id="listCont"></tbody>
+							<tbody id="room3"></tbody>
 						</table>
 					</div>
 				</div>
@@ -613,7 +725,7 @@ button {
 
 	<div class="modal fade" id="imgPopup">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content" style="width: 520px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">진료 사진 관리</h5>
 					<button class="close" type="button" data-dismiss="modal"
@@ -622,24 +734,22 @@ button {
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="ajax/imgManage" method="post"
-						enctype="multipart/form-data" id="imgForm" name="imgForm">
-						<input type="hidden" name="diag_no" value="">
+					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
+						<input type="hidden" id="diag_no" value="">
 						<div class="filebox">
 							<label for="imgInput">업로드</label> <input type="file"
-								id="imgInput" name="imgInput" multiple
+								id="imgInput" name="imgInput" multiple accept="image/*"
 								onchange="setImages(event);">
 						</div>
-						<!--  src="${pageContext.request.contextPath}/resources/img/&{imgsrc};" -->
-						<div id="imgShow">
-							<br>
-						</div>
+						<div id="imgShow"
+							style="height: 640px; overflow-y: auto; width: 100%;"></div>
 						<div class="modal-footer text-center"
 							style="justify-content: center !important;">
-							<button class="btn-primary" type="submit" style="margin: 0 25px;"
+							<button class="btn-primary" type="button" style="margin: 0 25px;"
 								id="imgRBtn">등록/수정</button>
 							<button class="btn-danger" type="button" style="margin: 0 25px;"
 								id="imgDBtn">삭제</button>
+							<!-- disabled -->
 							<button type="button" style="margin: 0 25px;" id="imgCBtn"
 								data-dismiss="modal">취소</button>
 						</div>

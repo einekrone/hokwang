@@ -6,11 +6,12 @@
 	<select id="getResvList" resultType="map"
 		parameterType="resvSearch">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') || ' ' ||
-		R.RESV_TIME AS RESV_DATETIME,
+		R.RESV_TIME AS RESV_DATETIME, R.RESV_STATUS,
 		B.BABY_NAME, B.BABY_REGNO1, B.BABY_NO,
 		R.RESV_ROOM
 		FROM RESERVATION R, BABY B
 		WHERE R.BABY_NO = B.BABY_NO
+		AND R.RESV_STATUS IN ('N', 'I')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today'">
@@ -18,21 +19,23 @@
 				'YYYY-MM-DD')
 			</if>
 			<if test="searchType == 'resvSearch'">
-				AND B.BABY_NAME LIKE '%${keyword}%'
+				AND B.BABY_NAME LIKE '%#{keyword}%'
 			</if>
 		</if>
-		ORDER BY R.RESV_NO, R.RESV_TYPE
+		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
 	</select>
 
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
 		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO, I.IMG_ADDR
-		FROM DIAGNOSIS D RIGHT JOIN RESERVATION R ON R.RESV_NO = D.RESV_NO
-						 LEFT JOIN IMAGES I ON D.DIAG_NO = I.DIAG_NO
+		FROM DIAGNOSIS D RIGHT
+		JOIN RESERVATION R ON R.RESV_NO = D.RESV_NO
+		LEFT JOIN IMAGES I ON
+		D.DIAG_NO = I.DIAG_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				BABY_NO = ${baby_no}
+				BABY_NO = #{baby_no}
 			</if>
 		</where>
 		ORDER BY RESV_NO
@@ -43,7 +46,7 @@
 		SELECT B.*, P.* FROM BABY B, PARENT P
 		WHERE B.PARENT_NO = P.PARENT_NO
 		<if test="baby_no != null and baby_no != ''">
-			AND BABY_NO = ${baby_no}
+			AND BABY_NO = #{baby_no}
 		</if>
 	</select>
 
@@ -52,7 +55,7 @@
 		SELECT * FROM RESERVATION
 		<where>
 			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = TO_CHAR(${resv_no})
+				RESV_NO = TO_CHAR(#{resv_no})
 			</if>
 		</where>
 	</select>
@@ -71,24 +74,44 @@
 		AND P.PAY_STATE IN('N', 'W')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
-			<if test="searchType == 'chkType' and keyword == 'today'">
-				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
-				'YYYY-MM-DD')
-			</if>
-			<if test="searchType == 'resvSearch'">
-				AND B.BABY_NAME LIKE '%${keyword}%'
+			<if test="searchType == 'chkType' and keyword == 'today2'">
+				AND TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE
 	</select>
 
-	<insert id="imgManage" parameterType="images">
-		INSERT INTO IMAGES(IMG_ADDR, DIAG_NO, IMG_DATE)
-		VALUES ('${img_addr}', ${diag_no}, SYSDATE)
+	<insert id="imgInsert" parameterType="images">
+		<selectKey order="BEFORE" keyProperty="img_no"
+			resultType="String">
+			SELECT NVL(MAX(IMG_NO),0)+1 FROM IMAGES
+		</selectKey>
+		INSERT INTO IMAGES
+		VALUES (#{img_no}, #{img_addr}, #{diag_no}, SYSDATE)
 	</insert>
 
-	<select id="getImgList" resultType="map"
-		parameterType="images">
-		SELECT * FROM IMAGES ORDER BY IMG_DATE
+	<delete id="imgDelete" parameterType="images">
+		DELETE FROM IMAGES WHERE
+		IMG_NO = #{img_no}
+	</delete>
+
+	<select id="getImgList" resultType="map" parameterType="images">
+		SELECT * FROM IMAGES
+		<where>
+			<if test="diag_no != null and diag_no != ''">
+				DIAG_NO = #{diag_no}
+			</if>
+		</where>
+		ORDER BY IMG_DATE
+	</select>
+	<select id="getRoomList" resultType="map">
+		SELECT R.*, B.BABY_NAME FROM
+		RESERVATION R, BABY B
+		WHERE R.BABY_NO = B.BABY_NO
+		AND R.RESV_STATUS IN
+		('N', 'I')
+		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
+		'YYYY-MM-DD')
+		ORDER BY R.RESV_TIME, R.RESV_TYPE
 	</select>
 </mapper>

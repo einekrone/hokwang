@@ -69,6 +69,7 @@
  
   <form id="form1">
     <fieldset>
+
     <label>카테고리</label>
     <select id="work_ctg" name="work_ctg" onchange="ctgchange()">
     	<option value="">선택</option>
@@ -80,7 +81,7 @@
      
       <label id="holiday">휴가일자</label><br>
       <input type="date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date"  id="work_endate"name="work_endate"><br>
-      
+
       <label>사유</label><br>
       <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
  
@@ -94,20 +95,31 @@
 </div>
  <script>
  		function ctgchange(){
- 			//alert("aa");
  			if($("#work_ctg").val() =="work"){
- 				$("#work_stdate").hide();
- 				$("#work_endate").hide();
- 				$("#holiday").hide();
- 				$("#work").show();
- 				$("#work_date").show();
+ 				$("#work_stdate").css("display","none");
+ 				$("#work_endate").css("display","none");
+ 				$("#holiday").css("display","none");
+ 				$("#work").css("display","block");
+ 				$("#work_date").css("display","block");
  			}else if($("#work_ctg").val() =="holiday"){
- 				$("#work_date").hide();
- 				$("#holiday").hide();
- 				$("#holiday").show();
- 				$("#work").hide();
- 				$("#work_stdate").show();
- 				$("#work_endate").show();
+ 				$("#work_date").css("display","none");
+ 				$("#holiday").css("display","none");
+ 				$("#holiday").css("display","block");
+ 				$("#work").css("display","none");
+ 				$("#work_stdate").css("display","block");
+ 				$("#work_endate").css("display","block");
+ 			}else if($("#work_ctg").val() ==""){
+ 				$("#work_date").css("display","none");
+ 				$("#holiday").css("display","none");
+ 				$("#holiday").css("display","none");
+ 				$("#work").css("display","none");
+ 				$("#work_stdate").css("display","none");
+ 				$("#work_endate").css("display","none");
+ 				$("#work_stdate").css("display","none");
+ 				$("#work_endate").css("display","none");
+ 				$("#holiday").css("display","none");
+ 				$("#work").css("display","none");
+ 				$("#work_date").css("display","none");
  			}
  		}
 	
@@ -124,8 +136,8 @@
         var dialog
 		 dialog = $( "#dialog-form" ).dialog({
 		      autoOpen: false,
-		      height: 450,
-		      width: 400,
+		      height: 500,
+		      width: 450,
 		      modal: true,
 		      close: function() {
 		      }
@@ -147,8 +159,10 @@
           locale:'ko', //한국어 설정
           events:{
         	  url:"getScheList"
-	  
+        	 
+          
           },
+          
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
           header: {
             left: 'prev,next today',
@@ -162,6 +176,7 @@
           editable: true,//달력에 있는 이벤트 드래그
          
 		 select: function(arg){ //날짜클릭시 dialog 오픈
+			 
 			var start = moment(arg.start).format('YYYY-MM-DD');
 		 	var end = moment(arg.end).format('YYYY-MM-DD');
 			 $('#work_stdate').val(start)
@@ -172,21 +187,26 @@
 		
 		 },
 		
-		eventClick : function(arg) { //이벤트 클릭시 삭제
-				if (confirm('삭제하시겠습니까?')) {
+		eventClick : function(info) { //이벤트 클릭시 삭제
+			console.log(info.event);
+			console.log(info._id);
+			var result = confirm("일정을 삭제하시겠습니까?");
+			if(result){
 					$.ajax({
-						url : "deleteSche/" + work_no,
-						type : 'DELETE',
+						url : "deleteSche",
+						type : 'POST',
 						dataType : 'json',
-						success : function() {
-							arg.event.remove()
-
+						data:{work_no:info.event._def.extendedProps._id},
+						error : function(xhr, status, msg) {
+							alert("상태값 :" + status + " Http에러메시지 :" + msg);
 						},
-						error : function() {
-							alert("error");
+						success : function(data) {
+							//info.event.remove();
+
 						}
-					})
-				}
+						
+					});
+			}
 			},
 
 		});

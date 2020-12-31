@@ -22,18 +22,26 @@ public class ScheController {
 		return "schedule";
 	}
 	
-	
+	//조회
 	@ResponseBody
 	@RequestMapping("/getScheList")
 	public List<ManagementVO> getScheList(ManagementVO sche){
 		return dao.getScheList(sche);
 	}
 	
+	//등록
 	@ResponseBody
 	@RequestMapping(value ="/insertSche", method = RequestMethod.POST)
-	public int insert(Model model, ManagementVO sche) {
-		return dao.insertSche(sche);
+	public String insert(Model model, ManagementVO sche) {
+		dao.insertSche(sche);
+		return sche.getWork_no();
 	}
+	//삭제
+	@RequestMapping(value="/deleteSche", method=RequestMethod.POST)
+		public int delete(ManagementVO sche) {
+			return dao.deleteSche(sche);
+		}
+	
 	
 	
 	

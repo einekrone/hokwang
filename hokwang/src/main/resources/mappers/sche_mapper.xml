@@ -11,7 +11,8 @@
 			  end "start",
 			 CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') 
 			       ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD') 
-			  end "end"
+			  end "end",
+			  work_no "id"
 		FROM management
 		WHERE work_date is not null or work_stdate is not null
 		
@@ -39,7 +40,7 @@
 </insert>
 
 <!-- 삭제 -->
-<delete id="deleteSche">
+<delete id="deleteSche" parameterType="ManagementVO" >
 	DELETE MANAGEMENT
 	WHERE work_no = #{work_no}
 </delete>

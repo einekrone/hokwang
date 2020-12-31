@@ -44,13 +44,23 @@ public class ResvServiceImpl implements ResvService {
 	}
 
 	@Override
-	public void imgManage(Images vo) {
-		resvDao.imgManage(vo);
+	public int imgInsert(Images vo) {
+		return resvDao.imgInsert(vo);
 	}
 
 	@Override
 	public List<Map<String, Object>> getImgList(Images vo) {
 		return resvDao.getImgList(vo);
+	}
+
+	@Override
+	public int imgDelete(Images vo) {
+		return 0;
+	}
+
+	@Override
+	public List<Map<String, Object>> getRoomList() {
+		return resvDao.getRoomList();
 	}
 	
 }

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 여기에 js가 없어서 에러 -->
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
@@ -59,9 +60,9 @@
 				</form>
 			</div>
 
-			<li class="nav-item dropdown no-arrow mx-1"><input
+	 	<!-- 	<li class="nav-item dropdown no-arrow mx-1"><input
 				style="margin-top: 20px;" type="button" value="홈" id="homeBtn"
-				onclick="location.href='base'" /></li>
+				onclick="location.href='base'" /></li>  -->
 
 			<c:if test="${emp_vo != null }">
 				<!-- Nav Item - Messages -->
@@ -143,14 +144,9 @@
 					<div
 						class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 						aria-labelledby="userDropdown">
-						<a class="dropdown-item" href="mypage"> <i
-							class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
-						</a> <a class="dropdown-item" href="#"> <i
-							class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings
-						</a> <a class="dropdown-item" href="#"> <i
-							class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
-							Log
-						</a>
+						<a class="dropdown-item" href="mypage"> 
+						<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
+						</a> 
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#" data-toggle="modal"
 							data-target="#logoutModal"> <i

@@ -38,10 +38,8 @@
 	<select id="mediName" resultType="map" parameterType="prescriptionVO">
 		select medi_name from medicine  
 		<where>
-		<if test="diag_no != null and diag_no != ''">
 		MEDI_NO in (select medi_no from
-		prescription where DIAG_NO=#{diag_no})
-		</if>
+		prescription where diag_no = #{diag_no})
 		</where>
 	</select>
 </mapper>

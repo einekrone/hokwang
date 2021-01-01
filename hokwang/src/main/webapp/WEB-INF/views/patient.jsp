@@ -100,6 +100,7 @@
 	
 	function patientInfoResult(data) {
 		$("#ptInfo2").empty();
+		
 		var regno2 = data.BABY_REGNO2;
 		console.log("주민번호: "+data.BABY_REGNO2+"이름 : "+data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
@@ -125,18 +126,19 @@
 			.append($('<td style="display:none;">').html(item.resv_no))
 			.append($('<td style="display:none;">').html(item.diag_no))
 			.appendTo('#diagnosisRecord');
-			console.log("진료기록에 진료번호 : "+item.diag_no);
+			
 		});//endonf each function
 
 	}//end of fucntion
 	
  	function dignosisDetail(){
+ 		
 		$("body").on("click", "#diagnosisRecord tr", function() {
-						
+			var td = $(this).children();
 			console.log("진료내역클릭시 -> 진료기록 요청");
-			//console.log("진료번호 : " + td.eq(0).text());
+			console.log("진료번호 : " +  td.eq(0).text());
 			$.ajax({
-				url : "/ajax/dignosisDetail",
+				url : "ajax/dignosisDetail",
 				data : {
 					diag_no : td.eq(0).text()
 					
@@ -150,11 +152,12 @@
 		});//end of onclick function
 	}
 	function dignosisDetailResult(data){
+		var key = Object.values(data[0]);
 		console.log("약이름 출력");
-		console.log(data.diag_no);
+		console.log(key);
 		$("#mediName").empty();
 		$("#mediName")
-		.append($("<p>").html("약이름 : "+data.MEDI_NAME))
+		.append($("<p>").html("약이름 : "+key))
 		.append($("<hr>"))
 	}
 		
@@ -213,8 +216,8 @@
 				<table border="1">
 					<thead>
 						<tr align=center>
-							<td>번호</td>
-							<td>진료 시간</td>
+							<th>진료 번호</th>
+							<th>진료 시간</th>
 						</tr>
 					</thead>
 					<tbody id="diagnosisRecord"></tbody>

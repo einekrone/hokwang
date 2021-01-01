@@ -11,5 +11,5 @@ public interface PatientService {
 	public List<DiagnosisVO> diagnosisRecord(BabyVO vo);//진료기록
 	public Map<String,Object> patientInfo(BabyVO vo);//환자상세정보
 	
-	public Map<String,Object> mediName(PrescriptionVO vo);//상세진료내역
+	public List<Map<String,Object>> mediName(PrescriptionVO vo);//상세진료내역
 }

@@ -36,9 +36,11 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Map<String, Object> mediName(PrescriptionVO vo) {//상세 진료 약이름
-		
+	public List<Map<String, Object>> mediName(PrescriptionVO vo) {
+		// TODO Auto-generated method stub
 		return patientDAO.mediName(vo);
 	}
+
+
 
 }

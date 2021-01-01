@@ -5,18 +5,20 @@
 <mapper namespace="com.hokwang.dao.EmployeeMapper">
 
 	<!-- 로그인 단건조회 -->
-	<select id="getEmp" parameterType="employeeVO" resultType="employeeVO">
-		SELECT emp_no, <!-- 사원번호 -->
-			   emp_pwd
+	<select id="getEmp" parameterType="employeeVO"
+		resultType="employeeVO">
+		SELECT * <!-- 사원번호 -->
+
 		FROM employee
 		WHERE emp_no = #{emp_no}
-		AND emp_pwd = #{emp_pwd}		
+		AND emp_pwd = #{emp_pwd}
 	</select>
 
 	<select id="getEmpList" resultType="emp">
 		SELECT *
 		FROM employee
-		WHERE emp_no = #{emp_no}
+		WHERE
+		emp_no = #{emp_no}
 	</select>
 
 
@@ -29,7 +31,7 @@
 		|| '%' </if> <if test="employeeIds != null"> and employee_id in <foreach 
 		collection="employeeIds" item="id" open="(" close=")" separator=","> #{id} 
 		</foreach> </if> </where> ORDER BY first_name </select> -->
-	
+
 
 
 
@@ -51,6 +53,13 @@
 		#{hireDate},
 		#{jobId})
 	</insert>
+
+	<select id="getCountMsg" parameterType="employeeVO"
+		resultType="int">
+		select count(msg_no) from message where emp_resvno = #{emp_no}
+	</select>
+
+
 
 
 </mapper>

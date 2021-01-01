@@ -10,5 +10,6 @@ public class MessageVO {//쪽지
 	String msg_cont;//내용
 	Date msg_date;//일시
 	String msg_yn;//수신여부
-
+	String emp_sendno;
+	String emp_resvno;
 }

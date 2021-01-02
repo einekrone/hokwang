@@ -1,5 +1,7 @@
 package com.hokwang.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int getCountMsg(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		return EmpDAO.getCountMsg(vo);
+	}
+
+	@Override
+	public List<MessageVO> showNotReadMsg(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.showNotReadMsg(vo);
 	}
 
 }

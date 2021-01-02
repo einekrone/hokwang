@@ -1,5 +1,7 @@
 package com.hokwang.emp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,10 @@ public class MypageController {
 		return dao.getCountMsg(vo);
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/showNotReadMsg")
+	public List<MessageVO> showNotReadMsg(Model model,EmployeeVO vo) {
+		return dao.showNotReadMsg(vo);
+	}
 	
 }

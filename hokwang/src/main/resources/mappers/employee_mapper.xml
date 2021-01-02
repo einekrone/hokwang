@@ -56,9 +56,16 @@
 
 	<select id="getCountMsg" parameterType="employeeVO"
 		resultType="int">
-		select count(msg_no) from message where emp_resvno = #{emp_no}
+		select count(msg_no) from message where emp_resvno =
+		#{emp_no} and msg_yn='N'
 	</select>
 
+	<select id="showNotReadMsg" parameterType="employeeVO"
+		resultType="messageVO">
+		select m.msg_yn,m.msg_cont,to_char(m.msg_date,'YYYY-MM-DD')
+		as msg_date,e.emp_name,e.emp_profile from message m,employee e 
+		where e.emp_no = m.EMP_SENDNO and m.emp_resvno = #{emp_no} order by msg_yn
+	</select>
 
 
 

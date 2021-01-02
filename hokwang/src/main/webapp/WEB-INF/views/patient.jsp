@@ -13,7 +13,7 @@
 		var keyword = "";
 		patientList(keyword); //전체 환자 리스트
 		diagnosisRecord();//진료기록
-		
+
 		dignosisDetail();//상세 진료 약이름
 	})
 	function patientList(keyword) {
@@ -89,29 +89,36 @@
 			});
 		});//end of onclick function
 	}//end of function
-	function RPAD(str,padStr,padLen){
-		str = str.toString().substr(1,1); //주민번호 첫글자
-		while(padLen > 1){
+	function RPAD(str, padStr, padLen) {
+		str = str.toString().substr(1, 1); //주민번호 첫글자
+		while (padLen > 1) {
 			str += padStr; //뒤에서 부터
-			padLen --; //글자길이만큼 뒤에서부터 감소
+			padLen--; //글자길이만큼 뒤에서부터 감소
 		}
 		return str;
 	}
-	
+
 	function patientInfoResult(data) {
 		$("#ptInfo2").empty();
+
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: "+data.BABY_REGNO2+"이름 : "+data.BABY_NAME);
+		console.log("주민번호: " + data.BABY_REGNO2 + "이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		console.log(regno2);
-		$("#ptInfo2")
-		.append($("<p>").html("이름 : "+data.BABY_NAME + " ("+data.BABY_BLOOD+"형, " +data.BABY_GENDER + ")"))
-		.append($("<p>").html("주민번호: "+data.BABY_REGNO1+ "-"+data.BABY_REGNO2))
-		.append($("<p>").html("방문 여부 : "+data.BABY_VISIT))
-		.append($("<hr>"))
-		.append($("<p>").html("보호자명 : "+data.PARENT_NAME))
-		.append($("<p>").html("연락처 : "+data.PARENT_TEL))
-		.append($("<p>").html("주소 : "+data.PARENT_ADDR+" "+data.PARENT_ADDRDETAIL+" "+data.PARENT_POST))
+		$("#ptInfo2").append(
+				$("<p>").html(
+						"이름 : " + data.BABY_NAME + " (" + data.BABY_BLOOD
+								+ "형, " + data.BABY_GENDER + ")")).append(
+				$("<p>").html(
+						"주민번호: " + data.BABY_REGNO1 + "-" + data.BABY_REGNO2))
+				.append($("<p>").html("방문 여부 : " + data.BABY_VISIT)).append(
+						$("<hr>")).append(
+						$("<p>").html("보호자명 : " + data.PARENT_NAME)).append(
+						$("<p>").html("연락처 : " + data.PARENT_TEL)).append(
+						$("<p>").html(
+								"주소 : " + data.PARENT_ADDR + " "
+										+ data.PARENT_ADDRDETAIL + " "
+										+ data.PARENT_POST))
 	}
 
 	function diagnosisRecordResult(data) {
@@ -119,27 +126,27 @@
 		$("#diagnosisRecord").empty();
 
 		$.each(data, function(idx, item) {
-			$("<tr>")
-			.append($("<td>").html(item.diag_no))
-			.append($("<td>").html(item.diag_time))
-			.append($('<td style="display:none;">').html(item.resv_no))
-			.append($('<td style="display:none;">').html(item.diag_no))
-			.appendTo('#diagnosisRecord');
-			console.log("진료기록에 진료번호 : "+item.diag_no);
+			$("<tr>").append($("<td>").html(item.diag_no)).append(
+					$("<td>").html(item.diag_time)).append(
+					$('<td style="display:none;">').html(item.resv_no)).append(
+					$('<td style="display:none;">').html(item.diag_no))
+					.appendTo('#diagnosisRecord');
+
 		});//endonf each function
 
 	}//end of fucntion
-	
- 	function dignosisDetail(){
+
+	function dignosisDetail() {
+
 		$("body").on("click", "#diagnosisRecord tr", function() {
-						
+			var td = $(this).children();
 			console.log("진료내역클릭시 -> 진료기록 요청");
-			//console.log("진료번호 : " + td.eq(0).text());
+			console.log("진료번호 : " + td.eq(0).text());
 			$.ajax({
-				url : "/ajax/dignosisDetail",
+				url : "ajax/dignosisDetail",
 				data : {
 					diag_no : td.eq(0).text()
-					
+
 				},
 				dataType : "JSON",
 				error : function(xhr, status, msg) {
@@ -149,16 +156,13 @@
 			});//end of ajax
 		});//end of onclick function
 	}
-	function dignosisDetailResult(data){
+	function dignosisDetailResult(data) {
+		var key = Object.values(data[0]);
 		console.log("약이름 출력");
-		console.log(data.diag_no);
+		console.log(key);
 		$("#mediName").empty();
-		$("#mediName")
-		.append($("<p>").html("약이름 : "+data.MEDI_NAME))
-		.append($("<hr>"))
+		$("#mediName").append($("<p>").html("약이름 : " + key)).append($("<hr>"))
 	}
-		
-	
 </script>
 </head>
 <body>
@@ -176,9 +180,7 @@
 			</div>
 			<div class="card shadow py-2" style="height: 400px;">
 				<div class="card-body">
-				<p class="text-s font-weight-bold text-success">
-					체중 신장 차트
-				</p>
+					<p class="text-s font-weight-bold text-success">체중 신장 차트</p>
 					<div class="chart-area">
 						<canvas id="myAreaChart"></canvas>
 					</div>
@@ -189,7 +191,8 @@
 		<!-- 2-->
 		<div class="col-xl-6 col-md-6 mb-4">
 			<div class="card shadow py-2" style="height: 400px;">
-				<div class="text-s font-weight-bold" style="margin-bottom: 20px; width: 100%;height: 250px; overflow: auto;">
+				<div class="text-s font-weight-bold"
+					style="margin-bottom: 20px; width: 100%; height: 250px; overflow: auto;">
 					<span class="text-primary">전체 환자 리스트</span>
 					<table class="table text-center">
 						<thead>
@@ -207,14 +210,12 @@
 			</div>
 			<div class="card shadow py-2"
 				style="height: 400px; float: left; width: 50%; overflow: auto;">
-				<p class="text-s font-weight-bold text-success">
-				환자 진료 내역
-				</p>
+				<p class="text-s font-weight-bold text-success">환자 진료 내역</p>
 				<table border="1">
 					<thead>
 						<tr align=center>
-							<td>번호</td>
-							<td>진료 시간</td>
+							<th>진료 번호</th>
+							<th>진료 시간</th>
 						</tr>
 					</thead>
 					<tbody id="diagnosisRecord"></tbody>
@@ -224,12 +225,17 @@
 			<!-- 상세 진료 기록 -->
 			<div class="card shadow py-2"
 				style="height: 400px; float: left; width: 50%">
-				<p class="text-s font-weight-bold text-danger" style="margin-bottom: 3px !important;">
-				환자 상세 진료 내역
-				</p>
+				<p class="text-s font-weight-bold text-danger"
+					style="margin-bottom: 3px !important;">환자 상세 진료 내역</p>
 				<div class="card-body">
-					<p class="text-s font-weight-bold text-success">약이름</p>
-					<div style="width: 100%; height: 160px; overflow: auto;"
+					<p class="text-s font-weight-bold text-info">질병이름</p>
+					<div style="width: 100%; height: 50px; overflow: auto;"
+						id=""></div>
+					<p class="text-s font-weight-bold text-info">메모</p>
+					<div style="width: 100%; height: 100px; overflow: auto;"
+						id=""></div>
+					<p class="text-s font-weight-bold text-info">약제 이름</p>
+					<div style="width: 100%; height: 80px; overflow: auto;"
 						id=mediName></div>
 				</div>
 			</div>
@@ -248,19 +254,34 @@
 							<div class="h5 mb-0 font-weight-bold text-gray-800"
 								style="float: left">
 								18
-								<table border="1" width="250px">
+								<table border="1" style="">
 									<tr>
 										<td align=center>접종명</td>
 										<td align=center>상태</td>
 									</tr>
 									<tr>
-										<td align=center>접종명</td>
-										<td align=center><input type="button" id="" name=""
+										<td align=center>접종이름</td>
+										<td align=center><input type="text" id="" name=""
+											value="접종완료"></td>
+									</tr>
+									<tr>
+										<td align=center>접종이름</td>
+										<td align=center><input type="text" id="" name=""
+											value="접종완료"></td>
+									</tr>
+									<tr>
+										<td align=center>접종이름</td>
+										<td align=center><input type="text" id="" name=""
+											value="접종완료"></td>
+									</tr>
+									<tr>
+										<td align=center>접종이름</td>
+										<td align=center><input type="text" id="" name=""
 											value="접종완료"></td>
 									</tr>
 								</table>
 								<input type="text" id="" name="" value="접종완료"
-									style="width: 250px">
+									style="width: 250px; text-align: center;">
 							</div>
 						</div>
 					</div>

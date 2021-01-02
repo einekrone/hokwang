@@ -50,7 +50,7 @@ public class PatientController {
 	
 	@ResponseBody
 	@RequestMapping("/ajax/dignosisDetail")//진료 약이름상세
-	public Map<String,Object> mediName(PrescriptionVO vo){
+	public List<Map<String,Object>> mediName(PrescriptionVO vo){
 		return patientService.mediName(vo);
 	}
 }

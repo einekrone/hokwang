@@ -204,7 +204,6 @@
 							//info.event.remove();
 
 						}
-						
 					});
 			}
 			},

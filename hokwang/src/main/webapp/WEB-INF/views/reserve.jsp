@@ -14,8 +14,9 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <style type="text/css">
-.table th {
-	padding: 10px !important;
+.table td, .table th {
+	padding: .5rem !important;
+	vertical-align: middle;
 }
 
 .ui-tabs .ui-tabs-panel {
@@ -148,13 +149,37 @@ button {
 
 		// 계좌 이체한 보호자 정보 + 이체 정보
 		$("body").on("click", "#stBtn", function() {
-			var payNo = $(this).data("num");
-			console.log("수납 승인 버튼 : " + payNo);
+			var payNo = $(this).data("no");
+			document.getElementById('stRBtn2').setAttribute("data-no", payNo);
 			$("#payInfo").empty();
 			payInfo(payNo);
 		});
+
+		// 수납 대기 승인 -> 수납 완료
+		$("body").on("click", "#stRBtn2", function() {
+			var payNo = $(this).data("no");
+			console.log("수납 승인 버튼 : " + payNo);
+			// 1. 수납 상태를 완료로 수정
+			$.ajax({
+					url : 'ajax/payUpdate',
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						pay_no: payNo
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						console.log("payUpdate 성공");
+						// 2. 수납대기, 수납완료 목록 조회
+						nonPayList(searchType, keyword);
+					}
+				});
+		});
 	});
 
+	// 수납 정보 상세(계좌이체)
 	function payInfo(payNo) {
 		$.ajax({
 			url : 'ajax/payInfo',
@@ -177,12 +202,12 @@ button {
 				.append($('<p>').html('보호자 : ' + data.PARENT_NAME))
 				.append($('<p>').html('환자 : ' + data.BABY_NAME))
 				.append($('<hr>'))
-				.append($('<h4>').html('[ 결제 정보 ]').css('font-weight','bold'))
+				.append($('<h4>').html('[ 결제 정보 ]').css('font-weight', 'bold'))
 				.append($('<p>').html('결제 금액 : ' + data.PAY_PRICE))
 				.append($('<p>').html('결제일 : ' + data.PAY_DATEE))
 				.append($('<p>').html('결제 수단 : 계좌이체'))
 				.append($('<p>').html(data.PAY_BANK + "은행 " + data.PAY_ACCOUNT))
-				.append($('<p style="display:none;">').html(item.PAY_NO));
+				.append($('<p style="display:none;">').html(data.PAY_NO));
 	}
 
 	function imgList() {
@@ -299,31 +324,41 @@ button {
 
 	function nonPayListResult(data) {
 		$("#nonPayList").empty();
+		$("#donePayList").empty();
 		$
 				.each(
 						data,
 						function(idx, item) {
-							$('<tr>')
-									.append(
-											$(
-													'<td id="resvNo" value="'+item.PAY_NO+'">')
-													.html(item.RESV_NO))
-									.append($('<td>').html(item.PAY_DATE))
-									.append($('<td>').html(item.BABY_NAME))
-									.append(
-											$('<td id="price'+idx+'">').html(
-													item.PAY_PRICE)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
-									.appendTo('#nonPayList');
+							if (item.PAY_STATE == 'Y') { // 수납 완료
+								$('<tr>')
+								.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.RESV_NO))
+								.append($('<td>').html(item.BABY_NAME))
+								.append($('<td id="price'+idx+'">').html(item.PAY_PRICE))
+								.append($('<td>').html(item.PAY_DATE))
+								.appendTo('#donePayList');
+							} else {
+								$('<tr>')
+										.append(
+												$(
+														'<td id="resvNo" value="'+item.PAY_NO+'">')
+														.html(item.RESV_NO))
+										.append($('<td>').html(item.PAY_DATE))
+										.append($('<td>').html(item.BABY_NAME))
+										.append(
+												$('<td id="price'+idx+'">').html(
+														item.PAY_PRICE)).append(
+												$('<td style="display:none;">')
+														.html(item.BABY_NO))
+										.appendTo('#nonPayList');
 
-							if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
-								$("#price" + idx)
-										.eq(-1)
-										.after(
-												'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-num="'+item.PAY_NO+'">승인</button></td>');
-							} else if (item.PAY_STATE == 'N') { // 미수납
-								$("#price" + idx).eq(-1).after('<td>미수납</td>');
+								if (item.PAY_STATE == 'W') { // 수납대기(계좌이체)
+									$("#price" + idx)
+											.eq(-1)
+											.after(
+													'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-no="'+item.PAY_NO+'">승인</button></td>');
+								} else if (item.PAY_STATE == 'N') { // 미수납
+									$("#price" + idx).eq(-1).after('<td>미수납</td>');
+								}
 							}
 						});
 	}
@@ -744,7 +779,7 @@ button {
 										<th class="text-center">일시</th>
 										<th class="text-center" style="width: 100px;">성명</th>
 										<th class="text-center">금액</th>
-										<th class="text-center">상태</th>
+										<th class="text-center" style="width: 80px;">상태</th>
 									</tr>
 								</thead>
 								<tbody id="nonPayList"></tbody>
@@ -759,13 +794,13 @@ button {
 							<table class="table text-center">
 								<thead>
 									<tr>
-										<th class="text-center" style="width: 40px;">No</th>
+										<th class="text-center">예약번호</th>
 										<th class="text-center">성명</th>
 										<th class="text-center">금액</th>
 										<th class="text-center">결제일</th>
 									</tr>
 								</thead>
-								<tbody id="listCont"></tbody>
+								<tbody id="donePayList"></tbody>
 							</table>
 						</div>
 					</div>

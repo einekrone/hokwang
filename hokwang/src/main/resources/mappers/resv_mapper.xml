@@ -64,7 +64,7 @@
 
 	<select id="getNonPayList" resultType="map"
 		parameterType="resvSearch">
-		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYMMDD') AS PAY_DATE,
+		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYYYMMDD') AS PAY_DATE,
 		P.PAY_PRICE,
 		P.PAY_STATE, B.*, D.RESV_NO
 		FROM PAYMENT P, DIAGNOSIS D,
@@ -73,7 +73,7 @@
 		AND D.RESV_NO =
 		R.RESV_NO
 		AND R.BABY_NO = B.BABY_NO
-		AND P.PAY_STATE IN('N', 'W')
+		AND P.PAY_STATE IN('N', 'W', 'Y')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today2'">
@@ -107,6 +107,7 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
+	
 	<select id="getRoomList" resultType="map">
 		SELECT R.*, B.BABY_NAME FROM
 		RESERVATION R, BABY B
@@ -120,14 +121,28 @@
 
 	<select id="getPayInfo" resultType="map"
 		parameterType="paymentVO">
-		SELECT P.*, D.RESV_NO, B.BABY_NAME, PA.PARENT_NAME, TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') as PAY_DATEE
-		FROM PAYMENT P, DIAGNOSIS D, RESERVATION R, BABY B, PARENT PA
-		WHERE P.DIAG_NO = D.DIAG_NO
+		SELECT P.*, D.RESV_NO, B.BABY_NAME, PA.PARENT_NAME,
+		TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') as PAY_DATEE
+		FROM PAYMENT P,
+		DIAGNOSIS D, RESERVATION R, BABY B, PARENT PA
+		WHERE P.DIAG_NO =
+		D.DIAG_NO
 		AND D.RESV_NO = R.RESV_NO
 		AND R.BABY_NO = B.BABY_NO
-		AND B.PARENT_NO = PA.PARENT_NO
+		AND
+		B.PARENT_NO = PA.PARENT_NO
 		<if test="pay_no != null and pay_no != ''">
 			AND P.PAY_NO = #{pay_no}
 		</if>
 	</select>
+
+	<update id="payUpdate" parameterType="paymentVO">
+		UPDATE PAYMENT
+		SET PAY_STATE = 'Y'
+		<where>
+			<if test="pay_no != null and pay_no != ''">
+				PAY_NO = #{pay_no}
+			</if>
+		</where>
+	</update>
 </mapper>

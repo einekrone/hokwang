@@ -117,4 +117,12 @@ public class ResvController {
 	public Map<String, Object> getPayInfo(PaymentVO vo) {
 		return resvSvc.getPayInfo(vo);
 	}
+
+	// 수납 상태 수정(대기 -> 완료)
+	@ResponseBody
+	@RequestMapping("/ajax/payUpdate")
+	public int payUpdate(PaymentVO vo) {
+		System.out.println("payUpdate>>");
+		return resvSvc.payUpdate(vo);
+	}
 }

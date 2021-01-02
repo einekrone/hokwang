@@ -22,4 +22,5 @@ public interface ResvMapper {
 	public List<Map<String, Object>> getImgList(Images vo);
 	public List<Map<String, Object>> getRoomList();
 	public Map<String, Object> getPayInfo(PaymentVO vo);
+	public int payUpdate(PaymentVO vo);
 }

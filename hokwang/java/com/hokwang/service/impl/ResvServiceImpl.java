@@ -68,5 +68,10 @@ public class ResvServiceImpl implements ResvService {
 	public Map<String, Object> getPayInfo(PaymentVO vo) {
 		return resvDao.getPayInfo(vo);
 	}
+
+	@Override
+	public int payUpdate(PaymentVO vo) {
+		return resvDao.payUpdate(vo);
+	}
 	
 }

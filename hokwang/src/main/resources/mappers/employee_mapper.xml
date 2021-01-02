@@ -14,6 +14,22 @@
 		AND emp_pwd = #{emp_pwd}
 	</select>
 
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="employeeVO" resultType="employeeVO">
+		SELECT emp_no
+		FROM employee
+		WHERE emp_name = #{emp_name} 
+		AND emp_tel = #{emp_tel}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" parameterType="employeeVO" resultType="employeeVO">
+		SELECT emp_pwd
+		FROM employee
+		WHERE emp_no = #{emp_no} 
+		AND emp_tel = #{emp_tel}
+	</select>
+
 	<select id="getEmpList" resultType="emp">
 		SELECT *
 		FROM employee

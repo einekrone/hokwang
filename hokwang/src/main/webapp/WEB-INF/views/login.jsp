@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>login.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <link rel="stylesheet"
@@ -23,7 +33,57 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+
+<script>
+	$(function() {
+		findId();
+		findPw();
+	});
+
+	function findId() {
+		$('#btnId').on("click", function() {
+			$.ajax({
+				url : "ajax/findId",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					emp_name : $('#inputName_1').val(),
+					emp_tel : $('#inputPhone_1').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					$('#resultId').html(data.emp_no);
+				}
+			})
+		});
+	}
+
+	function findPw() {
+		$('#btnPw').on("click", function() {
+			$.ajax({
+				url : "ajax/findPw",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					emp_no : $('#inputempNo_1').val(),
+					emp_tel : $('#inputemptel_1').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 : " + status + "Http에러메시지 : " + msg);
+				},
+				success : function(data) {
+					$('#resultPw').html(data.emp_pwd);
+				}
+			})
+		})
+	}
+	
+</script>
+
 </head>
+
 <style>
 .page-header {
 	height: 95vh;
@@ -153,35 +213,39 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
-		<input type="hidden" name="redirectUrl">
-		<div class="page-header" style=" background-size: cover; background-position: top center;">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-6 ml-auto mr-auto">
-						<div class="card">
-								<div class="card-header text-center">
-									<h4 class="card-title">병원관리전산시스템</h4>
-								</div>
-								<div class="card-body">
-								<!-- 로그인  -->
-								<c:if test="${emp_vo == null}">
-										<form action='<c:url value='/login'/>' method="post">
+	<input type="hidden" name="redirectUrl">
+	<div class="page-header" style="background-size: cover; background-position: top center;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-6 ml-auto mr-auto">
+					<div class="card">
+						<div class="card-header text-center">
+							<h4 class="card-title">병원관리전산시스템</h4>
+						</div>
+						<div class="card-body">
+							<!-- 로그인  -->
+							<c:if test="${emp_vo == null}">
+								<form action='<c:url value='/login'/>' method="post">
 									<div class="row">
 										<div class="col-lg-10 col-md-6 ml-auto mr-auto">
+										
 											<div class="input-group1">
 												<div class="input-group1-prepend">
-													<span class="input-group1-text"> <i	class="material-icons">person_outline</i> </span>
+													<span class="input-group1-text">
+													<i class="material-icons">person_outline</i>
+													</span>
 												</div>
-												
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="ID..."	id="emp_no" name="emp_no"> 
+													<input type="text" class="form-control" placeholder="ID..." id="emp_no" name="emp_no">
 													<span class="bmd-help" id="id-warning"></span>
 												</div>
 											</div>
-											
+
 											<div class="input-group1">
 												<div class="input-group1-prepend">
-													<span class="input-group1-text"> <i	class="material-icons">lock_outline</i>	</span>
+													<span class="input-group1-text">
+													<i class="material-icons">lock_outline</i>
+													</span>
 												</div>
 												<div class="form-group">
 													<input type="password" class="form-control"	placeholder="Password..." id="emp_pwd" name="emp_pwd">
@@ -193,28 +257,114 @@
 									<div class="text-center">
 										<input type="submit" class="btn-lg" value="로그인">
 									</div>
-										</form>
-								</c:if>
-								
-								<c:if test="${emp_vo != null }">
-								<c:redirect url="/base"/>
-								</c:if>
-								<c:if test="${msg == false }">
-									<%out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>"); %>
-								</c:if>
-								<!-- 로그인 끝 -->
-								</div>
-								<div class="card-footer">
-									<span class="txt_find" style="">
-									<a href="#" data-toggle="modal" data-target="#idModal"> 사원번호 </a> / 
-									<a href="#" data-toggle="modal" data-target="#pwModal">	비밀번호찾기 </a>
-									</span>
-								</div>
-								
+								</form>
+							</c:if>
+
+							<c:if test="${emp_vo != null }">
+								<c:redirect url="/base" />
+							</c:if>
+							
+							<c:if test="${msg == false }">
+								<% out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>"); %>
+							</c:if>
+						</div>
+	<!-- 로그인 끝 -->
+						<div class="card-footer">
+						<span class="txt_find" style="">
+							<button type="button" class="btn btn-primary btn-sm "
+								data-toggle="modal" data-target="#idModal"
+								data-backdrop="static">사원번호 찾기</button>
+							<button type="button" class="btn btn-primary btn-sm"
+								data-toggle="modal" data-target="#pwModal"
+								data-backdrop="static">비밀번호 찾기</button>
+						</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- id Modal-->
+	<div class="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				
+				<div class="modal-body">
+					<div class="card-body">
+						<div id="searchI">
+							<div class="form-group">
+								<label class="font-weight-bold" for="inputName_1">이름</label>
+								<div>
+									<input type="text" class="form-control" id="inputName_1" name="inputName_1" placeholder="ex) 갓민수">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-bold" for="inputPhone_1">휴대폰번호</label>
+								<div>
+									<input type="text" class="form-control" id="inputPhone_1" name="inputPhone_1" placeholder="ex) 01077779999">
+								</div>
+							</div>
+							
+							<h1 id="resultId"></h1>
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" id="btnId" name="btnId" value="찾기">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- pw Modal-->
+	<div class="modal fade" id="pwModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				
+				<div class="modal-body">
+					<div class="card-body">
+						<div id="searchI">
+							<div class="form-group">
+								<label class="font-weight-bold" for="inputempNo_1">사원번호</label>
+								<input type="text" class="form-control" id="inputempNo_1" name="inputempNo_1" placeholder="ex) 사원번호">
+							</div>
+							
+							<div class="form-group">
+								<label class="font-weight-bold " for="inputemptel_1">전화번호</label>
+								<input type="email" class="form-control" id="inputemptel_1"	aria-describedby="emailHelp" placeholder="ex) 1111111">
+								<small id="emailHelp" class="form-text text-muted"></small>
+							</div>
+							
+							<h1 id="resultPw"></h1>
+						</div>
+
+
+						<div class="modal-footer">
+							<input type="button" class="btn btn-primary" id="btnPw"	name="btnPw" value="찾기">
+							<button class="btn btn-secondary" type="button"	data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -23,14 +23,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public int getCountMsg(EmployeeVO vo) {
-		// TODO Auto-generated method stub
+		
 		return EmpDAO.getCountMsg(vo);
 	}
 
 	@Override
 	public List<MessageVO> showNotReadMsg(EmployeeVO vo) {
-		// TODO Auto-generated method stub
+		
 		return EmpDAO.showNotReadMsg(vo);
 	}
 
+	@Override
+	public EmployeeVO findId(EmployeeVO emp_vo) {
+		// 아이디찾기
+		return EmpDAO.findId(emp_vo);
+	}
+
+	@Override
+	public EmployeeVO findPw(EmployeeVO emp_vo) {
+		// 비밀번호찾기
+		return EmpDAO.findPw(emp_vo);
+	}
+	
 }

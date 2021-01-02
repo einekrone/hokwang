@@ -4,13 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-.row {
-	margin: 30px 0px 0px 180px;
-}
-}
-</style>
-
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -38,119 +31,26 @@
 	
 	
 <script>
-$('#v-pills-tab a').on('click', function (e) {
-	  e.preventDefault()
-	  $(this).tab('show')
-	  $('#v-pills-tab a[href="#profile"]').tab('show') // Select tab by name
-	  $('#v-pills-tab li:first-child a').tab('show') // Select first tab
-	  $('#v-pills-tab li:last-child a').tab('show') // Select last tab
-	  $('#v-pills-tab li:nth-child(3) a').tab('show') 
-	})
-
 
 	
 	
 	
 </script>
+<style>
+.row {
+	margin: 30px 180px 0px 180px;
+}
 
+</style>
 </head>
 
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 	<div class="container-fluid" style="margin-top: 0px !important;">
-
-
-		<div class="page-header header-filter" style="background-image: url('../assets/img/udo2.jpg'); background-size: cover; background-position: top center;">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-	                    <div class="card">
-	                        <div class="card-body">
-		                        <div class="text-center">
-		                            <!-- uPhoto 변수 설정 -->
-		                            <c:set var = "uPhoto" value = "${loginInfo.uPhoto}" />
-			                         <c:choose>
-			                          	<c:when test="${empty uPhoto}">
-			                           		<img src="../uploadFile/no_images.jpg" style="width: 150px; height: 160px">
-			                           	</c:when>
-			                           	<c:otherwise>
-			                           		<img src="../uploadFile/${loginInfo.uPhoto}" style="width: 150px; height: 160px">
-			                           	</c:otherwise>
-			                            </c:choose>                                
-		                        </div>
-		                        <br>
-	                            <div class="content" style="margin: 10px;">
-	                                <!--ID-->
-	                                <div class="col-lg-12 col-md-6 ml-auto mr-auto">
-	                                    <div class="row">
-	                                        <div class="col-md-2">
-	                                            <i class="material-icons">email</i>
-	                                        </div>
-	                                        <div class="col-md-10" id=uId>${loginInfo.uId}</div>
-	                                    </div>
-	                                </div>
-	                                
-	                                <!--Phone-->
-	                                <br>
-	                                <div class="col-lg-12 col-md-6 ml-auto mr-auto">
-	                                    <div class="row">
-	                                        <div class="col-md-2">
-	                                            <i class="material-icons">face</i>
-	                                        </div>
-	                                        <c:set var = "uName" value = "${loginInfo.uName}"/>
-	                                        <c:choose>
-	                                        	<c:when test="${empty uName}">
-	                                        		<div class="col-md-10" id=uName>[이름]정보가 없습니다.</div>
-	                                        	</c:when>
-	                                        	<c:otherwise>
-	                                        		<div class="col-md-10" id=uName>${loginInfo.uName}</div>
-	                                        	</c:otherwise>
-	                                        </c:choose>       
-	                                    </div>
-	                                </div>
-	                                
-	                                <!--Phone-->
-	                                <br>
-	                                <div class="col-lg-12 col-md-6 ml-auto mr-auto">
-	                                    <div class="row">
-	                                        <div class="col-md-2">
-	                                            <i class="material-icons">phone</i>
-	                                        </div>
-	                                        <div class="col-md-10" id=uPhone>${loginInfo.uPhone}</div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="card-footer">
-	                            <div class="col-md-4 text-center">
-	                                <a class="text-primary" href="<c:url value='/member/myPage/update' />" style="font-size: 12px">
-	                                	프로필 변경
-	                                </a>
-	                            </div>
-	                            <div class="col-md-4 text-center">
-	                                <a class="text-primary" href="<c:url value='/member/myPage/logout' />" style="font-size: 12px">
-	                                  	로그아웃
-	                                </a>
-	                            </div>
-	                            <div class="col-md-4 text-center">
-	                                <a class="text-primary" href="<c:url value='/member/myPage/delete' />" style="font-size: 12px">
-	                                   	 회원탈퇴
-	                                </a>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-
-
-
-
 		<!-- Content Row -->
 		<div class="row" id="row">
 			<div class="col-xl-12 col-md-6 mb-4">
-				<div>
+
 					<div class="card shadow py-2" style="height: 350px; float: left; width: 50%">
 						<div class="card-body">
 							<table>
@@ -173,7 +73,7 @@ $('#v-pills-tab a').on('click', function (e) {
 									<td>123</td>
 									<td>123</td>
 								</tr>
-	                              
+	                      
 							</table>
 						</div>
 
@@ -201,33 +101,33 @@ $('#v-pills-tab a').on('click', function (e) {
 					</div>
 
 				</div>
-				<div class="card shadow py-2" style="height: 480px;">
+				<div class="card shadow py-2"  style="height: 480px; width: 100%;">
+				<div class="card shadow py-2" style="height: 462px; width: 20%;" >
 					<div class="card-body">
-					<div>
-					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-					  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-					  <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-					  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+						<div>
+							<div class="nav flex-column nav-pills" id="v-pills-tab"
+								role="tablist" aria-orientation="vertical">
+								<a class="nav-link active" id="v-pills-home-tab"
+									data-toggle="pill" href="#v-pills-home" role="tab"
+									aria-controls="v-pills-home" aria-selected="true">전체쪽지함 <span
+									class="badge badge-primary badge-pill">14</span></a> <a
+									class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
+									href="#v-pills-profile" role="tab"
+									aria-controls="v-pills-profile" aria-selected="false">받은쪽지함</a>
+								<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
+									href="#v-pills-messages" role="tab"
+									aria-controls="v-pills-messages" aria-selected="false">보낸쪽지함</a>
+								<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill"
+									href="#v-pills-settings" role="tab"
+									aria-controls="v-pills-settings" aria-selected="false">임시저장함</a>
+							</div>
+
+						</div>
+
 					</div>
-					<div class="tab-content" id="v-pills-tabContent">
-					  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">sdfsdfsdfsdfsdfsa</div>
-					  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">sdfsdfsdfsdf</div>
-					  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">dsfsdfsdfsd</div>
-					  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">sdfsdfsd</div>
-					</div>
-					<div class="tab-content">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-  <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">...</div>
-  <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
-</div>
-					</div>
-					</div>
-					
-				</div>
 			</div>
 		</div>
-	</div>
+		</div>
+</div>
 </body>
 </html>

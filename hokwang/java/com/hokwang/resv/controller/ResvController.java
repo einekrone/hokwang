@@ -122,7 +122,14 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/payUpdate")
 	public int payUpdate(PaymentVO vo) {
-		System.out.println("payUpdate>>");
 		return resvSvc.payUpdate(vo);
+	}
+
+	// 진료실 수정
+	@ResponseBody
+	@RequestMapping("/ajax/roomUpdate")
+	public int roomUpdate(Reservation vo) {
+		System.out.println("roomUpdate>>");
+		return resvSvc.roomUpdate(vo);
 	}
 }

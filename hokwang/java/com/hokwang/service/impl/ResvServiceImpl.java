@@ -73,5 +73,9 @@ public class ResvServiceImpl implements ResvService {
 	public int payUpdate(PaymentVO vo) {
 		return resvDao.payUpdate(vo);
 	}
-	
+
+	@Override
+	public int roomUpdate(Reservation vo) {
+		return resvDao.roomUpdate(vo);
+	}
 }

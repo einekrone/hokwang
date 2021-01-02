@@ -122,13 +122,36 @@ button {
 
 						console.log("??1 : " + td.eq(0).text());
 						console.log("??2 : " + td.eq(2).text());
-						$('<tr>').append(
+						/* $('<tr>').append(
 								$(
 										'<td id="resvNo" value="'
 												+ td.eq(0).text() + '">').html(
 										td.eq(0).text())).append(
 								$('<td>').html(td.eq(2).text())).appendTo(
-								'#room' + offSel); // todo 올바르게 됐는지 확인
+								'#room' + offSel); */ // todo 올바르게 됐는지 확인
+
+						var resv_no = td.eq(0).text();
+						// 진료실 변경사항 db
+						$.ajax({
+							url : 'ajax/roomUpdate',
+							type : 'POST',
+							dataType : 'json',
+							data : {
+								resv_no : resv_no,
+								resv_room : offSel
+							},
+							error : function(xhr, status, msg) {
+								alert("상태값 :" + status + " Http에러메시지 :" + msg);
+							},
+							success : function(data) {
+								console.log("roomUpdate 성공");
+								// 2. 진료실 목록 조회
+								$("#room1").empty();
+								$("#room2").empty();
+								$("#room3").empty();
+								roomList();
+							}
+						});
 					}
 				});
 
@@ -161,21 +184,21 @@ button {
 			console.log("수납 승인 버튼 : " + payNo);
 			// 1. 수납 상태를 완료로 수정
 			$.ajax({
-					url : 'ajax/payUpdate',
-					type : 'POST',
-					dataType : 'json',
-					data : {
-						pay_no: payNo
-					},
-					error : function(xhr, status, msg) {
-						alert("상태값 :" + status + " Http에러메시지 :" + msg);
-					},
-					success : function(data) {
-						console.log("payUpdate 성공");
-						// 2. 수납대기, 수납완료 목록 조회
-						nonPayList(searchType, keyword);
-					}
-				});
+				url : 'ajax/payUpdate',
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					pay_no : payNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log("payUpdate 성공");
+					// 2. 수납대기, 수납완료 목록 조회
+					nonPayList(searchType, keyword);
+				}
+			});
 		});
 	});
 
@@ -331,11 +354,16 @@ button {
 						function(idx, item) {
 							if (item.PAY_STATE == 'Y') { // 수납 완료
 								$('<tr>')
-								.append($('<td id="resvNo" value="'+item.PAY_NO+'">').html(item.RESV_NO))
-								.append($('<td>').html(item.BABY_NAME))
-								.append($('<td id="price'+idx+'">').html(item.PAY_PRICE))
-								.append($('<td>').html(item.PAY_DATE))
-								.appendTo('#donePayList');
+										.append(
+												$(
+														'<td id="resvNo" value="'+item.PAY_NO+'">')
+														.html(item.RESV_NO))
+										.append($('<td>').html(item.BABY_NAME))
+										.append(
+												$('<td id="price'+idx+'">')
+														.html(item.PAY_PRICE))
+										.append($('<td>').html(item.PAY_DATE))
+										.appendTo('#donePayList');
 							} else {
 								$('<tr>')
 										.append(
@@ -345,8 +373,9 @@ button {
 										.append($('<td>').html(item.PAY_DATE))
 										.append($('<td>').html(item.BABY_NAME))
 										.append(
-												$('<td id="price'+idx+'">').html(
-														item.PAY_PRICE)).append(
+												$('<td id="price'+idx+'">')
+														.html(item.PAY_PRICE))
+										.append(
 												$('<td style="display:none;">')
 														.html(item.BABY_NO))
 										.appendTo('#nonPayList');
@@ -357,7 +386,8 @@ button {
 											.after(
 													'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-no="'+item.PAY_NO+'">승인</button></td>');
 								} else if (item.PAY_STATE == 'N') { // 미수납
-									$("#price" + idx).eq(-1).after('<td>미수납</td>');
+									$("#price" + idx).eq(-1).after(
+											'<td>미수납</td>');
 								}
 							}
 						});
@@ -428,7 +458,8 @@ button {
 							var date = item.RESV_DATETIME.substring(0, 10);
 							var d = new Date();
 							var today = d.getFullYear() + '-'
-									+ (d.getMonth() + 1) + '-' + d.getDate();
+									+ ('0' + (d.getMonth() + 1)).slice(-2)
+									+ '-' + ('0' + d.getDate()).slice(-2);
 
 							$('<tr>')
 									.append(
@@ -444,12 +475,20 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
+							console
+									.log("date : " + date + ", today : "
+											+ today);
 							if (date == today
 									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
+								console.log("진료실번호 : " + item.RESV_ROOM);
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>')
+												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
+								$(
+										"#officeSel option:eq("
+												+ item.RESV_ROOM + ")").attr(
+										"selected", "selected");
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(

@@ -107,17 +107,15 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
-	
+
 	<select id="getRoomList" resultType="map">
-		SELECT R.*, B.BABY_NAME FROM
-		RESERVATION R, BABY B
-		WHERE R.BABY_NO = B.BABY_NO
-		AND R.RESV_STATUS IN
-		('N', 'I')
-		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
-		'YYYY-MM-DD')
-		ORDER BY R.RESV_TIME, R.RESV_TYPE
+		SELECT R.*, B.*
+		FROM RESERVATION R, BABY B
+		WHERE B.BABY_NO = R.BABY_NO
+		AND R.RESV_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		ORDER BY R.RESV_DATE, R.RESV_TIME, R.RESV_TYPE
 	</select>
+		<!-- AND <![CDATA[ R.RESV_TIME < TO_CHAR(SYSDATE, 'HH24:MI') ]]> -->
 
 	<select id="getPayInfo" resultType="map"
 		parameterType="paymentVO">
@@ -142,6 +140,16 @@
 		<where>
 			<if test="pay_no != null and pay_no != ''">
 				PAY_NO = #{pay_no}
+			</if>
+		</where>
+	</update>
+
+	<update id="roomUpdate" parameterType="reservation">
+		UPDATE RESERVATION
+		SET RESV_ROOM = #{resv_room}
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = #{resv_no}
 			</if>
 		</where>
 	</update>

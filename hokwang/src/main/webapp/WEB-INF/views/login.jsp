@@ -160,7 +160,7 @@
 					<div class="col-lg-4 col-md-6 ml-auto mr-auto">
 						<div class="card">
 								<div class="card-header text-center">
-									<h4 class="card-title">Login</h4>
+									<h4 class="card-title">병원관리전산시스템</h4>
 								</div>
 								<div class="card-body">
 								<!-- 로그인  -->

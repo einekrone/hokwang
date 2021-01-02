@@ -1,20 +1,25 @@
 package com.hokwang.emp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
+import com.hokwang.vo.MessageVO;
 
 @Controller
 public class MypageController {
 	@Autowired
+	EmployeeService dao;
 	
-	EmployeeService service;
+	
 	
 	//페이지이동
 	@RequestMapping("/mypage") //.do 같은거
@@ -45,4 +50,17 @@ public class MypageController {
 	 * empvo.setEmp_profile(multipartFile.getOriginalFilename()); //업로드한 파일이름만 DB에
 	 * 저장. } service.insertUser(empvo); return"user/insert"; }
 	 */
+	
+	@ResponseBody
+	@RequestMapping("/ajax/getCountMsg")
+	public int getCountMsg(Model model,EmployeeVO vo) {
+		return dao.getCountMsg(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/showNotReadMsg")
+	public List<MessageVO> showNotReadMsg(Model model,EmployeeVO vo) {
+		return dao.showNotReadMsg(vo);
+	}
+	
 }

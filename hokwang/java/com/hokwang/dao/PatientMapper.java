@@ -13,4 +13,6 @@ public interface PatientMapper {
 	public List<DiagnosisVO> diagnosisRecord(BabyVO vo);//진료기록
 	public Map<String,Object> patientInfo(BabyVO vo);//상세환자정보
 	public List<Map<String, Object>> mediName(PrescriptionVO vo);//상세진료 약이름내역
+	public Map<String,Object> diagDetail1(DiagnosisVO vo);//상세진료
+	public Map<String,Object> diagDetail2(DiagnosisVO vo);//상세진료
 }

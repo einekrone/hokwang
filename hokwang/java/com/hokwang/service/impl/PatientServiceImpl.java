@@ -17,13 +17,13 @@ public class PatientServiceImpl implements PatientService {
 	@Autowired PatientMapper patientDAO;
 	
 	@Override
-	public List<BabyVO> allpatientList(BabyVO vo) {
+	public List<BabyVO> allpatientList(BabyVO vo) {//전체 환자
 		
 		return patientDAO.allpatientList(vo);
 	}
 
 	@Override
-	public List<DiagnosisVO> diagnosisRecord(BabyVO vo) {
+	public List<DiagnosisVO> diagnosisRecord(BabyVO vo) {//진료기록
 		// TODO Auto-generated method stub
 		return patientDAO.diagnosisRecord(vo);
 	}
@@ -35,9 +35,21 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public List<Map<String, Object>> mediName(PrescriptionVO vo) {
+	public List<Map<String, Object>> mediName(PrescriptionVO vo) {//상세진료 약이름
 		// TODO Auto-generated method stub
 		return patientDAO.mediName(vo);
+	}
+
+	@Override
+	public Map<String, Object> diagDetail1(DiagnosisVO vo) {//상세진료내역
+		// TODO Auto-generated method stub
+		return patientDAO.diagDetail1(vo);
+	}
+
+	@Override
+	public Map<String, Object> diagDetail2(DiagnosisVO vo) {
+		// TODO Auto-generated method stub
+		return patientDAO.diagDetail2(vo);
 	}
 
 

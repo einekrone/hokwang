@@ -49,8 +49,19 @@ public class PatientController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/ajax/dignosisDetail")//진료 약이름상세
+	@RequestMapping("/ajax/dignosisDetail1")//진료 약이름상세
 	public List<Map<String,Object>> mediName(PrescriptionVO vo){
 		return patientService.mediName(vo);
+	}
+	@ResponseBody
+	@RequestMapping("/ajax/dignosisDetail2")//진료 약이름상세
+	public Map<String,Object> diagnosisDetail1(DiagnosisVO vo){
+		return patientService.diagDetail1(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/dignosisDetail3")//진료 약이름상세
+	public Map<String,Object> diagnosisDetail2(DiagnosisVO vo){
+		return patientService.diagDetail2(vo);
 	}
 }

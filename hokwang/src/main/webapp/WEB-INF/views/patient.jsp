@@ -14,7 +14,8 @@
 		patientList(keyword); //전체 환자 리스트
 		diagnosisRecord();//진료기록
 
-		dignosisDetail();//상세 진료 약이름
+		dignosisDetail1();//상세 진료 약이름
+		dignosisDetail2();//상세진료
 	})
 	function patientList(keyword) {
 
@@ -136,14 +137,14 @@
 
 	}//end of fucntion
 
-	function dignosisDetail() {
+	function dignosisDetail1() {
 
 		$("body").on("click", "#diagnosisRecord tr", function() {
 			var td = $(this).children();
 			console.log("진료내역클릭시 -> 진료기록 요청");
 			console.log("진료번호 : " + td.eq(0).text());
 			$.ajax({
-				url : "ajax/dignosisDetail",
+				url : "ajax/dignosisDetail1",
 				data : {
 					diag_no : td.eq(0).text()
 
@@ -154,6 +155,7 @@
 				},
 				success : dignosisDetailResult
 			});//end of ajax
+			
 		});//end of onclick function
 	}
 	function dignosisDetailResult(data) {
@@ -162,6 +164,73 @@
 		console.log(key);
 		$("#mediName").empty();
 		$("#mediName").append($("<p>").html("약이름 : " + key)).append($("<hr>"))
+	}
+	
+	function dignosisDetail2() {
+
+		$("body").on("click", "#diagnosisRecord tr", function() {
+			var td = $(this).children();
+			console.log("진료내역클릭시 -> 진료기록 요청");
+			console.log("진료번호 : " + td.eq(0).text());
+			$.ajax({
+				url : "ajax/dignosisDetail2",
+				data : {
+					diag_no : td.eq(0).text()
+
+				},
+				dataType : "JSON",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
+				},
+				success : dignosisDetailResult2
+			});//end of ajax
+			$.ajax({
+				url : "ajax/dignosisDetail2",
+				data : {
+					diag_no : td.eq(0).text()
+
+				},
+				dataType : "JSON",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
+				},
+				success : dignosisDetailResult2
+			});//end of ajax
+			$.ajax({
+				url : "ajax/dignosisDetail3",
+				data : {
+					diag_no : td.eq(0).text()
+
+				},
+				dataType : "JSON",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
+				},
+				success : dignosisDetailResult3
+			});//end of ajax
+			
+		});//end of onclick function
+	}
+	function dignosisDetailResult2(data){
+		var key = Object.values(data)
+		console.log("상세진료 병,메모 ->"+key);
+		$("#diagDetail1").empty();
+		
+		$("#diagDetail1")
+		.append($("<p>").html("질병이름 : " + key))
+		.append($("<hr>"))
+		
+		
+	}
+	
+	function dignosisDetailResult3(data){
+		var key = Object.values(data)
+		console.log("상세진료 병,메모 ->"+key);
+		$("#diagDetail2").empty();
+		
+		$("#diagDetail2")
+		.append($("<p>").html("메모 : " + key))
+		.append($("<hr>"))
 	}
 </script>
 </head>
@@ -229,11 +298,11 @@
 					style="margin-bottom: 3px !important;">환자 상세 진료 내역</p>
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-info">질병이름</p>
-					<div style="width: 100%; height: 50px; overflow: auto;"
-						id=""></div>
+					<div style="width: 100%; height: 70px; overflow: auto;"
+						id="diagDetail1"></div>
 					<p class="text-s font-weight-bold text-info">메모</p>
-					<div style="width: 100%; height: 100px; overflow: auto;"
-						id=""></div>
+					<div style="width: 100%; height: 70px; overflow: auto;"
+						id="diagDetail2"></div>
 					<p class="text-s font-weight-bold text-info">약제 이름</p>
 					<div style="width: 100%; height: 80px; overflow: auto;"
 						id=mediName></div>
@@ -249,7 +318,7 @@
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
 							<div
-								class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+								class="text-s font-weight-bold text-warning text-uppercase mb-1">
 								접종</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800"
 								style="float: left">

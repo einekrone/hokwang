@@ -35,11 +35,28 @@
 		</if>
 	</select>
 
-	<select id="mediName" resultType="map" parameterType="prescriptionVO">
-		select medi_name from medicine  
+	<select id="mediName" resultType="map"
+		parameterType="prescriptionVO">
+		select medi_name from medicine
 		<where>
-		MEDI_NO in (select medi_no from
-		prescription where diag_no = #{diag_no})
+			MEDI_NO in (select medi_no from
+			prescription where diag_no = #{diag_no})
+		</where>
+	</select>
+
+	<select id="diagDetail1" resultType="map"
+		parameterType="diagnosisVO">
+		select b.dis_name from diagnosis a,disease b
+		<where>
+			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
+		</where>
+	</select>
+	
+		<select id="diagDetail2" resultType="map"
+		parameterType="diagnosisVO">
+		select a.diaglist_memo from diagnosis a,disease b
+		<where>
+			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
 		</where>
 	</select>
 </mapper>

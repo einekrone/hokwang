@@ -43,11 +43,12 @@
 	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-<%-- <script
+<script
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script> --%>
+	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$(".nav-tabs").tabs({
@@ -106,7 +107,7 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">${emp_vo.emp_name} 님 정말로 로그아웃 하시겠습니까?</div>
+				<div class="modal-body">${emp_vo.emp_name}님 정말로 로그아웃 하시겠습니까?</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
@@ -116,7 +117,7 @@
 		</div>
 	</div>
 	<!-- Bootstrap core JavaScript-->
-<%-- 	 <script
+	<%-- 	 <script
 		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script> --%>
 
 	<%-- <script
@@ -129,8 +130,8 @@
 
 
 	<!-- Page level plugins -->
-	<%-- 	<script
-		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
 
 	<!-- Page level custom scripts -->
 </body>

@@ -40,7 +40,7 @@
 		select medi_name from medicine
 		<where>
 			MEDI_NO in (select medi_no from
-			prescription where diag_no = #{diag_no})
+			prescription where diag_no = #{diag_no} and pres_no={})
 		</where>
 	</select>
 

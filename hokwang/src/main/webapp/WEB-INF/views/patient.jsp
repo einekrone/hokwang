@@ -17,6 +17,7 @@
 		dignosisDetail1();//상세 진료 약이름
 		dignosisDetail2();//상세진료
 	})
+
 	function patientList(keyword) {
 
 		var keyword = "";
@@ -155,7 +156,7 @@
 				},
 				success : dignosisDetailResult
 			});//end of ajax
-			
+
 		});//end of onclick function
 	}
 	function dignosisDetailResult(data) {
@@ -165,7 +166,7 @@
 		$("#mediName").empty();
 		$("#mediName").append($("<p>").html("약이름 : " + key)).append($("<hr>"))
 	}
-	
+
 	function dignosisDetail2() {
 
 		$("body").on("click", "#diagnosisRecord tr", function() {
@@ -208,30 +209,97 @@
 				},
 				success : dignosisDetailResult3
 			});//end of ajax
-			
+
 		});//end of onclick function
 	}
-	function dignosisDetailResult2(data){
+	function dignosisDetailResult2(data) {
 		var key = Object.values(data)
-		console.log("상세진료 병,메모 ->"+key);
+		console.log("상세진료 병,메모 ->" + key);
 		$("#diagDetail1").empty();
-		
-		$("#diagDetail1")
-		.append($("<p>").html("질병이름 : " + key))
-		.append($("<hr>"))
-		
-		
+
+		$("#diagDetail1").append($("<p>").html("질병이름 : " + key)).append(
+				$("<hr>"))
+
 	}
-	
-	function dignosisDetailResult3(data){
+
+	function dignosisDetailResult3(data) {
 		var key = Object.values(data)
-		console.log("상세진료 병,메모 ->"+key);
+		console.log("상세진료 병,메모 ->" + key);
 		$("#diagDetail2").empty();
-		
-		$("#diagDetail2")
-		.append($("<p>").html("메모 : " + key))
-		.append($("<hr>"))
+
+		$("#diagDetail2").append($("<p>").html("메모 : " + key))
+				.append($("<hr>"))
 	}
+</script>
+
+<script type="text/javascript">
+	//차트 옵션 설정
+	var speedCanvas = document.getElementById("myChart");
+
+	Chart.defaults.global.defaultFontFamily = "Lato";
+	Chart.defaults.global.defaultFontSize = 18;
+
+	var speedData = {
+		labels : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월",
+				"11월", "12월" ],
+		datasets : [ {
+			label : "체중 신장",
+			data : [ 0, 59, 75, 20, 20, 55, 40 ],
+			lineTension : 0,
+			fill : false,
+			borderColor : 'orange',
+			backgroundColor : 'transparent',
+			pointBorderColor : 'orange',
+			pointBackgroundColor : 'rgba(255,150,0,0.5)',
+			borderDash : [ 5, 5 ],
+			pointRadius : 5,
+			pointHoverRadius : 10,
+			pointHitRadius : 30,
+			pointBorderWidth : 2,
+			pointStyle : 'rectRounded'
+		} ]
+	};
+
+	var chartOptions = {
+		legend : {
+			display : true,
+			position : 'top',
+			labels : {
+				boxWidth : 80,
+				fontColor : 'black'
+			}
+		},
+		scales : {
+			xAxes : [ {
+				gridLines : {
+					display : false,
+					color : "black"
+				},
+				scaleLabel : {
+					display : true,
+					labelString : "Time in Seconds",
+					fontColor : "red"
+				}
+			} ],
+			yAxes : [ {
+				gridLines : {
+					color : "black",
+					borderDash : [ 2, 5 ],//실선 길이
+				},
+				scaleLabel : {
+					display : true,
+					labelString : "Speed in Miles per Hour",
+					fontColor : "green"
+				}
+			} ]
+		}
+	};
+
+	var lineChart = new Chart(speedCanvas, {
+		type : 'line',
+		data : speedData,
+		options : chartOptions
+	});
 </script>
 </head>
 <body>
@@ -250,8 +318,8 @@
 			<div class="card shadow py-2" style="height: 400px;">
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-success">체중 신장 차트</p>
-					<div class="chart-area">
-						<canvas id="myAreaChart"></canvas>
+					<div class="chart-area" style="width: 75%; margin: 0 auto;">
+						<canvas id="myChart" style="width: 30px; height: 35px;"></canvas>
 					</div>
 				</div>
 			</div>
@@ -304,8 +372,7 @@
 					<div style="width: 100%; height: 70px; overflow: auto;"
 						id="diagDetail2"></div>
 					<p class="text-s font-weight-bold text-info">약제 이름</p>
-					<div style="width: 100%; height: 80px; overflow: auto;"
-						id=mediName></div>
+					<div style="width: 100%; height: 80px; overflow: auto;" id=mediName></div>
 				</div>
 			</div>
 			<!-- 환자 상세 진료 -->

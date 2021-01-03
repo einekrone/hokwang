@@ -15,19 +15,23 @@
 	</select>
 
 	<!-- 아이디 찾기 -->
-	<select id="findId" parameterType="employeeVO" resultType="employeeVO">
+	<select id="findId" parameterType="employeeVO"
+		resultType="employeeVO">
 		SELECT emp_no
 		FROM employee
-		WHERE emp_name = #{emp_name} 
-		AND emp_tel = #{emp_tel}
+		WHERE emp_name = #{emp_name}
+		AND
+		emp_tel = #{emp_tel}
 	</select>
-	
+
 	<!-- 비밀번호 찾기 -->
-	<select id="findPw" parameterType="employeeVO" resultType="employeeVO">
+	<select id="findPw" parameterType="employeeVO"
+		resultType="employeeVO">
 		SELECT emp_pwd
 		FROM employee
-		WHERE emp_no = #{emp_no} 
-		AND emp_tel = #{emp_tel}
+		WHERE emp_no = #{emp_no}
+		AND
+		emp_tel = #{emp_tel}
 	</select>
 
 	<select id="getEmpList" resultType="emp">
@@ -79,10 +83,28 @@
 	<select id="showNotReadMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select m.msg_yn,m.msg_cont,to_char(m.msg_date,'YYYY-MM-DD')
-		as msg_date,e.emp_name,e.emp_profile from message m,employee e 
-		where e.emp_no = m.EMP_SENDNO and m.emp_resvno = #{emp_no} order by msg_yn
+		as msg_date,e.emp_name,e.emp_profile from message m,employee e
+		where
+		e.emp_no = m.EMP_SENDNO and m.emp_resvno = #{emp_no} order by msg_yn
 	</select>
 
+	<select id="getTotalCountMsg" parameterType="employeeVO"
+		resultType="int">
+		select count(msg_no) from message where emp_resvno =
+		#{emp_no}
+	</select>
 
+	<select id="sendCountMsg" parameterType="employeeVO"
+		resultType="int">
+		select count(msg_no) from message where emp_sendno =
+		#{emp_no}
+	</select>
+
+	<update id="updateInf" parameterType="employeeVO">
+		update employee set emp_tel=#{emp_tel},emp_pwd=#{emp_pwd},emp_addr=#{emp_addr} where emp_no =#{emp_no}
+	</update>
+	
+	
+	
 
 </mapper>

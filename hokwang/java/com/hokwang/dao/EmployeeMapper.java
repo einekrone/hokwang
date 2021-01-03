@@ -8,7 +8,10 @@ import com.hokwang.vo.MessageVO;
 public interface EmployeeMapper {
 
 	public EmployeeVO getEmp(EmployeeVO emp_vo); //로그인조회
-	public int getCountMsg(EmployeeVO emp_vo); 
+	public int getCountMsg(EmployeeVO emp_vo);
+	public int getTotalCountMsg(EmployeeVO emp_vo);
+	public int sendCountMsg(EmployeeVO emp_vo);
+	public void updateInf(EmployeeVO emp_vo);
 	public List<MessageVO> showNotReadMsg(EmployeeVO emp_vo);
 	public EmployeeVO findId(EmployeeVO emp_vo); //Id찾기
 	public EmployeeVO findPw(EmployeeVO emp_vo); //Pw찾기

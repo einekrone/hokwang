@@ -141,7 +141,7 @@
 								<div class="small text-gray-500">Emily Fowler · 58m</div>
 							</div>
 						</a>  --%> 
-						<a class="dropdown-item text-center small text-gray-500" href="#">Read
+						<a class="dropdown-item text-center small text-gray-500" href="mypage">Read
 							More Messages</a>
 					</div>
 					</li>

@@ -26,6 +26,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		return EmpDAO.getCountMsg(vo);
 	}
+	
+	@Override
+	public int getTotalCountMsg(EmployeeVO vo) {
+		
+		return EmpDAO.getTotalCountMsg(vo);
+	}
+	
+	@Override
+	public int sendCountMsg(EmployeeVO vo) {
+		
+		return EmpDAO.sendCountMsg(vo);
+	}
+	
 
 	@Override
 	public List<MessageVO> showNotReadMsg(EmployeeVO vo) {
@@ -43,6 +56,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeVO findPw(EmployeeVO emp_vo) {
 		// 비밀번호찾기
 		return EmpDAO.findPw(emp_vo);
+	}
+	
+	@Override
+	public void updateInf(EmployeeVO emp_vo) {
+		// 비밀번호찾기
+		EmpDAO.updateInf(emp_vo);
 	}
 	
 }

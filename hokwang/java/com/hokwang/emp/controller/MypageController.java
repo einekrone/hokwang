@@ -58,9 +58,28 @@ public class MypageController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("/ajax/sendCountMsg")
+	public int sendMsg(Model model,EmployeeVO vo) {
+		return dao.sendCountMsg(vo);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/getToalCountMsg")
+	public int getTotalCountMsg(Model model,EmployeeVO vo) {
+		return dao.getTotalCountMsg(vo);
+	}
+	
+	@ResponseBody
 	@RequestMapping("/ajax/showNotReadMsg")
 	public List<MessageVO> showNotReadMsg(Model model,EmployeeVO vo) {
 		return dao.showNotReadMsg(vo);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/updateInf")
+	public void updateInf(Model model,EmployeeVO vo) {
+		System.out.println(vo);
+		dao.updateInf(vo);
+	}
 }

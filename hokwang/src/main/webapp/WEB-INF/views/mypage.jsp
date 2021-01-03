@@ -127,6 +127,68 @@
 .row {
 	margin: 30px 180px 0px 180px;
 }
+.list-table{
+	margin-left:0; margin-top:70px;
+}
+.list-table thead th{
+	height:30px;
+	border-top:2px solid #09C;
+	border-bottom:1px solid #CCC;
+	font-weight: bold;
+	font-size: 16px;
+}
+.list-table tbody td{
+	padding:10px 0;
+	border-bottom:1px solid #CCC;
+	height:20px;
+	font-size: 14px;
+}
+.list-table tbody:hover{
+	background: #f2f2f2;
+}
+.aside {
+	width:180px;
+	height: 100%;
+	background: #A9E2F3; /* Old browsers */
+	background: -moz-linear-gradient(top, #A9E2F3 0%, #ffffff 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #A9E2F3 0%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+	top:0;
+	margin-left:0;
+	z-index: -100;
+	position: absolute;
+}
+#note_menu {
+	margin-top:100px;
+	line-height: 30px;  
+}
+#main_in {
+	margin: 53px;
+	width:900px;
+	position: absolute;
+	left: 220px; 
+}
+#note_bt {
+	margin-top:15px;
+}
+#note_bt ul li {
+	float: left;
+	margin-left: 20px;
+}
+#wri_m_bt {
+	margin-left: 30px;
+	padding: 10px 20px 10px 20px;
+	background: #013ADF;
+	border: 0;
+	color:white;
+	font-size: 12px;
+}
+#wri_m_bt:hover {
+	background: #08298A;
+	color:white;
+}
+#wri_m_bt a{
+	color:white;
+}
 </style>
 </head>
 
@@ -213,6 +275,7 @@
 
 			</div>
 			<div class="card shadow py-2" style="height: 480px; width: 100%;">
+			<aside>
 				<div class="card shadow py-2" style="height: 462px; width: 20%;">
 					<div class="card-body">
 						<div>
@@ -239,12 +302,50 @@
 								</span>
 								</a>
 							</div>
-
 						</div>
 					</div>
-
 				</div>
-			</div>
+			</aside>
+			
+			<div id="main_in">
+  <table class="list-table">
+    <thead>
+      <tr>
+        <th width="50" class="tc"><input type="checkbox" /></th>
+        <th width="150" class="tl">받는사람</th>
+        <th width="600" class="tl">내용</th>
+        <th width="200" class="tc">날짜</th>
+        <th width="100" class="tc">수신여부</th>
+      </tr>
+    </thead>
+
+      <tbody>
+        <tr>
+          <td class="tc"><input type="checkbox" /></td> 
+            <td>받는이</td>
+            <td>제목</td>
+            <td class="tc">보낸시간</td> 
+          <td class="tc">
+            <?php 
+              if($recv['recv_chk'] == "0")
+              {
+                echo "읽지않음";
+              }else{ 
+                echo "읽음";
+              }
+            ?>
+          </td>
+        </tr>
+      </tbody>
+    <?php } ?>
+  </table>
+  <div id="note_bt">
+      <ul>
+        <li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
+      </ul>
+    </div>
+  </div>
+			
 		</div>
 	</div>
 </body>

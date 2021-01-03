@@ -53,7 +53,7 @@
 	WHERE BABY_NO = #{baby_no}
 	</select>
 	
-	<select id="getDiagDetail" resultType="diagnosisVO">
+	<select id="getDiagDetail" resultType="DiagnosisVO">
 	SELECT * FROM DIAGNOSIS
 	<where>
 		<if test="diag_no != null and diag_no != ''">
@@ -63,7 +63,7 @@
 	</select>
 	
 	<select id="getDiagDetail2" resultType="map"
-		parameterType="diagnosisVO">
+		parameterType="DiagnosisVO">
 		SELECT B.DIS_NAME 
 		FROM DIAGNOSIS A , DISEASE B
 		<where>
@@ -72,7 +72,7 @@
 	</select>
 	
 	<select id="getMedicine" resultType="map"
-		parameterType="prescriptionVO">
+		parameterType="PrescriptionVO">
 		SELECT P.*, M.*
 		FROM PRESCRIPTION P, MEDICINE M
 		WHERE P.MEDI_NO = M.MEDI_NO
@@ -80,4 +80,30 @@
 			AND DIAG_NO = #{diag_no}
 		</if>
 	</select>
+	
+<!-- 	<insert id="insertDiag" parameterType="DiagnosisVO">
+		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
+			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS
+		</selectKey>
+		INSERT INTO DIAGNOSIS(diag_no,
+							  diag_time,
+							  diag_memo,
+		아..어렵네...ㅋ...
+		)
+	</insert> -->
+	
+	
+	<!-- <insert id="insertDiag2" parameterType="PrescriptionVO">
+		<selectKey order="BEFORE" keyProperty="pres_no" resultType="String">
+			SELECT NVL(MAX(PRES_NO),0)+1 FROM PRESCRIPTION
+		</selectKey>
+		INSERT INTO DIAGNOSIS(pres_no,
+							  pres_acount,
+							  pres_account,
+							  pres_total,
+							  pres_date,
+		 ㅋㅋㅋ아..	 
+		
+		)
+	</insert> -->
 </mapper>

@@ -52,8 +52,32 @@
 	BODYINFO 
 	WHERE BABY_NO = #{baby_no}
 	</select>
-	<select id="getDiagDetail" resultType="DiagnosisVO">
+	
+	<select id="getDiagDetail" resultType="diagnosisVO">
 	SELECT * FROM DIAGNOSIS
-	WHERE DIAG_NO = #{diag_no}
+	<where>
+		<if test="diag_no != null and diag_no != ''">
+     		DIAG_NO = #{diag_no}
+      	</if>
+     </where>
+	</select>
+	
+	<select id="getDiagDetail2" resultType="map"
+		parameterType="diagnosisVO">
+		SELECT B.DIS_NAME 
+		FROM DIAGNOSIS A , DISEASE B
+		<where>
+			(A.DIS_CODE=B.DIS_CODE) AND DIAG_NO = #{diag_no}
+		</where>
+	</select>
+	
+	<select id="getMedicine" resultType="map"
+		parameterType="prescriptionVO">
+		SELECT P.*, M.*
+		FROM PRESCRIPTION P, MEDICINE M
+		WHERE P.MEDI_NO = M.MEDI_NO
+		<if test="diag_no != null and diag_no != ''">
+			AND DIAG_NO = #{diag_no}
+		</if>
 	</select>
 </mapper>

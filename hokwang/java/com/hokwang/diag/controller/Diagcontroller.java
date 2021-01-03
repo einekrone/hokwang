@@ -13,6 +13,7 @@ import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
+import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -68,4 +69,18 @@ public class Diagcontroller {
 	public DiagnosisVO getDiagDetail(DiagnosisVO vo) {
 		return diagDao.getDiagDetail(vo);
 	}
+	//질병명 출력
+	@ResponseBody
+	@RequestMapping("/ajax/DiagDetail2")
+	public Map<String,Object> diagnosisDetail2(DiagnosisVO vo){
+		return diagDao.getDiagDetail2(vo);
+	}
+	
+	//약출력
+	@ResponseBody
+	@RequestMapping("/ajax/getMedicine")
+	public List<Map<String, Object>> getMedicine(PrescriptionVO vo){
+		return diagDao.getMedicine(vo);
+	}
+	
 }

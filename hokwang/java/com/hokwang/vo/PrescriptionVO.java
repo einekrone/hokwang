@@ -6,12 +6,13 @@ import lombok.Data;
 
 @Data
 public class PrescriptionVO {//처방전
-	String mdetail_no;//약 상세 번호
-	String mdetail_count;//투여 횟수(하루 기준)
-	String mdetail_account;//투여량(알약 수)
-	String mdetail_total;//투여 일수(총 투약일수)
+	String pres_no;//약 상세 번호
+	String pres_count;//투여 횟수(하루 기준)
+	String pres_account;//투여량(알약 수)
+	String pres_total;//투여 일수(총 투약일수)
 	Date pres_date;//처방 일시
 	String diag_no;//진료 번호
+	String medi_no; //약번호
 
 
 }

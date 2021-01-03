@@ -63,7 +63,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			success : 
 		});
 	} */
-	//진료날짜/의사소견 출력
+	//진료 기록 상세
 	function getDiagDetail() {
 		$("body").on("click", "#HistoryList tr", function() {
 			var tdArr = new Array();
@@ -75,6 +75,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			
 			console.log("진료번호 : "+td.eq(0).text());
 
+			//진료일
 			$.ajax({
 				url : 'ajax/DiagDetail',
 				data : {
@@ -86,15 +87,90 @@ div.dataTables_wrapper div.dataTables_paginate {
 				},
 				success : getDiagDetailResult
 			});
+			
+			//의사소견
+			$.ajax({
+				url : 'ajax/DiagDetail',
+				data : {
+					diag_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getDiagDetailResult3
+			});
+			
+			//질병
+			$.ajax({
+				url : 'ajax/DiagDetail2',
+				data : {
+					diag_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getDiagDetailResult2
+			});
+			
+			//질병
+			$.ajax({
+				url : 'ajax/getMedicine',
+				data : {
+					diag_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getMedicineResult
+			});
+			
 		});
 	}
 	function getDiagDetailResult(data) {
 		$("#diagDetail").empty();
-		$("#diagDetail")
-		.append($('<p>').html('진료일 : ' + data.DIAG_TIME))
-		.append($('<p>').html('의사소견 : ' + data.DIAG_MEMO))
+		
+		$.each(data, function(idx, item){
+		$("<tr>").append($("<td>").html(item.DIAG_TIME))
+				 .appendTo('#diagDetail');
+		});
+		
 	}
 	
+	function getDiagDetailResult2(data) {
+		$("#diagDetail2").empty();
+		
+		$.each(data,function(idx,item){
+		$("<tr>").append($('<td>').html(item.DIS_NAME))
+				 .appendTo('#diagDetail2');
+		});
+
+	} 
+	
+	function getDiagDetailResult3(data) {
+		$("#diagDetail3").empty();
+		
+		$.each(data,function(idx,item){
+		$("<tr>").append($('<td>').html(item.DIAG_MEMO))
+				 .appendTo('#diagDetail3');
+		});
+
+	}
+	
+	function getMedicineResult(data) {
+		$("#getMedicine").empty();
+		
+		$.each(data,function(idx,item){
+		$("<tr>").append($('<td>').html(item.medi_name))
+				 .append($('<td>').html(item.pres_count))
+				 .append($('<td>').html(item.pres_Account))
+				 .append($('<td>').html(item.pres_total))
+				 .appendTo('#getMedicine');
+		});
+
+	}
 	//대기환자 함수
 	function waitList(searchType, keyword) {
 		$.ajax({
@@ -350,8 +426,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 						<!-- 사진 -->
 						<div>
-							<image src="${pageContext.request.contextPath}/DD.JPG"
-								id="baby_pic"></image>
+							<%-- <image src="${pageContext.request.contextPath}/DD.JPG"
+								id="baby_pic"></image> --%>
 						</div>
 					</div>
 				</div>
@@ -369,8 +445,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 				<!-- 환자 기록 -->
 				<div class="card shadow py-2" style="height: 540px;">
 					<div class="card-body">
-						<!-- Title -->
-						<div>
+				
+						<!-- 진료 기록 -->
+						<div style="width: 40%; float: left">
 							<!-- logo -->
 							<div class="title_logo">
 								<i class="fas fa-file-medical"></i>
@@ -378,11 +455,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">진료 기록</span>
 							</div>
-						</div>
-
-
-						<!-- 진료 기록 -->
-						<div style="width: 40%; float: left">
 							<table id="noborder_table">
 								<thead>
 									<tr id="nbab">
@@ -395,16 +467,68 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 						<!-- 진료 기록 상세 -->
 						<div style="width: 60%; float: right;">
-							<table id="noborder_table" >
-								<div id="diagDetail" style="overflow: auto; width: 100%;"></div>
-								<tr>
-									<th>상병</th>
-								</tr>
-								<tr>
-									<th>처방</th>
-									<td>이탈리안 비엠티</td>
-								</tr>
+							
+							<!-- logo -->
+							<div class="title_logo">
+								<i class="far fa-clipboard"></i>
+
+								<!-- content -->
+								<span class="tit" style="font-weight: 600;">진료 기록 상세</span>
+							</div>
+							
+							<div class="card-body">
+							
+							<div style="height: 70px;">
+							<table id="noborder_table">
+								<thead>
+									<tr id="nbab">
+										<th class="text-center">진료일</th>
+									</tr>
+								</thead>
+								<tbody id="diagDetail" style="overflow: auto;  width: 100%;"></tbody>
 							</table>
+							</div>
+							
+							<div style="height: 70px;">
+							<table id="noborder_table">
+								<thead>
+									<tr id="nbab">
+										<th class="text-center">의사 소견</th>
+									</tr>
+								</thead>
+								<tbody id="diagDetail3" style="overflow: auto;  width: 100%;"></tbody>
+							</table>
+							</div>
+							
+							<div style="height: 70px;">
+							<table id="noborder_table">
+								<thead>
+									<tr id="nbab">
+										<th class="text-center">상병</th>
+									</tr>
+								</thead>
+								<tbody id="diagDetail2" style="overflow: auto; width: 100%;"></tbody>
+							</table>
+							</div>
+							
+							<div style="height: 70px;">
+							<table id="noborder_table">
+								<thead>
+									<tr id="nbab">
+										<th>처방</th>
+									</tr>
+									<tr>
+										<th class="text-center">처방명</th>
+										<th class="text-center">용량</th>
+										<th class="text-center">일투</th>
+										<th class="text-center">일수</th>
+									</tr>
+								</thead>
+								<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
+							</table>
+							</div>
+							
+							</div>
 						</div>
 					</div>
 				</div>
@@ -446,23 +570,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<span class="tit" style="font-weight: 600;">상병</span>
 							</div>
 						</div>
-						<!-- 상병 내용 table -->
-
-						<!-- 						<table>
-							<tr>
-								<td>코드</td>
-								<td>상병명</td>
-								<td>좌 우</td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td>급성 비인두염[감기]</td>
-								<td><span style="margin: 4px 0 0 5px;">좌</span>
-								<input class="chk" type="checkbox">
-								<span style="margin: 4px 0 0 5px;">우</span>
-								<input class="chk" type="checkbox"></td>
-							</tr>
-						</table> -->
+						
 					</div>
 				</div>
 
@@ -482,30 +590,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 						<!-- 처방 내용 table -->
 
-						<table>
-							<tr>
-								<td>코드</td>
-								<td>처방명</td>
-								<td>용량</td>
-								<td>일투</td>
-								<td>일수</td>
-								<td>용법</td>
-								<td>특정내역</td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td>어린이부루펜시럽(내복)</td>
-								<td>28</td>
-								<td>4</td>
-								<td>2</td>
-								<td>fev</td>
-								<td></td>
-							</tr>
-						</table>
+				
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 </body>
 </html>

@@ -319,7 +319,7 @@
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-success">체중 신장 차트</p>
 					<div class="chart-area" style="width: 75%; margin: 0 auto;">
-						<canvas id="myChart" style="width: 30px; height: 35px;"></canvas>
+						<canvas id="myChart" style="width: 100%; height: 100%;"></canvas>
 					</div>
 				</div>
 			</div>

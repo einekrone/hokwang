@@ -13,7 +13,6 @@
 		FROM RESERVATION R, BABY B
 		WHERE
 		R.BABY_NO = B.BABY_NO
-		AND R.RESV_STATUS IN ('N', 'I')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today'">
@@ -113,6 +112,7 @@
 		FROM RESERVATION R, BABY B
 		WHERE B.BABY_NO = R.BABY_NO
 		AND R.RESV_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND R.RESV_STATUS IN ('N', 'I')
 		ORDER BY R.RESV_DATE, R.RESV_TIME, R.RESV_TYPE
 	</select>
 		<!-- AND <![CDATA[ R.RESV_TIME < TO_CHAR(SYSDATE, 'HH24:MI') ]]> -->

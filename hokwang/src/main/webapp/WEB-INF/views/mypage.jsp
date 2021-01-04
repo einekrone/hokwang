@@ -258,24 +258,9 @@
 								type="submit" value="저장"></td>
 							<td class="content" style="margin: 10px;">
 						</tr>
-
 					</table>
-				</div>
-				<div class="card-footer" style="height: 50px;">
-
-					<a class="text-primary" id="btnUpdate" style="font-size: 15px">
-						프로필 변경 </a>
-					<!-- 	<button class = "text-primary" id="btnUpdate"
-							style="font-size: 15px"> 프로빌 변경
-						</button> -->
-
-					<a class="text-primary" href="<c:url value='logout' />"
-						style="font-size: 15px">로그아웃 </a>
-
-				</div>
-			</div>
-			<div class="col-xl-6 col-md-6 mb-4 card">
-				<div class="card-body" id="profileInf">
+					<!-- 추가 -->
+									<div class="card-body" id="profileInf">
 					<table>
 						<tr>
 							<td>&nbsp;&nbsp;이름</td>
@@ -317,6 +302,63 @@
 
 					</table>
 				</div>
+					
+					
+					
+				</div>
+				<div class="card-footer" style="height: 50px;">
+					<a class="text-primary" id="btnUpdate" style="font-size: 15px">
+						프로필 변경 </a>
+
+				</div>
+			</div>
+			<div class="col-xl-6 col-md-6 mb-4 card">
+				
+				
+<%-- 				<div class="card-body" id="profileInf">
+					<table>
+						<tr>
+							<td>&nbsp;&nbsp;이름</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;사원번호</td>
+							<td id="no">${emp_vo.emp_no}</td>
+						</tr>
+						<tr>
+							<td><span class="point">&nbsp;*</span>비밀번호</td>
+							<td><input type="text" id="pw" name="pw"
+								placeholder="비밀번호를 재입력하시오"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;주민등록번호</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;면허 정보</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;전화번호</td>
+							<td><input type="text" value="${emp_vo.emp_tel}" id="tel"
+								name="tel"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;주소</td>
+							<td><input type="text" value="${emp_vo.emp_addr}" id="addr"
+								name="addr"></td>
+						</tr>
+						<c:if test="${emp_vo.emp_author=='D'}">
+							<tr>
+								<td>&nbsp;&nbsp;진료실</td>
+								<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
+							</tr>
+						</c:if>
+
+					</table>
+				</div> --%>
+
+
 
 			</div>
 			<div class="card shadow py-2" style="height: 480px; width: 100%;">

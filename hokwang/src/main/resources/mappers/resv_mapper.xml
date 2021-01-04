@@ -36,7 +36,7 @@
 		D.DIAG_NO = I.DIAG_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				BABY_NO = #{baby_no}
+				R.BABY_NO = #{baby_no}
 			</if>
 		</where>
 		ORDER BY RESV_NO

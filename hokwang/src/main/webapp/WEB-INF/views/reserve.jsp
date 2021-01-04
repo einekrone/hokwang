@@ -858,7 +858,7 @@ button {
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="min-height: 100px;">
 					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
 						<input type="hidden" id="diag_no" value="">
 						<div class="filebox">
@@ -867,7 +867,7 @@ button {
 								onchange="setImages(event);">
 						</div>
 						<div id="imgShow"
-							style="height: 640px; overflow-y: auto; width: 100%;"></div>
+							style="max-height: 640px; overflow-y: auto; width: 100%;"></div>
 						<div class="modal-footer text-center"
 							style="justify-content: center !important;">
 							<button class="btn-primary" type="button" style="margin: 0 25px;"

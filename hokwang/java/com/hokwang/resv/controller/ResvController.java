@@ -38,6 +38,7 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
 	public List<Map<String, Object>> getResvList(ResvSearch vo) {
+		System.out.println("vo :: "+vo.getKeyword());
 		return resvSvc.getResvList(vo);
 	}
 

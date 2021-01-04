@@ -105,59 +105,56 @@ button {
 		});
 
 		// todo: 진료실 onchange
-		$("body").on(
-				"change",
-				"#officeSel",
-				function() {
-					var offSel = $("#officeSel option:selected").val();
-					console.log("change : " + offSel);
-					if (offSel != "-") {
-						console.log("진료실로 이동");
-						var tdArr = new Array();
-						var td = $(this).parent().siblings();
+		$("body").on("change", "#officeSel", function() {
+			var offSel = $("#officeSel option:selected").val();
+			console.log("change : " + offSel);
+			if (offSel != "-") {
+				console.log("진료실로 이동");
+				var tdArr = new Array();
+				var td = $(this).parent().siblings();
 
-						td.each(function(i) {
-							tdArr.push(td.eq(i).text());
-						});
+				td.each(function(i) {
+					tdArr.push(td.eq(i).text());
+				});
 
-						console.log("??1 : " + td.eq(0).text());
-						console.log("??2 : " + td.eq(2).text());
-						/* $('<tr>').append(
-								$(
-										'<td id="resvNo" value="'
-												+ td.eq(0).text() + '">').html(
-										td.eq(0).text())).append(
-								$('<td>').html(td.eq(2).text())).appendTo(
-								'#room' + offSel); */ // todo 올바르게 됐는지 확인
-
-						var resv_no = td.eq(0).text();
-						// 진료실 변경사항 db
-						$.ajax({
-							url : 'ajax/roomUpdate',
-							type : 'POST',
-							dataType : 'json',
-							data : {
-								resv_no : resv_no,
-								resv_room : offSel
-							},
-							error : function(xhr, status, msg) {
-								alert("상태값 :" + status + " Http에러메시지 :" + msg);
-							},
-							success : function(data) {
-								console.log("roomUpdate 성공");
-								// 2. 진료실 목록 조회
-								$("#room1").empty();
-								$("#room2").empty();
-								$("#room3").empty();
-								roomList();
-							}
-						});
+				console.log("??1 : " + td.eq(0).text());
+				console.log("??2 : " + td.eq(2).text());
+				/* $('<tr>').append(
+						$(
+								'<td id="resvNo" value="'
+										+ td.eq(0).text() + '">').html(
+								td.eq(0).text())).append(
+						$('<td>').html(td.eq(2).text())).appendTo(
+						'#room' + offSel); */// todo 올바르게 됐는지 확인
+				var resv_no = td.eq(0).text();
+				// 진료실 변경사항 db
+				$.ajax({
+					url : 'ajax/roomUpdate',
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						resv_no : resv_no,
+						resv_room : offSel
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						console.log("roomUpdate 성공");
+						// 2. 진료실 목록 조회
+						$("#room1").empty();
+						$("#room2").empty();
+						$("#room3").empty();
+						roomList();
 					}
 				});
+			}
+		});
 
 		// 예약환자명 검색
 		$("#searchPati").click(function() {
 			var keyword = $("#keyword").val();
+			console.log("keyword : " + keyword);
 			resvList("resvSearch", keyword);
 			$("#keyword").val("");
 		});
@@ -311,6 +308,7 @@ button {
 			if (chk) { // true
 				$.ajax({
 					url : 'ajax/imgDelete',
+					method : 'post',
 					dataType : 'json',
 					data : $("#imgForm").serialize(),
 					error : function(xhr, status, msg) {
@@ -863,7 +861,7 @@ button {
 						<input type="hidden" id="resv_no" value="">
 						<div class="filebox">
 							<label for="imgInput">업로드</label> <input type="file"
-								id="imgInput" name="imgInput"  accept="image/*"
+								id="imgInput" name="imgInput" accept="image/*"
 								onchange="setImages(event);">
 						</div>
 						<div id="imgShow"

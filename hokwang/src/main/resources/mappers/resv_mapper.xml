@@ -20,7 +20,7 @@
 				'YYYY-MM-DD')
 			</if>
 			<if test="searchType == 'resvSearch'">
-				AND B.BABY_NAME LIKE '%#{keyword}%'
+				AND B.BABY_NAME LIKE '%'||#{keyword}||'%'
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME

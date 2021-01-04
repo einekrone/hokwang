@@ -237,7 +237,7 @@
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;사원번호</td>
-								<td id="no">&nbsp;&nbsp;${emp_vo.emp_no}</td>
+								<td id="no">${emp_vo.emp_no}</td>
 							</tr>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>

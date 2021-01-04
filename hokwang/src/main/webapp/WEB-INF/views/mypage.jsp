@@ -228,6 +228,11 @@
 #wri_m_bt a {
 	color: white;
 }
+
+#body{
+ position: fixed 
+}
+
 </style>
 </head>
 
@@ -248,6 +253,8 @@
 
 			<div class="col-xl-6 col-md-6 mb-4 card">
 				<div class="card-body">
+				<div style="float: left;">
+				
 					<table>
 						<!-- 이미지 파일 -->
 						<tr>
@@ -259,6 +266,7 @@
 							<td class="content" style="margin: 10px;">
 						</tr>
 					</table>
+					</div>
 					<!-- 추가 -->
 									<div class="card-body" id="profileInf">
 					<table>
@@ -306,7 +314,7 @@
 					
 					
 				</div>
-				<div class="card-footer" style="height: 50px;">
+				<div class="card-footer" style="height: 50px; float: right;">
 					<a class="text-primary" id="btnUpdate" style="font-size: 15px">
 						프로필 변경 </a>
 

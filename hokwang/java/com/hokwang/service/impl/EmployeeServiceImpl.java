@@ -64,4 +64,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmpDAO.updateInf(emp_vo);
 	}
 	
+	
+	@Override
+	public List<MessageVO> getTotalMsg(EmployeeVO vo) {
+		
+		return EmpDAO.getTotalMsg(vo);
+	}
+
+	
+	
+	
 }

@@ -82,4 +82,16 @@ public class MypageController {
 		System.out.println(vo);
 		dao.updateInf(vo);
 	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/getTotalMsg")
+	public List<MessageVO> getTotalMsg(Model model,EmployeeVO vo) {
+		return dao.getTotalMsg(vo);
+	}
+	
+	
+	
+	
+	
+	
 }

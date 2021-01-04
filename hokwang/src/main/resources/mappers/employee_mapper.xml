@@ -101,14 +101,20 @@
 	</select>
 
 	<update id="updateInf" parameterType="employeeVO">
-		update employee set 
+		update employee set
 		emp_tel=#{emp_tel}
 		,emp_pwd=#{emp_pwd}
-		,emp_addr=#{emp_addr} 
+		,emp_addr=#{emp_addr}
 		where emp_no =#{emp_no}
 	</update>
-	
-	
-	
+
+	<select id="getTotalMsg" parameterType="employeeVO" resultType="messageVO">
+		select * from message where emp_resvno = #{emp_no}
+	</select>
+
+
+
+
+
 
 </mapper>

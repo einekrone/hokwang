@@ -15,5 +15,6 @@ public interface EmployeeMapper {
 	public List<MessageVO> showNotReadMsg(EmployeeVO emp_vo);
 	public EmployeeVO findId(EmployeeVO emp_vo); //Id찾기
 	public EmployeeVO findPw(EmployeeVO emp_vo); //Pw찾기
+	public List<MessageVO> getTotalMsg(EmployeeVO emp_vo);
 }
 

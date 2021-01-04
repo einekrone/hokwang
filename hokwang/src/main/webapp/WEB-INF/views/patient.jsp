@@ -238,12 +238,18 @@
 
 	Chart.defaults.global.defaultFontFamily = "Lato";
 	Chart.defaults.global.defaultFontSize = 18;
-
+	var dataSecond = {
+		label : "신장",
+		data : [ 20, 15, 60, 60, 65, 30, 70 ],
+		lineTension : 0,
+		fill : false,
+		borderColor : 'blue'
+	};
 	var speedData = {
 		labels : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월",
 				"11월", "12월" ],
 		datasets : [ {
-			label : "체중 신장",
+			label : "체중",
 			data : [ 0, 59, 75, 20, 20, 55, 40 ],
 			lineTension : 0,
 			fill : false,
@@ -257,7 +263,7 @@
 			pointHitRadius : 30,
 			pointBorderWidth : 2,
 			pointStyle : 'rectRounded'
-		} ]
+		}, dataSecond ]
 	};
 
 	var chartOptions = {
@@ -288,7 +294,7 @@
 				},
 				scaleLabel : {
 					display : true,
-					labelString : "Speed in Miles per Hour",
+					labelString : "cm",
 					fontColor : "green"
 				}
 			} ]
@@ -299,6 +305,7 @@
 		type : 'line',
 		data : speedData,
 		options : chartOptions
+
 	});
 </script>
 </head>
@@ -318,7 +325,7 @@
 			<div class="card shadow py-2" style="height: 400px;">
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-success">체중 신장 차트</p>
-					<div class="chart-area" style="width: 75%; margin: 0 auto;">
+					<div class="chart-area" style="width: 100%; margin: 0 auto;">
 						<canvas id="myChart" style="width: 100%; height: 100%;"></canvas>
 					</div>
 				</div>

@@ -54,7 +54,7 @@
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
-				success : function(data) {	
+				success : function(data) {
 					alert("변경되었습니다.");
 				}
 			});
@@ -127,67 +127,83 @@
 .row {
 	margin: 30px 180px 0px 180px;
 }
-.list-table{
-	margin-left:0; margin-top:70px;
+
+.list-table {
+	margin-left: 0;
+	margin-top: 50px;
+	width: 100%;
 }
-.list-table thead th{
-	height:30px;
-	border-top:2px solid #09C;
-	border-bottom:1px solid #CCC;
+
+.list-table thead th {
+	height: 30px;
+	border-top: 2px solid #09C;
+	border-bottom: 1px solid #CCC;
 	font-weight: bold;
 	font-size: 16px;
 }
-.list-table tbody td{
-	padding:10px 0;
-	border-bottom:1px solid #CCC;
-	height:20px;
+
+.list-table tbody td {
+	padding: 10px 0;
+	border-bottom: 1px solid #CCC;
+	height: 20px;
 	font-size: 14px;
 }
-.list-table tbody:hover{
+
+.list-table tbody:hover {
 	background: #f2f2f2;
 }
+
 .aside {
-	width:180px;
+	width: 180px;
 	height: 100%;
 	background: #A9E2F3; /* Old browsers */
-	background: -moz-linear-gradient(top, #A9E2F3 0%, #ffffff 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top, #A9E2F3 0%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
-	top:0;
-	margin-left:0;
+	background: -moz-linear-gradient(top, #A9E2F3 0%, #ffffff 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #A9E2F3 0%, #ffffff 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	top: 0;
+	margin-left: 0;
 	z-index: -100;
 	position: absolute;
 }
+
 #note_menu {
-	margin-top:100px;
-	line-height: 30px;  
+	margin-top: 100px;
+	line-height: 30px;
 }
+
 #main_in {
-	margin: 53px;
-	width:900px;
+	/* margin: 53px; */
 	position: absolute;
-	left: 220px; 
+	left: 350px;
+	width: 75%;
 }
+
 #note_bt {
-	margin-top:15px;
+	margin-top: 15px;
 }
+
 #note_bt ul li {
 	float: left;
 	margin-left: 20px;
 }
+
 #wri_m_bt {
 	margin-left: 30px;
 	padding: 10px 20px 10px 20px;
 	background: #013ADF;
 	border: 0;
-	color:white;
+	color: white;
 	font-size: 12px;
 }
+
 #wri_m_bt:hover {
 	background: #08298A;
-	color:white;
+	color: white;
 }
-#wri_m_bt a{
-	color:white;
+
+#wri_m_bt a {
+	color: white;
 }
 </style>
 </head>
@@ -197,9 +213,8 @@
 	<div class="container-fluid" style="margin-top: 0px !important;">
 		<!-- Content Row -->
 		<div class="row" id="row">
-			<div class="col-xl-12 col-md-6 mb-4">
-				<div class="card shadow py-2"
-					style="height: 350px; float: left; width: 20%">
+
+			<div class="col-xl-6 col-md-6 mb-4 card">
 					<div class="card-body">
 						<table>
 							<!-- 이미지 파일 -->
@@ -226,9 +241,8 @@
 							style="font-size: 15px">로그아웃 </a>
 
 					</div>
-				</div>
-				<div class="card shadow py-2"
-					style="height: 350px; float: left; width: 50%">
+			</div>
+			<div class="col-xl-6 col-md-6 mb-4 card">
 					<div class="card-body" id="profileInf">
 						<table>
 							<tr>
@@ -237,7 +251,7 @@
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;사원번호</td>
-								<td id="no">&nbsp;&nbsp;${emp_vo.emp_no}</td>
+								<td id="no">${emp_vo.emp_no}</td>
 							</tr>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
@@ -259,8 +273,8 @@
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;주소</td>
-								<td><input type="text" value="${emp_vo.emp_addr}"
-									id="addr" name="addr"></td>
+								<td><input type="text" value="${emp_vo.emp_addr}" id="addr"
+									name="addr"></td>
 							</tr>
 							<c:if test="${emp_vo.emp_author=='D'}">
 								<tr>
@@ -271,62 +285,62 @@
 
 						</table>
 					</div>
-				</div>
 
 			</div>
 			<div class="card shadow py-2" style="height: 480px; width: 100%;">
-			<aside>
-				<div class="card shadow py-2" style="height: 462px; width: 20%;">
-					<div class="card-body">
-						<div>
-							<div class="nav flex-column nav-pills" id="v-pills-tab"
-								role="tablist" aria-orientation="vertical">
-								<a class="nav-link active" id="v-pills-home-tab"
-									data-toggle="pill" href="#v-pills-home" role="tab"
-									aria-controls="v-pills-home" aria-selected="true">전체쪽지함 <span
-									class="badge badge-primary badge-pill" id="totalMsg"> </span>
-								</a> <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
-									href="#v-pills-profile" role="tab"
-									aria-controls="v-pills-profile" aria-selected="false">읽지 않은
-									쪽지함 <span class="badge badge-primary badge-pill" id="noReadMsg">
-								</span>
-								</a> <a class="nav-link" id="v-pills-messages-tab"
-									data-toggle="pill" href="#v-pills-messages" role="tab"
-									aria-controls="v-pills-messages" aria-selected="false">보낸쪽지함
-									<span class="badge badge-primary badge-pill" id="sendMsg">
-								</span>
-								</a> <a class="nav-link" id="v-pills-settings-tab"
-									data-toggle="pill" href="#v-pills-settings" role="tab"
-									aria-controls="v-pills-settings" aria-selected="false">임시저장함
-									<span class="badge badge-primary badge-pill" id="tempMsg">
-								</span>
-								</a>
+				<aside>
+					<div class="card shadow py-2" style="height: 462px; width: 20%;">
+						<div class="card-body">
+							<div>
+								<div class="nav flex-column nav-pills" id="v-pills-tab"
+									role="tablist" aria-orientation="vertical">
+									<a class="nav-link active" id="v-pills-home-tab"
+										data-toggle="pill" href="#v-pills-home" role="tab"
+										aria-controls="v-pills-home" aria-selected="true">전체쪽지함 <span
+										class="badge badge-primary badge-pill" id="totalMsg"> </span>
+									</a> <a class="nav-link" id="v-pills-profile-tab"
+										data-toggle="pill" href="#v-pills-profile" role="tab"
+										aria-controls="v-pills-profile" aria-selected="false">읽지
+										않은 쪽지함 <span class="badge badge-primary badge-pill"
+										id="noReadMsg"> </span>
+									</a> <a class="nav-link" id="v-pills-messages-tab"
+										data-toggle="pill" href="#v-pills-messages" role="tab"
+										aria-controls="v-pills-messages" aria-selected="false">보낸쪽지함
+										<span class="badge badge-primary badge-pill" id="sendMsg">
+									</span>
+									</a> <a class="nav-link" id="v-pills-settings-tab"
+										data-toggle="pill" href="#v-pills-settings" role="tab"
+										aria-controls="v-pills-settings" aria-selected="false">임시저장함
+										<span class="badge badge-primary badge-pill" id="tempMsg">
+									</span>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</aside>
-			
-			<div id="main_in">
-  <table class="list-table">
-    <thead>
-      <tr>
-        <th width="50" class="tc"><input type="checkbox" /></th>
-        <th width="150" class="tl">받는사람</th>
-        <th width="600" class="tl">내용</th>
-        <th width="200" class="tc">날짜</th>
-        <th width="100" class="tc">수신여부</th>
-      </tr>
-    </thead>
+				</aside>
 
-      <tbody>
-        <tr>
-          <td class="tc"><input type="checkbox" /></td> 
-            <td>받는이</td>
-            <td>제목</td>
-            <td class="tc">보낸시간</td> 
-          <td class="tc">
-            <?php 
+
+				<div id="main_in">
+					<table class="list-table">
+						<thead>
+							<tr>
+								<th width="50" class="tc"><input type="checkbox" /></th>
+								<th width="150" class="tl">받는사람</th>
+								<th width="600" class="tl">내용</th>
+								<th width="200" class="tc">날짜</th>
+								<th width="100" class="tc">수신여부</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td class="tc"><input type="checkbox" /></td>
+								<td>받는이</td>
+								<td>제목</td>
+								<td class="tc">보낸시간</td>
+								<td class="tc">
+									<?php 
               if($recv['recv_chk'] == "0")
               {
                 echo "읽지않음";
@@ -334,19 +348,19 @@
                 echo "읽음";
               }
             ?>
-          </td>
-        </tr>
-      </tbody>
-    <?php } ?>
-  </table>
-  <div id="note_bt">
-      <ul>
-        <li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
-      </ul>
-    </div>
-  </div>
-			
+								</td>
+							</tr>
+						</tbody>
+						<?php } ?>
+					</table>
+					<div id="note_bt">
+						<ul>
+							<li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
 		</div>
-	</div>
 </body>
 </html>

@@ -101,7 +101,11 @@
 	</select>
 
 	<update id="updateInf" parameterType="employeeVO">
-		update employee set emp_tel=#{emp_tel},emp_pwd=#{emp_pwd},emp_addr=#{emp_addr} where emp_no =#{emp_no}
+		update employee set 
+		emp_tel=#{emp_tel}
+		,emp_pwd=#{emp_pwd}
+		,emp_addr=#{emp_addr} 
+		where emp_no =#{emp_no}
 	</update>
 	
 	

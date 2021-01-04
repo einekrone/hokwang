@@ -28,9 +28,9 @@ public class ScheServiceImpl implements ScheService  {
 	}
 
 	@Override
-	public int deleteSche(ManagementVO sche) {
+	public void deleteSche(ManagementVO sche) {
 		// TODO Auto-generated method stub
-		return dao.deleteSche(sche);
+		dao.deleteSche(sche);
 	}
 	
 

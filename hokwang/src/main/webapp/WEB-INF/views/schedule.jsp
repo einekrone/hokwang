@@ -69,7 +69,6 @@
  
   <form id="form1">
     <fieldset>
-
     <label>카테고리</label>
     <select id="work_ctg" name="work_ctg" onchange="ctgchange()">
     	<option value="">선택</option>
@@ -94,6 +93,22 @@
   </form>
 </div>
  <script>
+ 
+ function formCheck() {
+		var form1 = document.form1;
+		if (form1.work_ctg.value == "") {
+			alert("카테고리를 선택하세요");
+			form1.work_ctg.focus();
+			return false;
+		}
+		if (form1.work_cause.value == "") {
+			alert("사유를 입력하세요");
+			form1.work_cause.focus();
+			return false;
+		}
+		return true;
+	}
+ 
  		function ctgchange(){
  			if($("#work_ctg").val() =="work"){
  				$("#work_stdate").css("display","none");
@@ -153,14 +168,14 @@
           }
         });*/
      	
+      
         
       //캘린더 속성
         var calendar = new Calendar(calendarEl, {
           locale:'ko', //한국어 설정
           events:{
-        	  url:"getScheList"
-        	 
-          
+        	  url:"getScheList",
+        	  textColor : 'white'
           },
           
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -172,8 +187,8 @@
          	
             
           },
+          
           selectable: true,//선택한 날짜 표시
-          editable: true,//달력에 있는 이벤트 드래그
          
 		 select: function(arg){ //날짜클릭시 dialog 오픈
 			 
@@ -189,25 +204,25 @@
 		
 		eventClick : function(info) { //이벤트 클릭시 삭제
 			console.log(info.event);
-			console.log(info._id);
+			console.log("????"+info.event._def.extendedProps._id);
 			var result = confirm("일정을 삭제하시겠습니까?");
 			if(result){
 					$.ajax({
 						url : "deleteSche",
 						type : 'POST',
 						dataType : 'json',
-						data:{work_no:info.event._def.extendedProps._id},
+						data:{
+							work_no:info.event._def.extendedProps._id
+							},
 						error : function(xhr, status, msg) {
 							alert("상태값 :" + status + " Http에러메시지 :" + msg);
 						},
 						success : function(data) {
-							//info.event.remove();
-
+							info.event.remove();
 						}
 					});
 			}
 			},
-
 		});
 		calendar.render();
 
@@ -224,12 +239,14 @@
 						start : $('#work_stdate').val(),
 						end : $('#work_endate').val()
 					});
+					
 				},
 				error : function() {
 					alert("fail");
 				}
 			})
 			dialog.dialog("close");
+			
 		});
 	</script>
 </body>

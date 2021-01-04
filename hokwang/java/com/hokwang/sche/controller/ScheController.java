@@ -37,9 +37,11 @@ public class ScheController {
 		return sche.getWork_no();
 	}
 	//삭제
+	@ResponseBody
 	@RequestMapping(value="/deleteSche", method=RequestMethod.POST)
-		public int delete(ManagementVO sche) {
-			return dao.deleteSche(sche);
+		public boolean delete(ManagementVO sche) {
+			dao.deleteSche(sche);
+			return true;
 		}
 	
 	

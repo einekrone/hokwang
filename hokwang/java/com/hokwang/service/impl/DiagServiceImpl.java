@@ -54,7 +54,7 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public Map<String, Object> getDiagDetail2(DiagnosisVO vo) {
+	public List<Map<String, Object>> getDiagDetail2(DiagnosisVO vo) {
 
 		return service.getDiagDetail2(vo);
 	}

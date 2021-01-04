@@ -54,12 +54,7 @@
 	</select>
 	
 	<select id="getDiagDetail" resultType="DiagnosisVO">
-	SELECT * FROM DIAGNOSIS
-	<where>
-		<if test="diag_no != null and diag_no != ''">
-     		DIAG_NO = #{diag_no}
-      	</if>
-     </where>
+	SELECT * FROM DIAGNOSIS WHERE DIAG_NO = #{diag_no}
 	</select>
 	
 	<select id="getDiagDetail2" resultType="map"
@@ -81,18 +76,27 @@
 		</if>
 	</select>
 	
-<!-- 	<insert id="insertDiag" parameterType="DiagnosisVO">
+ <!-- 	<insert id="insertDiag" parameterType="DiagnosisVO">
 		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
 			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS
 		</selectKey>
 		INSERT INTO DIAGNOSIS(diag_no,
 							  diag_time,
 							  diag_memo,
-		아..어렵네...ㅋ...
+	
 		)
-	</insert> -->
+	</insert>  -->
+	<!-- <insert id="insertDiag" parameterType="DiagnosisVO">
+		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
+			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS
+		</selectKey>
+		INSERT INTO DIAGNOSIS(diag_no,
+							  diag_time,
+							  diag_memo,
 	
-	
+		)
+	</insert>
+	 -->
 	<!-- <insert id="insertDiag2" parameterType="PrescriptionVO">
 		<selectKey order="BEFORE" keyProperty="pres_no" resultType="String">
 			SELECT NVL(MAX(PRES_NO),0)+1 FROM PRESCRIPTION
@@ -102,7 +106,7 @@
 							  pres_account,
 							  pres_total,
 							  pres_date,
-		 ㅋㅋㅋ아..	 
+		 
 		
 		)
 	</insert> -->

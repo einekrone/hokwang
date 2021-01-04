@@ -71,7 +71,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.getTotalMsg(vo);
 	}
 
-	
+	@Override
+	public List<MessageVO> noReadTotalMsg(EmployeeVO vo) {
+		
+		return EmpDAO.noReadTotalMsg(vo);
+	}
+
 	
 	
 }

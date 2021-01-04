@@ -105,13 +105,23 @@
 		emp_tel=#{emp_tel}
 		,emp_pwd=#{emp_pwd}
 		,emp_addr=#{emp_addr}
-		where emp_no =#{emp_no}
+		where emp_no
+		=#{emp_no}
 	</update>
 
-	<select id="getTotalMsg" parameterType="employeeVO" resultType="messageVO">
-		select * from message where emp_resvno = #{emp_no}
+	<select id="getTotalMsg" parameterType="employeeVO"
+		resultType="messageVO">
+		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN from employee
+		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
+		select EMP_SENDNO from message where emp_resvno=#{emp_no})
 	</select>
 
+	<select id="noReadTotalMsg" parameterType="employeeVO"
+		resultType="messageVO">
+		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from employee
+		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
+		select EMP_SENDNO from message where emp_resvno=#{emp_no} and m.msg_yn='N')
+	</select>
 
 
 

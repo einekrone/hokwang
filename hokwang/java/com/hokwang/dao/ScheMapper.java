@@ -8,6 +8,6 @@ public interface ScheMapper {
 	
 	public List<ManagementVO> getScheList(ManagementVO sche);
 	public int insertSche(ManagementVO sche);
-	public int deleteSche(ManagementVO sche);
+	public void deleteSche(ManagementVO sche);
 
 }

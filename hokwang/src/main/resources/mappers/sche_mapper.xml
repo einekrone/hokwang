@@ -3,47 +3,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.ScheMapper">
-<!-- 조회 -->
-	<select id="getScheList" parameterType="ManagementVO" resultType="map">
-		SELECT WORK_CAUSE "title",
-			  CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') 
-			       ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD') 
-			  end "start",
-			 CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') 
-			       ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD') 
-			  end "end",
-			  work_no "id"
-		FROM management
-		WHERE work_date is not null or work_stdate is not null
-		
+	<!-- 조회 -->
+	<select id="getScheList" parameterType="ManagementVO"
+	resultType="map">
+	SELECT WORK_CAUSE "title",
+	CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD')
+	end "start",
+	CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD')
+	end "end",
+	CASE WHEN WORK_CTG = 'work' THEN 'red' else 'blue' end "backgroundColor",
+	work_no "_id"
+	FROM management WHERE work_date is not null or work_stdate is not null
+
 	</select>
-<!-- 일정 등록 -->
-<insert id="insertSche" parameterType="ManagementVO">
-	<selectKey order="BEFORE" keyProperty="work_no" resultType="string">
-		SELECT NVL(MAX(WORK_NO),0)+1 FROM MANAGEMENT
-	</selectKey>
-	INSERT INTO MANAGEMENT( work_no,
-							<if test="work_ctg == 'work'">work_date,</if>
-							<if test="work_ctg == 'holiday'">work_stdate,
-							work_endate,</if>
-							work_ctg,
-							work_cause
-							)
-						VALUES(
-								#{work_no},
-								<if test="work_ctg == 'work'">#{work_date},</if>
-								<if test="work_ctg == 'holiday'">#{work_stdate},
-								#{work_endate},</if>
-								#{work_ctg},
-								#{work_cause})
-						
-</insert>
+	<!-- 일정 등록 -->
+	<insert id="insertSche" parameterType="ManagementVO">
+		<selectKey order="BEFORE" keyProperty="work_no"
+			resultType="string">
+			SELECT NVL(MAX(WORK_NO),0)+1 FROM MANAGEMENT
+		</selectKey>
+		INSERT INTO MANAGEMENT( work_no,
+		<if test="work_ctg == 'work'">work_date,</if>
+		<if test="work_ctg == 'holiday'">work_stdate,
+			work_endate,
+		</if>
+		work_ctg,
+		work_cause
+		)
+		VALUES(
+		#{work_no},
+		<if test="work_ctg == 'work'">#{work_date},</if>
+		<if test="work_ctg == 'holiday'">#{work_stdate},
+			#{work_endate},
+		</if>
+		#{work_ctg},
+		#{work_cause})
 
-<!-- 삭제 -->
-<delete id="deleteSche" parameterType="ManagementVO" >
-	DELETE MANAGEMENT
-	WHERE work_no = #{work_no}
-</delete>
+	</insert>
 
+	<!-- 삭제 -->
+	<delete id="deleteSche" parameterType="ManagementVO">
+		DELETE MANAGEMENT
+		WHERE work_no = #{work_no}
+	</delete>
 
 </mapper>

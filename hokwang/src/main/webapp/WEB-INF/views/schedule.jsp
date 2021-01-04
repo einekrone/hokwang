@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
+
+
 <style>
 
 #external-events {
@@ -94,20 +97,6 @@
 </div>
  <script>
  
- function formCheck() {
-		var form1 = document.form1;
-		if (form1.work_ctg.value == "") {
-			alert("카테고리를 선택하세요");
-			form1.work_ctg.focus();
-			return false;
-		}
-		if (form1.work_cause.value == "") {
-			alert("사유를 입력하세요");
-			form1.work_cause.focus();
-			return false;
-		}
-		return true;
-	}
  
  		function ctgchange(){
  			if($("#work_ctg").val() =="work"){
@@ -222,11 +211,19 @@
 						}
 					});
 			}
-			},
+			} 
+			
 		});
 		calendar.render();
 
 		$('#btnInsert').on('click', function() {
+			var ctg = $("#work_ctg").val();
+			var color = 'red'
+			if(ctg == 'work'){
+				color = 'red'
+			}else{
+				color = 'blue'
+			}
 			$.ajax({
 				url : "insertSche",
 				type : 'POST',
@@ -237,9 +234,10 @@
 					calendar.addEvent({
 						title : $('#work_cause').val(),
 						start : $('#work_stdate').val(),
-						end : $('#work_endate').val()
+						end : $('#work_endate').val(),
+						backgroundColor : color,
+						textColor : 'white'
 					});
-					
 				},
 				error : function() {
 					alert("fail");

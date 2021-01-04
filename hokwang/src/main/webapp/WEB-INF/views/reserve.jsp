@@ -164,8 +164,8 @@ button {
 
 		// 등록된 이미지 목록
 		$("body").on("click", "#imgBtn", function() {
-			var diagNo = $(this).data("num");
-			$("#diag_no").val(diagNo);
+			var resvNo = $(this).data("num");
+			$("#resv_no").val(resvNo);
 			$("#imgShow").empty();
 			imgList();
 		});
@@ -234,13 +234,13 @@ button {
 	}
 
 	function imgList() {
-		if ($("#diag_no").val() != "") {
+		if ($("#resv_no").val() != "") {
 			$.ajax({
 				url : 'ajax/imgList',
 				type : 'GET',
 				dataType : 'json',
 				data : {
-					diag_no : $("#diag_no").val()
+					resv_no : $("#resv_no").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -281,7 +281,7 @@ button {
 				for (var i = 0; i < files.length; i++) {
 					formData.append('imgInput', files[i]);
 				}
-				formData.append('diag_no', $("#diag_no").val());
+				formData.append('resv_no', $("#resv_no").val());
 
 				$.ajax({
 					url : 'ajax/imgInsert',
@@ -577,10 +577,10 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							var diagNo = "";
-							if (typeof item.DIAG_NO != 'undefined') {
-								diagNo = item.DIAG_NO;
-								console.log("ph2> " + diagNo);
+							var resvNo = "";
+							if (typeof item.RESV_NO != 'undefined') {
+								resvNo = item.RESV_NO;
+								console.log("ph2> " + resvNo);
 							}
 							//console.log("ph> " + item.IMG_ADDR);
 							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
@@ -591,7 +591,7 @@ button {
 									.append(
 											$('<td>')
 													.html(
-															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+diagNo+'">사진</button>'))
+															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>'))
 									.append(
 											$('<td style="display:none;">')
 													.html(item.BABY_NO))
@@ -850,7 +850,7 @@ button {
 
 	<div class="modal fade" id="imgPopup">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content" style="width: 520px;">
+			<div class="modal-content" style="width: 550px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">진료 사진 관리</h5>
 					<button class="close" type="button" data-dismiss="modal"
@@ -860,10 +860,10 @@ button {
 				</div>
 				<div class="modal-body" style="min-height: 100px;">
 					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
-						<input type="hidden" id="diag_no" value="">
+						<input type="hidden" id="resv_no" value="">
 						<div class="filebox">
 							<label for="imgInput">업로드</label> <input type="file"
-								id="imgInput" name="imgInput" multiple accept="image/*"
+								id="imgInput" name="imgInput"  accept="image/*"
 								onchange="setImages(event);">
 						</div>
 						<div id="imgShow"

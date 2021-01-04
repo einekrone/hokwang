@@ -82,7 +82,6 @@ public class ResvController {
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
 			vo.setImg_addr(multipartFile.getOriginalFilename());
 			System.out.println("imgAddr : "+vo.getImg_addr());
-			System.out.println("no : "+vo.getDiag_no());
 		}
 		return resvSvc.imgInsert(vo);
 	}

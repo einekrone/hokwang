@@ -45,45 +45,100 @@
 			success : getMessageList
 		})
 	}
-	
-	function getMessageList(data){
-		var cnt=0;
- 		$.each(data, function(idx, item){
-			
-	 			if(item.msg_yn=="N"){
-					$('#showMessage').append(
-							$('<a>').addClass("dropdown-item d-flex align-items-center")
-								.append($('<div>').addClass("dropdown-list-image mr-3")
-									.append($('<img>').addClass('rounded-circle').attr('src',"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
-								.append($('<div>').addClass("font-weight-bold")
-									.append($('<div>').addClass("text-truncate").text(item.msg_cont)
-								.append($('<div>').addClass("small text-gray-500").text(item.msg_date))))
-					
-					)
-				
-				}
-				else if(item.msg_yn=="Y"){
-					$('#showMessage').append(
-							$('<a>').addClass("dropdown-item d-flex align-items-center")
-								.append($('<div>').addClass("dropdown-list-image mr-3")
-									.append($('<img>').addClass('rounded-circle').attr('src',"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
-								.append($('<div>')
-									.append($('<div>').addClass("text-truncate").text(item.msg_cont)
-								.append($('<div>').addClass("small text-gray-500").text(item.msg_date))))
-					)
-					
-				}
-	 		if(idx==3){
-			 /* $('#showMessage').appendTo($('a').addClass("dropdown-item text-center small text-gray-500").text('Read More Messages'))  
-	 		 */	return false;
-	 		}
-	 			
-		});
- 		 
- 		 
+
+	function getMessageList(data) {
+		var cnt = 0;
+		$
+				.each(
+						data,
+						function(idx, item) {
+
+							if (item.msg_yn == "N") {
+								$('#showMessage')
+										.append(
+												$('<a>')
+														.addClass(
+																"dropdown-item d-flex align-items-center")
+														.append(
+																$('<div>')
+																		.addClass(
+																				"dropdown-list-image mr-3")
+																		.append(
+																				$(
+																						'<img>')
+																						.addClass(
+																								'rounded-circle')
+																						.attr(
+																								'src',
+																								"${pageContext.request.contextPath}/resources/img/"
+																										+ item.emp_profile)))
+														.append(
+																$('<div>')
+																		.addClass(
+																				"font-weight-bold")
+																		.append(
+																				$(
+																						'<div>')
+																						.addClass(
+																								"text-truncate")
+																						.text(
+																								item.msg_cont)
+																						.append(
+																								$(
+																										'<div>')
+																										.addClass(
+																												"small text-gray-500")
+																										.text(
+																												item.msg_date))))
+
+										)
+
+							} else if (item.msg_yn == "Y") {
+								$('#showMessage')
+										.append(
+												$('<a>')
+														.addClass(
+																"dropdown-item d-flex align-items-center")
+														.append(
+																$('<div>')
+																		.addClass(
+																				"dropdown-list-image mr-3")
+																		.append(
+																				$(
+																						'<img>')
+																						.addClass(
+																								'rounded-circle')
+																						.attr(
+																								'src',
+																								"${pageContext.request.contextPath}/resources/img/"
+																										+ item.emp_profile)))
+														.append(
+																$('<div>')
+																		.append(
+																				$(
+																						'<div>')
+																						.addClass(
+																								"text-truncate")
+																						.text(
+																								item.msg_cont)
+																						.append(
+																								$(
+																										'<div>')
+																										.addClass(
+																												"small text-gray-500")
+																										.text(
+																												item.msg_date)))))
+
+							}
+							if (idx == 3) {
+								/* $('#showMessage').appendTo($('a').addClass("dropdown-item text-center small text-gray-500").text('Read More Messages'))  
+								 */return false;
+							}
+
+						});
+
 		console.log(data);
 	}
-	
 </script>
 </head>
 <body>
@@ -93,7 +148,7 @@
 	<nav
 		class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
 		style="height: 40px; margin-bottom: 0px !important;">
-
+		<img src="${pageContext.request.contextPath}/resources/img/logo.png" style="height: 40px;">
 		<!-- Topbar Navbar -->
 		<ul class="navbar-nav ml-auto">
 			<!-- Dropdown - Messages -->
@@ -128,8 +183,8 @@
 				</a> <!-- Dropdown - Messages -->
 					<div
 						class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-						aria-labelledby="messagesDropdown" id = "showMessage">
-						<h6 class="dropdown-header" >쪽지함</h6>
+						aria-labelledby="messagesDropdown" id="showMessage">
+						<h6 class="dropdown-header">쪽지함</h6>
 						<%-- <a class="dropdown-item d-flex align-items-center">
 							<div class="dropdown-list-image mr-3">
 								<img class="rounded-circle" src="${pageContext.request.contextPath}/resources/img/d1.png">
@@ -140,11 +195,10 @@
 									can help me with a problem I've been having.</div>
 								<div class="small text-gray-500">Emily Fowler · 58m</div>
 							</div>
-						</a>  --%> 
-						<a class="dropdown-item text-center small text-gray-500" href="mypage">Read
-							More Messages</a>
-					</div>
-					</li>
+						</a>  --%>
+						<a class="dropdown-item text-center small text-gray-500"
+							href="mypage">Read More Messages</a>
+					</div></li>
 
 				<div class="topbar-divider d-none d-sm-block"></div>
 

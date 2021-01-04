@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,10 +28,32 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
-
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./resources/json.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
+<script type="text/javascript">
+	$(function() {
+		$(".nav-tabs").tabs({
+			active : 0
+		});
+	})
 	$(function() {
 		notReadMsg();
 		totalGetMsg();
@@ -208,83 +231,92 @@
 </style>
 </head>
 
-<body>
+<body  id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
 	<jsp:include page="/WEB-INF/views/header.jsp" />
+	
 	<div class="container-fluid" style="margin-top: 0px !important;">
 		<!-- Content Row -->
 		<div class="row" id="row">
 
 			<div class="col-xl-6 col-md-6 mb-4 card">
-					<div class="card-body">
-						<table>
-							<!-- 이미지 파일 -->
-							<tr>
-								<td><img
-									src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
-									style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
-									<input type="file" name="uploadFile" /><br /> <input
-									type="submit" value="저장"></td>
-								<td class="content" style="margin: 10px;">
-							</tr>
+				<div class="card-body">
+					<table>
+						<!-- 이미지 파일 -->
+						<tr>
+							<td><img
+								src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
+								style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
+								<input type="file" name="uploadFile" /><br /> <input
+								type="submit" value="저장"></td>
+							<td class="content" style="margin: 10px;">
+						</tr>
 
-						</table>
-					</div>
-					<div class="card-footer" style="height: 50px;">
+					</table>
+				</div>
+				<div class="card-footer" style="height: 50px;">
 
-						<a class="text-primary" id="btnUpdate" style="font-size: 15px">
-							프로필 변경 </a>
-						<!-- 	<button class = "text-primary" id="btnUpdate"
+					<a class="text-primary" id="btnUpdate" style="font-size: 15px">
+						프로필 변경 </a>
+					<!-- 	<button class = "text-primary" id="btnUpdate"
 							style="font-size: 15px"> 프로빌 변경
 						</button> -->
 
-						<a class="text-primary" href="<c:url value='logout' />"
-							style="font-size: 15px">로그아웃 </a>
+					<a class="text-primary" href="<c:url value='logout' />"
+						style="font-size: 15px">로그아웃 </a>
 
-					</div>
+				</div>
 			</div>
 			<div class="col-xl-6 col-md-6 mb-4 card">
-					<div class="card-body" id="profileInf">
-						<table>
+				<div class="card-body" id="profileInf">
+					<table>
+						<tr>
+							<td>&nbsp;&nbsp;이름</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;사원번호</td>
+							<td id="no">${emp_vo.emp_no}</td>
+						</tr>
+						<tr>
+							<td><span class="point">&nbsp;*</span>비밀번호</td>
+							<td><input type="text" id="pw" name="pw"
+								placeholder="비밀번호를 재입력하시오"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;주민등록번호</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;면허 정보</td>
+							<td>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;전화번호</td>
+							<td><input type="text" value="${emp_vo.emp_tel}" id="tel"
+								name="tel"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;주소</td>
+							<td><input type="text" value="${emp_vo.emp_addr}" id="addr"
+								name="addr"></td>
+						</tr>
+						<c:if test="${emp_vo.emp_author=='D'}">
 							<tr>
-								<td>&nbsp;&nbsp;이름</td>
-								<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
+								<td>&nbsp;&nbsp;진료실</td>
+								<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
 							</tr>
-							<tr>
-								<td>&nbsp;&nbsp;사원번호</td>
-								<td id="no">${emp_vo.emp_no}</td>
-							</tr>
-							<tr>
-								<td><span class="point">&nbsp;*</span>비밀번호</td>
-								<td><input type="text" id="pw" name="pw"
-									placeholder="비밀번호를 재입력하시오"></td>
-							</tr>
-							<tr>
-								<td>&nbsp;&nbsp;주민등록번호</td>
-								<td>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
-							</tr>
-							<tr>
-								<td>&nbsp;&nbsp;면허 정보</td>
-								<td>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
-							</tr>
-							<tr>
-								<td>&nbsp;&nbsp;전화번호</td>
-								<td><input type="text" value="${emp_vo.emp_tel}" id="tel"
-									name="tel"></td>
-							</tr>
-							<tr>
-								<td>&nbsp;&nbsp;주소</td>
-								<td><input type="text" value="${emp_vo.emp_addr}" id="addr"
-									name="addr"></td>
-							</tr>
-							<c:if test="${emp_vo.emp_author=='D'}">
-								<tr>
-									<td>&nbsp;&nbsp;진료실</td>
-									<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
-								</tr>
-							</c:if>
+						</c:if>
 
-						</table>
-					</div>
+					</table>
+				</div>
 
 			</div>
 			<div class="card shadow py-2" style="height: 480px; width: 100%;">
@@ -362,5 +394,44 @@
 
 			</div>
 		</div>
+		</div>
+			<!-- End of Main Content -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+			<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">수고하셨습니다</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">${emp_vo.emp_name}님 정말로 로그아웃 하시겠습니까?</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="logout">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!-- Page level plugins -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+
+	<!-- Page level custom scripts -->
 </body>
 </html>

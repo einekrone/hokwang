@@ -232,74 +232,7 @@
 	}
 </script>
 
-<script type="text/javascript">
-	//차트 옵션 설정
-	var speedCanvas = document.getElementById("myChart");
 
-	Chart.defaults.global.defaultFontFamily = "Lato";
-	Chart.defaults.global.defaultFontSize = 18;
-
-	var speedData = {
-		labels : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월",
-				"11월", "12월" ],
-		datasets : [ {
-			label : "체중 신장",
-			data : [ 0, 59, 75, 20, 20, 55, 40 ],
-			lineTension : 0,
-			fill : false,
-			borderColor : 'orange',
-			backgroundColor : 'transparent',
-			pointBorderColor : 'orange',
-			pointBackgroundColor : 'rgba(255,150,0,0.5)',
-			borderDash : [ 5, 5 ],
-			pointRadius : 5,
-			pointHoverRadius : 10,
-			pointHitRadius : 30,
-			pointBorderWidth : 2,
-			pointStyle : 'rectRounded'
-		} ]
-	};
-
-	var chartOptions = {
-		legend : {
-			display : true,
-			position : 'top',
-			labels : {
-				boxWidth : 80,
-				fontColor : 'black'
-			}
-		},
-		scales : {
-			xAxes : [ {
-				gridLines : {
-					display : false,
-					color : "black"
-				},
-				scaleLabel : {
-					display : true,
-					labelString : "Time in Seconds",
-					fontColor : "red"
-				}
-			} ],
-			yAxes : [ {
-				gridLines : {
-					color : "black",
-					borderDash : [ 2, 5 ],//실선 길이
-				},
-				scaleLabel : {
-					display : true,
-					labelString : "Speed in Miles per Hour",
-					fontColor : "green"
-				}
-			} ]
-		}
-	};
-
-	var lineChart = new Chart(speedCanvas, {
-		type : 'line',
-		data : speedData,
-		options : chartOptions
-	});
 </script>
 </head>
 <body>

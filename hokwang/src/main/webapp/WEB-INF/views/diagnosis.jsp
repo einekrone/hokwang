@@ -86,7 +86,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 					//진료일
 					$.ajax({
-						url : 'ajax/DiagDetail',
+						url : 'ajax/Alldiag',
 						data : {
 							diag_no : td.eq(0).text()
 						},
@@ -94,10 +94,20 @@ div.dataTables_wrapper div.dataTables_paginate {
 						error : function(xhr, status, msg) {
 							alert("상태값 :" + status + " Http에러메시지 :" + msg);
 						},
-						success : getDiagDetailResult
+						success :function(result){
+							getDiagDetailResult(result.diag1);
+							getDiagDetailResult3(result.diag1);
+							getMedicineResult(result.medicine);
+							
+							$("#diagDetail2").empty();
+							$.each(result.diag1, function(idx, item) {
+								$("<tr>").append($('<td>').html(item.DIS_NAME))
+										.appendTo('#diagDetail2');
+							});
+						} 
 					});
 
-					//의사소견
+/* 					//의사소견
 					$.ajax({
 						url : 'ajax/DiagDetail',
 						data : {
@@ -142,7 +152,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 						},
 						success : getMedicineResult
 					});
-
+ */
 				});
 	}
 	function getDiagDetailResult(data) {

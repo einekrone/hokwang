@@ -32,20 +32,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 		resvUniq();
 		getDiagDetail();
 
-		$('.tgl-flat').change(function() {
-			searchType = "chkType";
-			if ($('.rsvTg').is(":checked")) {
-				keyword = "Y";
-			}
-			console.log(">> " + keyword);
-			resvList(searchType, keyword);
-
+	
 			google.load('visualization', '1', {
 				'packages' : [ 'corechart' ]
 			});
 
-			google.setOnLoadCallback(drawChart);
-		});
+		google.setOnLoadCallback(drawChart);
+		
 	});
 	
 	//질병검색
@@ -86,7 +79,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 					//진료일
 					$.ajax({
-						url : 'ajax/DiagDetail',
+						url : 'ajax/Alldiag',
 						data : {
 							diag_no : td.eq(0).text()
 						},
@@ -94,57 +87,17 @@ div.dataTables_wrapper div.dataTables_paginate {
 						error : function(xhr, status, msg) {
 							alert("상태값 :" + status + " Http에러메시지 :" + msg);
 						},
-						success : getDiagDetailResult
+						success :function(result){
+							getDiagDetailResult(result.diag1);
+							getDiagDetailResult3(result.diag1);
+							getMedicineResult(result.medicine);
+							getDiagDetailResult2(result.diag2);
+							
+						} 
 					});
-
-					//의사소견
-					$.ajax({
-						url : 'ajax/DiagDetail',
-						data : {
-							diag_no : td.eq(0).text()
-						},
-						dataType : 'json',
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success : getDiagDetailResult3
-					});
-
-					//질병
-					$.ajax({
-						url : 'ajax/DiagDetail2',
-						data : {
-							diag_no : td.eq(0).text()
-						},
-						dataType : 'json',
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success : function(data) {
-							$("#diagDetail2").empty();
-							$.each(data, function(idx, item) {
-								$("<tr>").append($('<td>').html(item.DIS_NAME))
-										.appendTo('#diagDetail2');
-							});
-
-						}
-					});
-					
-					//약
-					$.ajax({
-						url : 'ajax/getMedicine',
-						data : {
-							diag_no : td.eq(0).text()
-						},
-						dataType : 'json',
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success : getMedicineResult
-					});
-
 				});
 	}
+	 //진료일 펑션
 	function getDiagDetailResult(data) {
 		$("#diagDetail").empty();
 
@@ -152,7 +105,17 @@ div.dataTables_wrapper div.dataTables_paginate {
 				.appendTo('#diagDetail');
 
 	}
+	 //병 펑션
+	function getDiagDetailResult2(data) {
+		$("#diagDetail2").empty();
+		$.each(data, function(idx, item) {
+			$("<tr>").append($('<td>').html(item.DIS_NAME))
+					.appendTo('#diagDetail2');
+		});
 
+	}
+	 
+	//의사 소견 펑션
 	function getDiagDetailResult3(data) {
 
 		console.log(data);
@@ -163,7 +126,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		console.log(data.diag_no);
 
 	}
-
+	//약 펑션
 	function getMedicineResult(data) {
 		$("#getMedicine").empty();
 		 $.each(data, function(idx,item) {

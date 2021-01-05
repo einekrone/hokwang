@@ -89,7 +89,7 @@
 
 		str = str.trim();
 
-		if(str =="")){
+		if(str ==""){
 
 			alert("아이디를 입력해주세요");
 
@@ -259,7 +259,8 @@
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 	<input type="hidden" name="redirectUrl">
-	<div class="page-header" style="background-size: cover; background-position: top center;">
+	<div class="page-header"
+		style="background-size: cover; background-position: top center;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-6 ml-auto mr-auto">
@@ -270,37 +271,41 @@
 						<div class="card-body">
 							<!-- 로그인  -->
 							<c:if test="${emp_vo == null}">
-								<form action='<c:url value='/login'/>' method="post" name="myForm">
+								<form action='<c:url value='/login'/>' method="post"
+									name="myForm">
 									<div class="row">
 										<div class="col-lg-10 col-md-6 ml-auto mr-auto">
-										
+
 											<div class="input-group1">
 												<div class="input-group1-prepend">
-													<span class="input-group1-text">
-													<i class="material-icons">person_outline</i>
+													<span class="input-group1-text"> <i
+														class="material-icons">person_outline</i>
 													</span>
 												</div>
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="ID..." id="emp_no" name="emp_no">
-													<span class="bmd-help" id="id-warning"></span>
+													<input type="text" class="form-control" placeholder="ID..."
+														id="emp_no" name="emp_no"> <span class="bmd-help"
+														id="id-warning"></span>
 												</div>
 											</div>
 
 											<div class="input-group1">
 												<div class="input-group1-prepend">
-													<span class="input-group1-text">
-													<i class="material-icons">lock_outline</i>
+													<span class="input-group1-text"> <i
+														class="material-icons">lock_outline</i>
 													</span>
 												</div>
 												<div class="form-group">
-													<input type="password" class="form-control"	placeholder="Password..." id="emp_pwd" name="emp_pwd">
+													<input type="password" class="form-control"
+														placeholder="Password..." id="emp_pwd" name="emp_pwd">
 													<span class="bmd-help" id="pw-warning"></span>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="text-center">
-										<input type="submit" class="btn-lg" value="로그인" onclick="sendit();">
+										<input type="submit" class="btn-lg" value="로그인"
+											onclick="sendit();">
 									</div>
 								</form>
 							</c:if>
@@ -308,21 +313,21 @@
 							<c:if test="${emp_vo != null }">
 								<c:redirect url="/base" />
 							</c:if>
-							
-						<!--<c:if test="${msg == false }">
-								<% out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>"); %>
+
+							<!--<c:if test="${msg == false }">
+						out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>");"); %>
 							</c:if> -->
 						</div>
-	<!-- 로그인 끝 -->
+						<!-- 로그인 끝 -->
 						<div class="card-footer">
-						<span class="txt_find" style="">
-							<button type="button" class="btn btn-primary btn-sm "
-								data-toggle="modal" data-target="#idModal"
-								data-backdrop="static">사원번호 찾기</button>
-							<button type="button" class="btn btn-primary btn-sm"
-								data-toggle="modal" data-target="#pwModal"
-								data-backdrop="static">비밀번호 찾기</button>
-						</span>
+							<span class="txt_find" style="">
+								<button type="button" class="btn btn-primary btn-sm "
+									data-toggle="modal" data-target="#idModal"
+									data-backdrop="static">사원번호 찾기</button>
+								<button type="button" class="btn btn-primary btn-sm"
+									data-toggle="modal" data-target="#pwModal"
+									data-backdrop="static">비밀번호 찾기</button>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -331,80 +336,92 @@
 	</div>
 
 	<!-- id Modal-->
-	<div class="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="idModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-			
+
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				
+
 				<div class="modal-body">
 					<div class="card-body">
 						<div id="searchI">
 							<div class="form-group">
 								<label class="font-weight-bold" for="inputName_1">이름</label>
 								<div>
-									<input type="text" class="form-control" id="inputName_1" name="inputName_1" placeholder="ex) 갓민수">
+									<input type="text" class="form-control" id="inputName_1"
+										name="inputName_1" placeholder="ex) 갓민수">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="font-weight-bold" for="inputPhone_1">휴대폰번호</label>
 								<div>
-									<input type="text" class="form-control" id="inputPhone_1" name="inputPhone_1" placeholder="ex) 01077779999">
+									<input type="text" class="form-control" id="inputPhone_1"
+										name="inputPhone_1" placeholder="ex) 01077779999">
 								</div>
 							</div>
-							
+
 							<h1 id="resultId"></h1>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="modal-footer">
-					<input type="button" class="btn btn-primary" id="btnId" name="btnId" value="찾기">
-					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+					<input type="button" class="btn btn-primary" id="btnId"
+						name="btnId" value="찾기">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- pw Modal-->
-	<div class="modal fade" id="pwModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="pwModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-			
+
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				
+
 				<div class="modal-body">
 					<div class="card-body">
 						<div id="searchI">
 							<div class="form-group">
 								<label class="font-weight-bold" for="inputempNo_1">사원번호</label>
-								<input type="text" class="form-control" id="inputempNo_1" name="inputempNo_1" placeholder="ex) 사원번호">
+								<input type="text" class="form-control" id="inputempNo_1"
+									name="inputempNo_1" placeholder="ex) 사원번호">
 							</div>
-							
+
 							<div class="form-group">
 								<label class="font-weight-bold " for="inputemptel_1">전화번호</label>
-								<input type="email" class="form-control" id="inputemptel_1"	aria-describedby="emailHelp" placeholder="ex) 1111111">
+								<input type="email" class="form-control" id="inputemptel_1"
+									aria-describedby="emailHelp" placeholder="ex) 1111111">
 								<small id="emailHelp" class="form-text text-muted"></small>
 							</div>
-							
+
 							<h1 id="resultPw"></h1>
 						</div>
 
 
 						<div class="modal-footer">
-							<input type="button" class="btn btn-primary" id="btnPw"	name="btnPw" value="찾기">
-							<button class="btn btn-secondary" type="button"	data-dismiss="modal">Cancel</button>
+							<input type="button" class="btn btn-primary" id="btnPw"
+								name="btnPw" value="찾기">
+							<button class="btn btn-secondary" type="button"
+								data-dismiss="modal">Cancel</button>
 						</div>
 					</div>
 				</div>

@@ -28,16 +28,23 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
 <script src="./resources/json.min.js"></script>
+<!-- 팝업 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 <script
@@ -113,16 +120,23 @@
 #main_in {
 	/* margin: 53px; */
 	position: absolute;
-	left: 280px;
+	left: 330px;
 	width: 75%;
 	margin: 50px 10px 10px 10px;
 }
 
 #note_bt {
 	position: absolute;
-	left: 17%;
-	width: 60%;
+	left: 24%;
 	margin-top: 0%;
+	top: 33px;
+}
+
+#note_bt1 {
+	position: absolute;
+	left: 20%;
+	margin-top: 0%;
+	top: 33px;
 }
 
 #note_bt ul li {
@@ -158,27 +172,50 @@
 			active : 0
 		});
 	})
-	
+
 	var cnt = 1;
-	 
+
 	$(function() {
 		firstMsg();
-		notReadMsg();
-		totalGetMsg();
-		sendCntMsg();
 		changeClick();
 		updateInf();
 		getTotalMsg();
 		noReadTotalMsg();
+		AllCntMsg();
+		writeMsg();
 	});
 
-	
-	
-	
-	
-	function noReadTotalMsg(){
-		$('#v-pills-profile-tab').on("click",function(){
-			cnt=2;
+	function writeMsg() {
+		$('#btnSave').on("click", function() {
+			console.log("${emp_vo.emp_no}");
+			console.log($('#message-text').val());
+			console.log($('#recipient-name option:selected').val());
+			
+
+			$.ajax({
+				url : "ajax/sendMsgInf",
+				type : 'POST',
+				/* dataType : 'json', */
+				data : {
+					emp_sendno : ${emp_vo.emp_no},
+					msg_cont : $('#message-text').val(),
+					emp_resvno : $('#recipient-name option:selected').val()
+					
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alert("전송되었습니다.");
+				}
+			});
+		})
+	}
+
+	function noReadTotalMsg() {
+		$('#v-pills-profile-tab').on("click", function() {
+			cnt = 2;
+			console.log(cnt);
 			$('#dataTab').DataTable({
 				ajax : {
 
@@ -198,13 +235,10 @@
 					data : 'msg_date'
 				} ]
 			});
-			
-			
+
 		})
 	}
-	
-	
-	
+
 	function firstMsg() {
 		$('#dataTab').DataTable({
 			ajax : {
@@ -232,7 +266,8 @@
 
 	function getTotalMsg() {
 		$("#v-pills-home-tab").on("click", function() {
-
+			cnt = 1;
+			console.log(cnt);
 			$('#dataTab').DataTable({
 				ajax : {
 
@@ -261,23 +296,29 @@
 
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
-			$.ajax({
-				url : "ajax/updateInf",
-				type : 'POST',
-				/* dataType : 'json', */
-				data : {
-					emp_no : $('#no').text(),
-					emp_tel : $('#tel').val(),
-					emp_addr : $('#addr').val(),
-					emp_pwd : $('#pw').val(),
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					alert("변경되었습니다.");
-				}
-			});
+			if($('#pw').val() == $('#pw2').val()){
+				$.ajax({
+					url : "ajax/updateInf",
+					type : 'POST',
+					/* dataType : 'json', */
+					data : {
+						emp_no : $('#no').text(),
+						emp_tel : $('#tel').val(),
+						emp_addr : $('#addr').val(),
+						emp_pwd : $('#pw').val(),
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						alert("변경되었습니다.");
+					}
+				});
+			}else{
+				alert("비밀번호 재확인바람 ");
+			}
+			
+			
 		});
 
 	}
@@ -289,9 +330,9 @@
 		});
 	}
 
-	function sendCntMsg() {
+	function AllCntMsg() {
 		$.ajax({
-			url : "ajax/sendCountMsg",
+			url : "ajax/AllCntMsg",
 			type : 'GET',
 			dataType : 'json',
 			data : {
@@ -301,43 +342,13 @@
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				$('#sendMsg').text(data);
-			}
-		})
-
-	}
-
-	function notReadMsg() {
-		$.ajax({
-			url : "ajax/getCountMsg",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				emp_no : "${emp_vo.emp_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$('#noReadMsg').text(data);
-			}
-		})
-
-	}
-
-	function totalGetMsg() {
-		$.ajax({
-			url : "ajax/getToalCountMsg",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				emp_no : "${emp_vo.emp_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$('#totalMsg').text(data);
+				$('#sendMsg').text(data.send);
+				$('#noReadMsg').text(data.noread);
+				$('#totalMsg').text(data.total);
+				$.each(data.empInf, function(idx,item) {
+					$('#recipient-name').append($('<option>').attr("value",item.emp_no).html(item.emp_name));
+				});
+								
 			}
 		})
 
@@ -390,7 +401,7 @@
 										<tr>
 											<td><span class="point">&nbsp;*</span>비밀번호</td>
 											<td><input type="text" id="pw" name="pw"
-												placeholder="비밀번호를 재입력하시오"></td>
+												placeholder="변경할 비밀번호를 입력하시오"></td>
 										</tr>
 										<tr>
 											<td>&nbsp;&nbsp;주민등록번호</td>
@@ -424,9 +435,8 @@
 
 							</div>
 							<div class="card-footer" style="height: 50px; float: right;">
-								<a class="text-primary" id="btnUpdate" style="font-size: 15px">
+								<a class="text-primary"  href="#" data-toggle="modal" data-target="#UpdateModal" data-backdrop="static" style="font-size: 15px">
 									프로필 변경 </a>
-
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
@@ -478,7 +488,9 @@
 
 
 						</div>
-						<div class="card shadow py-2" style="height: 480px; width: 100%;">
+
+						<div class="card shadow py-2 main_in"
+							style="height: 480px; width: 100%;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
 									<div class="card-body">
@@ -512,14 +524,20 @@
 								</div>
 							</aside>
 
-							<div id="note_bt">
+							<div id="note_bt1">
+								<input type="button" id="wri_m_bt" value="쪽지쓰기"
+									data-toggle="modal" data-target="#mailModal"
+									data-backdrop="static">
+							</div>
+							<!-- 
+								<div id="note_bt1">
 								<ul>
 									<li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
 								</ul>
-							</div>
+							</div> -->
 
-							<div id="main_in">
-								<table id="dataTab">
+							<div id="note_bt" style="">
+								<table id="dataTab" style="width: 1100px;">
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
@@ -527,11 +545,11 @@
 											<th width="150" class="tl">보내는사람</th>
 											<th width="600" class="tl">내용</th>
 											<th width="100" class="tc">날짜</th>
-											 <%-- <c:if test="${n==1}"> --%> 
+											<%-- <c:if test="${n==1}"> --%>
 											<th width="100" class="tc">수신여부</th>
-											 <%-- </c:if>  --%>
+											<%-- </c:if>  --%>
 										</tr>
-										
+
 									</thead>
 									<tbody>
 									</tbody>
@@ -579,5 +597,67 @@
 			src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
 
 		<!-- Page level custom scripts -->
+
+		<!-- 편지모달 -->
+		<div class="modal fade" id="mailModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 쓰기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">받는 사람</label>
+								<select class="form-control" id="recipient-name" name="recipient-name">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text" name="message-text"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btnSave"
+							name="btnSave">보내기</button>
+						<button type="button" class="btn btn-secondary" id="btnTempSave"
+							name="btnTempSave">임시저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Update Modal-->
+  <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">비밀번호 재확인</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <table>
+	        										<tr>
+											<td><span class="point">&nbsp;*</span>비밀번호</td>
+												<td><input type="text" id="pw2" name="pw2"
+												placeholder="변경할 비밀번호를 입력하시오"></td>
+										</tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnUpdate" name="btnSave">변경</button>
+          <button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

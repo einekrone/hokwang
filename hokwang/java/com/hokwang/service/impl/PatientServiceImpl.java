@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hokwang.dao.PatientMapper;
 import com.hokwang.service.PatientService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.PrescriptionVO;
 
@@ -50,6 +51,12 @@ public class PatientServiceImpl implements PatientService {
 	public Map<String, Object> diagDetail2(DiagnosisVO vo) {
 		// TODO Auto-generated method stub
 		return patientDAO.diagDetail2(vo);
+	}
+
+	@Override
+	public List<BodyVO> bodyInfo(BodyVO vo) {
+		
+		return patientDAO.bodyInfo(vo);
 	}
 
 

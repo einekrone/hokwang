@@ -1,5 +1,6 @@
 package com.hokwang.diag.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,24 +64,35 @@ public class Diagcontroller {
 	public BodyVO getBodyList(BodyVO vo) {
 		return diagDao.getBodyList(vo);
 	}
-	// 진료날짜/의사소견 출력
-	@ResponseBody
-	@RequestMapping("/ajax/DiagDetail")
-	public DiagnosisVO getDiagDetail(DiagnosisVO vo) {
-		return diagDao.getDiagDetail(vo);
-	}
-	//질병명 출력
-	@ResponseBody
-	@RequestMapping("/ajax/DiagDetail2")
-	public List<Map<String,Object>> diagnosisDetail2(DiagnosisVO vo){
-		return diagDao.getDiagDetail2(vo);
-	}
+	/*
+	 * // 진료날짜/의사소견 출력
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/ajax/DiagDetail") public DiagnosisVO
+	 * getDiagDetail(DiagnosisVO vo) { return ; } //질병명 출력
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/ajax/DiagDetail2") public List<Map<String,Object>>
+	 * diagnosisDetail2(DiagnosisVO vo){ return ; }
+	 * 
+	 * //약출력
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/ajax/getMedicine") public List<Map<String, Object>>
+	 * getMedicine(PrescriptionVO vo){ return }
+	 */
 	
-	//약출력
 	@ResponseBody
-	@RequestMapping("/ajax/getMedicine")
-	public List<Map<String, Object>> getMedicine(PrescriptionVO vo){
-		return diagDao.getMedicine(vo);
+	@RequestMapping("/ajax/Alldiag")
+	public Map<String,Object> getBodyList(PrescriptionVO PreVo,DiagnosisVO diagVo) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("medicine",diagDao.getMedicine(PreVo));
+		map.put("diag2",diagDao.getDiagDetail2(diagVo));
+		map.put("diag1",diagDao.getDiagDetail(diagVo));
+		return map;
 	}
 	
 }

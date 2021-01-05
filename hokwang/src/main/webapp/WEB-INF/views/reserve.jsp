@@ -12,7 +12,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <style type="text/css">
 .table td, .table th {
 	padding: .5rem !important;
@@ -66,6 +65,10 @@ button {
 	float: left;
 	padding-right: 600px;
 }
+
+#imgShow::-webkit-scrollbar {
+    display: none;
+}
 </style>
 </head>
 <script type="text/javascript">
@@ -83,6 +86,17 @@ button {
 		roomList(); // 진료실 대기환자 목록
 
 		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
+
+		$("#imgChk").change(function() {
+			console.log(">>");
+			if ($(this).is(':checked')) {
+				console.log(">>checked");
+				$("input[id='imgChk']").prop("checked", true);
+			} else {
+				console.log(">>d");
+				$("input[id='imgChk']").prop("checked", false);
+			}
+		});
 
 		$('.tgl-flat').change(function() {
 			searchType = "chkType";
@@ -257,7 +271,7 @@ button {
 					"${pageContext.request.contextPath}/resources/img/"
 							+ item.IMG_ADDR);
 			img.className = "img1";
-			img.setAttribute('style', 'margin:0 15px;');
+			img.setAttribute('style', 'margin:0 20px;');
 
 			var check = document.createElement('input');
 			check.setAttribute('type', 'checkbox');
@@ -304,21 +318,38 @@ button {
 	function imgDelete() {
 		$("#imgDBtn").on("click", function() {
 			var chk = $('#imgForm input:checkbox').is(':checked');
-			console.log("chk : " + chk);
+			var chk2 = $('input:checkbox[id="imgChk"]').length;
+			var chk3 = $('input:checkbox[id="imgChk"] :checked').length;
+			console.log("chk2 : " + chk2);
+			
+			var delArr = new Array();
+			 
+	        $('input[type="checkbox"]:checked').each(function (index) {
+	        	delArr.push($(this).val());
+	        });
+            console.log("select : "+delArr);
+	        
+			console.log("chk3 : " + chk3);
+			//$('input:checkbox[id="imgChk"] :checked').each(function() { });
 			if (chk) { // true
 				$.ajax({
 					url : 'ajax/imgDelete',
 					method : 'post',
 					dataType : 'json',
-					data : $("#imgForm").serialize(),
+					data : {delArr : delArr},
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
-					success : function() {
-						var chk = $("[name='imgChk']:checked");
-						for (var i = 0; i < chk.length; i++) {
-							$(chk[i]).next().remove(); // 이미지
-							$(chk[i]).remove(); // 체크박스
+					success : function(data) {
+						console.log("result : "+data);
+						if(data != 0) {
+							var chk = $("[id='imgChk']:checked");
+							for (var i = 0; i < chk.length; i++) {
+								$(chk[i]).next().remove(); // 이미지
+								$(chk[i]).remove(); // 체크박스
+							}
+						} else{
+							console.log("실패");
 						}
 					}
 				});
@@ -540,9 +571,7 @@ button {
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-
-			//console.log("아기번호 : " + td.eq(5).text());
-
+			
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {

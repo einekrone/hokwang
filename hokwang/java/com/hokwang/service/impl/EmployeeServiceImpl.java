@@ -39,6 +39,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.sendCountMsg(vo);
 	}
 	
+	@Override
+	public int tempCountMsg(EmployeeVO vo) {
+		
+		return EmpDAO.tempCountMsg(vo);
+	}
+	
+	
 
 	@Override
 	public List<MessageVO> showNotReadMsg(EmployeeVO vo) {
@@ -76,7 +83,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		return EmpDAO.noReadTotalMsg(vo);
 	}
+	
+	@Override
+	public List<MessageVO> sendTotalMsg(EmployeeVO vo) {
+		
+		return EmpDAO.sendTotalMsg(vo);
+	}
 
+	
+	
+	
 	
 	
 }

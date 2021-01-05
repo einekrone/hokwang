@@ -100,6 +100,12 @@
 		#{emp_no}
 	</select>
 
+	<select id="tempCountMsg" parameterType="employeeVO" resultType="int">
+		select count(temp_no) from tempmessage where TEMP_SENDNO = #{emp_no}
+	</select>
+
+
+
 	<update id="updateInf" parameterType="employeeVO">
 		update employee set
 		emp_tel=#{emp_tel}
@@ -111,18 +117,29 @@
 
 	<select id="getTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
-		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN from employee
+		select
+		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN from employee
 		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
-		select EMP_SENDNO from message where emp_resvno=#{emp_no})
+		select
+		EMP_SENDNO from message where emp_resvno=#{emp_no})
 	</select>
 
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
-		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from employee
+		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from
+		employee
 		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
-		select EMP_SENDNO from message where emp_resvno=#{emp_no} and m.msg_yn='N')
+		select EMP_SENDNO from message where emp_resvno=#{emp_no} and
+		m.msg_yn='N')
 	</select>
 
+	<select id="sendTotalMsg" parameterType="employeeVO"
+		resultType="messageVO">
+		select
+		e.emp_name,m.emp_sendno,m.MSG_CONT,m.MSG_DATE,m.MSG_YN from employee
+		e,message m where e.emp_no = m.EMP_resvno and e.emp_no in(select
+		emp_sendno from message where emp_resvno =#{emp_no});
+	</select>
 
 
 

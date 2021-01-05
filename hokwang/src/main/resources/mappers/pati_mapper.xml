@@ -70,7 +70,7 @@
 		FROM
 		BODYINFO
 		<where>
-			baby_no = 1
+			baby_no = #{baby_no} and TO_CHAR(body_date, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
 		</where>
 		GROUP BY TO_CHAR(body_date, 'YYYY-MM')
 		ORDER BY body_date ASC

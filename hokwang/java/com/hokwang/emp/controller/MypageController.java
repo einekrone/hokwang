@@ -79,7 +79,7 @@ public class MypageController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/ajax/updateInf")
+	@RequestMapping("/ajax/sendMsgInf")
 	public boolean sendMsgInf(Model model, MessageVO vo) {
 		dao.sendMsgInf(vo);
 		return true;

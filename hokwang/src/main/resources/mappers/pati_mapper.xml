@@ -61,11 +61,18 @@
 		</where>
 	</select>
 
-	<select id="bodyInfo" resultType="bodyVO" parameterType="bodyVO">
-		SELECT BODY_HEIGHT,BODY_WEIGHT,BODY_NO FROM BODYINFO
+	<select id="bodyInfo" resultType="bodyVO">
+		SELECT MAX(body_height) KEEP(DENSE_RANK FIRST ORDER BY
+		TO_CHAR(body_date, 'YYYY-MM') DESC) AS body_height
+		, MAX(body_weight)
+		AS body_weight
+		, MAX( TO_CHAR(body_date, 'YYYY-MM')) AS body_date
+		FROM
+		BODYINFO
 		<where>
-			BABY_NO=#{baby_no}
+			baby_no = 1
 		</where>
-		ORDER BY BODY_NO
+		GROUP BY TO_CHAR(body_date, 'YYYY-MM')
+		ORDER BY body_date ASC
 	</select>
 </mapper>

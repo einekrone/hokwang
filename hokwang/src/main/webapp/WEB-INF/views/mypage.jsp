@@ -188,7 +188,7 @@
 	function writeMsg() {
 		$('#btnSave').on("click", function() {
 			console.log("${emp_vo.emp_no}");
-			console.log($('#message-text').text());
+			console.log($('#message-text').val());
 			console.log($('#recipient-name option:selected').val());
 			
 
@@ -197,9 +197,9 @@
 				type : 'POST',
 				/* dataType : 'json', */
 				data : {
-					msg_sendno : ${emp_vo.emp_no},
-					msg_cont : $('#message-text').text(),
-					msg_resvno : $('#recipient-name option:selected').val()
+					emp_sendno : ${emp_vo.emp_no},
+					msg_cont : $('#message-text').val(),
+					emp_resvno : $('#recipient-name option:selected').val()
 					
 				},
 				error : function(xhr, status, msg) {

@@ -77,5 +77,14 @@ public class MypageController {
 		map.put("empInf", dao.selectEmpInf(vo));
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/sendMsgInf")
+	public boolean sendMsgInf(Model model, MessageVO vo) {
+		dao.sendMsgInf(vo);
+		return true;
+	}
+	
+	
 
 }

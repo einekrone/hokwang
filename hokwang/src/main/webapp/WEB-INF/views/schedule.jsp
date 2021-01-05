@@ -239,6 +239,7 @@
 						start : $('#work_stdate').val(),
 						end : $('#work_endate').val()
 					});
+					
 				},
 				error : function() {
 					alert("fail");

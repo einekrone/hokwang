@@ -38,6 +38,7 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
 	public List<Map<String, Object>> getResvList(ResvSearch vo) {
+		System.out.println("vo :: "+vo.getKeyword());
 		return resvSvc.getResvList(vo);
 	}
 
@@ -82,7 +83,6 @@ public class ResvController {
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
 			vo.setImg_addr(multipartFile.getOriginalFilename());
 			System.out.println("imgAddr : "+vo.getImg_addr());
-			System.out.println("no : "+vo.getDiag_no());
 		}
 		return resvSvc.imgInsert(vo);
 	}

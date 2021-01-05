@@ -38,6 +38,7 @@
 	$(function() {
 		findId();
 		findPw();
+		
 	});
 
 	function findId() {
@@ -80,6 +81,50 @@
 		})
 	}
 	
+	function sendIt(){
+
+		var f = document.myForm;
+
+		str = f.emp_no.value;
+
+		str = str.trim();
+
+		if(str =="")){
+
+			alert("아이디를 입력해주세요");
+
+			f.emp_no.focus();
+
+			return;
+
+		}
+
+		f.emp_no.value = str;
+
+		
+
+		str = f.emp_pwd.value;
+
+		str = str.trim();
+
+		if(str ==""){
+
+			alert("비밀번호를 입력해주세요");
+
+			f.emp_pwd.focus();
+
+			return;
+
+		}
+
+		f.emp_pwd.value = str;
+
+		
+
+		f.submit();
+
+
+	}
 </script>
 
 </head>
@@ -225,7 +270,7 @@
 						<div class="card-body">
 							<!-- 로그인  -->
 							<c:if test="${emp_vo == null}">
-								<form action='<c:url value='/login'/>' method="post">
+								<form action='<c:url value='/login'/>' method="post" name="myForm">
 									<div class="row">
 										<div class="col-lg-10 col-md-6 ml-auto mr-auto">
 										
@@ -255,7 +300,7 @@
 										</div>
 									</div>
 									<div class="text-center">
-										<input type="submit" class="btn-lg" value="로그인">
+										<input type="submit" class="btn-lg" value="로그인" onclick="sendit();">
 									</div>
 								</form>
 							</c:if>
@@ -264,9 +309,9 @@
 								<c:redirect url="/base" />
 							</c:if>
 							
-							<c:if test="${msg == false }">
+						<!--<c:if test="${msg == false }">
 								<% out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>"); %>
-							</c:if>
+							</c:if> -->
 						</div>
 	<!-- 로그인 끝 -->
 						<div class="card-footer">

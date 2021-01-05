@@ -20,7 +20,7 @@
 				'YYYY-MM-DD')
 			</if>
 			<if test="searchType == 'resvSearch'">
-				AND B.BABY_NAME LIKE '%#{keyword}%'
+				AND B.BABY_NAME LIKE '%'||#{keyword}||'%'
 			</if>
 		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
@@ -29,11 +29,9 @@
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
-		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO, I.IMG_ADDR
+		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO
 		FROM DIAGNOSIS D RIGHT
 		JOIN RESERVATION R ON R.RESV_NO = D.RESV_NO
-		LEFT JOIN IMAGES I ON
-		D.DIAG_NO = I.DIAG_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
 				R.BABY_NO = #{baby_no}
@@ -89,7 +87,7 @@
 			SELECT NVL(MAX(IMG_NO),0)+1 FROM IMAGES
 		</selectKey>
 		INSERT INTO IMAGES
-		VALUES (#{img_no}, #{img_addr}, #{diag_no}, SYSDATE)
+		VALUES (#{img_no}, #{img_addr}, #{resv_no}, SYSDATE)
 	</insert>
 
 	<delete id="imgDelete" parameterType="images">
@@ -100,8 +98,8 @@
 	<select id="getImgList" resultType="map" parameterType="images">
 		SELECT * FROM IMAGES
 		<where>
-			<if test="diag_no != null and diag_no != ''">
-				DIAG_NO = #{diag_no}
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = #{resv_no}
 			</if>
 		</where>
 		ORDER BY IMG_DATE

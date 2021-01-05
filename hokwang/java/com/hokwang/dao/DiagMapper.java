@@ -19,7 +19,7 @@ public interface DiagMapper {
 	public Map<String, Object> getUniqInfo(Reservation vo);
 	public BodyVO getBodyList(BodyVO vo);
 	public DiagnosisVO getDiagDetail(DiagnosisVO vo);
-	public Map<String,Object> getDiagDetail2(DiagnosisVO vo);
+	public List<Map<String,Object>> getDiagDetail2(DiagnosisVO vo);
 	public List<Map<String, Object>> getMedicine(PrescriptionVO vo);
 
 }

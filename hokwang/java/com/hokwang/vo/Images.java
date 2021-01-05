@@ -6,5 +6,5 @@ import lombok.Data;
 public class Images {
 	String img_no;
 	String img_addr;
-	String diag_no;
+	String resv_no;
 }

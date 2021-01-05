@@ -186,8 +186,29 @@
 	});
 
 	function writeMsg() {
-		$('#wri_m_bt').on("click", function() {
+		$('#btnSave').on("click", function() {
+			console.log("${emp_vo.emp_no}");
+			console.log($('#message-text').text());
+			console.log($('#recipient-name option:selected').val());
+			
 
+			$.ajax({
+				url : "ajax/sendMsgInf",
+				type : 'POST',
+				/* dataType : 'json', */
+				data : {
+					msg_sendno : ${emp_vo.emp_no},
+					msg_cont : $('#message-text').text(),
+					msg_resvno : $('#recipient-name option:selected').val()
+					
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alert("전송되었습니다.");
+				}
+			});
 		})
 	}
 

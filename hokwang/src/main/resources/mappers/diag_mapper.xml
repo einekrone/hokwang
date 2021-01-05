@@ -76,6 +76,32 @@
 		</if>
 	</select>
 	
+	<select id="getDisease" resultType="map"
+	parameterType="DiesSearch">
+	SELECT * FROM DISEASE
+	<where>
+		<if test="searchDisease !=null and searchDisease != ''">
+		 DIS_NAME LIKE '%'||#{searchDisease}||'%'
+		 </if>
+	</where>
+	</select>
+	
+	<select id="schMedicine" resultType="map"
+	parameterType="DiesSearch">
+	SELECT * FROM MEDICINE
+		<where>
+			<if test="searchMedicine !=null and searchMedicine !=''">
+				MEDI_NAME LIKE '%'||#{searchMedicine}||'%'
+			</if>
+		</where>	
+	</select>
+	
+	<select id="getMedineList" resultType="map"
+	parameterType="MedicineVO">
+	SELECT * FROM MEDICINE
+	</select>
+	
+	
  <!-- 	<insert id="insertDiag" parameterType="DiagnosisVO">
 		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
 			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS

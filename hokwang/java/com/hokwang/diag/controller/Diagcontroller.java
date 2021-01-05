@@ -14,6 +14,9 @@ import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
+import com.hokwang.vo.DiesSearch;
+import com.hokwang.vo.DiseaseVO;
+import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
@@ -64,27 +67,7 @@ public class Diagcontroller {
 	public BodyVO getBodyList(BodyVO vo) {
 		return diagDao.getBodyList(vo);
 	}
-	/*
-	 * // 진료날짜/의사소견 출력
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/ajax/DiagDetail") public DiagnosisVO
-	 * getDiagDetail(DiagnosisVO vo) { return ; } //질병명 출력
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/ajax/DiagDetail2") public List<Map<String,Object>>
-	 * diagnosisDetail2(DiagnosisVO vo){ return ; }
-	 * 
-	 * //약출력
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/ajax/getMedicine") public List<Map<String, Object>>
-	 * getMedicine(PrescriptionVO vo){ return }
-	 */
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/Alldiag")
 	public Map<String,Object> getBodyList(PrescriptionVO PreVo,DiagnosisVO diagVo) {
@@ -93,6 +76,27 @@ public class Diagcontroller {
 		map.put("diag2",diagDao.getDiagDetail2(diagVo));
 		map.put("diag1",diagDao.getDiagDetail(diagVo));
 		return map;
+	}
+	
+	 //질병검색
+	@ResponseBody
+	@RequestMapping("/ajax/getDisease")
+	public Map<String, Object> getDisease(DiesSearch vo) {
+		return diagDao.getDisease(vo);
+	}
+
+	//약품리스트
+	@ResponseBody
+	@RequestMapping("/ajax/getMedineList")
+	public List<Map<String, Object>> getMedineList(MedicineVO vo) {
+		return diagDao.getMedineList(vo);
+	}
+	
+	//약품검색
+	@ResponseBody
+	@RequestMapping("/ajax/schMedicine")
+	public Map<String, Object> schMedicine(DiesSearch vo) {
+		return diagDao.schMedicine(vo);
 	}
 	
 }

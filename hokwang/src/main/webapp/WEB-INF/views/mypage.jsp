@@ -120,9 +120,15 @@
 
 #note_bt {
 	position: absolute;
+	left: 24%;
+	margin-top: 0%;
+	top: 33px;
+}
+#note_bt1 {
+	position: absolute;
 	left: 20%;
 	margin-top: 0%;
-	top: 45px;
+	top: 33px;
 }
 
 #note_bt ul li {
@@ -479,10 +485,10 @@
 
 						</div>
 						
-						<div class="card shadow py-2" style="height: 480px; width: 100%;">
+						<div class="card shadow py-2 main_in" style="height: 480px; width: 100%;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
-									<div class="card1-body">
+									<div class="card-body">
 										<div>
 											<div class="nav flex-column nav-pills" id="v-pills-tab"
 												role="tablist" aria-orientation="vertical">
@@ -513,14 +519,14 @@
 								</div>
 							</aside>
 
-							<div id="note_bt">
+							<div id="note_bt1">
 								<ul>
 									<li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
 								</ul>
 							</div>
 
-							<div id="main_in">
-								<table id="dataTab">
+							<div id="note_bt" style="">
+								<table id="dataTab" style="width: 1100px;">
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->

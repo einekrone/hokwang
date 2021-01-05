@@ -40,7 +40,8 @@
 		select medi_name from medicine
 		<where>
 			MEDI_NO in (select medi_no from
-			prescription where diag_no = #{diag_no})
+			prescription where diag_no =
+			#{diag_no})
 		</where>
 	</select>
 
@@ -51,12 +52,27 @@
 			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
 		</where>
 	</select>
-	
-		<select id="diagDetail2" resultType="map"
+
+	<select id="diagDetail2" resultType="map"
 		parameterType="diagnosisVO">
 		select a.diaglist_memo from diagnosis a,disease b
 		<where>
 			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
 		</where>
+	</select>
+
+	<select id="bodyInfo" resultType="bodyVO">
+		SELECT MAX(body_height) KEEP(DENSE_RANK FIRST ORDER BY
+		TO_CHAR(body_date, 'YYYY-MM') DESC) AS body_height
+		, MAX(body_weight)
+		AS body_weight
+		, MAX(body_date) AS body_date
+		FROM
+		BODYINFO
+		<where>
+			baby_no = 1
+		</where>
+		GROUP BY TO_CHAR(body_date, 'YYYY-MM')
+		ORDER BY body_date ASC
 	</select>
 </mapper>

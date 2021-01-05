@@ -56,7 +56,7 @@ public class ResvServiceImpl implements ResvService {
 
 	@Override
 	public int imgDelete(Images vo) {
-		return 0;
+		return resvDao.imgDelete(vo);
 	}
 
 	@Override

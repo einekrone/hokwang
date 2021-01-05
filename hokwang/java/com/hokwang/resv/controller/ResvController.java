@@ -2,14 +2,17 @@ package com.hokwang.resv.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -90,11 +93,17 @@ public class ResvController {
 	// 진료 사진 관리(삭제)
 	@ResponseBody
 	@RequestMapping("/ajax/imgDelete")
-	public int imgDelete(HttpServletRequest request, Images vo) {
+	public int imgDelete(@RequestParam("delArr[]") List<String> deleArr, Images vo) {
 		System.out.println("imgDelete>>");
+		int result = 0;
+		for(String i : deleArr) {
+			System.out.println("imgNo : "+i);
+			vo.setImg_no(i);
+			resvSvc.imgDelete(vo);
+			result = 1;
+		}
 		
-//		return resvSvc.imgDelete(vo);
-		return 0;
+		return result;
 	}
 	
 	// 진료 사진 관리(조회)

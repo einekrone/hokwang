@@ -28,16 +28,23 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
+
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
 <script src="./resources/json.min.js"></script>
+<!-- 팝업 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 <script
@@ -124,6 +131,7 @@
 	margin-top: 0%;
 	top: 33px;
 }
+
 #note_bt1 {
 	position: absolute;
 	left: 20%;
@@ -164,9 +172,9 @@
 			active : 0
 		});
 	})
-	
+
 	var cnt = 1;
-	 
+
 	$(function() {
 		firstMsg();
 		changeClick();
@@ -174,15 +182,19 @@
 		getTotalMsg();
 		noReadTotalMsg();
 		AllCntMsg();
+		writeMsg();
 	});
 
-	
-	
-	
-	
-	function noReadTotalMsg(){
-		$('#v-pills-profile-tab').on("click",function(){
-			cnt=2;
+	function writeMsg() {
+		$('#wri_m_bt').on("click", function() {
+
+		})
+	}
+
+	function noReadTotalMsg() {
+		$('#v-pills-profile-tab').on("click", function() {
+			cnt = 2;
+			console.log(cnt);
 			$('#dataTab').DataTable({
 				ajax : {
 
@@ -202,13 +214,10 @@
 					data : 'msg_date'
 				} ]
 			});
-			
-			
+
 		})
 	}
-	
-	
-	
+
 	function firstMsg() {
 		$('#dataTab').DataTable({
 			ajax : {
@@ -236,7 +245,8 @@
 
 	function getTotalMsg() {
 		$("#v-pills-home-tab").on("click", function() {
-
+			cnt = 1;
+			console.log(cnt);
 			$('#dataTab').DataTable({
 				ajax : {
 
@@ -292,29 +302,27 @@
 			$(event.target).attr('class', 'nav-link active');
 		});
 	}
-	
-	 function AllCntMsg() {
-			$.ajax({
-				url : "ajax/AllCntMsg",
-				type : 'GET',
-				dataType : 'json',
-				data : {
-					emp_no : "${emp_vo.emp_no}"
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					$('#sendMsg').text(data.send);
-					$('#noReadMsg').text(data.noread);
-					$('#totalMsg').text(data.total);
-					$('#tempMsg').text(data.temp);
-				}
-			})
 
-		} 
+	function AllCntMsg() {
+		$.ajax({
+			url : "ajax/AllCntMsg",
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				emp_no : "${emp_vo.emp_no}"
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$('#sendMsg').text(data.send);
+				$('#noReadMsg').text(data.noread);
+				$('#totalMsg').text(data.total);
+				$('#tempMsg').text(data.temp);
+			}
+		})
 
-
+	}
 </script>
 </head>
 
@@ -399,7 +407,6 @@
 							<div class="card-footer" style="height: 50px; float: right;">
 								<a class="text-primary" id="btnUpdate" style="font-size: 15px">
 									프로필 변경 </a>
-
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
@@ -451,8 +458,9 @@
 
 
 						</div>
-						
-						<div class="card shadow py-2 main_in" style="height: 480px; width: 100%;">
+
+						<div class="card shadow py-2 main_in"
+							style="height: 480px; width: 100%;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
 									<div class="card-body">
@@ -487,10 +495,16 @@
 							</aside>
 
 							<div id="note_bt1">
+								<input type="button" id="wri_m_bt" value="쪽지쓰기"
+									data-toggle="modal" data-target="#exampleModal"
+									data-backdrop="static">
+							</div>
+							<!-- 
+								<div id="note_bt1">
 								<ul>
 									<li id="wri_m_bt"><a href="note/write.php">쪽지쓰기</a></li>
 								</ul>
-							</div>
+							</div> -->
 
 							<div id="note_bt" style="">
 								<table id="dataTab" style="width: 1100px;">
@@ -501,11 +515,11 @@
 											<th width="150" class="tl">보내는사람</th>
 											<th width="600" class="tl">내용</th>
 											<th width="100" class="tc">날짜</th>
-											 <%-- <c:if test="${n==1}"> --%> 
+											<%-- <c:if test="${n==1}"> --%>
 											<th width="100" class="tc">수신여부</th>
-											 <%-- </c:if>  --%>
+											<%-- </c:if>  --%>
 										</tr>
-										
+
 									</thead>
 									<tbody>
 									</tbody>
@@ -553,5 +567,39 @@
 			src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
 
 		<!-- Page level custom scripts -->
+
+		<!-- 편지모달 -->
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 쓰기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">받는 사람</label>
+								<input type="text" class="form-control" id="recipient-name" name="recipient-name">
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text" name="message-text"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btnSave"
+							name="btnSave">보내기</button>
+						<button type="button" class="btn btn-secondary" id="btnTempSave"
+							name="btnTempSave">임시저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 </html>

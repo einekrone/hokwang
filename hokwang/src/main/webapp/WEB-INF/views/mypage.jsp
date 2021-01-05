@@ -296,23 +296,29 @@
 
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
-			$.ajax({
-				url : "ajax/updateInf",
-				type : 'POST',
-				/* dataType : 'json', */
-				data : {
-					emp_no : $('#no').text(),
-					emp_tel : $('#tel').val(),
-					emp_addr : $('#addr').val(),
-					emp_pwd : $('#pw').val(),
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					alert("변경되었습니다.");
-				}
-			});
+			if($('#pw').val() == $('#pw2').val()){
+				$.ajax({
+					url : "ajax/updateInf",
+					type : 'POST',
+					/* dataType : 'json', */
+					data : {
+						emp_no : $('#no').text(),
+						emp_tel : $('#tel').val(),
+						emp_addr : $('#addr').val(),
+						emp_pwd : $('#pw').val(),
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						alert("변경되었습니다.");
+					}
+				});
+			}else{
+				alert("비밀번호 재확인바람 ");
+			}
+			
+			
 		});
 
 	}
@@ -395,7 +401,7 @@
 										<tr>
 											<td><span class="point">&nbsp;*</span>비밀번호</td>
 											<td><input type="text" id="pw" name="pw"
-												placeholder="비밀번호를 재입력하시오"></td>
+												placeholder="변경할 비밀번호를 입력하시오"></td>
 										</tr>
 										<tr>
 											<td>&nbsp;&nbsp;주민등록번호</td>
@@ -429,7 +435,7 @@
 
 							</div>
 							<div class="card-footer" style="height: 50px; float: right;">
-								<a class="text-primary" id="btnUpdate" style="font-size: 15px">
+								<a class="text-primary"  href="#" data-toggle="modal" data-target="#UpdateModal" data-backdrop="static" style="font-size: 15px">
 									프로필 변경 </a>
 							</div>
 						</div>
@@ -626,5 +632,32 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Update Modal-->
+  <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">비밀번호 재확인</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <table>
+	        										<tr>
+											<td><span class="point">&nbsp;*</span>비밀번호</td>
+												<td><input type="text" id="pw2" name="pw2"
+												placeholder="변경할 비밀번호를 입력하시오"></td>
+										</tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnUpdate" name="btnSave">변경</button>
+          <button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

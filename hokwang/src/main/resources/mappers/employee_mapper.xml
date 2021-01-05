@@ -100,8 +100,10 @@
 		#{emp_no}
 	</select>
 
-	<select id="tempCountMsg" parameterType="employeeVO" resultType="int">
-		select count(temp_no) from tempmessage where TEMP_SENDNO = #{emp_no}
+	<select id="tempCountMsg" parameterType="employeeVO"
+		resultType="int">
+		select count(temp_no) from tempmessage where TEMP_SENDNO =
+		#{emp_no}
 	</select>
 
 
@@ -144,9 +146,19 @@
 
 	<select id="selectEmpInf" parameterType="employeeVO"
 		resultType="employeeVO">
-		select emp_name,emp_no from employee where emp_no != #{emp_no}
+		select emp_name,emp_no from employee where emp_no !=
+		#{emp_no}
 	</select>
 
+	<insert id="sendMsgInf" parameterType="messageVO">
+		<selectKey order="BEFORE" keyProperty="msg_no" resultType="string">
+			SELECT NVL(MAX(MSG_NO),0)+1 FROM MESSAGE
+		</selectKey>
+		insert into
+		message(msg_no,msg_cont,msg_date,msg_yn,emp_sendno,emp_resvno)
+		values(msg_no,#{msg_cont},SYSDATE,'N',#{emp_sendno},#{emp_resvno})
+
+	</insert>
 
 
 

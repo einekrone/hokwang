@@ -96,7 +96,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.sendTotalMsg(vo);
 	}
 
-	
+	@Override
+	public void sendMsgInf(MessageVO vo) {
+		
+		EmpDAO.sendMsgInf(vo);
+	}
 	
 	
 	

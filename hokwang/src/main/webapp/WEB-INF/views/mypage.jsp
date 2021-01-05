@@ -169,13 +169,11 @@
 	 
 	$(function() {
 		firstMsg();
-		notReadMsg();
-		totalGetMsg();
-		sendCntMsg();
 		changeClick();
 		updateInf();
 		getTotalMsg();
 		noReadTotalMsg();
+		AllCntMsg();
 	});
 
 	
@@ -294,60 +292,29 @@
 			$(event.target).attr('class', 'nav-link active');
 		});
 	}
+	
+	 function AllCntMsg() {
+			$.ajax({
+				url : "ajax/AllCntMsg",
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					emp_no : "${emp_vo.emp_no}"
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					$('#sendMsg').text(data.send);
+					$('#noReadMsg').text(data.noread);
+					$('#totalMsg').text(data.total);
+					$('#tempMsg').text(data.temp);
+				}
+			})
 
-	function sendCntMsg() {
-		$.ajax({
-			url : "ajax/sendCountMsg",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				emp_no : "${emp_vo.emp_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$('#sendMsg').text(data);
-			}
-		})
+		} 
 
-	}
 
-	function notReadMsg() {
-		$.ajax({
-			url : "ajax/getCountMsg",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				emp_no : "${emp_vo.emp_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$('#noReadMsg').text(data);
-			}
-		})
-
-	}
-
-	function totalGetMsg() {
-		$.ajax({
-			url : "ajax/getToalCountMsg",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				emp_no : "${emp_vo.emp_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$('#totalMsg').text(data);
-			}
-		})
-
-	}
 </script>
 </head>
 

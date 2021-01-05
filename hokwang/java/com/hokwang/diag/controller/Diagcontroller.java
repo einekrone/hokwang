@@ -72,7 +72,7 @@ public class Diagcontroller {
 	//질병명 출력
 	@ResponseBody
 	@RequestMapping("/ajax/DiagDetail2")
-	public Map<String,Object> diagnosisDetail2(DiagnosisVO vo){
+	public List<Map<String,Object>> diagnosisDetail2(DiagnosisVO vo){
 		return diagDao.getDiagDetail2(vo);
 	}
 	

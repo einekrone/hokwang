@@ -18,4 +18,5 @@ public class MessageVO {//쪽지
 	//message를 위해 추가
 	String emp_name;
 	String emp_profile;
+	
 }

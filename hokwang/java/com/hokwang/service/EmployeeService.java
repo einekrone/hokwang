@@ -16,4 +16,6 @@ public interface EmployeeService {
 	public EmployeeVO findId(EmployeeVO emp_vo); //Id찾기
 	public EmployeeVO findPw(EmployeeVO emp_vo); //Pw찾기
 	public List<MessageVO> getTotalMsg(EmployeeVO vo);
+	public List<MessageVO> noReadTotalMsg(EmployeeVO vo);
+	
 }

@@ -89,6 +89,11 @@ public class MypageController {
 		return dao.getTotalMsg(vo);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/noReadTotalMsg")
+	public List<MessageVO> noReadTotalMsg(Model model,EmployeeVO vo) {
+		return dao.noReadTotalMsg(vo);
+	}
 	
 	
 	

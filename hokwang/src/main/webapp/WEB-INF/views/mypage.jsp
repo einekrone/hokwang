@@ -113,16 +113,16 @@
 #main_in {
 	/* margin: 53px; */
 	position: absolute;
-	left: 280px;
+	left: 330px;
 	width: 75%;
 	margin: 50px 10px 10px 10px;
 }
 
 #note_bt {
 	position: absolute;
-	left: 17%;
-	width: 60%;
+	left: 20%;
 	margin-top: 0%;
+	top: 45px;
 }
 
 #note_bt ul li {
@@ -478,10 +478,11 @@
 
 
 						</div>
+						
 						<div class="card shadow py-2" style="height: 480px; width: 100%;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
-									<div class="card-body">
+									<div class="card1-body">
 										<div>
 											<div class="nav flex-column nav-pills" id="v-pills-tab"
 												role="tablist" aria-orientation="vertical">

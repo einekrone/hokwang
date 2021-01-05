@@ -46,6 +46,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	
+	@Override
+	public List<EmployeeVO> selectEmpInf(EmployeeVO vo) {
+		
+		return EmpDAO.selectEmpInf(vo);
+	}
+
 
 	@Override
 	public List<MessageVO> showNotReadMsg(EmployeeVO vo) {

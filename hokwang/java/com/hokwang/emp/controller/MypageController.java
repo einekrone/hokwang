@@ -74,6 +74,7 @@ public class MypageController {
 		map.put("total", dao.getTotalCountMsg(vo));
 		map.put("temp", dao.tempCountMsg(vo));
 		map.put("send", dao.sendCountMsg(vo));
+		map.put("empInf", dao.selectEmpInf(vo));
 		return map;
 	}
 

@@ -318,7 +318,10 @@
 				$('#sendMsg').text(data.send);
 				$('#noReadMsg').text(data.noread);
 				$('#totalMsg').text(data.total);
-				$('#tempMsg').text(data.temp);
+				$.each(data.empInf, function(idx,item) {
+					$('#recipient-name').append($('<option>').attr("value",item.emp_no).html(item.emp_name));
+				});
+								
 			}
 		})
 
@@ -496,7 +499,7 @@
 
 							<div id="note_bt1">
 								<input type="button" id="wri_m_bt" value="쪽지쓰기"
-									data-toggle="modal" data-target="#exampleModal"
+									data-toggle="modal" data-target="#mailModal"
 									data-backdrop="static">
 							</div>
 							<!-- 
@@ -569,7 +572,7 @@
 		<!-- Page level custom scripts -->
 
 		<!-- 편지모달 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1"
+		<div class="modal fade" id="mailModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -584,7 +587,8 @@
 						<form>
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label">받는 사람</label>
-								<input type="text" class="form-control" id="recipient-name" name="recipient-name">
+								<select class="form-control" id="recipient-name" name="recipient-name">
+								</select>
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>

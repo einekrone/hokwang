@@ -1,6 +1,8 @@
 package com.hokwang.emp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,85 +20,62 @@ import com.hokwang.vo.MessageVO;
 public class MypageController {
 	@Autowired
 	EmployeeService dao;
-	
-	
-	
-	//페이지이동
-	@RequestMapping("/mypage") //.do 같은거
-	public ModelAndView MypageForm(EmployeeVO empvo, Model model){
+
+	// 페이지이동
+	@RequestMapping("/mypage") // .do 같은거
+	public ModelAndView MypageForm(EmployeeVO empvo, Model model) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mypage");
-	  return mav;
-	  }
-	
-	//등록페이지로 이동
+		return mav;
+	}
+
+	// 등록페이지로 이동
 	@GetMapping("/MypageInsert")
 	public String MypageInsertForm() {
 		return "user/insert";
 	}
-	
-	/*
-	 * //등록처리
-	 * 
-	 * @PostMapping("/MypageInsert") public String userInsert(HttpServletRequest
-	 * request, EmployeeVO empvo) throws IllegalStateException, IOException {
-	 * //모든파일을 empvo에 담아주어야함. //request miltipart로 캐스팅 MultipartHttpServletRequest
-	 * multipartRequest = (MultipartHttpServletRequest) request; //이미지파일
-	 * MultipartFile multipartFile = multipartRequest.getFile("uploadFile");
-	 * if(!multipartFile.isEmpty() && multipartFile.getSize()>0) { //이미지가 있다면 String
-	 * path = request.getSession() .getServletContext() .getRealPath("/images");
-	 * System.out.println("path="+path); multipartFile.transferTo( new File(path,
-	 * multipartFile.getOriginalFilename()));//업로드할 위치
-	 * empvo.setEmp_profile(multipartFile.getOriginalFilename()); //업로드한 파일이름만 DB에
-	 * 저장. } service.insertUser(empvo); return"user/insert"; }
-	 */
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/getCountMsg")
-	public int getCountMsg(Model model,EmployeeVO vo) {
+	public int getCountMsg(Model model, EmployeeVO vo) {
 		return dao.getCountMsg(vo);
 	}
-	
-	@ResponseBody
-	@RequestMapping("/ajax/sendCountMsg")
-	public int sendMsg(Model model,EmployeeVO vo) {
-		return dao.sendCountMsg(vo);
-	}
-	
-	
-	@ResponseBody
-	@RequestMapping("/ajax/getToalCountMsg")
-	public int getTotalCountMsg(Model model,EmployeeVO vo) {
-		return dao.getTotalCountMsg(vo);
-	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/showNotReadMsg")
-	public List<MessageVO> showNotReadMsg(Model model,EmployeeVO vo) {
+	public List<MessageVO> showNotReadMsg(Model model, EmployeeVO vo) {
 		return dao.showNotReadMsg(vo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/updateInf")
-	public void updateInf(Model model,EmployeeVO vo) {
+	public void updateInf(Model model, EmployeeVO vo) {
 		System.out.println(vo);
 		dao.updateInf(vo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/getTotalMsg")
-	public List<MessageVO> getTotalMsg(Model model,EmployeeVO vo) {
+	public List<MessageVO> getTotalMsg(Model model, EmployeeVO vo) {
 		return dao.getTotalMsg(vo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/noReadTotalMsg")
-	public List<MessageVO> noReadTotalMsg(Model model,EmployeeVO vo) {
+	public List<MessageVO> noReadTotalMsg(Model model, EmployeeVO vo) {
 		return dao.noReadTotalMsg(vo);
 	}
-	
-	
-	
-	
-	
+
+	@ResponseBody
+	@RequestMapping("/ajax/AllCntMsg")
+	public Map<String, Object> AllCntMsg(Model model, EmployeeVO vo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noread", dao.getCountMsg(vo));
+		map.put("total", dao.getTotalCountMsg(vo));
+		map.put("temp", dao.tempCountMsg(vo));
+		map.put("send", dao.sendCountMsg(vo));
+		map.put("empInf", dao.selectEmpInf(vo));
+		return map;
+	}
+
 }

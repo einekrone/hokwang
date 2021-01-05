@@ -239,8 +239,8 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="card" style="width: 18rem;">
-						<div class="card-body">
+					<div class="card" style="width: 30rem;">
+						<div class="card-body" >
 							회사 명 : <h5 class="card-com">회사명</h5>
 							약 이름 : <h5 class="card-name">약이름</h5>
 							약 성분 : <h5 class="card-composition">약성분</h5>

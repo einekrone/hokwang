@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="com.hokwang.dao.ScheMapper">
 	<!-- 조회 -->
 	<select id="getScheList" parameterType="ManagementVO"
 	resultType="map">
-	SELECT WORK_CAUSE "title",
+	SELECT RPAD(WORK_CAUSE,100,' ')||(select emp_name from employee where emp_no = management.emp_no) "title",
 	CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD')
 	end "start",
 	CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD')
 	end "end",
-	CASE WHEN WORK_CTG = 'work' THEN 'red' else 'blue' end "backgroundColor",
-	work_no "_id"
+	CASE WHEN WORK_CTG = 'work' THEN '#ff9191' else '#90bffc' end "backgroundColor",
+	work_no "_id" 	
 	FROM management WHERE work_date is not null or work_stdate is not null
 
 	</select>
@@ -28,7 +29,8 @@
 			work_endate,
 		</if>
 		work_ctg,
-		work_cause
+		work_cause,
+		emp_no
 		)
 		VALUES(
 		#{work_no},
@@ -37,7 +39,8 @@
 			#{work_endate},
 		</if>
 		#{work_ctg},
-		#{work_cause})
+		#{work_cause},
+		#{emp_no})
 
 	</insert>
 
@@ -46,5 +49,6 @@
 		DELETE MANAGEMENT
 		WHERE work_no = #{work_no}
 	</delete>
+	
 
 </mapper>

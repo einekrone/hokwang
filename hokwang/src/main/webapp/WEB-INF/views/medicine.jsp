@@ -37,7 +37,7 @@
 				dataType : 'json',
 				data : {
 					medi_com : $('.card-com').text(),
-					medi_name : $('.card-name').text(),
+					medi_name : $('.card-name').val(),
 					medi_composition : $('.card-composition').text(),
 					medi_no : $('.card-no').text(),
 				},
@@ -63,7 +63,7 @@
 			var tds = $(event.relatedTarget).find('td');
 			var modal = $(this);
 			modal.find('.card-com').text(tds.eq(0).text());
-			modal.find('.card-name').text(tds.eq(1).text())
+			modal.find('.card-name').val(tds.eq(1).text())
 			modal.find('.card-composition').text(tds.eq(2).text())
 			modal.find('.card-no').text(tds.eq(3).text())
 			
@@ -242,7 +242,7 @@
 					<div class="card" style="width: 30rem;">
 						<div class="card-body" >
 							회사 명 : <h5 class="card-com">회사명</h5>
-							약 이름 : <h5 class="card-name">약이름</h5>
+							약 이름 : <br><input type= "text" class="card-name"><br>
 							약 성분 : <h5 class="card-composition">약성분</h5>
 							약 번호:<h5 class="card-no">약번호</h5>
 						</div>

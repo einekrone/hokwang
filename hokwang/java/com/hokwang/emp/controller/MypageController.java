@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
+import com.hokwang.vo.TempmessageVO;
 
 @Controller
 public class MypageController {
@@ -85,6 +86,12 @@ public class MypageController {
 		return true;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/tempMsgInf")
+	public boolean tempMsgInf(Model model, TempmessageVO vo) {
+		dao.tempMsgInf(vo);
+		return true;
+	}
 	
 
 }

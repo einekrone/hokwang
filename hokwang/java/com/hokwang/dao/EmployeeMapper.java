@@ -19,6 +19,6 @@ public interface EmployeeMapper {
 	public List<MessageVO> getTotalMsg(EmployeeVO emp_vo);
 	public List<MessageVO> noReadTotalMsg(EmployeeVO emp_vo);
 	public List<MessageVO> sendTotalMsg(EmployeeVO emp_vo);
-	
+	public List<EmployeeVO> selectEmpInf(EmployeeVO emp_vo);
 }
 

@@ -19,5 +19,8 @@ public interface EmployeeService {
 	public List<MessageVO> getTotalMsg(EmployeeVO vo);
 	public List<MessageVO> noReadTotalMsg(EmployeeVO vo);
 	public List<MessageVO> sendTotalMsg(EmployeeVO vo);
+	public List<EmployeeVO> selectEmpInf(EmployeeVO vo);
+	
+	
 	
 }

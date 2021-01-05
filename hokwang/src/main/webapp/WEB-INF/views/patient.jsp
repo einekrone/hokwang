@@ -15,7 +15,8 @@
 		diagnosisRecord();//진료기록
 
 		dignosisDetail1();//상세 진료 약이름
-		dignosisDetail2();//상세진료
+		//dignosisDetail2();//상세진료
+		
 	})
 
 	function patientList(keyword) {
@@ -68,7 +69,7 @@
 			console.log("환자클릭시 진료기록 요청");
 			console.log("아기번호 : " + td.eq(4).text());
 			$.ajax({
-				url : "ajax/diagnosisRecord",
+				url : "ajax/diagDetailAndInfo",
 				data : {
 					baby_no : td.eq(4).text()
 				},
@@ -76,19 +77,12 @@
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 : 일단진료기록에러임" + msg);
 				},
-				success : diagnosisRecordResult
+				success : function(result){
+					diagnosisRecordResult(result.diagnosisRecord)
+					patientInfoResult(result.patientInfo)
+					chartListRuselt(result.chart);
+				}
 			});//end of ajax
-			$.ajax({
-				url : "ajax/patientInfo",
-				data : {
-					baby_no : td.eq(4).text()
-				},
-				dataType : "json",
-				error : function(xhr, status, msg) {
-					alert("상태값" + status + " Http에러메세지: " + msg)
-				},
-				success : patientInfoResult
-			});
 		});//end of onclick function
 	}//end of function
 	function RPAD(str, padStr, padLen) {
@@ -138,14 +132,14 @@
 
 	}//end of fucntion
 
-	function dignosisDetail1() {
+	function dignosisDetail1() { 
 
 		$("body").on("click", "#diagnosisRecord tr", function() {
 			var td = $(this).children();
-			console.log("진료내역클릭시 -> 진료기록 요청");
+			console.log("진료내역클릭시 -> 진료기록 요청 dignosisDetail1");
 			console.log("진료번호 : " + td.eq(0).text());
 			$.ajax({
-				url : "ajax/dignosisDetail1",
+				url : "ajax/diagDetail",
 				data : {
 					diag_no : td.eq(0).text()
 
@@ -154,24 +148,23 @@
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
 				},
-				success : dignosisDetailResult
+				success : function(result){
+					dignosisDetailResult(result.medicine);
+					dignosisDetailResult2(result.diag2);
+					dignosisDetailResult3(result.diag3);
+					
+					
+				} 
 			});//end of ajax
 
 		});//end of onclick function
 	}
-	function dignosisDetailResult(data) {
-		var key = Object.values(data[0]);
-		console.log("약이름 출력");
-		console.log(key);
-		$("#mediName").empty();
-		$("#mediName").append($("<p>").html("약이름 : " + key)).append($("<hr>"))
-	}
 
-	function dignosisDetail2() {
+	/* function dignosisDetail2() {
 
 		$("body").on("click", "#diagnosisRecord tr", function() {
 			var td = $(this).children();
-			console.log("진료내역클릭시 -> 진료기록 요청");
+			console.log("진료내역클릭시 -> 진료기록 요청 dignosisDetail2//병,메모");
 			console.log("진료번호 : " + td.eq(0).text());
 			$.ajax({
 				url : "ajax/dignosisDetail2",
@@ -185,18 +178,7 @@
 				},
 				success : dignosisDetailResult2
 			});//end of ajax
-			$.ajax({
-				url : "ajax/dignosisDetail2",
-				data : {
-					diag_no : td.eq(0).text()
-
-				},
-				dataType : "JSON",
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
-				},
-				success : dignosisDetailResult2
-			});//end of ajax
+			
 			$.ajax({
 				url : "ajax/dignosisDetail3",
 				data : {
@@ -211,6 +193,13 @@
 			});//end of ajax
 
 		});//end of onclick function
+	} */
+	function dignosisDetailResult(data) {
+		var key = Object.values(data[0]);
+		console.log("약이름 출력");
+		console.log(key);
+		$("#mediName").empty();
+		$("#mediName").append($("<p>").html("약이름 : " + key)).append($("<hr>"))
 	}
 	function dignosisDetailResult2(data) {
 		var key = Object.values(data)
@@ -221,7 +210,6 @@
 				$("<hr>"))
 
 	}
-
 	function dignosisDetailResult3(data) {
 		var key = Object.values(data)
 		console.log("상세진료 병,메모 ->" + key);
@@ -233,24 +221,41 @@
 </script>
 
 <script type="text/javascript">
+	var chartLabels=[];
+	var chartData=[];
+	var chartData2=[];
+	
+function chartListRuselt(data) {
+		chartData=[];
+		chartData2=[]; 
+		$.each(data, function(idx, item) {
+				chartData.push(item.body_height);
+				chartData2.push(item.body_weight);
+		})//end of function
+		createChart();	
+		console.log("차트생성")
+}
+
+	
+function createChart(){
 	//차트 옵션 설정
 	var speedCanvas = document.getElementById("myChart");
-
+	
 	Chart.defaults.global.defaultFontFamily = "Lato";
 	Chart.defaults.global.defaultFontSize = 18;
-	var dataSecond = {
+	var dataHeight = {
 		label : "신장",
-		data : [ 20, 15, 60, 60, 65, 30, 70 ],
+		data : chartData,
 		lineTension : 0,
 		fill : false,
 		borderColor : 'blue'
 	};
-	var speedData = {
+	var dataChartall = {
 		labels : [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월",
 				"11월", "12월" ],
 		datasets : [ {
 			label : "체중",
-			data : [ 0, 59, 75, 20, 20, 55, 40 ],
+			data : chartData2,
 			lineTension : 0,
 			fill : false,
 			borderColor : 'orange',
@@ -263,9 +268,10 @@
 			pointHitRadius : 30,
 			pointBorderWidth : 2,
 			pointStyle : 'rectRounded'
-		}, dataSecond ]
+		}, dataHeight ]
 	};
-
+	
+	
 	var chartOptions = {
 		legend : {
 			display : true,
@@ -283,30 +289,32 @@
 				},
 				scaleLabel : {
 					display : true,
-					labelString : "Time in Seconds",
+					labelString : "월",
 					fontColor : "red"
 				}
 			} ],
 			yAxes : [ {
+                
 				gridLines : {
 					color : "black",
 					borderDash : [ 2, 5 ],//실선 길이
 				},
 				scaleLabel : {
 					display : true,
-					labelString : "cm",
+					labelString : "cm/kg",
 					fontColor : "green"
 				}
 			} ]
 		}
 	};
-
+	
 	var lineChart = new Chart(speedCanvas, {
 		type : 'line',
-		data : speedData,
+		data : dataChartall,
 		options : chartOptions
-
 	});
+}
+	
 </script>
 </head>
 <body>

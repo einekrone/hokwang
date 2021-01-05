@@ -10,6 +10,6 @@ public class BodyVO {//키,몸무게
 	String body_height;//키
 	String body_weight;//몸무게
 	Date body_date;//작성 일자
-	
+	String baby_no;
 
 }

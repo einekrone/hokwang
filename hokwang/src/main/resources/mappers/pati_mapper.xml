@@ -40,7 +40,8 @@
 		select medi_name from medicine
 		<where>
 			MEDI_NO in (select medi_no from
-			prescription where diag_no = #{diag_no})
+			prescription where diag_no =
+			#{diag_no})
 		</where>
 	</select>
 
@@ -51,12 +52,20 @@
 			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
 		</where>
 	</select>
-	
-		<select id="diagDetail2" resultType="map"
+
+	<select id="diagDetail2" resultType="map"
 		parameterType="diagnosisVO">
 		select a.diaglist_memo from diagnosis a,disease b
 		<where>
 			(a.dis_code=b.dis_code) and diag_no=#{diag_no}
 		</where>
+	</select>
+
+	<select id="bodyInfo" resultType="bodyVO" parameterType="bodyVO">
+		SELECT BODY_HEIGHT,BODY_WEIGHT,BODY_NO FROM BODYINFO
+		<where>
+			BABY_NO=#{baby_no}
+		</where>
+		ORDER BY BODY_NO
 	</select>
 </mapper>

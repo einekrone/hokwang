@@ -4,8 +4,8 @@ package com.hokwang.dao;
 
 public interface SaleMapper {
 
-	public int getDaySales();
-	public int getMonthSales();
-	public int getYearSales();
-	public int getCountResv();
+	public Integer getDaySales();
+	public Integer getMonthSales();
+	public Integer getYearSales();
+	public Integer getCountResv();
 }

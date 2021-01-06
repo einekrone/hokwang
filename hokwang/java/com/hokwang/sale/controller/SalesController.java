@@ -26,25 +26,25 @@ public class SalesController {
 	
 	@ResponseBody
 	@RequestMapping("/ajax/showMonthSale")
-	public int getDaySales(Model model,PaymentVO vo) {
+	public Integer getDaySales(Model model,PaymentVO vo) {
 		return dao.getDaySales();
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/showDaySale")
-	public int getMonthSales(Model model,PaymentVO vo) {
+	public Integer getMonthSales(Model model,PaymentVO vo) {
 		return dao.getMonthSales();
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/showYearSale")
-	public int getYearSales(Model model,PaymentVO vo) {
+	public Integer getYearSales(Model model,PaymentVO vo) {
 		return dao.getYearSales();
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/showCountResv")
-	public int getCountResv(Model model,PaymentVO vo) {
+	public Integer getCountResv(Model model,PaymentVO vo) {
 		return dao.getCountResv();
 	}
 	

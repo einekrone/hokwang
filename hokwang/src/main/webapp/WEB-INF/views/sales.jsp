@@ -36,9 +36,10 @@
 			type : "GET",
 			dataType : "json",
 			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				alert("상태값 :" + status + " Http에러메시지 : 일매출" + msg);
 			},
 			success : function(data) {
+				
 				$('#daySales').append(data).append('원');
 			}
 
@@ -51,7 +52,7 @@
 			type : "GET",
 			dataType : "json",
 			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				alert("상태값 :" + status + " Http에러메시지 : 월매출" + msg);
 			},
 			success : function(data) {
 				$('#monthSales').append(data).append('원');			
@@ -66,7 +67,7 @@
 			type : "GET",
 			dataType : "json",
 			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				alert("상태값 :" + status + " Http에러메시지 : 년매출" + msg);
 			},
 			success : function(data) {
 				$('#yearSales').append(data).append('원');

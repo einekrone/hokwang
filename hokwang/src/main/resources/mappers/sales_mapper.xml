@@ -3,20 +3,20 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.dao.SaleMapper">
-	<select id="getDaySales" resultType="int">
+	<select id="getDaySales" resultType="integer">
 		select sum(pay_price) from payment where pay_date = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
 
-	<select id="getMonthSales" resultType="int">
+	<select id="getMonthSales" resultType="integer">
 		select sum(pay_price) from payment where TO_CHAR(pay_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
 	</select>
 
-	<select id="getYearSales" resultType="int">
+	<select id="getYearSales" resultType="integer">
 		select sum(pay_price) from payment where TO_CHAR(pay_date,'YY') = TO_CHAR(SYSDATE,'YY')
 	</select>
 
-	<select id="getCountResv" resultType="int">
-		select count(resv_no) from reservation where TO_CHAR(resv_date,'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD')
+	<select id="getCountResv" resultType="integer">
+		select count(resv_no) from reservation where resv_date = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
 
 

@@ -119,12 +119,12 @@ button {
 		});
 
 		// 예약환자명 검색
-		$("#searchPati").click(function() {
+		/* $("#searchPati").click(function() {
 			var keyword = $("#keyword").val();
 			console.log("keyword : " + keyword);
 			resvList("resvSearch", keyword);
 			$("#keyword").val("");
-		});
+		}); */
 
 		// 등록된 이미지 목록
 		$("body").on("click", "#imgBtn", function() {
@@ -166,6 +166,13 @@ button {
 			});
 		});
 	});
+	
+	function SearchClick() {
+		var keyword = $("#keyword").val();
+		console.log("keyword : " + keyword);
+		resvList("resvSearch", keyword);
+		$("#keyword").val("");
+	}
 
 	// 진료실 이동
 	function roomMove(resvNo) {
@@ -708,9 +715,9 @@ button {
 					<div class="input-group">
 						<input type="text" class="form-control border-0 small"
 							name="keyword" id="keyword" placeholder="예약환자명"
-							aria-label="Search" aria-describedby="basic-addon2">
+							aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); SearchClick();}">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="searchPati">
+							<button class="btn btn-primary" type="button" id="searchPati" onclick="SearchClick()">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div>

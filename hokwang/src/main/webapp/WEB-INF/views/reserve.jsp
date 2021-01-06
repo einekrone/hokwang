@@ -161,6 +161,7 @@ button {
 					console.log("payUpdate 성공");
 					// 2. 수납대기, 수납완료 목록 조회
 					nonPayList(searchType, keyword);
+					$(".modal-backdrop").hide();
 				}
 			});
 		});
@@ -684,6 +685,15 @@ button {
 			reader.readAsDataURL(f);
 		});
 	}
+	
+	function close_pop() {
+		$("#stPopup").hide();
+	}
+	
+	function cancle_pop() {
+		console.log("cancel_pop");
+		$("#stPopup").show();
+	}
 </script>
 <body>
 	<div class="container-fluid"
@@ -923,7 +933,7 @@ button {
 					<div class="modal-footer text-center"
 						style="justify-content: center !important;">
 						<button class="btn-primary" type="button" style="margin: 0 25px;"
-							id="stRBtn" data-toggle="modal" data-target="#stChkPop">승인</button>
+							id="stRBtn" data-toggle="modal" data-target="#stChkPop" onclick="close_pop()">승인</button>
 						<button type="button" style="margin: 0 25px;" data-dismiss="modal">취소</button>
 					</div>
 				</div>
@@ -943,8 +953,8 @@ button {
 				<div class="modal-body text-center">
 					<p style="font-size: 25px; width: 100%;">결제를 승인하시겠습니까?</p>
 					<button class="btn-primary" type="button" style="margin: 0 25px;"
-						id="stRBtn2">승인</button>
-					<button type="button" style="margin: 0 25px;" data-dismiss="modal">취소</button>
+						id="stRBtn2" data-dismiss="modal">승인</button>
+					<button type="button" style="margin: 0 25px;" data-dismiss="modal" onclick="cancle_pop()">취소</button>
 				</div>
 			</div>
 		</div>

@@ -34,12 +34,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 		resvUniq();
 		getDiagDetail();
 		getMedicineList();
-			/* google.load('visualization', '1', {
-				'packages' : [ 'corechart' ]
-			});
-
-		google.setOnLoadCallback(drawChart); */
+		getMediChg();
 		
+		$(".diagMenu").show();
 	});
 	
 	//질병검색
@@ -54,27 +51,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 	$("#schmedicine").click(function(){
 		var searchMedicine = $("#searchMedicine").val();
 		console.log("searchMedicine :" + searchMedicine);
-		schMedicine(searchMedicine);
+		getMedicineList(searchMedicine);
 		$("searchMedicine").val("");
 	});  
 	
-	/* 	//구글차트(키/몸무게)
-	 function drawChart() {
-	 $.ajax({
-	 url : 'ajax/BodyInfo',
-	 type : 'GET',
-	 //contentType:'application/json;charset=utf-8',
-	 dataType : 'json',
-	 data : {
-	
-	 },
-	 error : function(xhr, status, msg) {
-	 alert("상태값 :" + status + " Http에러메시지 :" + msg);
-	 },
-	 success : 
-	 });
-	 } */
-	
+
 	 //약품리스트 뿌려줌
 	 function getMedicineList(){
 		 $.ajax({
@@ -97,41 +78,34 @@ div.dataTables_wrapper div.dataTables_paginate {
 			$.each(data, function(idx, item) {
 				$("<tr>").append($('<td>').html(item.MEDI_NO))
 						 .append($('<td>').html(item.MEDI_NAME))
-						 .append($('<td>').html(item.MEDI_COMPOSITION))
-						 .append($('<td><button type="button" id="chgMedi">'))
 						 .appendTo($('#schMedicineTd'));
 			});
 	 }
 	 
-	 
-	/*  function schMedicine(searchMedicine){
-		 console.log(searchMedicine);
-		 $.ajax({
-				url : 'ajax/schMedicine',
-				type : 'GET',
-				//contentType:'application/json;charset=utf-8',
-				dataType : 'json',
-				data : {
-					searchMedicine : searchMedicine
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : schMedicineResult
+	 //약품 이동
+	 function getMediChg(){
+		 $("body").on("click", "#schMedicineTd tr", function() {
+				var tdArr = new Array();
+				var td = $(this).children();
+
+				td.each(function(i) {
+					tdArr.push(td.eq(i).text());
+				});
+
+				console.log("1 : " + td.eq(0).text());
+				console.log("2 : " + td.eq(1).text());
+
+				$("<tr>").append($('<td>').html(td.eq(1).text()))
+				 .append($('<td> <input name="presAccount" id="presAccount" style="width:50px;"></td>'))
+				 .append($('<td> <input name="presccount" id="presccount" style="width:50px;"></td>'))
+				 .append($('<td> <input name="presTotal" id="presTotal" style="width:50px;"></td>'))
+				 .append($('<td> <button type="button" id="deleteMediTR" style="width:50px;">X</button></td>'))
+				 .appendTo($('#insertMedicine'));
 			});
 	 }
-
-	 function schMedicineResult(data){
-		 $("#schMedicineTd").empty();
-			$.each(data, function(idx, item) {
-				$("<tr>").append($('<td>').html(item.MEDI_NO))
-						 .append($('<td>').html(item.MEDI_NAME))
-						 .append($('<td>').html(item.MEDI_COMPOSITION))
-						 .append($('<td><button type="button" id="chgMedi">'))
-						 .appendTo('#schMedicineTd');
-			});
-	 } */ 
 	 
+	 
+ 	//질병뿌려줌
 	 function getDisease(searchDisease){
 		 console.log(searchDisease);
 			$.ajax({
@@ -150,11 +124,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 	 }
 	 
 	 function getDiseaseResult(data){
-		 $("#InsertDisease").empty();
 		 console.log("searchDisease :" + searchDisease);
 			$("<tr>").append($('<td>').html(data.DIS_CODE))
 					 .append($('<td>').html(data.DIS_NAME))
 					 .append($('<td>').html(data.DIS_DESC))
+					 .append($('<td> <button type="button" id="deleteDiseTR" style="width:50px;">X</button></td>'))
 					 .appendTo("#InsertDisease");
 	 }
 	 
@@ -477,47 +451,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 
 			<!-- 진료 2 -->
-			<div class="col-xl-5 col-md-6 mb-4">
-
-				<!-- 사진 -->
-				<div class="card shadow py-2"
-					style="height: 300px; float: left; width: 50%">
-					<div class="card-body">
-						<!-- Title -->
-						<div>
-							<!-- logo -->
-							<div class="title_logo">
-								<i class="far fa-image"></i>
-
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">상세 사진</span>
-							</div>
-						</div>
-
-						<!-- 사진 -->
-						<div>
-							<%-- <image src="${pageContext.request.contextPath}/DD.JPG"
-								id="baby_pic"></image> --%>
-						</div>
-					</div>
-				</div>
-
-				<!-- 성장 차트 -->
-				<div class="card shadow py-2"
-					style="height: 300px; float: left; width: 50%">
-					<div class="card-body">
-						<div class="chart-area">
-							<canvas id="myAreaChart"></canvas>
-						</div>
-					</div>
-				</div>
+			<div class="col-xl-3 col-md-6 mb-4">
 
 				<!-- 환자 기록 -->
-				<div class="card shadow py-2" style="height: 540px;">
+				<div class="card shadow py-2" style="height: 840px;">
 					<div class="card-body">
 
 						<!-- 진료 기록 -->
-						<div style="width: 40%; float: left">
+						<div style="height: 340px; overflow: auto;">
 							<!-- logo -->
 							<div class="title_logo">
 								<i class="fas fa-file-medical"></i>
@@ -528,7 +469,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<table id="noborder_table">
 								<thead>
 									<tr id="nbab">
-									<br/>
+										<br />
 										<th>일시</th>
 									</tr>
 								</thead>
@@ -537,8 +478,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 						</div>
 
 						<!-- 진료 기록 상세 -->
-						<div style="width: 60%; float: right;">
-
+						<div style="height: 500px; overflow: auto;">
 							<!-- logo -->
 							<div class="title_logo">
 								<i class="far fa-clipboard"></i>
@@ -604,12 +544,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 					</div>
 				</div>
 			</div>
-			<!-- 진료 4 -->
-			<div class="col-xl-4 col-md-6 mb-4">
+
+
+
+			<!-- 진료 3 -->
+			<div class="col-xl-3 col-md-6 mb-4">
 
 				<!-- 외래기록 -->
-				<div class="card shadow py-2" style="height: 400px;">
-				
+				<div class="card shadow py-2" style="height: 840px;">
+
 					<div class="card-body" style="height: 200px;">
 						<!-- Title -->
 						<div>
@@ -621,7 +564,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<span class="tit" style="font-weight: 600;">상병</span>
 
 								<div>
-									<div style="margin: 0 0 10px 0 !important; width: 90%; float: left;">
+									<div
+										style="margin: 0 0 10px 0 !important; width: 90%; float: left;">
 										<form>
 											<div class="input-group">
 												<input type="text" class="form-control border-0 small"
@@ -643,20 +587,21 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 							</div>
 						</div>
-						<div>
+						<div style="overflow: auto; width: 100%; height: 300px;">
 							<table>
 								<thead>
 									<tr>
-										<th style="width:400px;">상병코드</th>
-										<th style="width:400px;">상병명</th>
-										<th style="width:400px;">상병상세</th>
-									</tr>			
+										<th style="width: 200px;">코드</th>
+										<th style="width: 400px;">상병명</th>
+										<th style="width: 500px;">상병상세</th>
+										<th style="width: 150px;">삭제</th>
+									</tr>
 								</thead>
 								<tbody id="InsertDisease" style="overflow: auto; width: 100%;"></tbody>
 							</table>
 						</div>
 					</div>
-					
+
 					<div class="card-body" style="height: 200px;">
 						<!-- Title -->
 						<div>
@@ -671,64 +616,89 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 						<!--소견내용  -->
 						<div>
-							<textarea class="cont" id="patient_records" name="records" style="width: 100%; height: 100px;">
+							<textarea class="cont" id="patient_records" name="records"
+								style="width: 100%; height: 300px;">
 							</textarea>
 						</div>
 					</div>
-					
+
 				</div>
-				<!-- 처방 -->
-				<div class="card shadow py-2" style="height: 440px;">
-			
-						<!-- Title -->
-						<div class="title_logo">
-							<!-- logo -->
-								<i class="fas fa-capsules"></i>
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">처방</span>
-						</div>
-						
+			</div>
+		
+		<!-- 진료 4 -->
+			<div class="col-xl-3 col-md-6 mb-4">
+			<!-- 처방 -->
+				<div class="card shadow py-2" style="height: 840px;">
+					
+				<div style="height: 100px; padding: 20px;">
+					
+					<!-- Title -->
+					<div class="title_logo">
+						<!-- logo -->
+						<i class="fas fa-capsules"></i>
+						<!-- content -->
+						<span class="tit" style="font-weight: 600;">약품</span>
+					</div>
+
 					<!-- 검색버튼 -->
 					<div style="margin: 0 0 10px 0 !important; width: 90%;">
-										<form>
-											<div class="input-group">
-												<input type="text" class="form-control border-0 small"
-													name="searchMedicine" id="searchMedicine" placeholder="약품검색"
-													aria-label="Search" aria-describedby="basic-addon2">
-												<div class="input-group-append">
-													<button class="btn btn-primary" type="button"
-														id="schmedicine">
-														<i class="fas fa-search fa-sm"></i>
-													</button>
-												</div>
-											</div>
-										</form>
-									</div>
+						<form>
+							<div class="input-group">
+								<input type="text" class="form-control border-0 small"
+									name="searchMedicine" id="searchMedicine" placeholder="약품검색"
+									aria-label="Search" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="button" id="schmedicine">
+										<i class="fas fa-search fa-sm"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
 					
-				<!-- 약품리스트 -->
-					<div class="card-body" style="overflow: auto; width: 100%; heigt:10%;">	
-									<div>
-										<table>
-										<thead>
-											<tr>
-												<th style="width:400px;">약품코드</th>
-												<th style="width:400px;">약품명</th>
-												<th style="width:400px;">성분</th>
-												<th></th>
-											</tr>
-											</thead>
-											<tbody id="schMedicineTd"></tbody>
-										</table>
-									</div>
+				</div>
+				
+				
+					<!-- 약품리스트 -->
+					<div class="card-body"
+						style="overflow: auto; width: 100%; height: 200px;">
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th style="width: 400px;">약품코드</th>
+										<th style="width: 400px;">약품명</th>
+									</tr>
+								</thead>
+								<tbody id="schMedicineTd"></tbody>
+							</table>
+						</div>
+					</div>
+				
+					
+					<!-- 처방내용  -->
+					<div class="card-body" style="height: 400px;">
+						<div>
+						<!-- logo -->
+							<i class="fas fa-capsules"></i>
+							<!-- content -->
+							<span class="tit" style="font-weight: 600;">처방전</span>
 						</div>
 						
-					<!-- 처방내용  -->
-					<div class="card-body" style="height: 260px;">
-			
-						<div>
-	
-								<span class="tit" style="font-weight: 600;">처방</span>
-							
+						<!-- 처방전작성 -->
+						<div style="overflow: auto; height: 350px;">
+							<table>
+								<thead>
+									<tr>
+										<th style="width: 400px;">약품명</th>
+										<th style="width: 200px;">용량</th>
+										<th style="width: 200px;">일수</th>
+										<th style="width: 200px;">일투</th>
+										<th style="width: 200px;">삭제</th>
+									</tr>
+								</thead>
+								<tbody id="insertMedicine"></tbody>
+							</table>
 						</div>
 					</div>
 				</div>

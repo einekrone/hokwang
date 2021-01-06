@@ -13,15 +13,12 @@
 		var keyword = "";
 		patientList(keyword); //전체 환자 리스트
 		diagnosisRecord();//진료기록
-
 		dignosisDetail1();//상세 진료 약이름
 		//dignosisDetail2();//상세진료
 		
 	})
 
 	function patientList(keyword) {
-
-		var keyword = "";
 
 		$.ajax({
 			url : "ajax/patientList",
@@ -56,6 +53,13 @@
 		})/* end of ajax  */
 	}
 
+	// 예약환자명 검색
+	function aa(){
+		var keyword = $("#keyword2").val();
+		console.log("keyword : " + keyword);
+		patientList(keyword);
+		$("#keyword2").val("");
+	}
 	function diagnosisRecord() {//환자 진료내역
 
 		$("body").on("click", "#patientList tr", function() {
@@ -160,40 +164,6 @@
 		});//end of onclick function
 	}
 
-	/* function dignosisDetail2() {
-
-		$("body").on("click", "#diagnosisRecord tr", function() {
-			var td = $(this).children();
-			console.log("진료내역클릭시 -> 진료기록 요청 dignosisDetail2//병,메모");
-			console.log("진료번호 : " + td.eq(0).text());
-			$.ajax({
-				url : "ajax/dignosisDetail2",
-				data : {
-					diag_no : td.eq(0).text()
-
-				},
-				dataType : "JSON",
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
-				},
-				success : dignosisDetailResult2
-			});//end of ajax
-			
-			$.ajax({
-				url : "ajax/dignosisDetail3",
-				data : {
-					diag_no : td.eq(0).text()
-
-				},
-				dataType : "JSON",
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
-				},
-				success : dignosisDetailResult3
-			});//end of ajax
-
-		});//end of onclick function
-	} */
 	function dignosisDetailResult(data) {
 		var key = Object.values(data[0]);
 		console.log("약이름 출력");
@@ -345,7 +315,21 @@ function createChart(){
 			<div class="card shadow py-2" style="height: 400px;">
 				<div class="text-s font-weight-bold"
 					style="margin-bottom: 20px; width: 100%; height: 250px; overflow: auto;">
+					
 					<span class="text-primary">전체 환자 리스트</span>
+					<form style="margin: 0 0 10px 0 !important; width: 100%;"
+					class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					<div class="input-group" style="width: 300px; float: right; margin-right: 10px;">
+						<input type="text" class="form-control border-0 small"
+							name="keyword" id="keyword2" placeholder="환자이름"
+							aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); aa();}">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" id="searchPati2" onclick="aa()">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
 					<table class="table text-center">
 						<thead>
 							<tr>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,14 +44,22 @@
 	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
+<%-- <script
+	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script> --%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script type="text/javascript">
 	$(function() {
 		$(".nav-tabs").tabs({
-			active : 0
+			active : 0,
+			activate: function( event, ui ) {
+				if(ui.newTab.innerText=="진료"){
+					$(".diagMenu").show();
+				}
+				else{
+					$(".diagMenu").hide();
+				}
+			}
 		});
 	})
 </script>
@@ -70,14 +79,20 @@
 				<div style="padding: 5px;" class=" nav-tabs">
 					<ul>
 						<li><a href="resve">예약</a></li>
+						<c:if test= '${!empty emp_vo.emp_no && emp_vo.emp_author == "D"}'>
 						<li><a href="diagnosis">진료</a></li>
+						</c:if>
 						<li><a href="patient">환자관리</a></li>
 						<li><a href="schedule">근태관리</a></li>
 						<li><a href="medicine">약품관리</a></li>
 						<li><a href="sales">매출</a></li>
-
+								<div class="diagMenu" style="float: right; display: none;">
+									<button>진료시작</button>
+									<button>진료종료</button>
+									<button>문진표</button>
+									<button>사진</button>
+								</div>
 					</ul>
-					<div></div>
 				</div>
 			</div>
 			<!-- End of Main Content -->
@@ -105,7 +120,7 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">${emp_vo.emp_name}님 정말로 로그아웃 하시겠습니까?</div>
+				<div class="modal-body">${emp_vo.emp_name}님정말로로그아웃 하시겠습니까?</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>

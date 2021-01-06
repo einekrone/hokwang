@@ -1,6 +1,5 @@
 package com.hokwang.service.impl;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,25 +15,25 @@ public class SalesServiceImpl implements SalesService {
 
 	
 	@Override
-	public int getDaySales() {
+	public Integer getDaySales() {
 		// TODO Auto-generated method stub
 		return salesDao.getDaySales();
 	}
 	
 	@Override
-	public int getMonthSales() {
+	public Integer getMonthSales() {
 		// TODO Auto-generated method stub
 		return salesDao.getMonthSales();
 	}
 	
 	@Override
-	public int getYearSales() {
+	public Integer getYearSales() {
 		// TODO Auto-generated method stub
 		return salesDao.getYearSales();
 	}
 	
 	@Override
-	public int getCountResv() {
+	public Integer getCountResv() {
 		// TODO Auto-generated method stub
 		return salesDao.getCountResv();
 	}

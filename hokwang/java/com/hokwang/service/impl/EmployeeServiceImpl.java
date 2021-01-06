@@ -109,6 +109,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmpDAO.tempMsgInf(vo);
 	}
 	
-	
+
+	@Override
+	public TempmessageVO checkTemp(TempmessageVO vo) {
+		// 아이디찾기
+		return EmpDAO.checkTemp(vo);
+	}
+
 	
 }

@@ -122,14 +122,7 @@
     </fieldset>
   </form>
 </div>
- <div class="filter-title">
-      <label class="group-title">등록자별</label>
-        <div class="input-group">
-        	  <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>원장</label>
-              <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>의사</label>
-              <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>간호사</label>
-        </div>
- </div>
+ 
  <script>
        //취소
  		$("#btnCancel").on('click',function(){
@@ -264,13 +257,13 @@
 
 		$('#btnInsert').on('click', function() {
 			var ctg = $("#work_ctg").val();
-			var color = 'red'
+			var color = '#ff9191'
 			var title = $("#work_cause").val();
 			
 			if(ctg == 'work'){
-				color = 'red'
+				color = '#ff9191'
 			}else{
-				color = 'blue'
+				color = '#90bffc'
 			}
 			
 			if(title == ''){
@@ -291,15 +284,16 @@
 						backgroundColor : color
 						
 					});
+					
 				},
 				error : function() {
 					alert("fail");
 				}
-			})
+			});
 			dialog.dialog("close");
-			calendar.render();
+			
 		});
-		
+		calendar.refetch();
 		
 	</script>
 </body>

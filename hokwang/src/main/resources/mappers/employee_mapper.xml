@@ -169,7 +169,11 @@
 	</insert>
 
 
-
+	<select id="checkTemp" parameterType="tempmessageVO" resultType="tempmessageVO">
+		<![CDATA[
+		select * from ( select * from TEMPMESSAGE where temp_sendno = #{temp_sendno} order by TEMP_no DESC) where ROWNUM <= 1
+		]]>
+	</select>
 
 
 

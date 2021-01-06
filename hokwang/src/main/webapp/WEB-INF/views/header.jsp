@@ -148,12 +148,20 @@
 	<nav
 		class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
 		style="height: 40px; margin-bottom: 0px !important;">
+		<c:if test="${not empty emp_vo }">
+			<a href="base">
 		<img src="${pageContext.request.contextPath}/resources/img/logo.png" style="height: 40px;">
+		</a>
+		</c:if>
+		
+		<c:if test="${empty emp_vo }">
+		<img src="${pageContext.request.contextPath}/resources/img/logo.png" style="height: 40px;">
+		</c:if>
+		
 		<!-- Topbar Navbar -->
 		<ul class="navbar-nav ml-auto">
 			<!-- Dropdown - Messages -->
-			<div
-				class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+			<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
 				aria-labelledby="searchDropdown">
 				<form class="form-inline mr-auto w-100 navbar-search">
 					<div class="input-group">

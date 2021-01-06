@@ -214,16 +214,7 @@
 		})
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 
 	function writeMsg() {
@@ -448,7 +439,7 @@
 										</tr>
 										<tr>
 											<td><span class="point">&nbsp;*</span>비밀번호</td>
-											<td><input type="text" id="pw" name="pw"
+											<td><input type="password" id="pw" name="pw"
 												placeholder="변경할 비밀번호를 입력하시오"></td>
 										</tr>
 										<tr>
@@ -700,7 +691,7 @@
 						<table>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
-								<td><input type="text" id="pw2" name="pw2"
+								<td><input type="password" id="pw2" name="pw2"
 									placeholder="변경할 비밀번호를 입력하시오"></td>
 							</tr>
 						</table>

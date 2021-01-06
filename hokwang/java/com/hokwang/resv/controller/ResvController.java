@@ -41,7 +41,6 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvList")
 	public List<Map<String, Object>> getResvList(ResvSearch vo) {
-		System.out.println("vo :: "+vo.getKeyword());
 		return resvSvc.getResvList(vo);
 	}
 
@@ -77,7 +76,6 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/imgInsert")
 	public int imgInsert(HttpServletRequest request, Images vo) throws IllegalStateException, IOException {
-		System.out.println("imgInsert>>");
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartFile = multipartRequest.getFile("imgInput");
 		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
@@ -85,7 +83,6 @@ public class ResvController {
 			// getOriginalFilename : 업로드 후 파일명
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
 			vo.setImg_addr(multipartFile.getOriginalFilename());
-			System.out.println("imgAddr : "+vo.getImg_addr());
 		}
 		return resvSvc.imgInsert(vo);
 	}
@@ -94,10 +91,8 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/imgDelete")
 	public int imgDelete(@RequestParam("delArr[]") List<String> deleArr, Images vo) {
-		System.out.println("imgDelete>>");
 		int result = 0;
 		for(String i : deleArr) {
-			System.out.println("imgNo : "+i);
 			vo.setImg_no(i);
 			resvSvc.imgDelete(vo);
 			result = 1;
@@ -138,7 +133,6 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/roomUpdate")
 	public int roomUpdate(Reservation vo) {
-		System.out.println("roomUpdate>>");
 		return resvSvc.roomUpdate(vo);
 	}
 }

@@ -29,7 +29,10 @@ public class ScheController {
 	//조회
 	@ResponseBody
 	@RequestMapping("/getScheList")
-	public List<ManagementVO> getScheList(ManagementVO sche){
+	public List<ManagementVO> getScheList(ManagementVO sche, HttpServletRequest req){
+		HttpSession session = req.getSession();
+		
+		sche.setEmp_no(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_no()); 
 		return dao.getScheList(sche);
 	}
 	

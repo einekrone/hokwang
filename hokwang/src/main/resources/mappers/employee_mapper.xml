@@ -129,8 +129,7 @@
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from
-		employee
-		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
+		employee e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
 		select EMP_SENDNO from message where emp_resvno=#{emp_no} and
 		m.msg_yn='N')
 	</select>

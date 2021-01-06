@@ -125,7 +125,7 @@
 	margin: 50px 10px 10px 10px;
 }
 
-#note_bt {
+.note_bt {
 	position: absolute;
 	left: 24%;
 	margin-top: 0%;
@@ -173,18 +173,18 @@
 		});
 	})
 
-	var cnt = 1;
+
 
 	$(function() {
 		firstMsg();
 		changeClick();
 		updateInf();
 		getTotalMsg();
-		noReadTotalMsg();
 		AllCntMsg();
 		writeMsg();
 		writeTempMsg();
 		btnModal();
+		
 	});
 	
 	function btnModal(){
@@ -205,7 +205,7 @@
 					console.log(data);
 					
 					if(data.temp_no !=null ){
-						var result = confirm("최근 작성하던 임시 메시지가 있습니다.불러올까요?");
+						var result = confirm("최근 작성하던 임시 메일이 있습니다.불러올까요?");
 						if(result){						  
 						    modal.find('#recipient-name').html(data.temp_resvno);
 						    modal.find('#message-text').html(data.temp_cont);
@@ -290,32 +290,6 @@
 		})
 	}
 
-	function noReadTotalMsg() {
-		$('#v-pills-profile-tab').on("click", function() {
-			cnt = 2;
-			console.log(cnt);
-			$('#dataTab').DataTable({
-				ajax : {
-
-					url : 'ajax/noReadTotalMsg',
-					data : {
-						emp_no : "${emp_vo.emp_no}"
-					},
-					dataSrc : ''
-				},
-				columns : [ {
-					data : 'emp_sendno'
-				}, {
-					data : 'emp_name'
-				}, {
-					data : 'msg_cont'
-				}, {
-					data : 'msg_date'
-				} ]
-			});
-
-		})
-	}
 
 	function firstMsg() {
 		$('#dataTab').DataTable({
@@ -339,8 +313,31 @@
 				data : 'msg_yn'
 			} ]
 		});
-
+		
+		$('#dataTab2').DataTable({
+			ajax : {
+				url : 'ajax/noReadTotalMsg',
+				data : {
+					emp_no : "${emp_vo.emp_no}"
+				},
+				dataSrc : ''
+			},
+			columns : [ {
+				data : 'emp_sendno'
+			}, {
+				data : 'emp_name'
+			}, {
+				data : 'msg_cont'
+			}, {
+				data : 'msg_date'
+			} ]
+		});
+	
+		
 	}
+	
+	
+	
 
 	function getTotalMsg() {
 		$("#v-pills-home-tab").on("click", function() {
@@ -405,8 +402,24 @@
 		$('#v-pills-tab').on('click', 'a', function(event) {
 			$(event.target).siblings().attr('class', 'nav-link');
 			$(event.target).attr('class', 'nav-link active');
+			
+			$('.note_bt').hide();
+			
+			if($(event.target).attr('id') == 'v-pills-home-tab'){
+				$('#cont1').show();
+			}
+			if($(event.target).attr('id') == 'v-pills-profile-tab'){
+				
+				$('#cont2').show();
+				
+			}
+			if($(event.target).attr('id') == 'v-pills-messages-tab'){
+				$('#cont3').show();
+				
+			}
 		});
 	}
+	
 
 	function AllCntMsg() {
 		$.ajax({
@@ -584,17 +597,17 @@
 												role="tablist" aria-orientation="vertical">
 												<a class="nav-link active" id="v-pills-home-tab"
 													data-toggle="pill" href="#v-pills-home" role="tab"
-													aria-controls="v-pills-home" aria-selected="true">전체쪽지함
+													aria-controls="v-pills-home" aria-selected="true">전체메일함
 													<span class="badge badge-primary badge-pill" id="totalMsg">
 												</span>
 												</a> <a class="nav-link" id="v-pills-profile-tab"
 													data-toggle="pill" href="#v-pills-profile" role="tab"
 													aria-controls="v-pills-profile" aria-selected="false">읽지
-													않은 쪽지함 <span class="badge badge-primary badge-pill"
+													않은 메일함 <span class="badge badge-primary badge-pill"
 													id="noReadMsg"> </span>
 												</a> <a class="nav-link" id="v-pills-messages-tab"
 													data-toggle="pill" href="#v-pills-messages" role="tab"
-													aria-controls="v-pills-messages" aria-selected="false">보낸쪽지함
+													aria-controls="v-pills-messages" aria-selected="false">보낸메일함
 													<span class="badge badge-primary badge-pill" id="sendMsg">
 												</span>
 												</a> <a class="nav-link" id="v-pills-settings-tab"
@@ -610,7 +623,7 @@
 							</aside>
 
 							<div id="note_bt1">
-								<input type="button" id="wri_m_bt" value="쪽지쓰기">
+								<input type="button" id="wri_m_bt" value="메일쓰기">
 								<!-- data-toggle="modal" data-target="#mailModal"
 									data-backdrop="static" -->
 							</div>
@@ -621,7 +634,7 @@
 								</ul>
 							</div> -->
 
-							<div id="note_bt" style="">
+							<div class="note_bt" style="display: block" id="cont1">
 								<table id="dataTab" style="width: 1100px;">
 									<thead>
 										<tr>
@@ -630,9 +643,7 @@
 											<th width="150" class="tl">보내는사람</th>
 											<th width="600" class="tl">내용</th>
 											<th width="100" class="tc">날짜</th>
-											<%-- <c:if test="${n==1}"> --%>
 											<th width="100" class="tc">수신여부</th>
-											<%-- </c:if>  --%>
 										</tr>
 
 									</thead>
@@ -640,6 +651,46 @@
 									</tbody>
 								</table>
 							</div>
+
+							<div class="note_bt" style="display: none" id="cont2">
+								<table id="dataTab2" style="width: 1100px;">
+									<thead>
+										<tr>
+											<th class="tl">사원번호</th>
+											<th class="tl">보내는사람</th>
+											<th class="tl">내용</th>
+											<th class="tc">날짜</th>
+										</tr>
+
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="note_bt" style="display: none" id="cont3">
+								<table id="dataTab3" style="width: 1100px;">
+									<thead>
+										<tr>
+											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
+											<th width="150" class="tl">사원번호</th>
+											<th width="150" class="tl">보내는사람</th>
+											<th width="600" class="tl">내용</th>
+											<th width="100" class="tc">날짜</th>
+
+										</tr>
+
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+
+
+
+
+
+
 
 						</div>
 					</div>

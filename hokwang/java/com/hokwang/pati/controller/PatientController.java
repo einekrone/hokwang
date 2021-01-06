@@ -38,6 +38,7 @@ public class PatientController {
 	@ResponseBody//전체 환자 리스트 요청 메소드
 	@RequestMapping("ajax/patientList")
 	public List<BabyVO> allpatientList(BabyVO vo){
+		System.out.println("키워드" + vo.getKeyword());
 		return patientService.allpatientList(vo);
 	}
 

@@ -8,7 +8,10 @@
 		select * from baby
 		<where>
 			<if test="baby_no != null and baby_no != ''">
-				baby_no = #{baby_no}
+				baby_no = #{baby_no} 
+			</if>
+			<if test="keyword != null and keyword != ''">
+				AND BABY_NAME LIKE '%'||#{keyword}||'%'
 			</if>
 		</where>
 		order by baby_no

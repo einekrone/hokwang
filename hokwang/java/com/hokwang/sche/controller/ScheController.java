@@ -2,6 +2,9 @@ package com.hokwang.sche.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.dao.ScheMapper;
+import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.ManagementVO;
 
 
@@ -32,7 +36,10 @@ public class ScheController {
 	//등록
 	@ResponseBody
 	@RequestMapping(value ="/insertSche", method = RequestMethod.POST)
-	public String insert(Model model, ManagementVO sche) {
+	public String insert(Model model, ManagementVO sche, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+
+		sche.setEmp_no(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_no());
 		dao.insertSche(sche);
 		return sche.getWork_no();
 	}

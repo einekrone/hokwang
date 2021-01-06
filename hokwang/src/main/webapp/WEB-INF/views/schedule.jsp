@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js"></script>
+
+
 <style>
 
 #external-events {
@@ -44,6 +47,32 @@
 #calendar {
   max-width: 900px;
   margin: 20px auto;
+}
+.filter-title{
+	float: left;
+	width: 20% !important;
+	position:fixed;
+	top:120px;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	
+}
+.group-title{
+  background-color: blue;
+  color: white;
+  padding: 16px 16px;
+  font-weight: bold;
+}
+.input-group{
+  display:block;
+  color: #000;
+  padding: 16px 16px;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
 }
 
 
@@ -79,7 +108,7 @@
       <input type="date" name="work_date" id="work_date" class="work_date"><br>
      
       <label id="holiday">휴가일자</label><br>
-      <input type="date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date"  id="work_endate"name="work_endate"><br>
+      <input type="date" id="work_stdate" name="work_stdate">&nbsp;&nbsp;&nbsp;<input type="date" id="work_endate"name="work_endate"><br>
 
       <label>사유</label><br>
       <textarea id="work_cause" name="work_cause" cols="35" rows="5"></textarea>
@@ -87,28 +116,27 @@
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"><br>
       <div>
-      <input type="button"  class="btn btn-primary" value="등록"  id="btnInsert" /> 
+      <input type="button"  class="btn btn-primary" value="등록" id="btnInsert" /> 
+      <input type="button"  class="btn btn-primary" value="취소" id="btnCancel" /> 
       </div>
     </fieldset>
   </form>
 </div>
+ <div class="filter-title">
+      <label class="group-title">등록자별</label>
+        <div class="input-group">
+        	  <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>원장</label>
+              <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>의사</label>
+              <label class="checkbox-inline"><input class='filter' type="checkbox"  checked>간호사</label>
+        </div>
+ </div>
  <script>
- 
- function formCheck() {
-		var form1 = document.form1;
-		if (form1.work_ctg.value == "") {
-			alert("카테고리를 선택하세요");
-			form1.work_ctg.focus();
-			return false;
-		}
-		if (form1.work_cause.value == "") {
-			alert("사유를 입력하세요");
-			form1.work_cause.focus();
-			return false;
-		}
-		return true;
-	}
- 
+       //취소
+ 		$("#btnCancel").on('click',function(){
+ 			dialog.dialog("close");
+ 		});
+ 	
+ 		//카테고리 변경
  		function ctgchange(){
  			if($("#work_ctg").val() =="work"){
  				$("#work_stdate").css("display","none");
@@ -140,7 +168,7 @@
 	
    
         var Calendar = FullCalendar.Calendar;
-        var Draggable = FullCalendarInteraction.Draggable;//드래그
+        //var Draggable = FullCalendarInteraction.Draggable;//드래그
      
        // var containerEl = document.getElementById('external-events');//드래그 이벤트
         var calendarEl = document.getElementById('calendar');
@@ -174,8 +202,9 @@
         var calendar = new Calendar(calendarEl, {
           locale:'ko', //한국어 설정
           events:{
-        	  url:"getScheList",
-        	  textColor : 'white'
+        	  url:"getScheList"
+        	 
+        	  
           },
           
           plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -201,8 +230,11 @@
 			 dialog.dialog("open");
 		
 		 },
+		 
+			
 		
-		eventClick : function(info) { //이벤트 클릭시 삭제
+		eventClick : function(info) {//이벤트 클릭시 삭제	
+			console.log(info);
 			console.log(info.event);
 			console.log("????"+info.event._def.extendedProps._id);
 			var result = confirm("일정을 삭제하시겠습니까?");
@@ -221,12 +253,30 @@
 							info.event.remove();
 						}
 					});
+				}
 			}
-			},
+			
+
 		});
 		calendar.render();
+		
+		
 
 		$('#btnInsert').on('click', function() {
+			var ctg = $("#work_ctg").val();
+			var color = 'red'
+			var title = $("#work_cause").val();
+			
+			if(ctg == 'work'){
+				color = 'red'
+			}else{
+				color = 'blue'
+			}
+			
+			if(title == ''){
+				alert("사유입력은 필수입니다.");
+				return false;
+			}
 			$.ajax({
 				url : "insertSche",
 				type : 'POST',
@@ -237,17 +287,20 @@
 					calendar.addEvent({
 						title : $('#work_cause').val(),
 						start : $('#work_stdate').val(),
-						end : $('#work_endate').val()
+						end : $('#work_endate').val(),
+						backgroundColor : color
+						
 					});
-					
 				},
 				error : function() {
 					alert("fail");
 				}
 			})
 			dialog.dialog("close");
-			
+			calendar.render();
 		});
+		
+		
 	</script>
 </body>
 </html>

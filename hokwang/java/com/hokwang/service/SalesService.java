@@ -2,8 +2,8 @@ package com.hokwang.service;
 
 
 public interface SalesService {	
-	public int getDaySales();
-	public int getMonthSales();
-	public int getYearSales();
-	public int getCountResv();
+	public Integer getDaySales();
+	public Integer getMonthSales();
+	public Integer getYearSales();
+	public Integer getCountResv();
 }

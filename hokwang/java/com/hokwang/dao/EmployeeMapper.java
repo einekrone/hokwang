@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
+import com.hokwang.vo.TempmessageVO;
 
 public interface EmployeeMapper {
 
@@ -21,5 +22,6 @@ public interface EmployeeMapper {
 	public List<MessageVO> sendTotalMsg(EmployeeVO emp_vo);
 	public List<EmployeeVO> selectEmpInf(EmployeeVO emp_vo);
 	public void sendMsgInf(MessageVO vo);
+	public void tempMsgInf(TempmessageVO vo);
 }
 

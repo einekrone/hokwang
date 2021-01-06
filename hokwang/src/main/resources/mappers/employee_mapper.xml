@@ -157,8 +157,22 @@
 		insert into
 		message(msg_no,msg_cont,msg_date,msg_yn,emp_sendno,emp_resvno)
 		values(#{msg_no},#{msg_cont},SYSDATE,'N',#{emp_sendno},#{emp_resvno})
-
 	</insert>
+
+
+	<insert id="tempMsgInf" parameterType="tempmessageVO">
+		<selectKey order="BEFORE" keyProperty="temp_no" resultType="string">
+			SELECT NVL(MAX(temp_NO),0)+1 FROM TEMPMESSAGE
+		</selectKey>
+		insert into tempmessage(temp_no,temp_cont,temp_date,temp_sendno,temp_resvno)
+		values(#{temp_no},#{temp_cont},SYSDATE,#{temp_sendno},#{temp_resvno})
+	</insert>
+
+
+
+
+
+
 
 
 

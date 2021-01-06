@@ -284,7 +284,7 @@
 												</div>
 												<div class="form-group">
 													<input type="text" class="form-control" placeholder="ID..."
-														id="emp_no" name="emp_no"> <span class="bmd-help"
+														id="emp_no" name="emp_no" required="required"> <span class="bmd-help"
 														id="id-warning"></span>
 												</div>
 											</div>
@@ -297,7 +297,7 @@
 												</div>
 												<div class="form-group">
 													<input type="password" class="form-control"
-														placeholder="Password..." id="emp_pwd" name="emp_pwd">
+														placeholder="Password..." id="emp_pwd" name="emp_pwd" required="required">
 													<span class="bmd-help" id="pw-warning"></span>
 												</div>
 											</div>

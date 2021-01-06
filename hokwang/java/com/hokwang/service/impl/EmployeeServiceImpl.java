@@ -9,6 +9,7 @@ import com.hokwang.dao.EmployeeMapper;
 import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
+import com.hokwang.vo.TempmessageVO;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -102,6 +103,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmpDAO.sendMsgInf(vo);
 	}
 	
+	@Override
+	public void tempMsgInf(TempmessageVO vo) {
+		
+		EmpDAO.tempMsgInf(vo);
+	}
 	
 	
 	

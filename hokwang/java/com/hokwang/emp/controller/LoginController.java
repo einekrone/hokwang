@@ -1,5 +1,8 @@
 package com.hokwang.emp.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -65,14 +68,30 @@ public class LoginController {
 	}
 	@ResponseBody
 	@RequestMapping("/ajax/findId")
-	public EmployeeVO getInf(Model model,EmployeeVO vo) {
-		return service.findId(vo);
+	public Map<String, Object> getInf(Model model,EmployeeVO vo) {
+		Map<String,Object> map = new HashMap<>();
+		vo = service.findId(vo);
+		if(vo == null) {
+			map.put("result", false);
+		} else {
+			map.put("result", true);
+			map.put("employeeVO", vo);
+		}
+		return map;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/findPw")
-	public EmployeeVO getPwd(Model model, EmployeeVO vo) {
-		return service.findPw(vo);
+	public Map<String, Object> getPwd(Model model, EmployeeVO vo) {
+		Map<String,Object> map = new HashMap<>();
+		vo = service.findPw(vo);
+		if(vo == null) {
+			map.put("result", false);
+		} else {
+			map.put("result", true);
+			map.put("employeeVO", vo);
+		}
+		return map;
 	}
 	
 	/*

@@ -8,69 +8,34 @@
 
 <script>
 	$(function() {
-		showDaySale();
-		showMonthSale();
-		showYearSale();
-		showCountResv();
+		allSales();
 	});
-
-	function showCountResv() {
+	function allSales() {
 		$.ajax({
-			url : "ajax/showCountResv",
+			url : "ajax/allSales",
 			type : "GET",
 			dataType : "json",
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
+				if (data.day == null) {
+					data.day = 0;
+				}
+				if (data.month == null) {
+					data.month = 0;
+				}
+				if (data.year == null) {
+					data.year = 0;
+				}
+				if (data.resv == null) {
+					data.resv = 0;
+				}
 
-				$('#countResv').append(data).append('건');
-			}
-
-		});
-	}
-
-	function showDaySale() {
-		$.ajax({
-			url : "ajax/showDaySale",
-			type : "GET",
-			dataType : "json",
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 : 일매출" + msg);
-			},
-			success : function(data) {
-				
-				$('#daySales').append(data).append('원');
-			}
-
-		});
-	}
-
-	function showMonthSale() {
-		$.ajax({
-			url : "ajax/showMonthSale",
-			type : "GET",
-			dataType : "json",
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 : 월매출" + msg);
-			},
-			success : function(data) {
-				$('#monthSales').append(data).append('원');			
-			}
-
-		});
-	}
-
-	function showYearSale() {
-		$.ajax({
-			url : "ajax/showYearSale",
-			type : "GET",
-			dataType : "json",
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 : 년매출" + msg);
-			},
-			success : function(data) {
-				$('#yearSales').append(data).append('원');
+				$('#yearSales').append(data.year).append('원');
+				$('#monthSales').append(data.month).append('원');
+				$('#daySales').append(data.day).append('원');
+				$('#countResv').append(data.resv).append('건');
 			}
 
 		});

@@ -1,5 +1,8 @@
 package com.hokwang.sale.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,30 +26,17 @@ public class SalesController {
 		mav.setViewName("sales");
 		return mav;
 	}
-	
+		
 	@ResponseBody
-	@RequestMapping("/ajax/showMonthSale")
-	public Integer getDaySales(Model model,PaymentVO vo) {
-		return dao.getDaySales();
+	@RequestMapping("/ajax/allSales")
+	public Map<String,Object> getCountResv(Model model,PaymentVO vo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resv", dao.getCountResv());
+		map.put("year",dao.getYearSales());
+		map.put("month",dao.getMonthSales());
+		map.put("day",dao.getDaySales());
+	
+		return  map;
 	}
-	
-	@ResponseBody
-	@RequestMapping("/ajax/showDaySale")
-	public Integer getMonthSales(Model model,PaymentVO vo) {
-		return dao.getMonthSales();
-	}
-	
-	@ResponseBody
-	@RequestMapping("/ajax/showYearSale")
-	public Integer getYearSales(Model model,PaymentVO vo) {
-		return dao.getYearSales();
-	}
-	
-	@ResponseBody
-	@RequestMapping("/ajax/showCountResv")
-	public Integer getCountResv(Model model,PaymentVO vo) {
-		return dao.getCountResv();
-	}
-	
-	
+
 }

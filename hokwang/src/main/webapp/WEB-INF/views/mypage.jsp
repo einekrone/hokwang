@@ -48,10 +48,6 @@
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
-<script
 	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
@@ -185,6 +181,75 @@
 		writeTempMsg();
 		btnModal();
 		
+		
+		$("#uf").on(
+	            'change',
+	            function(e) {
+	             
+
+	               var files = e.target.files;
+	               var arr = Array.prototype.slice.call(files);
+	               for (var i = 0; i < files.length; i++) {
+	                  if (!checkExtension(files[i].name, files[i].size)) {
+	                     return false;
+	                  }
+	               }
+
+	               preview(arr);
+
+	            });
+
+	      function checkExtension(fileName, fileSize) {
+
+	         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	         var maxSize = 20971520; //20MB
+
+	         if (fileSize >= maxSize) {
+	            alert('파일 사이즈 초과');
+	            $("input[type='file']").val(""); //파일 초기화
+	            return false;
+	         }
+
+	         if (regex.test(fileName)) {
+	            alert('업로드 불가능한 파일이 있습니다.');
+	            $("input[type='file']").val(""); //파일 초기화
+	            return false;
+	         }
+	         return true;
+	      }
+
+	      function preview(arr) {
+	         arr
+	               .forEach(function(f) {
+
+	                  //파일명이 길면 파일명...으로 처리
+	                  var fileName = f.name;
+	                  if (fileName.length > 10) {
+	                     fileName = fileName.substring(0, 7) + "...";
+	                  }
+
+	                  //div에 이미지 추가
+	                  var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+	                  str += '<span>' + fileName + '</span><br>';
+
+	                  //이미지 파일 미리보기
+	                  if (f.type.match('image.*')) {
+	                     var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+	                     reader.onload = function(e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+	                        //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+
+	                        $('#img').attr('src', e.target.result);
+	                        $('#img').attr('style',
+	                              "width:300px; height: 350px");
+	                     }
+	                     reader.readAsDataURL(f);
+	                  } else {
+	                     $('#img').attr('src', e.target.result);
+	                     $('#img').attr('style',
+	                           "width:300px; height: 350px");
+	                  }
+	               });//arr.forEach
+	      }
 	});
 	
 	function btnModal(){
@@ -471,18 +536,20 @@
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body">
 								<div style="float: left;">
-
+									<form action="updateUser" method="post" encType="multipart/form-data">
+									<input type="hidden" name="emp_no" value="${emp_vo.emp_no}" >
 									<table>
 										<!-- 이미지 파일 -->
 										<tr>
-											<td><img
+											<td><img id='img'
 												src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
 												style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
-												<input type="file" name="uploadFile" /><br /> <input
-												type="submit" value="저장"></td>
+												<input id='uf'type="file" name="uploadFile" /><br /> 
+												<input  type="submit" value="저장"></td>
 											<td class="content" style="margin: 10px;">
 										</tr>
 									</table>
+									</form>
 								</div>
 								<!-- 추가 -->
 								<div class="card-body" id="profileInf">

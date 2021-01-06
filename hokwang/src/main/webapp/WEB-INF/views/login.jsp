@@ -38,7 +38,7 @@
 	$(function() {
 		findId();
 		findPw();
-		
+
 	});
 
 	function findId() {
@@ -55,7 +55,12 @@
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					$('#resultId').html(data.emp_no);
+					if (data.result == true) {
+						$('#resultId').html(data.employeeVO.emp_no);
+
+					} else {
+						alert("검색결과가 없습니다.")
+					}
 				}
 			})
 		});
@@ -75,55 +80,14 @@
 					alert("상태값 : " + status + "Http에러메시지 : " + msg);
 				},
 				success : function(data) {
-					$('#resultPw').html(data.emp_pwd);
+					if (data.result == true) {
+						$('#resultPw').html(data.employeeVO.emp_pwd);
+					} else {
+						alert("검색결과가 없습니다.")
+					} 
 				}
 			})
 		})
-	}
-	
-	function sendIt(){
-
-		var f = document.myForm;
-
-		str = f.emp_no.value;
-
-		str = str.trim();
-
-		if(str ==""){
-
-			alert("아이디를 입력해주세요");
-
-			f.emp_no.focus();
-
-			return;
-
-		}
-
-		f.emp_no.value = str;
-
-		
-
-		str = f.emp_pwd.value;
-
-		str = str.trim();
-
-		if(str ==""){
-
-			alert("비밀번호를 입력해주세요");
-
-			f.emp_pwd.focus();
-
-			return;
-
-		}
-
-		f.emp_pwd.value = str;
-
-		
-
-		f.submit();
-
-
 	}
 </script>
 
@@ -284,8 +248,8 @@
 												</div>
 												<div class="form-group">
 													<input type="text" class="form-control" placeholder="ID..."
-														id="emp_no" name="emp_no" required="required"> <span class="bmd-help"
-														id="id-warning"></span>
+														id="emp_no" name="emp_no" required="required"> <span
+														class="bmd-help" id="id-warning"></span>
 												</div>
 											</div>
 
@@ -297,15 +261,15 @@
 												</div>
 												<div class="form-group">
 													<input type="password" class="form-control"
-														placeholder="Password..." id="emp_pwd" name="emp_pwd" required="required">
-													<span class="bmd-help" id="pw-warning"></span>
+														placeholder="Password..." id="emp_pwd" name="emp_pwd"
+														required="required"> <span class="bmd-help"
+														id="pw-warning"></span>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="text-center">
-										<input type="submit" class="btn-lg" value="로그인"
-											onclick="sendit();">
+										<input type="submit" class="btn-lg" value="로그인">
 									</div>
 								</form>
 							</c:if>
@@ -314,9 +278,11 @@
 								<c:redirect url="/base" />
 							</c:if>
 
-							<!--<c:if test="${msg == false }">
-						out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>");"); %>
-							</c:if> -->
+							<c:if test="${msg == false }">
+								<%
+								out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>");
+								%>
+							</c:if>
 						</div>
 						<!-- 로그인 끝 -->
 						<div class="card-footer">
@@ -356,7 +322,7 @@
 								<label class="font-weight-bold" for="inputName_1">이름</label>
 								<div>
 									<input type="text" class="form-control" id="inputName_1"
-										name="inputName_1" placeholder="ex) 갓민수">
+										name="inputName_1" placeholder="ex) hokwang" required="required">
 								</div>
 							</div>
 
@@ -364,7 +330,7 @@
 								<label class="font-weight-bold" for="inputPhone_1">휴대폰번호</label>
 								<div>
 									<input type="text" class="form-control" id="inputPhone_1"
-										name="inputPhone_1" placeholder="ex) 01077779999">
+										name="inputPhone_1" placeholder="ex) 1111-1111" required="required">
 								</div>
 							</div>
 
@@ -403,14 +369,15 @@
 							<div class="form-group">
 								<label class="font-weight-bold" for="inputempNo_1">사원번호</label>
 								<input type="text" class="form-control" id="inputempNo_1"
-									name="inputempNo_1" placeholder="ex) 사원번호">
+									name="inputempNo_1" placeholder="ex) 사원번호" required="required">
 							</div>
 
 							<div class="form-group">
-								<label class="font-weight-bold " for="inputemptel_1">전화번호</label>
+								<label class="font-weight-bold " for="inputemptel_1">휴대폰번호</label>
 								<input type="email" class="form-control" id="inputemptel_1"
-									aria-describedby="emailHelp" placeholder="ex) 1111111">
-								<small id="emailHelp" class="form-text text-muted"></small>
+									aria-describedby="emailHelp" placeholder="ex) 1111-1111"
+									required="required"> <small id="emailHelp"
+									class="form-text text-muted"></small>
 							</div>
 
 							<h1 id="resultPw"></h1>
@@ -418,8 +385,7 @@
 
 
 						<div class="modal-footer">
-							<input type="button" class="btn btn-primary" id="btnPw"
-								name="btnPw" value="찾기">
+							<button class="btn btn-primary" id="btnPw" name="btnPw">찾기</button>
 							<button class="btn btn-secondary" type="button"
 								data-dismiss="modal">Cancel</button>
 						</div>

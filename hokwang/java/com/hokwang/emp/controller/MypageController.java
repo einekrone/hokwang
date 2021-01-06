@@ -93,5 +93,28 @@ public class MypageController {
 		return true;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/checkTemp")
+	public TempmessageVO checkTemp(Model model, TempmessageVO vo) {
+		TempmessageVO resultvo = new TempmessageVO();
+		vo = dao.checkTemp(vo);
+		if(vo == null) {
+			return resultvo;			
+		}
+		else {
+			return vo;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

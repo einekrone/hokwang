@@ -23,5 +23,6 @@ public interface EmployeeService {
 	public List<EmployeeVO> selectEmpInf(EmployeeVO vo);
 	public void sendMsgInf(MessageVO vo);
 	public void tempMsgInf(TempmessageVO vo);
+	public TempmessageVO checkTemp(TempmessageVO vo); 
 	
 }

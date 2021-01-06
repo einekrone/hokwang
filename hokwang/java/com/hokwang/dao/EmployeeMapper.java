@@ -23,5 +23,6 @@ public interface EmployeeMapper {
 	public List<EmployeeVO> selectEmpInf(EmployeeVO emp_vo);
 	public void sendMsgInf(MessageVO vo);
 	public void tempMsgInf(TempmessageVO vo);
+	public TempmessageVO checkTemp(TempmessageVO vo); //Id찾기
 }
 

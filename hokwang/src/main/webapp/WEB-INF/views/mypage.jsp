@@ -184,7 +184,52 @@
 		AllCntMsg();
 		writeMsg();
 		writeTempMsg();
+		btnModal();
 	});
+	
+	function btnModal(){
+		$('#wri_m_bt').on("click",function(){
+			console.log("asdasdasd");
+			$.ajax({
+				url : 'ajax/checkTemp',
+				type : 'POST',
+				data : {
+					temp_sendno : ${emp_vo.emp_no}
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				}, 
+				success : function(data) {
+
+					var modal = $('#mailModal');
+					console.log(data);
+					
+					if(data.temp_no !=null ){
+						var result = confirm("최근 작성하던 임시 메시지가 있습니다.불러올까요?");
+						if(result){						  
+						    modal.find('#recipient-name').html(data.temp_resvno);
+						    modal.find('#message-text').html(data.temp_cont);
+						    modal.modal('show');
+						}else{
+						    modal.find('#recipient-name').html();
+					    	modal.find('#message-text').html("");
+					    	modal.modal('show');
+						    
+						}
+					}
+					else {
+						modal.find('#recipient-name').html();
+				    	modal.find('#message-text').html("");
+				    	modal.modal('show');
+					}
+ 					
+				}
+			})	
+		})
+	}
+	
+	
+	
 	
 	function writeTempMsg() {
 		$('#btnTempSave').on("click", function() {
@@ -565,9 +610,9 @@
 							</aside>
 
 							<div id="note_bt1">
-								<input type="button" id="wri_m_bt" value="쪽지쓰기"
-									data-toggle="modal" data-target="#mailModal"
-									data-backdrop="static">
+								<input type="button" id="wri_m_bt" value="쪽지쓰기">
+								<!-- data-toggle="modal" data-target="#mailModal"
+									data-backdrop="static" -->
 							</div>
 							<!-- 
 								<div id="note_bt1">
@@ -654,8 +699,9 @@
 						<form>
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label">받는 사람</label>
-								<select class="form-control" id="recipient-name" name="recipient-name">
-									<option value="" selected >==선택하세요==</option>
+								<select class="form-control" id="recipient-name"
+									name="recipient-name">
+									<option value="" selected>==선택하세요==</option>
 								</select>
 							</div>
 							<div class="form-group">

@@ -67,7 +67,7 @@ button {
 }
 
 #imgShow::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 </style>
 </head>
@@ -118,53 +118,6 @@ button {
 			nonPayList(searchType, keyword2);
 		});
 
-		// todo: 진료실 onchange
-		$("body").on("change", "#officeSel", function() {
-			var offSel = $("#officeSel option:selected").val();
-			console.log("change : " + offSel);
-			if (offSel != "-") {
-				console.log("진료실로 이동");
-				var tdArr = new Array();
-				var td = $(this).parent().siblings();
-
-				td.each(function(i) {
-					tdArr.push(td.eq(i).text());
-				});
-
-				console.log("??1 : " + td.eq(0).text());
-				console.log("??2 : " + td.eq(2).text());
-				/* $('<tr>').append(
-						$(
-								'<td id="resvNo" value="'
-										+ td.eq(0).text() + '">').html(
-								td.eq(0).text())).append(
-						$('<td>').html(td.eq(2).text())).appendTo(
-						'#room' + offSel); */// todo 올바르게 됐는지 확인
-				var resv_no = td.eq(0).text();
-				// 진료실 변경사항 db
-				$.ajax({
-					url : 'ajax/roomUpdate',
-					type : 'POST',
-					dataType : 'json',
-					data : {
-						resv_no : resv_no,
-						resv_room : offSel
-					},
-					error : function(xhr, status, msg) {
-						alert("상태값 :" + status + " Http에러메시지 :" + msg);
-					},
-					success : function(data) {
-						console.log("roomUpdate 성공");
-						// 2. 진료실 목록 조회
-						$("#room1").empty();
-						$("#room2").empty();
-						$("#room3").empty();
-						roomList();
-					}
-				});
-			}
-		});
-
 		// 예약환자명 검색
 		$("#searchPati").click(function() {
 			var keyword = $("#keyword").val();
@@ -212,6 +165,50 @@ button {
 			});
 		});
 	});
+
+	// 진료실 이동
+	function roomMove(resvNo) {
+		var offSel = $(".officeSel option:selected").val();
+		console.log("change : " + offSel);
+		if (offSel != "-") {
+			console.log("진료실로 이동");
+			var tdArr = new Array();
+			var td = $(this).parent().siblings();
+
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
+			console.log("resvNo : " + resvNo);
+			/* $('<tr>').append(
+					$(
+							'<td id="resvNo" value="'
+									+ td.eq(0).text() + '">').html(
+							td.eq(0).text())).append(
+					$('<td>').html(td.eq(2).text())).appendTo(
+					'#room' + offSel); */// todo 올바르게 됐는지 확인
+			// 진료실 변경사항 db
+			$.ajax({
+				url : 'ajax/roomUpdate',
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					resv_no : resvNo,
+					resv_room : offSel
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log("roomUpdate 성공");
+					// 2. 진료실 목록 조회
+					$("#room1").empty();
+					$("#room2").empty();
+					$("#room3").empty();
+					roomList();
+				}
+			});
+		}
+	}
 
 	// 수납 정보 상세(계좌이체)
 	function payInfo(payNo) {
@@ -321,14 +318,14 @@ button {
 			var chk2 = $('input:checkbox[id="imgChk"]').length;
 			var chk3 = $('input:checkbox[id="imgChk"] :checked').length;
 			console.log("chk2 : " + chk2);
-			
+
 			var delArr = new Array();
-			 
-	        $('input[type="checkbox"]:checked').each(function (index) {
-	        	delArr.push($(this).val());
-	        });
-            console.log("select : "+delArr);
-	        
+
+			$('input[type="checkbox"]:checked').each(function(index) {
+				delArr.push($(this).val());
+			});
+			console.log("select : " + delArr);
+
 			console.log("chk3 : " + chk3);
 			//$('input:checkbox[id="imgChk"] :checked').each(function() { });
 			if (chk) { // true
@@ -336,19 +333,21 @@ button {
 					url : 'ajax/imgDelete',
 					method : 'post',
 					dataType : 'json',
-					data : {delArr : delArr},
+					data : {
+						delArr : delArr
+					},
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("result : "+data);
-						if(data != 0) {
+						console.log("result : " + data);
+						if (data != 0) {
 							var chk = $("[id='imgChk']:checked");
 							for (var i = 0; i < chk.length; i++) {
 								$(chk[i]).next().remove(); // 이미지
 								$(chk[i]).remove(); // 체크박스
 							}
-						} else{
+						} else {
 							console.log("실패");
 						}
 					}
@@ -437,23 +436,18 @@ button {
 		// item.진료실번호 해서 각각 알맞은 곳에 출력
 		console.log("roomListResult");
 		$.each(data, function(idx, item) {
-			console.log("1: " + item.RESV_NO + ", 2: " + item.BABY_NAME
-					+ ", 3: " + item.RESV_ROOM);
 
 			if (item.RESV_ROOM == 1) {
-				$("#room1").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
 						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
 			} else if (item.RESV_ROOM == 2) {
-				$("#room2").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
 						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
 			} else if (item.RESV_ROOM == 3) {
-				$("#room3").empty();
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
@@ -504,18 +498,21 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
-							console
-									.log("date : " + date + ", today : "
-											+ today);
 							if (date == today
 									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								console.log("진료실번호 : " + item.RESV_ROOM);
+								console.log("예약번호 : " + item.RESV_NO);
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select name="officeSel" id="officeSel"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
+												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove('
+														+ item.RESV_NO
+														+ ')" class="officeSel" id="officeSel'
+														+ item.RESV_NO
+														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
 								$(
-										"#officeSel option:eq("
+										"#officeSel" + item.RESV_NO
+												+ " option:eq("
 												+ item.RESV_ROOM + ")").attr(
 										"selected", "selected");
 							} else {
@@ -571,7 +568,7 @@ button {
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-			
+
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {
@@ -607,7 +604,6 @@ button {
 							var resvNo = "";
 							if (typeof item.RESV_NO != 'undefined') {
 								resvNo = item.RESV_NO;
-								console.log("ph2> " + resvNo);
 							}
 							//console.log("ph> " + item.IMG_ADDR);
 							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..

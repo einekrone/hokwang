@@ -19,14 +19,14 @@
 				function() {
 					console.log("flatpickr-day : "
 							+ $(".selected").attr("aria-label"));
-					$("#resvTime").css("display","block");
+					$("#resvTime").css("display", "block");
 				});
 
 		var dateSelector = document.querySelector('.dateSelector');
 		dateSelector.flatpickr();
 		console.log(".dateSelector : " + $(".dateSelector").val())
-		
-// 		$("#xxx span").text();
+
+		// 		$("#xxx span").text();
 	});
 </script>
 </head>
@@ -82,65 +82,51 @@
 				<div class="card-footer">
 					<h5 style="font-size: 20px;">예약 시간 출력</h5>
 					<div id="resvTime" style="display: none;">
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input" checked>
-							<span class="form-check-label">09:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">09:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">10:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input" disabled>
-							<span class="form-check-label"disabled>10:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">11:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">11:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">13:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">14:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">14:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">15:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">15:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">16:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">16:30</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">17:00</span>
-						</label>
-						<label class="form-check">
-							<input name="resvTimeSel" type="radio" class="form-check-input">
-							<span class="form-check-label">17:30</span>
+						<label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input" checked> <span
+							class="form-check-label">09:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">09:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">10:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input" disabled> <span
+							class="form-check-label" disabled>10:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">11:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">11:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">13:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">14:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">14:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">15:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">15:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">16:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">16:30</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">17:00</span>
+						</label> <label class="form-check"> <input name="resvTimeSel"
+							type="radio" class="form-check-input"> <span
+							class="form-check-label">17:30</span>
 						</label>
 					</div>
 				</div>
@@ -151,7 +137,8 @@
 					상세 증상 선택&nbsp;<span style="color: red;">[필수]</span>
 				</div>
 				<div class="card-body">
-					<table border="1" align="center" style="border-collapse: collapse;">
+					<table align="center" border="1"
+						style="border-collapse: collapse; width: 100%;">
 						<tr>
 							<td>1</td>
 							<td>2</td>
@@ -174,5 +161,20 @@
 			<!-- </div> -->
 		</div>
 	</div>
+	<script>
+		document
+				.addEventListener(
+						"DOMContentLoaded",
+						function() {
+							document
+									.getElementById("datetimepicker-dashboard")
+									.flatpickr(
+											{
+												inline : true,
+												prevArrow : "<span class=\"fas fa-chevron-left\" title=\"Previous month\"></span>",
+												nextArrow : "<span class=\"fas fa-chevron-right\" title=\"Next month\"></span>",
+											});
+						});
+	</script>
 </body>
 </html>

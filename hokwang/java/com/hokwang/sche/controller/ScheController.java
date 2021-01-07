@@ -32,7 +32,7 @@ public class ScheController {
 	public List<ManagementVO> getScheList(ManagementVO sche, HttpServletRequest req){
 		HttpSession session = req.getSession();
 		
-		sche.setEmp_no(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_no()); 
+		sche.setEmp_author(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_author()); 
 		return dao.getScheList(sche);
 	}
 	

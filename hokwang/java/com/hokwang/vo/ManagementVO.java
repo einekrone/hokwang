@@ -13,5 +13,6 @@ public class ManagementVO {//근태관리
 	String work_ctg;//카테고리
 	String work_cause;//사유
 	String emp_no;
+	String emp_author;
 
 }

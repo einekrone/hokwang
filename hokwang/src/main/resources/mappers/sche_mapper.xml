@@ -7,16 +7,18 @@
 	<!-- 조회 -->
 	<select id="getScheList" parameterType="ManagementVO"
 	resultType="map">
-	SELECT RPAD(WORK_CAUSE,10,' ')||(select emp_name from employee where emp_no = management.emp_no) "title",
-	CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD')
-	end "start",
-	CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD')
-	end "end", 
-	CASE WHEN WORK_CTG = 'work' THEN '#ff9191' else '#90bffc' end "backgroundColor",
-	work_no "_id" 	 
-	FROM management
-	WHERE (work_date is not null or work_stdate is not null)
-	and emp_no = (select case when emp_author='D' or emp_author='N' then emp_no else management.emp_no end from employee where emp_no=#{emp_no}) 
+	SELECT RPAD(WORK_CAUSE,10,' ')||emp_name "title",
+			CASE WHEN WORK_CTG = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_STDATE,'YYYY-MM-DD')
+			end "start",
+			CASE WHEN work_ctg = 'work' THEN TO_CHAR(WORK_DATE,'YYYY-MM-DD') ELSE TO_CHAR(WORK_ENDATE,'YYYY-MM-DD')
+			end "end", 
+			CASE WHEN WORK_CTG = 'work' THEN '#ff9191' else '#90bffc' end "backgroundColor",
+			work_no "_id" 	 
+	FROM management m , employee e
+	WHERE m.emp_no = e.emp_no
+    and(work_date is not null or work_stdate is not null)
+	and e.emp_author = #{emp_author}
+	  
 
 	
 	

@@ -518,11 +518,7 @@ button {
 														+ ')" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
-								$(
-										"#officeSel" + item.RESV_NO
-												+ " option:eq("
-												+ item.RESV_ROOM + ")").attr(
-										"selected", "selected");
+								$("#officeSel" + item.RESV_NO+ " option:eq("+ item.RESV_ROOM + ")").attr("selected", "selected");
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(

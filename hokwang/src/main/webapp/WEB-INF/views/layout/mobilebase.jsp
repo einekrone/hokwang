@@ -13,7 +13,8 @@
 <meta name="author" content="호광 병원">
 <meta name="keywords"
 	content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
-
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="shortcut icon"
 	href="${pageContext.request.contextPath}/resources/icons/icon-48x48.png" />
 
@@ -25,7 +26,7 @@
 	$(function() {
 		changeMenu();
 	});
-	
+
 	function changeMenu() {
 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
@@ -58,19 +59,19 @@
 						href="mmypage"> <i class="align-middle" data-feather="user"></i>
 							<span class="align-middle">마이페이지</span>
 					</a></li>
-					<li class="sidebar-item"><a class="sidebar-link"
-						href="child"> <i class="align-middle"
-							data-feather="book"></i> <span class="align-middle">자녀관리</span>
+					<li class="sidebar-item"><a class="sidebar-link" href="child">
+							<i class="align-middle" data-feather="book"></i> <span
+							class="align-middle">자녀관리</span>
 					</a></li>
 
-					<li class="sidebar-item"><a class="sidebar-link"
-						href="pay"> <i class="align-middle"
-							data-feather="credit-card"></i> <span class="align-middle">결제내역</span>
+					<li class="sidebar-item"><a class="sidebar-link" href="pay">
+							<i class="align-middle" data-feather="credit-card"></i> <span
+							class="align-middle">결제내역</span>
 					</a></li>
 
-					<li class="sidebar-item"><a class="sidebar-link"
-						href="doc"> <i class="align-middle"
-							data-feather="book"></i> <span class="align-middle">증명서 관리</span>
+					<li class="sidebar-item"><a class="sidebar-link" href="doc">
+							<i class="align-middle" data-feather="book"></i> <span
+							class="align-middle">증명서 관리</span>
 					</a></li>
 
 					<li class="sidebar-item"><a href="#auth"
@@ -243,7 +244,8 @@
 	</div>
 
 
-	<script>	/* 차트 */
+	<script>
+		/* 차트 */
 		document.addEventListener("DOMContentLoaded", function() {
 			var ctx = document.getElementById("chartjs-dashboard-line")
 					.getContext("2d");

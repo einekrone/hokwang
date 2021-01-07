@@ -1,15 +1,22 @@
 package com.hokwang.emp.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.service.EmployeeService;
@@ -104,6 +111,25 @@ public class MypageController {
 		else {
 			return vo;
 		}
+	}
+	
+	//등록처리
+	@RequestMapping("/updateUser")
+	public String updateUser(HttpServletRequest request, EmployeeVO emp_vo) 
+			throws IllegalStateException, IOException {
+		//request multipart로 캐스팅
+		MultipartHttpServletRequest multipartRequest =
+				(MultipartHttpServletRequest)request;
+				//이미지파일
+				MultipartFile multipartFile = multipartRequest.getFile("uploadFile");
+				if(! multipartFile.isEmpty() && multipartFile.getSize()>0) {
+					String path = request.getSession().getServletContext().getRealPath("/resources/img");
+					System.out.println("path="+path);
+					multipartFile.transferTo(new File(path,multipartFile.getOriginalFilename()));
+					emp_vo.setEmp_profile(multipartFile.getOriginalFilename());
+				}
+				dao.updateUser(emp_vo);
+		return "mypage";
 	}
 	
 	

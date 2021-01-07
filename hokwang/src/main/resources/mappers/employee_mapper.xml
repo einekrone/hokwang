@@ -4,6 +4,13 @@
 
 <mapper namespace="com.hokwang.dao.EmployeeMapper">
 
+	<update id="updateUser" parameterType="EmployeeVO">
+	<if test="emp_profile != null and emp_profile !=''">
+		update employee set emp_profile=#{emp_profile}
+		where emp_no = #{emp_no}
+	</if>	
+	</update>
+
 	<!-- 로그인 단건조회 -->
 	<select id="getEmp" parameterType="employeeVO"
 		resultType="employeeVO">
@@ -129,8 +136,7 @@
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from
-		employee
-		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
+		employee e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
 		select EMP_SENDNO from message where emp_resvno=#{emp_no} and
 		m.msg_yn='N')
 	</select>

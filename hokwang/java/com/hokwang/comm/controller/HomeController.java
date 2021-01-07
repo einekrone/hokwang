@@ -33,4 +33,14 @@ public class HomeController {
 	public String base() {
 		return "layout/base";
 	}
+
+	@RequestMapping(value = "/mobile")
+	public String mobile() {
+		return "mobile/main";
+	}
+
+	@RequestMapping(value = "/mmypage")
+	public String mypage() {
+		return "mobile/mypage";
+	}
 }

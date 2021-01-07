@@ -1,6 +1,7 @@
 package com.hokwang.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.hokwang.comm.controller.AuthCheckInterceptor;
 
 @Configuration
+@ComponentScan(basePackages = "com.hokwang")
 @EnableWebMvc
 public class MvcConfiguration implements WebMvcConfigurer {
 
@@ -28,6 +30,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/");
 		resolver.setSuffix(".jsp");
+		resolver.setOrder(3);
 		return resolver;
 	}
 

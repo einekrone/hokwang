@@ -1,19 +1,9 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-
-	<!-- base tiles layout add -->
-
-	<definition name="*"
-		template="/WEB-INF/views/layout/base.jsp">
+	<definition name="mobile/*"
+		template="/WEB-INF/views/layout/mobilebase.jsp">
 		<put-attribute name="body"
-			value="/WEB-INF/views/{1}.jsp" />
-	</definition>
-	<definition name="user/*"
-		template="/WEB-INF/views/layout/userbase.jsp">
-		<put-attribute name="header"
-			value="/WEB-INF/views/header.jsp" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/{1}.jsp" />
+			value="/WEB-INF/views/mobile/{1}.jsp" />
 	</definition>
 </tiles-definitions>

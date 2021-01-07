@@ -424,7 +424,7 @@ th {
 }
 
 tbody, td, tfoot, th, thead, tr {
-	border: 0 solid;
+/* 	border: 0 solid; */
 	border-color: inherit
 }
 

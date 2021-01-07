@@ -74,12 +74,12 @@
 							class="align-middle">증명서 관리</span>
 					</a></li>
 
-					<li class="sidebar-item"><a href="#auth"
+					<li class="sidebar-item"><a href="#resv"
 						data-toggle="collapse" class="sidebar-link collapsed"> <i
 							class="align-middle" data-feather="users"></i> <span
 							class="align-middle">예약관리</span>
 					</a>
-						<ul id="auth" class="sidebar-dropdown list-unstyled collapse "
+						<ul id="resv" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">
 							<li class="sidebar-item"><a class="sidebar-link"
 								href="resv?type=today">당일 예약</a></li>
@@ -90,9 +90,8 @@
 
 				<div class="sidebar-cta">
 					<div class="sidebar-cta-content">
-						<strong class="d-inline-block mb-2">Upgrade to Pro</strong>
-						<div class="mb-3 text-sm">Are you looking for more
-							components? Check out our premium version.</div>
+						<strong class="d-inline-block mb-2">광고 제목</strong>
+						<div class="mb-3 text-sm">광고 내용</div>
 
 					</div>
 				</div>

@@ -7,13 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-.card-header, .card-body {
+.card-header, .card-body, .card-footer {
 	padding: 0.5rem !important;
 	text-align: center;
+}
+
+td {
+	width: 100px;
 }
 </style>
 <script type="text/javascript">
 	$(function() {
+		if('${resvType}' == 'today') {
+			$("#resvTime").css("display", "block");
+		}
+		
 		$(".flatpickr-days").on(
 				"click",
 				function() {
@@ -27,11 +35,19 @@
 		console.log(".dateSelector : " + $(".dateSelector").val())
 
 		// 		$("#xxx span").text();
+
+		$("#wMediBtn").on("click", function() {
+			if ($("#wMedi").css("display") == "none") {
+				$("#wMedi").css("display", "block");
+			} else {
+				$("#wMedi").css("display", "none");
+			}
+		});
 	});
 </script>
 </head>
 <body>
-	<h1 class="h3 mb-3">예약 페이지${resvType}</h1>
+	<h1 class="h3 mb-3">예약 페이지</h1>
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -55,8 +71,7 @@
 			<div class="card flex-fill">
 				<c:if test="${resvType == 'prio'}">
 					<div class="card-header">
-						<h5 class="card-title" style="font-weight: bold; font-size: 20px;">예약
-							일시</h5>
+						<h5 class="card-title" style="font-weight: bold; font-size: 15px;">예약 일시</h5>
 					</div>
 					<div class="card-body d-flex">
 						<div class="align-self-center w-100">
@@ -76,11 +91,9 @@
 							<c:out value="${today}" />
 						</h5>
 					</div>
-					<div class="card-body"></div>
 				</c:if>
 				<!-- 날짜별 예약 가능 시간 -->
 				<div class="card-footer">
-					<h5 style="font-size: 20px;">예약 시간 출력</h5>
 					<div id="resvTime" style="display: none;">
 						<label class="form-check"> <input name="resvTimeSel"
 							type="radio" class="form-check-input" checked> <span
@@ -134,30 +147,58 @@
 
 			<div class="card">
 				<div class="card-header">
-					상세 증상 선택&nbsp;<span style="color: red;">[필수]</span>
+					상세 증상 선택&nbsp;<span style="color: red;">[필수]</span>&nbsp;<span
+						style="color: gray;">※중복 선택 가능</span>
 				</div>
 				<div class="card-body">
 					<table align="center" border="1"
 						style="border-collapse: collapse; width: 100%;">
 						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
+							<td>발진</td>
+							<td>가려움증</td>
+							<td>구토</td>
 						</tr>
 						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
+							<td>귀통증</td>
+							<td>기침</td>
+							<td>누런콧물</td>
 						</tr>
 						<tr>
-							<td>1</td>
-							<td>2</td>
-							<td>3</td>
+							<td>눈출혈</td>
+							<td>두통</td>
+							<td>맑은콧물</td>
+						</tr>
+						<tr>
+							<td>발열</td>
+							<td>발진</td>
+							<td>복통</td>
+						</tr>
+						<tr>
+							<td>설사</td>
+							<td>탈수</td>
+							<td></td>
 						</tr>
 					</table>
+					<div style="margin: 10px 0;">
+						<textarea class="form-control" placeholder="기타 사항(복용 약물, 알레르기 등)"
+							rows="3"></textarea>
+					</div>
 				</div>
 			</div>
 
+			<div class="card">
+				<div class="card-body">
+					<button id="wMediBtn" class="btn btn-outline-info"
+						style="width: 40%;">문진표 작성</button>
+					<div id="wMedi" style="display: none;">문진표 내용</div>
+				</div>
+			</div>
+
+			<div style="text-align: center;">
+				<button class="btn btn-pill btn-success" style="margin-right: 20px;">예약하기</button>
+				<button class="btn btn-pill btn-secondary"
+					onclick="location.href='child'">취소</button>
+			</div>
 			<!-- </div> -->
 		</div>
 	</div>

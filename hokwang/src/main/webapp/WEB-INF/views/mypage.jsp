@@ -43,8 +43,8 @@
 	crossorigin="anonymous"></script>
 <script src="./resources/json.min.js"></script>
 <!-- 팝업 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 <script
@@ -126,6 +126,7 @@
 	left: 24%;
 	margin-top: 0%;
 	top: 33px;
+	width: 75%;
 }
 
 #note_bt1 {
@@ -175,13 +176,13 @@
 		firstMsg();
 		changeClick();
 		updateInf();
-		getTotalMsg();
 		AllCntMsg();
 		writeMsg();
 		writeTempMsg();
 		btnModal();
+		ClickTable()
 		
-		
+
 		$("#uf").on(
 	            'change',
 	            function(e) {
@@ -267,6 +268,7 @@
 				success : function(data) {
 
 					var modal = $('#mailModal');
+					
 					console.log(data);
 					
 					if(data.temp_no !=null ){
@@ -359,7 +361,9 @@
 
 
 	function firstMsg() {
-		$('#dataTab').DataTable({
+		var table1 = $('#dataTab1').DataTable({
+			responsive : true,
+			autoWidth :false,
 			ajax : {
 
 				url : 'ajax/getTotalMsg',
@@ -378,10 +382,20 @@
 				data : 'msg_date'
 			}, {
 				data : 'msg_yn'
-			} ]
+			}, {
+				data : 'msg_no'
+			} ],
+			columnDefs:[{
+				targets:[5],
+				searchable:false,
+				visible:false
+				
+			}]
 		});
 		
-		$('#dataTab2').DataTable({
+		var table2 = $('#dataTab2').DataTable({
+			responsive : true,
+			autoWidth :false,
 			ajax : {
 				url : 'ajax/noReadTotalMsg',
 				data : {
@@ -397,9 +411,19 @@
 				data : 'msg_cont'
 			}, {
 				data : 'msg_date'
-			} ]
+			}, {
+				data : 'msg_no'
+			} ],
+			columnDefs:[{
+				targets:[4],
+				searchable:false,
+				visible:false
+				
+			}]
 		});
-		$('#dataTab3').DataTable({
+		var table3 = $('#dataTab3').DataTable({
+			responsive : true,
+			autoWidth :false,
 			ajax : {
 				url : 'ajax/sendTotalInf',
 				data : {
@@ -415,9 +439,20 @@
 				data : 'msg_cont'
 			}, {
 				data : 'msg_date'
-			} ]
+			}, {
+				data : 'msg_no'
+			} ],
+			columnDefs:[{
+				targets:[4],
+				searchable:false,
+				visible:false
+				
+			}]
 		});
-		$('#dataTab4').DataTable({
+		var table4 = $('#dataTab4').DataTable({
+			
+			responsive : true,
+			autoWidth :false,
 			ajax : {
 				url : 'ajax/tempTotalMsg',
 				data : {
@@ -431,46 +466,43 @@
 				data : 'temp_cont'
 			}, {
 				data : 'temp_date'
-			} ]
+			}, {
+				data : 'temp_no'
+			} ],
+			columnDefs:[{
+				targets:[3],
+				searchable:false,
+				visible:false
+				
+			}]
 		});
 		
+		$('#dataTab1 tbody').on('click','td',function(){
+			var no1 = table1.row($(this).parents('tr')).data().msg_no;
+			console.log(no1);
+		})
+		
+		$('#dataTab2 tbody').on('click','td',function(){
+			var no2 = table2.row($(this).parents('tr')).data().msg_no;
+			console.log(no2);
+		})
+		
+		$('#dataTab3 tbody').on('click','td',function(){
+			var no3 = table3.row($(this).parents('tr')).data().msg_no;
+			console.log(no3);
+		})
+		
+		
+		$('#dataTab4 tbody').on('click','td',function(){
+			var no4 = table4.row($(this).parents('tr')).data().temp_no;
+			console.log(no4);
+		})
+		
+		
 	
 		
 	}
 	
-	
-	
-
-	function getTotalMsg() {
-		$("#v-pills-home-tab").on("click", function() {
-			cnt = 1;
-			console.log(cnt);
-			$('#dataTab').DataTable({
-				ajax : {
-
-					url : 'ajax/getTotalMsg',
-					data : {
-						emp_no : "${emp_vo.emp_no}"
-					},
-					dataSrc : ''
-				},
-				columns : [ {
-					data : 'emp_sendno'
-				}, {
-					data : 'emp_name'
-				}, {
-					data : 'msg_cont'
-				}, {
-					data : 'msg_date'
-				}, {
-					data : 'msg_yn'
-				} ]
-			});
-
-		})
-
-	}
-
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
 			if($('#pw').val() == $('#pw2').val()){
@@ -574,19 +606,20 @@
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body">
 								<div style="float: left;">
-									<form action="updateUser" method="post" encType="multipart/form-data">
-									<input type="hidden" name="emp_no" value="${emp_vo.emp_no}" >
-									<table>
-										<!-- 이미지 파일 -->
-										<tr>
-											<td><img id='img'
-												src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
-												style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
-												<input id='uf'type="file" name="uploadFile" /><br /> 
-												<input  type="submit" value="저장"></td>
-											<td class="content" style="margin: 10px;">
-										</tr>
-									</table>
+									<form action="updateUser" method="post"
+										encType="multipart/form-data">
+										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
+										<table>
+											<!-- 이미지 파일 -->
+											<tr>
+												<td><img id='img'
+													src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
+													style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
+													<input id='uf' type="file" name="uploadFile" /><br /> <input
+													type="submit" value="저장"></td>
+												<td class="content" style="margin: 10px;">
+											</tr>
+										</table>
 									</form>
 								</div>
 								<!-- 추가 -->
@@ -740,15 +773,16 @@
 							</div> -->
 
 							<div class="note_bt" style="display: block" id="cont1">
-								<table id="dataTab" style="width: 1100px;">
+								<table id="dataTab1">
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
-											<th width="150" class="tl">사원번호</th>
-											<th width="150" class="tl">보내는사람</th>
-											<th width="600" class="tl">내용</th>
-											<th width="100" class="tc">날짜</th>
-											<th width="100" class="tc">수신여부</th>
+											<th class="tl">사원번호</th>
+											<th class="tl">보내는사람</th>
+											<th class="tl">내용</th>
+											<th class="tc">날짜</th>
+											<th class="tc">수신여부</th>
+											<th width='20%' class="tc">히든</th>
 										</tr>
 
 									</thead>
@@ -758,13 +792,14 @@
 							</div>
 
 							<div class="note_bt" style="display: none" id="cont2">
-								<table id="dataTab2" style="width: 1100px;">
+								<table id="dataTab2">
 									<thead>
 										<tr>
-											<th width="150" class="tl">사원번호</th>
-											<th width="150" class="tl">보내는사람</th>
-											<th width="600" class="tl">내용</th>
-											<th width="100" class="tc">날짜</th>
+											<th width='15%' class="tl">사원번호</th>
+											<th width='15%' class="tl">보내는사람</th>
+											<th width='55%' class="tl">내용</th>
+											<th width='15%' class="tc">날짜</th>
+											<th width='20%' class="tc">히든</th>
 										</tr>
 
 									</thead>
@@ -774,14 +809,15 @@
 							</div>
 
 							<div class="note_bt" style="display: none" id="cont3">
-								<table id="dataTab3" style="width: 1100px;">
+								<table id="dataTab3">
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
-											<th width="150" class="tl">사원번호</th>
-											<th width="150" class="tl">받는사람</th>
-											<th width="600" class="tl">내용</th>
-											<th width="100" class="tc">날짜</th>
+											<th width='15%' class="tl">사원번호</th>
+											<th width='15%' class="tl">받는사람</th>
+											<th width='55%' class="tl">내용</th>
+											<th width='15%' class="tc">날짜</th>
+											<th width='20%' class="tc">히든</th>
 										</tr>
 
 									</thead>
@@ -790,12 +826,13 @@
 								</table>
 							</div>
 							<div class="note_bt" style="display: none" id="cont4">
-								<table id="dataTab4" style="width: 1100px;">
+								<table id="dataTab4">
 									<thead>
 										<tr>
-											<th width="150" class="tl">받는사원번호</th>
-											<th width="600" class="tl">내용</th>
-											<th width="100" class="tc">날짜</th>
+											<th width='15%' class="tl">받는사원번호</th>
+											<th width='65%' class="tl">내용</th>
+											<th width='20%' class="tc">날짜</th>
+											<th width='20%' class="tc">히든</th>
 										</tr>
 
 									</thead>
@@ -803,13 +840,6 @@
 									</tbody>
 								</table>
 							</div>
-							
-
-
-
-
-
-
 
 						</div>
 					</div>
@@ -916,6 +946,45 @@
 						<button type="button" class="btn btn-primary" id="btnUpdate"
 							name="btnSave">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- 확인 Modal-->
+		<div class="modal fade" id="mailCheckModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 쓰기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">받는 사람</label>
+								<select class="form-control" id="recipient-name"
+									name="recipient-name">
+									<option value="" selected>==선택하세요==</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text"
+									name="message-text"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btnSave"
+							name="btnSave">보내기</button>
+						<button type="button" class="btn btn-secondary" id="btnDelete"
+							name="btnDelete">삭제</button>
 					</div>
 				</div>
 			</div>

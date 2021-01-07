@@ -38,7 +38,6 @@
 	$(function() {
 		findId();
 		findPw();
-
 	});
 
 	function findId() {
@@ -57,13 +56,19 @@
 				success : function(data) {
 					if (data.result == true) {
 						$('#resultId').html(data.employeeVO.emp_no);
-
+						
 					} else {
 						alert("검색결과가 없습니다.")
 					}
-				}
+				} 
 			})
 		});
+		$('#btnX').on("click", function(){
+			location.reload();
+		})
+		$('#Cancel').on("click", function(){
+			location.reload();
+		})
 	}
 
 	function findPw() {
@@ -310,7 +315,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
 					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
+						aria-label="Close" id="btnX">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
@@ -342,7 +347,7 @@
 				<div class="modal-footer">
 					<input type="button" class="btn btn-primary" id="btnId"
 						name="btnId" value="찾기">
-					<button class="btn btn-secondary" type="button"
+					<button class="btn btn-secondary" type="button" id="Cancel"
 						data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -358,7 +363,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
 					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
+						aria-label="Close" id="btnX">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
@@ -386,7 +391,7 @@
 
 						<div class="modal-footer">
 							<button class="btn btn-primary" id="btnPw" name="btnPw">찾기</button>
-							<button class="btn btn-secondary" type="button"
+							<button class="btn btn-secondary" type="button" id="Cancel"
 								data-dismiss="modal">Cancel</button>
 						</div>
 					</div>

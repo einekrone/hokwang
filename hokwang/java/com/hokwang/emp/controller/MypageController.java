@@ -106,9 +106,9 @@ public class MypageController {
 		TempmessageVO resultvo = new TempmessageVO();
 		vo = dao.checkTemp(vo);
 		if (vo == null) {
-			return resultvo;
+			return resultvo;//빈거
 		} else {
-			return vo;
+			return vo;//든거
 		}
 	}
 

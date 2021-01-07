@@ -274,7 +274,7 @@
 					if(data.temp_no !=null ){
 						var result = confirm("최근 작성하던 임시 메일이 있습니다.불러올까요?");
 						if(result){						  
-						    modal.find('#recipient-name').html(data.temp_resvno);
+						    modal.find('#recipient-name').val(data.temp_resvno);
 						    modal.find('#message-text').html(data.temp_cont);
 						    modal.modal('show');
 						}else{

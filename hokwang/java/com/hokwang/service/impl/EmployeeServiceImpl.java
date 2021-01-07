@@ -134,4 +134,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.tempTotalMsg(vo);
 	}
 	
+	@Override
+	public MessageVO checkFinal(MessageVO vo) {
+		// 아이디찾기
+		return EmpDAO.checkFinal(vo);
+	}
+	
+	@Override
+	public void updateYn(MessageVO vo) {
+		
+		EmpDAO.updateYn(vo);
+	}
+	
+	@Override
+	public TempmessageVO checkTempFinal(TempmessageVO vo) {
+		// 아이디찾기
+		return EmpDAO.checkTempFinal(vo);
+	}
+	
 }

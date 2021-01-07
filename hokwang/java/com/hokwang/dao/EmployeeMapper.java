@@ -23,10 +23,12 @@ public interface EmployeeMapper {
 	public List<EmployeeVO> selectEmpInf(EmployeeVO emp_vo);
 	public void sendMsgInf(MessageVO vo);
 	public void tempMsgInf(TempmessageVO vo);
-	public TempmessageVO checkTemp(TempmessageVO vo); //Id찾기
+	public TempmessageVO checkTemp(TempmessageVO vo); 
 	public int updateUser(EmployeeVO vo); //이미지 수정
 	public List<MessageVO> sendTotalInf(EmployeeVO vo);
 	public List<TempmessageVO> tempTotalMsg(EmployeeVO vo);
-	
+	public MessageVO checkFinal(MessageVO vo); 
+	public void updateYn(MessageVO vo);
+	public TempmessageVO checkTempFinal(TempmessageVO vo); 
 }
 

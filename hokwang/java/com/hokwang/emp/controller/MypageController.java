@@ -144,4 +144,21 @@ public class MypageController {
 		return dao.tempTotalMsg(vo);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/checkFinal")
+	public MessageVO checkFinal(Model model, MessageVO vo) {
+		dao.updateYn(vo);
+		return dao.checkFinal(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/checkTempFinal")
+	public TempmessageVO checkTempFinal(Model model, TempmessageVO vo) {
+		return dao.checkTempFinal(vo);
+	}
+	
+	
+	
+	
+	
 }

@@ -5,10 +5,10 @@
 <mapper namespace="com.hokwang.dao.EmployeeMapper">
 
 	<update id="updateUser" parameterType="EmployeeVO">
-	<if test="emp_profile != null and emp_profile !=''">
-		update employee set emp_profile=#{emp_profile}
-		where emp_no = #{emp_no}
-	</if>	
+		<if test="emp_profile != null and emp_profile !=''">
+			update employee set emp_profile=#{emp_profile}
+			where emp_no = #{emp_no}
+		</if>
 	</update>
 
 	<!-- 로그인 단건조회 -->
@@ -127,17 +127,19 @@
 	<select id="getTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select
-		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from employee
+		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
+		employee
 		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
 		select
 		EMP_SENDNO from message where emp_resvno=#{emp_no})
 	</select>
 
-<!-- asd -->
+	<!-- asd -->
 	<select id="sendTotalInf" parameterType="employeeVO"
 		resultType="messageVO">
 		select
-		m.emp_resvno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from employee
+		m.emp_resvno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
+		employee
 		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO in(
 		select
 		EMP_resvNO from message where emp_sendno=#{emp_no})
@@ -149,9 +151,12 @@
 
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
-		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.msg_no from
-		employee e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
-		select EMP_SENDNO from message where emp_resvno=#{emp_no} and
+		select
+		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.msg_no from
+		employee
+		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
+		select
+		EMP_SENDNO from message where emp_resvno=#{emp_no} and
 		m.msg_yn='N')
 	</select>
 
@@ -171,7 +176,8 @@
 	</select>
 
 	<insert id="sendMsgInf" parameterType="messageVO">
-		<selectKey order="BEFORE" keyProperty="msg_no" resultType="string">
+		<selectKey order="BEFORE" keyProperty="msg_no"
+			resultType="string">
 			SELECT NVL(MAX(MSG_NO),0)+1 FROM MESSAGE
 		</selectKey>
 		insert into
@@ -181,25 +187,47 @@
 
 
 	<insert id="tempMsgInf" parameterType="tempmessageVO">
-		<selectKey order="BEFORE" keyProperty="temp_no" resultType="string">
+		<selectKey order="BEFORE" keyProperty="temp_no"
+			resultType="string">
 			SELECT NVL(MAX(temp_NO),0)+1 FROM TEMPMESSAGE
 		</selectKey>
-		insert into tempmessage(temp_no,temp_cont,temp_date,temp_sendno,temp_resvno)
+		insert into
+		tempmessage(temp_no,temp_cont,temp_date,temp_sendno,temp_resvno)
 		values(#{temp_no},#{temp_cont},SYSDATE,#{temp_sendno},#{temp_resvno})
 	</insert>
 
 
-	<select id="checkTemp" parameterType="tempmessageVO" resultType="tempmessageVO">
+	<select id="checkTemp" parameterType="tempmessageVO"
+		resultType="tempmessageVO">
 		<![CDATA[
 		select * from ( select * from TEMPMESSAGE where temp_sendno = #{temp_sendno} order by TEMP_no DESC) where ROWNUM <= 1
 		]]>
 	</select>
 
 
-	<select id="tempTotalMsg" parameterType="employeeVO" resultType="tempmessageVO">
-		select temp_resvno,temp_cont,temp_date,temp_no from tempmessage where temp_sendno=#{emp_no}
+	<select id="tempTotalMsg" parameterType="employeeVO"
+		resultType="tempmessageVO">
+		select temp_resvno,temp_cont,temp_date,temp_no from
+		tempmessage where temp_sendno=#{emp_no}
 	</select>
 
-
+	<select id="checkFinal" parameterType="messageVO"
+		resultType="messageVO">
+		select * from
+		message where msg_no=#{msg_no}
+	</select>
+	
+	
+	<update id="updateYn" parameterType="messageVO">
+		update message set msg_yn = 'Y' where MSG_NO=#{msg_no}
+	</update>
+	
+	
+	<select id="checkTempFinal" parameterType="tempmessageVO"
+		resultType="tempmessageVO">
+		select * from
+		tempmessage where temp_no=#{temp_no}
+	</select>
+	
 
 </mapper>

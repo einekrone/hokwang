@@ -173,11 +173,11 @@
 
 
 	$(function() {
-		firstMsg();
 		changeClick();
 		updateInf();
 		AllCntMsg();
 		writeMsg();
+		firstMsg();
 		writeTempMsg();
 		btnModal();
 		ClickTable()
@@ -432,7 +432,7 @@
 				dataSrc : ''
 			},
 			columns : [ {
-				data : 'emp_sendno'
+				data : 'emp_resvno'
 			}, {
 				data : 'emp_name'
 			}, {
@@ -480,22 +480,109 @@
 		$('#dataTab1 tbody').on('click','td',function(){
 			var no1 = table1.row($(this).parents('tr')).data().msg_no;
 			console.log(no1);
+			
+			$.ajax({
+				url : 'ajax/checkFinal',
+				type : 'POST',
+				data : {
+					msg_no : no1
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				}, 
+				success : function(data) {
+
+					var modal = $('#mailCheckModal');
+					console.log(data);					  
+					modal.find('#recipient-name1').val(data.emp_sendno);
+					modal.find('#message-text1').html(data.msg_cont);
+					modal.modal('show');
+					AllCntMsg();
+					$('#dataTab1').DataTable().ajax.reload();
+				}
+			});		
 		})
 		
 		$('#dataTab2 tbody').on('click','td',function(){
 			var no2 = table2.row($(this).parents('tr')).data().msg_no;
 			console.log(no2);
+			
+			$.ajax({
+				url : 'ajax/checkFinal',
+				type : 'POST',
+				data : {
+					msg_no : no2
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				}, 
+				success : function(data) {
+
+					var modal = $('#mailCheckModal');
+					console.log(data);					  
+					modal.find('#recipient-name1').val(data.emp_sendno);
+					modal.find('#message-text1').html(data.msg_cont);
+					modal.modal('show');
+					AllCntMsg();
+					$('#dataTab2').DataTable().ajax.reload();
+				
+				}
+			});
+			
+			
 		})
 		
 		$('#dataTab3 tbody').on('click','td',function(){
 			var no3 = table3.row($(this).parents('tr')).data().msg_no;
 			console.log(no3);
+			$.ajax({
+				url : 'ajax/checkFinal',
+				type : 'POST',
+				data : {
+					msg_no : no3
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				}, 
+				success : function(data) {
+
+					var modal = $('#mailCheckModal3');
+					console.log(data);					  
+					modal.find('#recipient-name3').val(data.emp_resvno);
+					modal.find('#message-text3').html(data.msg_cont);
+					modal.modal('show');	
+				
+				}
+			});
 		})
 		
 		
 		$('#dataTab4 tbody').on('click','td',function(){
 			var no4 = table4.row($(this).parents('tr')).data().temp_no;
 			console.log(no4);
+			
+			$.ajax({
+				url : 'ajax/checkTempFinal',
+				type : 'POST',
+				data : {
+					temp_no : no4
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				}, 
+				success : function(data) {
+
+					var modal = $('#mailModal');
+					console.log(data);					  
+					modal.find('#recipient-name').val(data.temp_resvno);
+					modal.find('#message-text').html(data.temp_cont);
+					modal.modal('show');	
+									
+				}
+			});
+			
+			
+			
 		})
 		
 		
@@ -676,52 +763,6 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
-
-
-							<%-- 				<div class="card-body" id="profileInf">
-					<table>
-						<tr>
-							<td>&nbsp;&nbsp;이름</td>
-							<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
-						</tr>
-						<tr>
-							<td>&nbsp;&nbsp;사원번호</td>
-							<td id="no">${emp_vo.emp_no}</td>
-						</tr>
-						<tr>
-							<td><span class="point">&nbsp;*</span>비밀번호</td>
-							<td><input type="text" id="pw" name="pw"
-								placeholder="비밀번호를 재입력하시오"></td>
-						</tr>
-						<tr>
-							<td>&nbsp;&nbsp;주민등록번호</td>
-							<td>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
-						</tr>
-						<tr>
-							<td>&nbsp;&nbsp;면허 정보</td>
-							<td>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
-						</tr>
-						<tr>
-							<td>&nbsp;&nbsp;전화번호</td>
-							<td><input type="text" value="${emp_vo.emp_tel}" id="tel"
-								name="tel"></td>
-						</tr>
-						<tr>
-							<td>&nbsp;&nbsp;주소</td>
-							<td><input type="text" value="${emp_vo.emp_addr}" id="addr"
-								name="addr"></td>
-						</tr>
-						<c:if test="${emp_vo.emp_author=='D'}">
-							<tr>
-								<td>&nbsp;&nbsp;진료실</td>
-								<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
-							</tr>
-						</c:if>
-
-					</table>
-				</div> --%>
-
-
 
 						</div>
 
@@ -958,6 +999,39 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 확인</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">보내는 사원번호</label>
+								<input type="text" class="form-control" id="recipient-name1" name="recipient-name1" readonly>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text1"
+									name="message-text1"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" id="btnDelete"
+							name="btnDelete">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- temp확인 Modal-->
+		<div class="modal fade" id="mailTempCheckModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">메일 쓰기</h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
@@ -968,26 +1042,61 @@
 						<form>
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label">받는 사람</label>
-								<select class="form-control" id="recipient-name"
-									name="recipient-name">
+								<select class="form-control" id="recipient-name2"
+									name="recipient-name2">
 									<option value="" selected>==선택하세요==</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
-								<textarea class="form-control" id="message-text"
-									name="message-text"></textarea>
+								<textarea class="form-control" id="message-text2"
+									name="message-text2"></textarea>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="btnSave"
-							name="btnSave">보내기</button>
+						<button type="button" class="btn btn-primary" id="TempSaveBtn"
+							name="TempSaveBtn">보내기</button>
+						<button type="button" class="btn btn-secondary" id="TempDeleteBtn"
+							name="TempDeleteBtn">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+				<!-- 확인 Modal-->
+		<div class="modal fade" id="mailCheckModal3" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 확인</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">보낸 사원번호</label>
+								<input type="text" class="form-control" id="recipient-name3" name="recipient-name3" readonly>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text3"
+									name="message-text3"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" id="btnDelete"
 							name="btnDelete">삭제</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		
 </body>
 </html>

@@ -26,8 +26,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 	$(function() {
 		var searchType = "";
 		var keyword = "";
-		var searchDisease = "";
-		var searchMedicine = "";
 
 		waitList();
 		resvHstList();
@@ -36,35 +34,118 @@ div.dataTables_wrapper div.dataTables_paginate {
 		getMedicineList();
 		getMediChg();
 		
+		getDiseChg();
+		
+		getDiseaseList();
+		diagEndInsert();
 		$(".diagMenu").show();
+		//진료시작
+		$("#diagStart").on('click', function(){
+			
+		});
+		$("#diagEnd").on('click',function(){
+			console.log("ㅁㄴㅇㄹ");
+		});
+		
 	});
+	function openPrescript(){
+		window.open("${pageContext.request.contextPath}/Prescript.jsp", "문진표", "width=1500, height=900");
+	}
+	
+	 //진료 종료 인설트
+	function diagEndInsert(){
+		$("#diagEnd").on("click",function(){
+			  
+		         $.ajax({ 
+		             url: "ajax/",  
+		             type: 'POST',  
+		             dataType: 'json', 
+		           
+		             data : 
+		            	 $("#insertDiagList").serialize(),
+		           		 
+		             error:function(xhr, status, message) { 
+		                 alert(" status: "+status+" er:"+message);
+		             },
+		             success : function(){
+		            	 console.log(data);
+		             }
+		          });  
+	
+		});
+	}
+	 
+
+	
+	//약 삭제
+	function deleteMedicine(){
+		 $("#deleteMediTr").on("click", function() {
+				var td = $(this).parent().parent();
+				td.remove();
+		 });
+		
+	}
+	
+ 	//질병 삭제
+	function deleteDisease(){
+	$("#deleteDiseTr").on("click", function() {
+		var td = $(this).parent().parent();
+		td.remove();
+ });
+	} 
 	
 	//질병검색
-	$("#schdisease").click(function(){
-		var searchDisease = $("#searchDisease").val();
-		console.log("searchDisease :" + searchDisease);
-		getDisease(searchDisease);
-		$("searchDisease").val("");
-	});
-	
+	function schd(){
+		var keyword = $("#keyword3").val();
+		console.log("keyword3 :" + keyword);
+		getDiseaseList(keyword);
+		$("#keyword3").val("");
+	}
 	  //약품 검색
-	$("#schmedicine").click(function(){
-		var searchMedicine = $("#searchMedicine").val();
-		console.log("searchMedicine :" + searchMedicine);
-		getMedicineList(searchMedicine);
-		$("searchMedicine").val("");
-	});  
+	function schm(){
+		var keyword = $("#keyword4").val();
+		console.log("keyword4 :" + keyword);
+		getMedicineList(keyword);
+		$("keyword4").val("");
+	};  
 	
+	//질병리스트 뿌려줌
+	 function getDiseaseList(keyword){
+		 $.ajax({
+				url : 'ajax/getDisease',
+				type : 'GET',
+				//contentType:'application/json;charset=utf-8',
+				dataType : 'json',
+				data : {
+					keyword : keyword
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getDiseaseListResult
+			});
+	 }
+	  
+	 function getDiseaseListResult(data){
+		 $("#InsertDisease").empty();
+			console.log("질병 data:"+data);
+			$.each(data, function(idx, item) {
+					$("<tr>").append($('<td>').html(item.dis_code))
+							 .append($('<td>').html(item.dis_name))
+							 .append($('<td>').html(item.dis_desc))
+							 .appendTo("#InsertDisease");
+			});
+	 }
 
 	 //약품리스트 뿌려줌
-	 function getMedicineList(){
+	 function getMedicineList(keyword){
 		 $.ajax({
 				url : 'ajax/getMedineList',
 				type : 'GET',
 				//contentType:'application/json;charset=utf-8',
 				dataType : 'json',
 				data : {
-					
+					keyword : keyword
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -76,8 +157,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 	 function getMedineListResult(data){
 		 $("#schMedicineTd").empty();
 			$.each(data, function(idx, item) {
-				$("<tr>").append($('<td>').html(item.MEDI_NO))
-						 .append($('<td>').html(item.MEDI_NAME))
+				$("<tr>").append($('<td>').html(item.medi_no))
+						 .append($('<td>').html(item.medi_name))
 						 .appendTo($('#schMedicineTd'));
 			});
 	 }
@@ -99,39 +180,34 @@ div.dataTables_wrapper div.dataTables_paginate {
 				 .append($('<td> <input name="presAccount" id="presAccount" style="width:50px;"></td>'))
 				 .append($('<td> <input name="presccount" id="presccount" style="width:50px;"></td>'))
 				 .append($('<td> <input name="presTotal" id="presTotal" style="width:50px;"></td>'))
-				 .append($('<td> <button type="button" id="deleteMediTR" style="width:50px;">X</button></td>'))
+				 .append($('<td> <button type="button" id="deleteMediTr" onclick="deleteMedicine()" style="width:50px;">X</button></td>'))
 				 .appendTo($('#insertMedicine'));
 			});
 	 }
 	 
-	 
- 	//질병뿌려줌
-	 function getDisease(searchDisease){
-		 console.log(searchDisease);
-			$.ajax({
-				url : 'ajax/getDisease',
-				type : 'GET',
-				//contentType:'application/json;charset=utf-8',
-				dataType : 'json',
-				data : {
-					searchDisease : searchDisease
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : getDiseaseResult
+	 //상병 이동
+	 function getDiseChg(){
+		 $("body").on("click", "#InsertDisease tr", function() {
+				var tdArr = new Array();
+				var td = $(this).children();
+
+				td.each(function(i) {
+					tdArr.push(td.eq(i).text());
+				});
+
+				console.log("1 : " + td.eq(0).text());
+				console.log("2 : " + td.eq(1).text());
+				console.log("3 : " + td.eq(2).text());
+
+				$("#insertDiagLast").empty();
+				$("<tr>").append($('<td>').html(td.eq(1).text()))
+					     .append($('<td>').html(td.eq(2).text()))
+				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" style="width:50px;">X</button></td>'))
+				 .appendTo($('#insertDiagLast'));
 			});
 	 }
 	 
-	 function getDiseaseResult(data){
-		 console.log("searchDisease :" + searchDisease);
-			$("<tr>").append($('<td>').html(data.DIS_CODE))
-					 .append($('<td>').html(data.DIS_NAME))
-					 .append($('<td>').html(data.DIS_DESC))
-					 .append($('<td> <button type="button" id="deleteDiseTR" style="width:50px;">X</button></td>'))
-					 .appendTo("#InsertDisease");
-	 }
-	 
+	 insertDiagLast
 	//진료 기록 상세
 	function getDiagDetail() {
 		$("body").on(
@@ -311,7 +387,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			});
 
 			console.log("아기번호 : " + td.eq(4).text());
-
+			console.log(this);
 			$.ajax({
 				url : 'ajax/HistoryList',
 				data : {
@@ -451,6 +527,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 
 			<!-- 진료 2 -->
+			
 			<div class="col-xl-3 col-md-6 mb-4">
 
 				<!-- 환자 기록 -->
@@ -545,11 +622,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 				</div>
 			</div>
 
-
-
 			<!-- 진료 3 -->
-			<div class="col-xl-3 col-md-6 mb-4">
-
+			<div class="col-xl-3 col-md-6 mb-4" id="diag3">
+				<form id="insertDiagList">
 				<!-- 외래기록 -->
 				<div class="card shadow py-2" style="height: 840px;">
 
@@ -566,19 +641,20 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<div>
 									<div
 										style="margin: 0 0 10px 0 !important; width: 90%; float: left;">
-										<form>
+						
 											<div class="input-group">
 												<input type="text" class="form-control border-0 small"
-													name="searchDisease" id="searchDisease" placeholder="질병명"
-													aria-label="Search" aria-describedby="basic-addon2">
+													name="keyword3" id="keyword3" placeholder="질병명"
+													aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schd();}"
+													disabled="disabled">
 												<div class="input-group-append">
 													<button class="btn btn-primary" type="button"
-														id="schdisease">
+														id="schdisease" onclick="schd()" disabled="disabled">
 														<i class="fas fa-search fa-sm"></i>
 													</button>
 												</div>
 											</div>
-										</form>
+
 									</div>
 									<div style="float: right; height: 50px">
 										<button>+</button>
@@ -587,20 +663,45 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 							</div>
 						</div>
-						<div style="overflow: auto; width: 100%; height: 300px;">
+						<div style="overflow: auto; width: 100%; height: 200px;">
 							<table>
 								<thead>
 									<tr>
 										<th style="width: 200px;">코드</th>
 										<th style="width: 400px;">상병명</th>
 										<th style="width: 500px;">상병상세</th>
-										<th style="width: 150px;">삭제</th>
 									</tr>
 								</thead>
 								<tbody id="InsertDisease" style="overflow: auto; width: 100%;"></tbody>
 							</table>
 						</div>
 					</div>
+
+					<div class="card-body" style="height: 200px;">
+						<!-- Title -->
+						<div style= "margin-top: 10px;">
+							<!-- logo -->
+							<div class="title_logo">
+								<i class="fas fa-pencil-alt"></i>
+
+								<!-- content -->
+								<span class="tit" style="font-weight: 600;">진단서</span>
+							</div>
+				     <!-- 진단서작성 -->
+						<div style="overflow: auto; height: 350px;">
+							<table>
+								<thead>
+									<tr>
+										<th style="width: 300px;">상병명</th>
+										<th style="width: 400px;">상병상세</th>
+										<th style="width: 200px;">삭제</th>
+									</tr>
+								</thead>
+								<tbody id="insertDiagLast"></tbody>
+							</table>
+						</div>	
+					</div>
+				</div>
 
 					<div class="card-body" style="height: 200px;">
 						<!-- Title -->
@@ -617,16 +718,18 @@ div.dataTables_wrapper div.dataTables_paginate {
 						<!--소견내용  -->
 						<div>
 							<textarea class="cont" id="patient_records" name="records"
-								style="width: 100%; height: 300px;">
+								style="width: 100%; height: 200px;" disabled="disabled">
 							</textarea>
 						</div>
 					</div>
 
 				</div>
+				</form>
 			</div>
 		
 		<!-- 진료 4 -->
-			<div class="col-xl-3 col-md-6 mb-4">
+			<div class="col-xl-3 col-md-6 mb-4" id="diag4">
+			<form id="insertMediList">
 			<!-- 처방 -->
 				<div class="card shadow py-2" style="height: 840px;">
 					
@@ -642,18 +745,18 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 					<!-- 검색버튼 -->
 					<div style="margin: 0 0 10px 0 !important; width: 90%;">
-						<form>
+	
 							<div class="input-group">
 								<input type="text" class="form-control border-0 small"
-									name="searchMedicine" id="searchMedicine" placeholder="약품검색"
-									aria-label="Search" aria-describedby="basic-addon2">
+									name=keyword4 id="keyword4" placeholder="약품검색"
+									aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schm();}"
+									disabled="disabled">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="schmedicine">
+									<button class="btn btn-primary" type="button" id="schmedicine" onclick="schm()" disabled="disabled">
 										<i class="fas fa-search fa-sm"></i>
 									</button>
 								</div>
 							</div>
-						</form>
 					</div>
 					
 				</div>
@@ -700,9 +803,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<tbody id="insertMedicine"></tbody>
 							</table>
 						</div>
+						
 					</div>
 				</div>
+				</form>
 			</div>
+			
 		</div>
 	</div>
 </body>

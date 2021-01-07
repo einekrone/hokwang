@@ -11,7 +11,6 @@ import com.hokwang.service.DiagService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
-import com.hokwang.vo.DiesSearch;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PrescriptionVO;
@@ -69,19 +68,13 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public Map<String, Object> getDisease(DiesSearch vo) {
+	public List<DiseaseVO> getDisease(DiseaseVO vo) {
 	
 		return service.getDisease(vo);
 	}
 
 	@Override
-	public Map<String, Object> schMedicine(DiesSearch vo) {
-		
-		return service.schMedicine(vo);
-	}
-
-	@Override
-	public List<Map<String, Object>> getMedineList(MedicineVO vo) {
+	public List<MedicineVO> getMedineList(MedicineVO vo) {
 		
 		return service.getMedineList(vo);
 	}

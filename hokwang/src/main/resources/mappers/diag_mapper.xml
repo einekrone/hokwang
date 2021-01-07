@@ -76,42 +76,48 @@
 		</if>
 	</select>
 	
-	<select id="getDisease" resultType="map"
-	parameterType="DiesSearch">
+	<select id="getDisease" resultType="diseaseVO"
+	parameterType="diseaseVO">
 	SELECT * FROM DISEASE
 	<where>
-		<if test="searchDisease !=null and searchDisease != ''">
-		 DIS_NAME LIKE '%'||#{searchDisease}||'%'
+		<if test="keyword !=null and keyword != ''">
+		 DIS_NAME LIKE '%'||#{keyword}||'%'
 		 </if>
 	</where>
 	</select>
 	
-	<select id="schMedicine" resultType="map"
-	parameterType="DiesSearch">
+	<select id="getMedineList" resultType="medicineVO"
+	parameterType="medicineVO">
 	SELECT * FROM MEDICINE
-		<where>
-			<if test="searchMedicine !=null and searchMedicine !=''">
-				MEDI_NAME LIKE '%'||#{searchMedicine}||'%'
+	<where>
+			<if test="keyword !=null and keyword !=''">
+				MEDI_NAME LIKE '%'||#{keyword}||'%'
 			</if>
-		</where>	
+		</where>
 	</select>
 	
-	<select id="getMedineList" resultType="map"
-	parameterType="MedicineVO">
-	SELECT * FROM MEDICINE
-	</select>
-	
-	
- <!-- 	<insert id="insertDiag" parameterType="DiagnosisVO">
+  	<insert id="insertDiagList" parameterType="DiagnosisVO">
 		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
 			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS
 		</selectKey>
 		INSERT INTO DIAGNOSIS(diag_no,
 							  diag_time,
-							  diag_memo,
-	
+							  resv_no,
+							  emp_no,
+							  diaglist_no,
+							  diaglist_memo,
+							  dis_code
 		)
-	</insert>  -->
+		VALUES(
+		#{diag_no},
+		#{diag_time},
+		#{resv_no},
+		#{emp_no},
+		#{diaglist_no},
+		#{diaglist_memo},
+		#{dis_code}
+		)
+	</insert>  
 	<!-- <insert id="insertDiag" parameterType="DiagnosisVO">
 		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
 			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS

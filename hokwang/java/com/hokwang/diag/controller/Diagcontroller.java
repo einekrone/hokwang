@@ -14,7 +14,6 @@ import com.hokwang.dao.DiagMapper;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
-import com.hokwang.vo.DiesSearch;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PrescriptionVO;
@@ -78,25 +77,19 @@ public class Diagcontroller {
 		return map;
 	}
 	
-	 //질병검색
+	 //질병리스트
 	@ResponseBody
 	@RequestMapping("/ajax/getDisease")
-	public Map<String, Object> getDisease(DiesSearch vo) {
+	public List<DiseaseVO> getDisease(DiseaseVO vo) {
 		return diagDao.getDisease(vo);
 	}
 
 	//약품리스트
 	@ResponseBody
 	@RequestMapping("/ajax/getMedineList")
-	public List<Map<String, Object>> getMedineList(MedicineVO vo) {
+	public List<MedicineVO> getMedineList(MedicineVO vo) {
 		return diagDao.getMedineList(vo);
 	}
 	
-	//약품검색
-	@ResponseBody
-	@RequestMapping("/ajax/schMedicine")
-	public Map<String, Object> schMedicine(DiesSearch vo) {
-		return diagDao.schMedicine(vo);
-	}
 	
 }

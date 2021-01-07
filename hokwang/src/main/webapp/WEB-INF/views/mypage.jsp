@@ -321,6 +321,8 @@
 					AllCntMsg();
 				}
 			});
+			
+			
 		})
 	}
 	
@@ -397,6 +399,41 @@
 				data : 'msg_date'
 			} ]
 		});
+		$('#dataTab3').DataTable({
+			ajax : {
+				url : 'ajax/sendTotalInf',
+				data : {
+					emp_no : "${emp_vo.emp_no}"
+				},
+				dataSrc : ''
+			},
+			columns : [ {
+				data : 'emp_sendno'
+			}, {
+				data : 'emp_name'
+			}, {
+				data : 'msg_cont'
+			}, {
+				data : 'msg_date'
+			} ]
+		});
+		$('#dataTab4').DataTable({
+			ajax : {
+				url : 'ajax/tempTotalMsg',
+				data : {
+					emp_no : "${emp_vo.emp_no}"
+				},
+				dataSrc : ''
+			},
+			columns : [ {
+				data : 'temp_resvno'
+			}, {
+				data : 'temp_cont'
+			}, {
+				data : 'temp_date'
+			} ]
+		});
+		
 	
 		
 	}
@@ -475,12 +512,13 @@
 			}
 			if($(event.target).attr('id') == 'v-pills-profile-tab'){
 				
-				$('#cont2').show();
-				
+				$('#cont2').show();	
 			}
 			if($(event.target).attr('id') == 'v-pills-messages-tab'){
 				$('#cont3').show();
-				
+			}
+			if($(event.target).attr('id') == 'v-pills-settings-tab'){
+				$('#cont4').show();
 			}
 		});
 	}
@@ -723,10 +761,10 @@
 								<table id="dataTab2" style="width: 1100px;">
 									<thead>
 										<tr>
-											<th class="tl">사원번호</th>
-											<th class="tl">보내는사람</th>
-											<th class="tl">내용</th>
-											<th class="tc">날짜</th>
+											<th width="150" class="tl">사원번호</th>
+											<th width="150" class="tl">보내는사람</th>
+											<th width="600" class="tl">내용</th>
+											<th width="100" class="tc">날짜</th>
 										</tr>
 
 									</thead>
@@ -741,10 +779,9 @@
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
 											<th width="150" class="tl">사원번호</th>
-											<th width="150" class="tl">보내는사람</th>
+											<th width="150" class="tl">받는사람</th>
 											<th width="600" class="tl">내용</th>
 											<th width="100" class="tc">날짜</th>
-
 										</tr>
 
 									</thead>
@@ -752,6 +789,21 @@
 									</tbody>
 								</table>
 							</div>
+							<div class="note_bt" style="display: none" id="cont4">
+								<table id="dataTab4" style="width: 1100px;">
+									<thead>
+										<tr>
+											<th width="150" class="tl">받는사원번호</th>
+											<th width="600" class="tl">내용</th>
+											<th width="100" class="tc">날짜</th>
+										</tr>
+
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							
 
 
 

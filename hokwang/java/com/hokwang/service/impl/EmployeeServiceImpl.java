@@ -122,7 +122,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.updateUser(vo);
 	}
 
+	@Override
+	public List<MessageVO> sendTotalInf(EmployeeVO vo) {
+		
+		return EmpDAO.sendTotalInf(vo);
+	}
 	
-
+	@Override
+	public List<TempmessageVO> tempTotalMsg(EmployeeVO vo) {
+		
+		return EmpDAO.tempTotalMsg(vo);
+	}
 	
 }

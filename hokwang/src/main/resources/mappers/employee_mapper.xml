@@ -133,6 +133,20 @@
 		EMP_SENDNO from message where emp_resvno=#{emp_no})
 	</select>
 
+<!-- asd -->
+	<select id="sendTotalInf" parameterType="employeeVO"
+		resultType="messageVO">
+		select
+		m.emp_resvno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN from employee
+		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO in(
+		select
+		EMP_resvNO from message where emp_sendno=#{emp_no})
+
+	</select>
+
+
+
+
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE from
@@ -182,7 +196,9 @@
 	</select>
 
 
-
+	<select id="tempTotalMsg" parameterType="employeeVO" resultType="tempmessageVO">
+		select temp_resvno,temp_cont,temp_date from tempmessage where temp_sendno=#{emp_no}
+	</select>
 
 
 

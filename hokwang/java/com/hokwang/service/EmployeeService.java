@@ -25,5 +25,6 @@ public interface EmployeeService {
 	public void tempMsgInf(TempmessageVO vo);
 	public TempmessageVO checkTemp(TempmessageVO vo); 
 	public int updateUser(EmployeeVO vo); //이미지
-	
+	public List<MessageVO> sendTotalInf(EmployeeVO vo);
+	public List<TempmessageVO> tempTotalMsg(EmployeeVO vo);
 }

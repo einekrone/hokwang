@@ -85,62 +85,60 @@ public class MypageController {
 		map.put("empInf", dao.selectEmpInf(vo));
 		return map;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/sendMsgInf")
 	public boolean sendMsgInf(Model model, MessageVO vo) {
 		dao.sendMsgInf(vo);
 		return true;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/tempMsgInf")
 	public boolean tempMsgInf(Model model, TempmessageVO vo) {
 		dao.tempMsgInf(vo);
 		return true;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/checkTemp")
 	public TempmessageVO checkTemp(Model model, TempmessageVO vo) {
 		TempmessageVO resultvo = new TempmessageVO();
 		vo = dao.checkTemp(vo);
-		if(vo == null) {
-			return resultvo;			
-		}
-		else {
+		if (vo == null) {
+			return resultvo;
+		} else {
 			return vo;
 		}
 	}
-	
-	//등록처리
+
+	// 등록처리
 	@RequestMapping("/updateUser")
-	public String updateUser(HttpServletRequest request, EmployeeVO emp_vo) 
-			throws IllegalStateException, IOException {
-		//request multipart로 캐스팅
-		MultipartHttpServletRequest multipartRequest =
-				(MultipartHttpServletRequest)request;
-				//이미지파일
-				MultipartFile multipartFile = multipartRequest.getFile("uploadFile");
-				if(! multipartFile.isEmpty() && multipartFile.getSize()>0) {
-					String path = request.getSession().getServletContext().getRealPath("/resources/img");
-					System.out.println("path="+path);
-					multipartFile.transferTo(new File(path,multipartFile.getOriginalFilename()));
-					emp_vo.setEmp_profile(multipartFile.getOriginalFilename());
-				}
-				dao.updateUser(emp_vo);
+	public String updateUser(HttpServletRequest request, EmployeeVO emp_vo) throws IllegalStateException, IOException {
+		// request multipart로 캐스팅
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		// 이미지파일
+		MultipartFile multipartFile = multipartRequest.getFile("uploadFile");
+		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
+			String path = request.getSession().getServletContext().getRealPath("/resources/img");
+			System.out.println("path=" + path);
+			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
+			emp_vo.setEmp_profile(multipartFile.getOriginalFilename());
+		}
+		dao.updateUser(emp_vo);
 		return "mypage";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/sendTotalInf")
+	public List<MessageVO> sendTotalInf(Model model, EmployeeVO vo) {
+		return dao.sendTotalInf(vo);
+	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/tempTotalMsg")
+	public List<TempmessageVO> tempTotalMsg(Model model, EmployeeVO vo) {
+		return dao.tempTotalMsg(vo);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

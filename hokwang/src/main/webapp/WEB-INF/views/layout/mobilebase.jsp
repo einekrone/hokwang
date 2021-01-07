@@ -29,12 +29,12 @@
 	function changeMenu() {
 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
-		$(".sidebar-nav").on("click", "li", function(event) {
+		/* $(".sidebar-nav").on("click", "li", function(event) {
 			console.log("click");
 			$(event.target).siblings().removeClass("active");
 			$(event.target).siblings().attr('class', 'sidebar-item');
 			$(event.target).attr('class', 'sidebar-item active');
-		});
+		}); */
 	}
 </script>
 </head>
@@ -81,9 +81,9 @@
 						<ul id="auth" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="resv?type='today'">당일 예약</a></li>
+								href="resv?type=today">당일 예약</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="resv?type='pre'">사전 예약</a></li>
+								href="resv?type=prio">우선 예약</a></li>
 						</ul></li>
 				</ul>
 

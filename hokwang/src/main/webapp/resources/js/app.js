@@ -21209,11 +21209,11 @@
                     pn(t.host ? t : document.head, Jt)
                 }
             },
-            acquireContext: function(e, t) {
+            /*acquireContext: function(e, t) {
                 "string" == typeof e ? e = document.getElementById(e) : e.length && (e = e[0]), e && e.canvas && (e = e.canvas);
                 var n = e && e.getContext && e.getContext("2d");
                 return n && n.canvas === e ? (this._ensureLoaded(e), nn(e, t), n) : null
-            },
+            },*/
             releaseContext: function(e) {
                 var t = e.canvas;
                 if (t[Gt]) {
@@ -21869,7 +21869,7 @@
                     set: function(e) {
                         n.config.data = e
                     }
-                }), i && a ? (n.initialize(), n.update()) : console.error("Failed to create chart: can't acquire context from the given item")
+                })/*, i && a ? (n.initialize(), n.update()) : console.error("Failed to create chart: can't acquire context from the given item")*/
             },
             initialize: function() {
                 var e = this;
@@ -26073,9 +26073,9 @@
                     return this
                 }, t.text = function(e) {
                     return e ? (this.selector.textContent = e, this) : this.selector.textContent
-                }, t.attr = function(e, t) {
+                }/*, t.attr = function(e, t) {
                     return e && t ? (this.selector.setAttribute(e, t), this) : this.selector.getAttribute(e)
-                }, t.append = function(e) {
+                }*/, t.append = function(e) {
                     return this.selector.appendChild(e), this
                 }, t.show = function() {
                     this.css({

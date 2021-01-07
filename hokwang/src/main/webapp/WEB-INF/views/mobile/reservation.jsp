@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1 class="h3 mb-3">예약 페이지</h1>
+	<h1 class="h3 mb-3">예약 페이지${resvType}</h1>
 
 	<div class="row">
 		<div class="col-12">

@@ -24,5 +24,6 @@ public interface EmployeeMapper {
 	public void sendMsgInf(MessageVO vo);
 	public void tempMsgInf(TempmessageVO vo);
 	public TempmessageVO checkTemp(TempmessageVO vo); //Id찾기
+	public int updateUser(EmployeeVO vo); //이미지 수정
 }
 

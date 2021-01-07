@@ -116,5 +116,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.checkTemp(vo);
 	}
 
+	@Override
+	public int updateUser(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.updateUser(vo);
+	}
+
+	
+
 	
 }

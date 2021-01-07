@@ -4,6 +4,8 @@
  * Copyright 2020 호광 병원
  * Licensed under MIT (https://github.com/adminkit/adminkit/blob/master/LICENSE)
  */
+
+/*
 @font-face {
 	font-family: Inter;
 	font-style: normal;
@@ -164,7 +166,9 @@
 	font-display: block;
 	src: url(../fonts/Inter-BlackItalic.woff2) format("woff2"),
 		url(../fonts/Inter-BlackItalic.woff) format("woff")
-} /*!
+} */
+
+/*!
  * Bootstrap v5.0.0-alpha2 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
  * Copyright 2011-2020 Twitter, Inc.
@@ -12768,7 +12772,7 @@ body {
 
 .sidebar-link:hover, .sidebar-link:hover i, .sidebar-link:hover svg {
 	/* color: rgb(233, 236, 239, .75); */	/* todo: 메뉴 마우스 오버 색 */
-	color: white
+	color: white;
 	background: #eab29f;
 }
 

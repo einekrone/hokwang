@@ -20,6 +20,23 @@
 <link href="${pageContext.request.contextPath}/resources/css/mobile.css"
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		changeMenu();
+	});
+	
+	function changeMenu() {
+		console.log("changeMenu");
+		// todo: 메뉴 클릭 시 색상변경
+		$(".sidebar-nav").on("click", "li", function(event) {
+			console.log("click");
+			$(event.target).siblings().removeClass("active");
+			$(event.target).siblings().attr('class', 'sidebar-item');
+			$(event.target).attr('class', 'sidebar-item active');
+		});
+	}
+</script>
 </head>
 <body>
 	<div class="wrapper">

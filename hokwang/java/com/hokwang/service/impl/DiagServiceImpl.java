@@ -12,6 +12,7 @@ import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
+import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
@@ -29,7 +30,7 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getResvList(ResvSearch vo) {
+	public List<Map<String, Object>> getResvList(EmployeeVO vo) {
 
 		return service.getResvList(vo);
 	}
@@ -77,6 +78,24 @@ public class DiagServiceImpl implements DiagService{
 	public List<MedicineVO> getMedineList(MedicineVO vo) {
 		
 		return service.getMedineList(vo);
+	}
+
+	@Override
+	public int insertDiagList(DiagnosisVO vo) {
+		
+		return service.insertDiagList(vo);
+	}
+
+	@Override
+	public int insertPres(PrescriptionVO vo) {
+		
+		return service.insertPres(vo);
+	}
+
+	@Override
+	public int UpdateDiagStatus(Reservation vo) {
+		
+		return service.UpdateDiagStatus(vo);
 	}
 
 }

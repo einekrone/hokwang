@@ -3,20 +3,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.dao.DiagMapper">
+	
 	<select id="getResvList" resultType="map">
 		SELECT R.RESV_NO,
 		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME,
 		B.BABY_NAME,
 		B.BABY_REGNO1, R.RESV_STATUS,
-		B.BABY_NO
-		FROM RESERVATION R, BABY B
-		WHERE R.BABY_NO = B.BABY_NO
-		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,
-		'YYYY-MM-DD')
+		B.BABY_NO,
+		E.EMP_ROOM
+		FROM RESERVATION R, BABY B, EMPLOYEE E
+		WHERE R.RESV_ROOM = E.EMP_ROOM
+		AND R.BABY_NO = B.BABY_NO
+		AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE,'YYYY-MM-DD')
+		AND E.EMP_ROOM = #{emp_room}
 		AND R.RESV_STATUS != 'Y'
 		ORDER BY RESV_NO,RESV_DATE
 	</select>
-
+	
 	<select id="getResvHistList" resultType="DiagnosisVO"
 		parameterType="BabyVO">
 		SELECT * FROM DIAGNOSIS
@@ -118,28 +121,28 @@
 		#{dis_code}
 		)
 	</insert>  
-	<!-- <insert id="insertDiag" parameterType="DiagnosisVO">
-		<selectKey order="BEFORE" keyProperty="diag_no" resultType="String">
-			SELECT NVL(MAX(DIAG_NO),0)+1 FROM DIAGNOSIS
-		</selectKey>
-		INSERT INTO DIAGNOSIS(diag_no,
-							  diag_time,
-							  diag_memo,
+	 <insert id="insertPres" parameterType="prescriptionVO">
+		<foreach item="item" index="index"  collection="java.util.List" separator="," open="INSERT ALL"
+		close="SELECT * FROM DUAL">
 	
-		)
+		 INTO PRESCRIPTION
+		 VALUES(#(item.prescription_seq.nextval),
+							     #{item.pres_count},
+							     #{item.pres_account},
+							     #{item.pres_total},
+							     SYSDATE,
+							     #{item.diag_no},
+							     #{item.medi_no})
+		</foreach>
 	</insert>
-	 -->
-	<!-- <insert id="insertDiag2" parameterType="PrescriptionVO">
-		<selectKey order="BEFORE" keyProperty="pres_no" resultType="String">
-			SELECT NVL(MAX(PRES_NO),0)+1 FROM PRESCRIPTION
-		</selectKey>
-		INSERT INTO DIAGNOSIS(pres_no,
-							  pres_acount,
-							  pres_account,
-							  pres_total,
-							  pres_date,
-		 
-		
-		)
-	</insert> -->
+	 
+	<update id="UpdateDiagStatus" parameterType="reservation">
+		UPDATE RESERVATION
+		SET RESV_STATUS = #{resv_status}
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = #{resv_no}
+			</if>
+		</where>
+	</update>
 </mapper>

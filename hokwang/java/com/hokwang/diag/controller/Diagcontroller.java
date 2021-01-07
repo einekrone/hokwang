@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hokwang.dao.DiagMapper;
+import com.hokwang.service.DiagService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
+import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
@@ -23,7 +24,7 @@ import com.hokwang.vo.ResvSearch;
 @Controller
 public class Diagcontroller {
 	@Autowired
-	DiagMapper diagDao;
+	DiagService diagDao;
 	
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
@@ -36,7 +37,8 @@ public class Diagcontroller {
 	// 대기환자 리스트
 	@ResponseBody
 	@RequestMapping("/ajax/waitList")
-	public List<Map<String, Object>> getWaitList(ResvSearch vo) {
+	public List<Map<String, Object>> getWaitList(EmployeeVO vo) {
+		System.out.println(vo.getEmp_room());
 		return diagDao.getResvList(vo);
 	}
 
@@ -91,5 +93,15 @@ public class Diagcontroller {
 		return diagDao.getMedineList(vo);
 	}
 	
-	
+	//진료종료시 진단서,처방전 입력
+	@ResponseBody
+	@RequestMapping("/ajax/EndInsertDiagnosis")
+	public Map<String, Object> EndInsertDiagnosis(PrescriptionVO PreVo,DiagnosisVO diagVo,Reservation resvVo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		diagDao.insertDiagList(diagVo);
+		diagDao.insertPres(PreVo);
+		diagDao.UpdateDiagStatus(resvVo);
+		return map;
+		
+	}
 }

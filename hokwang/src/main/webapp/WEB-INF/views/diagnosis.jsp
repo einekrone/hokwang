@@ -39,10 +39,32 @@ div.dataTables_wrapper div.dataTables_paginate {
 		getDiseaseList();
 		diagEndInsert();
 		$(".diagMenu").show();
-		//진료시작
-		$("#diagStart").on('click', function(){
-			
-		});
+		
+		$("#diagStart").on('click', function() {//진료시작 버튼 
+	         console.log("진료시작 버튼")
+	         if (confirm("진료를 시작하시겠습니까?")) {
+	            getDiseaseList();//질병리스트   
+	            $("#medicine").css("visibility", "visible");
+
+	            // pointer-events: none;  클릭금지
+
+	            if ($('#Info').children().length == 0) {
+	               console.log("널값체크")
+	               console.log("널값체크"+ $('#Info'));
+	               
+	            }
+	            else{
+	               console.log("실행");
+	               $("#waitList tr").off("click");
+	            }
+	         } else {
+	            $("#medicine").css("visibility", "hidden");
+	            $("#InsertDisease").empty();
+	         }
+	      });
+
+		
+		//진료종료
 		$("#diagEnd").on('click',function(){
 			console.log("ㅁㄴㅇㄹ");
 		});
@@ -52,20 +74,24 @@ div.dataTables_wrapper div.dataTables_paginate {
 		window.open("${pageContext.request.contextPath}/Prescript.jsp", "문진표", "width=1500, height=900");
 	}
 	
-	 //진료 종료 인설트
+	
+	
+/* 	  //진료 종료 인설트
 	function diagEndInsert(){
 		$("#diagEnd").on("click",function(){
 			  
 		         $.ajax({ 
-		             url: "ajax/",  
+		             url: "/ajax/EndInsertDiagnosis",  
 		             type: 'POST',  
 		             dataType: 'json', 
-		           
 		             data : 
-		            	 $("#insertDiagList").serialize(),
-		           		 
-		             error:function(xhr, status, message) { 
-		                 alert(" status: "+status+" er:"+message);
+		             {disease :  $("#insertDiagList").serialize(),
+		            	prescription : 
+		            	 $("# insertMediList").serialize(),
+		            	 resv_no : resv_no}
+		             ,
+		             error:function(xhr, status, msg) { 
+		                 alert(" status: "+status+" er:"+msg);
 		             },
 		             success : function(){
 		            	 console.log(data);
@@ -73,7 +99,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		          });  
 	
 		});
-	}
+	}  */
 	 
 
 	
@@ -286,15 +312,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 	}
 	//대기환자 함수
-	function waitList(searchType, keyword) {
+	function waitList() {
 		$.ajax({
 			url : 'ajax/waitList',
 			type : 'GET',
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
-				searchType : searchType,
-				keyword : keyword
+				emp_room : ${emp_vo.emp_room}
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -645,11 +670,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 											<div class="input-group">
 												<input type="text" class="form-control border-0 small"
 													name="keyword3" id="keyword3" placeholder="질병명"
-													aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schd();}"
-													disabled="disabled">
+													aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schd();}">
 												<div class="input-group-append">
 													<button class="btn btn-primary" type="button"
-														id="schdisease" onclick="schd()" disabled="disabled">
+														id="schdisease" onclick="schd()">
 														<i class="fas fa-search fa-sm"></i>
 													</button>
 												</div>
@@ -718,7 +742,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 						<!--소견내용  -->
 						<div>
 							<textarea class="cont" id="patient_records" name="records"
-								style="width: 100%; height: 200px;" disabled="disabled">
+								style="width: 100%; height: 200px;">
 							</textarea>
 						</div>
 					</div>
@@ -749,10 +773,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<div class="input-group">
 								<input type="text" class="form-control border-0 small"
 									name=keyword4 id="keyword4" placeholder="약품검색"
-									aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schm();}"
-									disabled="disabled">
+									aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schm();}">
 								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="schmedicine" onclick="schm()" disabled="disabled">
+									<button class="btn btn-primary" type="button" id="schmedicine" onclick="schm()">
 										<i class="fas fa-search fa-sm"></i>
 									</button>
 								</div>

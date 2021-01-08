@@ -19,6 +19,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/mobile.css"
 	rel="stylesheet">
 	
+ <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	
 <style>
 #card1{
 width:180px;
@@ -39,20 +41,77 @@ width:180px;
 #today{
 
   width:53px;
-  height:100px;
+  height:80px;
   display:inline;
 }
 #reserv{
   width:53px;
-  height:100px;
+  height:80px;
   display:inline;
 }
 #resvname{
 display:inline;
 }
+#issue{
+width : 180px;
+height:80px;
+}
+
 </style>
+
 </head>
-<body>
+<body onload="initialize()">
+<script>
+//지도
+function initialize() {
+	   var myLatlng = new google.maps.LatLng(35.870704, 128.589424);
+	   var mapOptions = {
+	        zoom: 17,
+	        center: myLatlng,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP
+	   }
+	   var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+	   var marker = new google.maps.Marker({
+		    position: myLatlng,
+		    map: map,
+		    title: "호광병원"
+		});
+	  }; // 지도끝
+	  
+$(function(){
+	getEmpInfo();
+	empInfoListResult();	
+	
+})
+	
+	
+	//의료진 소개
+	function getEmpInfo() {
+		$.ajax({
+			url : 'ajax/getEmpInfo',
+			type : 'GET',
+			dataType : 'json',
+			success : 
+				empInfoListResult
+			,
+			error : function() {
+				alert("fail")
+			}
+
+		});
+	}
+	  
+	  function empInfoListResult(data){
+		  console.log("aa" + data);
+		  $('tbody').empty();
+		  $.each(data,function(idx,item){
+			  $('<tr>')
+			  .append($('<td>').html(item.emp_name))
+			  .append($('<td>').html(item.emp_room))
+			  .appendTo('tbody');
+		  })
+	  }
+</script>
 
 	<div class="row mb-2 mb-xl-3">
 		<div class="col-auto ml-auto text-right mt-n1">
@@ -99,20 +158,15 @@ display:inline;
 					<div id="card1" class="card">
 						<div >
 							<div class="mb-1">
-								<input type="button" class="btn btn-primary" value="당일" id="today">
+								<input type="button" class="btn btn-primary active" value="당일" id="today">
 								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5>
-								<input type="button" class="btn btn-primary" value="예약" id="reserv">
+								<input type="button" class="btn btn-danger active" value="예약" id="reserv">
 							</div>
 						</div>
 					</div>
 					<div id="card2" class="card">
-						<div class="card-body">
-							<h5 class="card-title mb-4">증명서발급</h5>
-							<div class="mb-1">
-								<span class="text-success"> <i
-									class="mdi mdi-arrow-bottom-right"></i> 6.65%
-								</span> <span class="text-muted">Since last week</span>
-							</div>
+						<div>
+							<input type="button" class="btn btn-info active" value="증명서발급" id="issue">
 						</div>
 					</div>
 				</div>
@@ -124,33 +178,16 @@ display:inline;
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-
 					<h5 class="card-title mb-0">의료진 소개</h5>
 				</div>
-				<table class="table table-hover my-0">
+				<table id="empinfo" class="table table-hover my-0">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Status</th>
-							<th class="d-none d-md-table-cell">Assignee</th>
+							<th>이름</th>
+							<th>진료실</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Project Apollo</td>
-							<td><span class="badge bg-success">Done</span></td>
-							<td class="d-none d-md-table-cell">Vanessa Tucker</td>
-						</tr>
-						<tr>
-							<td>Project Fireball</td>
-							<td><span class="badge bg-danger">Cancelled</span></td>
-							<td class="d-none d-md-table-cell">William Harris</td>
-						</tr>
-						<tr>
-							<td>Project Hades</td>
-							<td><span class="badge bg-success">Done</span></td>
-							<td class="d-none d-md-table-cell">Sharon Lessman</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -159,18 +196,20 @@ display:inline;
 
 <!-- 병원 위치, 오시는길/영업일시 -->
 	<div class="row">
-		<div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
-			<div class="card flex-fill w-100">
+		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
+			<div class="card flex-fill">
 				<div class="card-header">
 					<h5 class="card-title mb-0">병원 위치</h5>
 				</div>
 				<div class="card-body px-4">
-					<div id="world_map" style="height: 350px;"></div>
+					<div id="map_canvas" style="width: 330px; height: 350px;"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	
+
+
+
 </body>
 </html>

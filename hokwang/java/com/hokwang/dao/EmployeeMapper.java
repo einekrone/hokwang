@@ -1,6 +1,7 @@
 package com.hokwang.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
@@ -30,6 +31,6 @@ public interface EmployeeMapper {
 	public MessageVO checkFinal(MessageVO vo); 
 	public void updateYn(MessageVO vo);
 	public TempmessageVO checkTempFinal(TempmessageVO vo); 
-	public void deleteMsg(MessageVO vo);
+	//모바일
+	public List<EmployeeVO> getEmpInfo();
 }
-

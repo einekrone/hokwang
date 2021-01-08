@@ -6,6 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <style type="text/css">
 .card-header, .card-body, .card-footer {
 	padding: 0.5rem !important;
@@ -16,6 +19,7 @@ td {
 	width: 100px;
 }
 </style>
+
 <script type="text/javascript">
 	$(function() {
 		if('${resvType}' == 'today') {
@@ -30,8 +34,6 @@ td {
 					$("#resvTime").css("display", "block");
 				});
 
-		var dateSelector = document.querySelector('.dateSelector');
-		dateSelector.flatpickr();
 		console.log(".dateSelector : " + $(".dateSelector").val())
 
 		// 		$("#xxx span").text();
@@ -43,10 +45,40 @@ td {
 				$("#wMedi").css("display", "none");
 			}
 		});
+		
+		$("body").on("click", "#chkTb td", function() {
+			if(!$(this).hasClass("chkTbSel")) {
+				$(this).css("background", "#f6d578");
+				console.log("text : "+$(this).text());
+				$(this).attr("class", "chkTbSel");
+			} else {
+				$(this).removeAttr("class");
+				$(this).css("background", "white");
+			}
+		});
 	});
 </script>
 </head>
 <body>
+	<script>
+      new Swiper('.swiper-container', {
+
+         slidesPerView : 7, // 동시에 보여줄 슬라이드 갯수
+         spaceBetween : 30, // 슬라이드간 간격
+         slidesPerGroup : 1, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+
+         // 그룹수가 맞지 않을 경우 빈칸으로 메우기
+         // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
+         loopFillGroupWithBlank : true,
+         initialSlide:${cal.day-3},
+         loop : false, //  반복
+
+         navigation : { // 네비게이션
+            nextEl : '.swiper-button-next', // 다음 버튼 클래스명
+            prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
+         },
+      });
+   </script>
 	<h1 class="h3 mb-3">예약 페이지</h1>
 	<div class="row">
 		<div class="col-12">
@@ -67,15 +99,81 @@ td {
 				</div>
 			</div>
 
+			<div class="card">
+				<div class="card-body">
+					<div class="swiper-container" style="margin: 40px">
+						<div class="swiper-wrapper" style="cursor: point;">
+							<c:set var="week" value="${cal.getIDayOfWeek()}" />
+							<c:forEach begin="1" end="${cal.lastDate }" var="i">
+								<div class="swiper-slide" style="hover: blue; cursor: point;">
+									<a href="#">
+										<div style="<c:if test="${i == cal.day }">background-color:purple; color:white;</c:if>; width:130px; border-radius: 10px; ">
+											<c:choose>
+												<c:when test="${i % 7 == 3 }">
+													<p style="color: red">${i}
+												</c:when>
+												<c:when test="${i % 7 == 2 }">
+													<p style="color: blue">${i}
+												</c:when>
+												<c:otherwise>
+													<p>${i}
+												</c:otherwise>
+											</c:choose>
+											<br>
+											<div style="font-size: 14px;">
+												<c:choose>
+													<c:when test="${ week == 1}">
+														<p style="color: red;">일</p>
+													</c:when>
+													<c:when test="${ week == 2}">
+														<p>월</p>
+													</c:when>
+													<c:when test="${ week == 3}">
+														<p>화</p>
+													</c:when>
+													<c:when test="${ week == 4}">
+														<p>수</p>
+													</c:when>
+													<c:when test="${ week == 5}">
+														<p>목</p>
+													</c:when>
+													<c:when test="${ week == 6}">
+														<p>금</p>
+													</c:when>
+													<c:when test="${ week == 7}">
+														<p style="color: blue;">토</p>
+													</c:when>
+												</c:choose>
+												<c:set var="week"
+													value="${(week+1) == 7 ? 7 : (week+1)% 7 }" />
+											</div>
+										</div>
+									</a>
+								</div>
+							</c:forEach>
+
+						</div>
+
+						<!-- 네비게이션 -->
+						<div class="swiper-button-next"></div>
+						<!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+						<div class="swiper-button-prev"></div>
+						<!-- 이전 버튼 -->
+						<!-- 페이징 -->
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+			</div>
+
 			<!-- <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1"> -->
 			<div class="card flex-fill">
 				<c:if test="${resvType == 'prio'}">
 					<div class="card-header">
-						<h5 class="card-title" style="font-weight: bold; font-size: 15px;">예약 일시</h5>
+						<h5 class="card-title" style="font-weight: bold; font-size: 15px;">
+							예약 일시</h5>
 					</div>
 					<div class="card-body d-flex">
 						<div class="align-self-center w-100">
-							<input class="dateSelector">
 							<div class="chart">
 								<div id="datetimepicker-dashboard"></div>
 							</div>
@@ -152,7 +250,7 @@ td {
 				</div>
 				<div class="card-body">
 					<table align="center" border="1"
-						style="border-collapse: collapse; width: 100%;">
+						style="border-collapse: collapse; width: 100%;" id="chkTb">
 						<tr>
 							<td>발진</td>
 							<td>가려움증</td>

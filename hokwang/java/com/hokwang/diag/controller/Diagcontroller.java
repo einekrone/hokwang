@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,15 +94,10 @@ public class Diagcontroller {
 		return diagDao.getMedineList(vo);
 	}
 	
-	//진료종료시 진단서,처방전 입력
+	//처방전 인설트
 	@ResponseBody
-	@RequestMapping("/ajax/EndInsertDiagnosis")
-	public Map<String, Object> EndInsertDiagnosis(PrescriptionVO PreVo,DiagnosisVO diagVo,Reservation resvVo){
-		Map<String,Object> map = new HashMap<String,Object>();
-		diagDao.insertDiagList(diagVo);
-		diagDao.insertPres(PreVo);
-		diagDao.UpdateDiagStatus(resvVo);
-		return map;
-		
+	@RequestMapping("/ajax/insertPres")
+	public int insertPres(PrescriptionVO vo) {
+	return diagDao.insertPres(vo);
 	}
 }

@@ -26,7 +26,10 @@ public interface DiagMapper {
 	public List<DiseaseVO> getDisease(DiseaseVO vo);
 	public List<MedicineVO> getMedineList(MedicineVO vo);
 	public int insertDiagList(DiagnosisVO vo);
+	
 	public int insertPres(PrescriptionVO vo);
+	public List<PrescriptionVO> getPrescription(PrescriptionVO vo);
+	
 	public int UpdateDiagStatus(Reservation vo);
 	
 	

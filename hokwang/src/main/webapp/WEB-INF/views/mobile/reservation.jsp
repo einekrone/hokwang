@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 
-<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <style type="text/css">
 .card-header, .card-body, .card-footer {
 	padding: 0.5rem !important;
@@ -25,6 +27,18 @@ td {
 		if('${resvType}' == 'today') {
 			$("#resvTime").css("display", "block");
 		}
+		
+		$("input[name=resvTypeSel]").on("click", function() {
+			var chkVal = $('input[name="resvTypeSel"]:checked').val();
+
+			if(chkVal == "vac"){
+				console.log("접종");
+				$("#resvTypeDiv").css("display", "block");
+			} else {
+				console.log("일반");
+				$("#resvTypeDiv").css("display", "none");
+			}
+		});
 		
 		$(".flatpickr-days").on(
 				"click",
@@ -46,14 +60,17 @@ td {
 			}
 		});
 		
+		var chkTbArr = [];
 		$("body").on("click", "#chkTb td", function() {
-			if(!$(this).hasClass("chkTbSel")) {
+			var val = $(this).text();
+			if(!$(this).hasClass("chkTbSel") && $(this).text()!= "") {
 				$(this).css("background", "#f6d578");
-				console.log("text : "+$(this).text());
 				$(this).attr("class", "chkTbSel");
+				chkTbArr.push(val);
 			} else {
 				$(this).removeAttr("class");
 				$(this).css("background", "white");
+				chkTbArr.splice(chkTbArr.indexOf(val),1);
 			}
 		});
 	});
@@ -98,58 +115,76 @@ td {
 						style="float: left; margin-left: 10px; width: 240px;" readonly>자녀 정보</textarea>
 				</div>
 			</div>
+			<div class="card">
+				<div class="card-body">
+					<div style="display: block;">
+						<label class="form-check"> <input name="resvTypeSel"
+							type="radio" class="form-check-input" value="normal"> <span
+							class="form-check-label">일반 검진</span>
+						</label> <label class="form-check"> <input name="resvTypeSel"
+							type="radio" class="form-check-input" value="vac"> <span
+							class="form-check-label">예방 접종</span>
+						</label>
+					</div>
+					<div style="display: none;" id="resvTypeDiv">
+						<select class="form-control mb-3">
+							<option selected="">접종항목</option>
+							<option>One</option>
+							<option>Two</option>
+							<option>Three</option>
+						</select>
+					</div>
+				</div>
+			</div>
 
 			<div class="card">
 				<div class="card-body">
 					<div class="swiper-container" style="margin: 40px">
+
 						<div class="swiper-wrapper" style="cursor: point;">
+						${cal.getIDayOfWeek()}
 							<c:set var="week" value="${cal.getIDayOfWeek()}" />
+
 							<c:forEach begin="1" end="${cal.lastDate }" var="i">
-								<div class="swiper-slide" style="hover: blue; cursor: point;">
-									<a href="#">
-										<div style="<c:if test="${i == cal.day }">background-color:purple; color:white;</c:if>; width:130px; border-radius: 10px; ">
+
+								<div class="swiper-slide" style="hover: #314d9f; cursor: point;">
+									<fmt:formatNumber var="no" minIntegerDigits="2" value="${i}" />
+
+<%-- 									<a href="match?m_date=${date}-${no}"> --%>
+										<div class="aa"
+											style="<c:if test="${i == m_dat }">background-color:#314d9f; color:white;</c:if>;">
+
+											<c:set var="weeklist"
+												value='<%=new String[]{"일", "월", "화", "수", "목", "금", "토"}%>' />
+
 											<c:choose>
-												<c:when test="${i % 7 == 3 }">
-													<p style="color: red">${i}
+												<c:when test="${i == m_dat }">
+													<c:set var="selcol" value="ww" />
 												</c:when>
-												<c:when test="${i % 7 == 2 }">
-													<p style="color: blue">${i}
+												<c:when test="${week % 7 == 1 }">
+													<c:set var="selcol" value="rr" />
+												</c:when>
+												<c:when test="${week % 7 == 0 }">
+													<c:set var="selcol" value="bb" />
 												</c:when>
 												<c:otherwise>
-													<p>${i}
+													<c:set var="selcol" value="blackk" />
 												</c:otherwise>
 											</c:choose>
+
+											<p class="${selcol}">${i}</p>
 											<br>
 											<div style="font-size: 14px;">
-												<c:choose>
-													<c:when test="${ week == 1}">
-														<p style="color: red;">일</p>
-													</c:when>
-													<c:when test="${ week == 2}">
-														<p>월</p>
-													</c:when>
-													<c:when test="${ week == 3}">
-														<p>화</p>
-													</c:when>
-													<c:when test="${ week == 4}">
-														<p>수</p>
-													</c:when>
-													<c:when test="${ week == 5}">
-														<p>목</p>
-													</c:when>
-													<c:when test="${ week == 6}">
-														<p>금</p>
-													</c:when>
-													<c:when test="${ week == 7}">
-														<p style="color: blue;">토</p>
-													</c:when>
-												</c:choose>
+												<p class="${selcol}">
+													<c:out value="${weeklist[week-1] }" />
+												</p>
 												<c:set var="week"
 													value="${(week+1) == 7 ? 7 : (week+1)% 7 }" />
 											</div>
 										</div>
-									</a>
+<!-- 									</a> -->
 								</div>
+
 							</c:forEach>
 
 						</div>
@@ -162,6 +197,7 @@ td {
 						<!-- 페이징 -->
 						<div class="swiper-pagination"></div>
 					</div>
+
 				</div>
 			</div>
 

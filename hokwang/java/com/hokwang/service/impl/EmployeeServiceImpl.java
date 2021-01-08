@@ -152,4 +152,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.checkTempFinal(vo);
 	}
 	
+	@Override
+	public void deleteMsg(MessageVO vo) {
+		EmpDAO.deleteMsg(vo);
+	}
+	
+	
+	
 }

@@ -7,7 +7,8 @@
 	<update id="updateUser" parameterType="EmployeeVO">
 		<if test="emp_profile != null and emp_profile !=''">
 			update employee set emp_profile=#{emp_profile}
-			where emp_no = #{emp_no}
+			where emp_no
+			= #{emp_no}
 		</if>
 	</update>
 
@@ -129,9 +130,7 @@
 		select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
-		select
-		EMP_SENDNO from message where emp_resvno=#{emp_no})
+		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_RESVNO=#{emp_no}
 	</select>
 
 	<!-- asd -->
@@ -151,13 +150,11 @@
 
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
-		select
+        select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_SENDNO in(
-		select
-		EMP_SENDNO from message where emp_resvno=#{emp_no} and
-		m.msg_yn='N')
+		e,message m where e.EMP_NO=m.EMP_SENDNO and m.EMP_RESVNO=#{emp_no} and m.msg_yn='N'
+		
 	</select>
 
 	<select id="sendTotalMsg" parameterType="employeeVO"
@@ -216,18 +213,23 @@
 		select * from
 		message where msg_no=#{msg_no}
 	</select>
-	
-	
+
+
 	<update id="updateYn" parameterType="messageVO">
-		update message set msg_yn = 'Y' where MSG_NO=#{msg_no}
+		update message set msg_yn =
+		'Y' where MSG_NO=#{msg_no}
 	</update>
-	
-	
+
+
 	<select id="checkTempFinal" parameterType="tempmessageVO"
 		resultType="tempmessageVO">
 		select * from
 		tempmessage where temp_no=#{temp_no}
 	</select>
-	
+
+	<delete id="deleteMsg" parameterType="messageVO">
+		delete from message where msg_no = #{msg_no}
+	</delete>
+
 
 </mapper>

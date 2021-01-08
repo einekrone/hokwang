@@ -158,7 +158,12 @@ public class MypageController {
 	}
 	
 	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteMsg")
+	public boolean deleteMsg(Model model, MessageVO vo) {
+		dao.deleteMsg(vo);
+		return true;
+	}
 	
 	
 }

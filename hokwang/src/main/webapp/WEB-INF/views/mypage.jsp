@@ -180,7 +180,8 @@
 		firstMsg();
 		writeTempMsg();
 		btnModal();
-		ClickTable()
+		//ClickTable()
+		//deleteMsg();
 		
 
 		$("#uf").on(
@@ -354,6 +355,10 @@
 				success : function(data) {
 					alert("전송되었습니다.");
 					AllCntMsg();
+					$('#dataTab1').DataTable().ajax.reload();
+					$('#dataTab2').DataTable().ajax.reload();
+					$('#dataTab3').DataTable().ajax.reload();
+					$('#dataTab4').DataTable().ajax.reload();
 				}
 			});
 		})
@@ -499,6 +504,26 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab1').DataTable().ajax.reload();
+					
+					$('button[name=btnDelete]').on('click',function(){
+						console.log(data.msg_no);
+						$.ajax({
+							url : "ajax/deleteMsg",
+							type : 'POST',
+							/* dataType : 'json', */
+							data : {
+								msg_no : data.msg_no
+							},
+							error : function(xhr, status, msg) {
+								alert("상태값 :" + status + " Http에러메시지 :" + msg);
+							},
+							success : function(data) {
+								alert("삭제되었습니다.");
+								AllCntMsg();
+								$('#dataTab1').DataTable().ajax.reload();
+							}
+						});
+					})
 				}
 			});		
 		})
@@ -525,7 +550,25 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab2').DataTable().ajax.reload();
-				
+					$('button[name=btnDelete]').on('click',function(){
+						console.log("삭제버튼 클릭");
+						$.ajax({
+							url : "ajax/deleteMsg",
+							type : 'POST',
+							/* dataType : 'json', */
+							data : {
+								mgs_no : data.msg_no
+							},
+							error : function(xhr, status, msg) {
+								alert("상태값 :" + status + " Http에러메시지 :" + msg);
+							},
+							success : function(data) {
+								alert("삭제되었습니다.");
+								AllCntMsg();
+								$('#dataTab2').DataTable().ajax.reload();
+							}
+						});
+					})
 				}
 			});
 			
@@ -550,7 +593,27 @@
 					console.log(data);					  
 					modal.find('#recipient-name3').val(data.emp_resvno);
 					modal.find('#message-text3').html(data.msg_cont);
-					modal.modal('show');	
+					modal.modal('show');
+					
+					$('#btnDeleteT').on('click',function(){
+						console.log("삭제버튼 클릭");
+						$.ajax({
+							url : "ajax/deleteMsg",
+							type : 'POST',
+							/* dataType : 'json', */
+							data : {
+								msg_no : data.msg_no
+							},
+							error : function(xhr, status, msg) {
+								alert("상태값 :" + status + " Http에러메시지 :" + msg);
+							},
+							success : function(data) {
+								alert("삭제되었습니다.");
+								AllCntMsg();
+								$('#dataTab3').DataTable().ajax.reload();
+							}
+						});
+					})
 				
 				}
 			});
@@ -583,12 +646,14 @@
 			
 			
 			
-		})
-		
-		
-	
-		
+		})	
 	}
+	
+	
+	
+	
+	
+	
 	
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
@@ -818,8 +883,8 @@
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
-											<th class="tl">사원번호</th>
-											<th class="tl">보내는사람</th>
+											<th class="tl">사원 번호</th>
+											<th class="tl">보낸 사람</th>
 											<th class="tl">내용</th>
 											<th class="tc">날짜</th>
 											<th class="tc">수신여부</th>
@@ -836,8 +901,8 @@
 								<table id="dataTab2">
 									<thead>
 										<tr>
-											<th width='15%' class="tl">사원번호</th>
-											<th width='15%' class="tl">보내는사람</th>
+											<th width='15%' class="tl">사원 번호</th>
+											<th width='15%' class="tl">보낸 사람</th>
 											<th width='55%' class="tl">내용</th>
 											<th width='15%' class="tc">날짜</th>
 											<th width='20%' class="tc">히든</th>
@@ -854,8 +919,8 @@
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
-											<th width='15%' class="tl">사원번호</th>
-											<th width='15%' class="tl">받는사람</th>
+											<th width='15%' class="tl">사원 번호</th>
+											<th width='15%' class="tl">받는 사람</th>
 											<th width='55%' class="tl">내용</th>
 											<th width='15%' class="tc">날짜</th>
 											<th width='20%' class="tc">히든</th>
@@ -870,7 +935,7 @@
 								<table id="dataTab4">
 									<thead>
 										<tr>
-											<th width='15%' class="tl">받는사원번호</th>
+											<th width='15%' class="tl">받는 사원번호</th>
 											<th width='65%' class="tl">내용</th>
 											<th width='20%' class="tc">날짜</th>
 											<th width='20%' class="tc">히든</th>
@@ -1090,7 +1155,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" id="btnDelete"
+						<button type="button" class="btn btn-secondary" id="btnDeleteT"
 							name="btnDelete">삭제</button>
 					</div>
 				</div>

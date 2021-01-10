@@ -154,8 +154,8 @@
 				},
 				success : function(result){
 					dignosisDetailResult(result.medicine);
-					dignosisDetailResult2(result.diag2);
 					dignosisDetailResult3(result.diag3);
+					dignosisDetailResult2(result.diag2);
 					
 					
 				} 

@@ -117,8 +117,9 @@ $(function(){
 		<div class="col-auto ml-auto text-right mt-n1">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-					<input type="button" class="btn btn-primary btn-sm" value="모바일 아기 수첩">
+					
 				</ol>
+				<input type="button" class="btn btn-primary btn-sm" value="모바일 아기 수첩" onclick="location.href='babyDiary'"/>
 			</nav>
 		</div>
 	</div>

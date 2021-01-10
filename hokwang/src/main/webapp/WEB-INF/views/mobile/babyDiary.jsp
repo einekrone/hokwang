@@ -21,8 +21,36 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link
+	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./resources/json.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+<%-- <script
+	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script> --%>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <style>
 #card1 {
@@ -63,46 +91,48 @@
 	font-family: 'Trebuchet MS', serif;
 	line-height: 1.6
 }
+
 }
-ul.tabs{
+ul.tabs {
 	margin: 0px;
 	padding: 0px;
 	list-style: none;
 }
 
-ul.tabs li{
-  display: inline-block;
+ul.tabs li {
+	display: inline-block;
 	background: #898989;
 	color: white;
 	padding: 10px 15px;
 	cursor: pointer;
 }
 
-ul.tabs li.current{
+ul.tabs li.current {
 	background: #e0e0e0;
 	color: #222;
 }
 
-.tab-content{
-  display: none;
+.tab-content {
+	display: none;
 	background: #ffffff;
 	padding: 12px;
 }
-.tab-content.current{
+
+.tab-content.current {
 	display: inherit;
 }
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-
-		$('ul.tabs li').click(function() { //선택자를 통해 tabs 메뉴를 클릭 이벤트를 지정해줍니다.
-			var tab_id = $(this).attr('data-tab');
+		$('#myTab a').on('click', function(e) {
+			e.preventDefault()
+			$(this).tab('show')
+			$('#home').tab('show')
+		})
 		
-			$('ul.tabs li').removeClass('current'); //선택 되있던 탭의 current css를 제거하고 
-			$('.tab-content').removeClass('current');
-
-			$(this).addClass('current'); ////선택된 탭에 current class를 삽입해줍니다.
-			$("#" + tab_id).addClass('current');
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+			e.target // newly activated tab
+			e.relatedTarget // previous active tab
 		})
 	});
 </script>
@@ -112,15 +142,13 @@ ul.tabs li.current{
 	<div class="row">
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div class="card-header">
 					<div>여기사진들어갈곳</div>
 					<input type="button" class="card-title mb-0" value="예약하기">
-				</div>
 			</div>
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">
-			<div class="card flex-fill">
-				<div class="card-header">
+			<div class="card flex-fill" >
+				<div>
 					<h5 class="card-title mb-0">이름</h5>
 					<br> <br>
 					<h5 class="card-title mb-0">생년월일</h5>
@@ -135,31 +163,35 @@ ul.tabs li.current{
 	<!-- 2 -->
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
-			<div class="card flex-fill">
-				<div class="card-body px-4 " style="height: 300px;">
-					<div class="container">
-						<!-- 탭 메뉴 상단 시작 -->
-						<ul class="tabs">
-							<li class="tab-link current" data-tab="tab-1">메뉴_하나</li>
-							<li class="tab-link" data-tab="tab-2">메뉴_둘</li>
-							<li class="tab-link" data-tab="tab-3">메뉴_셋</li>
-						</ul>
-						<!-- 탭 메뉴 상단 끝 -->
-						<!-- 탭 메뉴 내용 시작 -->
-						<div id="tab-1" class="tab-content current">
-							<h1>탭 메뉴 1 내용입니다.</h1>
-						</div>
-						<div id="tab-2" class="tab-content">
-								<h1>탭 메뉴 2 내용입니다.</h1>
-						</div>
-						<div id="tab-3" class="tab-content">
-							<h1>탭 메뉴 3 내용입니다.</h1>
-						</div>
-						<!-- 탭 메뉴 내용 끝 -->
-					</div>
+			<div class="card flex-fill" style="height: 400px;">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item"><a class="nav-link active" id="home-tab"
+						data-toggle="tab" href="#home" role="tab" aria-controls="home"
+						aria-selected="true">Home</a></li>
+					<li class="nav-item"><a class="nav-link" id="profile-tab"
+						data-toggle="tab" href="#profile" role="tab"
+						aria-controls="profile" aria-selected="false">Profile</a></li>
+					<li class="nav-item"><a class="nav-link" id="messages-tab"
+						data-toggle="tab" href="#messages" role="tab"
+						aria-controls="messages" aria-selected="false">Messages</a></li>
+					<li class="nav-item"><a class="nav-link" id="settings-tab"
+						data-toggle="tab" href="#settings" role="tab"
+						aria-controls="settings" aria-selected="false">Settings</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel"
+						aria-labelledby="home-tab"><a>1111111111111111111111111111></a></div>
+					<div class="tab-pane" id="profile" role="tabpanel"
+						aria-labelledby="profile-tab">2</div>
+					<div class="tab-pane" id="messages" role="tabpanel"
+						aria-labelledby="messages-tab">3</div>
+					<div class="tab-pane" id="settings" role="tabpanel"
+						aria-labelledby="settings-tab">4</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>

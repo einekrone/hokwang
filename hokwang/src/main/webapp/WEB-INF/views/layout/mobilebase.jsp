@@ -61,12 +61,12 @@
 					</a></li>
 					<li class="sidebar-item"><a class="sidebar-link" href="child">
 							<i class="align-middle" data-feather="book"></i> <span
-							class="align-middle">자녀관리</span>
+							class="align-middle">자녀 관리</span>
 					</a></li>
 
 					<li class="sidebar-item"><a class="sidebar-link" href="pay">
 							<i class="align-middle" data-feather="credit-card"></i> <span
-							class="align-middle">결제내역</span>
+							class="align-middle">결제 관리</span>
 					</a></li>
 
 					<li class="sidebar-item"><a class="sidebar-link" href="doc">
@@ -77,7 +77,7 @@
 					<li class="sidebar-item"><a href="#resv"
 						data-toggle="collapse" class="sidebar-link collapsed"> <i
 							class="align-middle" data-feather="users"></i> <span
-							class="align-middle">예약관리</span>
+							class="align-middle">예약 관리</span>
 					</a>
 						<ul id="resv" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">

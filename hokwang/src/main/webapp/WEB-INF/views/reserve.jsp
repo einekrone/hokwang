@@ -140,7 +140,6 @@ button {
 			$.ajax({
 				url : 'ajax/payUpdate',
 				type : 'POST',
-				dataType : 'json',
 				data : {
 					pay_no : payNo
 				},
@@ -165,7 +164,7 @@ button {
 
 	// 진료실 이동
 	function roomMove(resvNo) {
-		var offSel = $(".officeSel option:selected").val();
+		var offSel = $("#officeSel"+resvNo+" option:selected").val();
 		console.log("change : " + offSel);
 		if (offSel != "-") {
 			console.log("진료실로 이동");
@@ -187,7 +186,6 @@ button {
 			$.ajax({
 				url : 'ajax/roomUpdate',
 				type : 'POST',
-				dataType : 'json',
 				data : {
 					resv_no : resvNo,
 					resv_room : offSel
@@ -212,7 +210,6 @@ button {
 		$.ajax({
 			url : 'ajax/payInfo',
 			type : 'GET',
-			dataType : 'json',
 			data : {
 				pay_no : payNo
 			},
@@ -243,7 +240,6 @@ button {
 			$.ajax({
 				url : 'ajax/imgList',
 				type : 'GET',
-				dataType : 'json',
 				data : {
 					resv_no : $("#resv_no").val()
 				},
@@ -293,7 +289,6 @@ button {
 					type : 'POST',
 					processData : false,
 					contentType : false,
-					dataType : 'json',
 					data : formData,
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -329,7 +324,6 @@ button {
 				$.ajax({
 					url : 'ajax/imgDelete',
 					method : 'post',
-					dataType : 'json',
 					data : {
 						delArr : delArr
 					},
@@ -358,7 +352,6 @@ button {
 		$.ajax({
 			url : 'ajax/nonPayList',
 			type : 'GET',
-			dataType : 'json',
 			data : {
 				searchType : searchType,
 				keyword : keyword
@@ -457,7 +450,6 @@ button {
 		$.ajax({
 			url : 'ajax/resvList',
 			type : 'GET',
-			dataType : 'json',
 			data : {
 				searchType : searchType,
 				keyword : keyword
@@ -538,7 +530,6 @@ button {
 				data : {
 					resv_no : td.eq(0).text()
 				},
-				dataType : 'json',
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
@@ -567,7 +558,6 @@ button {
 				data : {
 					baby_no : td.eq(5).text()
 				},
-				dataType : 'json',
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
@@ -579,7 +569,6 @@ button {
 				data : {
 					baby_no : td.eq(5).text()
 				},
-				dataType : 'json',
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},

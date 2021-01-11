@@ -9,6 +9,5 @@ public class CheckupVO {//검진
 	String chk_name;//접종명
 	String chk_total;//총 차수
 	String chk_desc;//설명
-	String chk_code;//검진코드
 
 }

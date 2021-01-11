@@ -11,8 +11,6 @@ public class PrescriptionVO {//처방전
 	String pres_account;//투여량(알약 수)
 	String pres_total;//투여 일수(총 투약일수)
 	Date pres_date;//처방 일시
-	String diag_no;//진료 번호
+	String resv_no;//예약 번호
 	String medi_no; //약번호
-
-
 }

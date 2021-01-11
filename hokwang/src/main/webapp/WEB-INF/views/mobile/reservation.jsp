@@ -8,9 +8,10 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style type="text/css">
 .card-header, .card-body, .card-footer {
 	padding: 0.5rem !important;
@@ -24,33 +25,59 @@ td {
 
 <script type="text/javascript">
 	$(function() {
-		if('${resvType}' == 'today') {
+		childList();
+
+		$("#resvBtn").on("click", function() {
+			if ($(':radio[name="resvTypeSel"]:checked').length < 1) {
+				alert("예약 상태를 선택해 주세요");
+				$("input[name=resvTypeSel]").focus();
+				return;
+			} else {
+				if ($('input[name="resvTypeSel"]:checked').val() == "vac") {
+
+				}
+			}
+		});
+
+		if ('${resvType}' == 'today') {
 			$("#resvTime").css("display", "block");
 		}
-		
+
 		$("input[name=resvTypeSel]").on("click", function() {
 			var chkVal = $('input[name="resvTypeSel"]:checked').val();
 
-			if(chkVal == "vac"){
-				console.log("접종");
+			if (chkVal == "vac") {
 				$("#resvTypeDiv").css("display", "block");
+				$.ajax({
+					url : 'ajax/vacList',
+					type : 'GET',
+					// 			data : {parent_no: ~~},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						$.each(data, function(idx, item) {
+							$("#vacSel").append(
+									$('<option>').attr("value", item.chk_no).html(
+											item.chk_name));
+						});
+					}
+				});
+				
 			} else {
-				console.log("일반");
 				$("#resvTypeDiv").css("display", "none");
 			}
 		});
-		
-		$(".flatpickr-days").on(
-				"click",
-				function() {
-					console.log("flatpickr-day : "
-							+ $(".selected").attr("aria-label"));
-					$("#resvTime").css("display", "block");
-				});
 
-		console.log(".dateSelector : " + $(".dateSelector").val())
+		$("input[name=resvTimeSel]").on("click", function() {
+			var chkVal = $('input[name="resvTimeSel"]:checked').val();
+			console.log("chkVal : " + chkVal);
+		});
 
-		// 		$("#xxx span").text();
+		$(".selector").on("change", function() {
+			console.log("date : " + $(".selector").val());
+			$("#resvTime").css("display", "block");
+		});
 
 		$("#wMediBtn").on("click", function() {
 			if ($("#wMedi").css("display") == "none") {
@@ -59,60 +86,89 @@ td {
 				$("#wMedi").css("display", "none");
 			}
 		});
-		
+
 		var chkTbArr = [];
 		$("body").on("click", "#chkTb td", function() {
 			var val = $(this).text();
-			if(!$(this).hasClass("chkTbSel") && $(this).text()!= "") {
+			if (!$(this).hasClass("chkTbSel") && $(this).text() != "") {
 				$(this).css("background", "#f6d578");
 				$(this).attr("class", "chkTbSel");
 				chkTbArr.push(val);
 			} else {
 				$(this).removeAttr("class");
 				$(this).css("background", "white");
-				chkTbArr.splice(chkTbArr.indexOf(val),1);
+				chkTbArr.splice(chkTbArr.indexOf(val), 1);
 			}
 		});
 	});
+
+	function childList() {
+		$.ajax({
+			url : 'ajax/childList',
+			type : 'GET',
+			// 			data : {parent_no: ~~},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#childSel").append(
+							$('<option>').attr("value", item.baby_no).html(
+									item.baby_name));
+				});
+			}
+		});
+	}
+
+	function chgChild() {
+		var babyNo = $('#childSel option:selected').val();
+		$.ajax({
+			url : 'ajax/childList',
+			type : 'GET',
+			data : {
+				// 	parent_no:
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#childInfo").empty();
+					$("#childInfo").append(
+							$('<p>').html(
+									'이름 : ' + item.baby_name + " (" + item.baby_blood
+											+ "형, " + item.baby_gender + ")")).append(
+							$('<p>').html('주민번호 : ' + item.baby_regno1 + '-' + item.baby_regno2))
+							.append($('<p>').html('방문 여부 : ' + item.baby_visit));
+
+					$("#childImg").attr("src", "${pageContext.request.contextPath}/resources/img/" + item.baby_pic);
+				});
+			}
+		});
+	}
+	
+	function chgVac() {
+		var vacNo = $('#vacSel option:selected').val();
+		console.log("vacNo : "+vacNo);
+	}
 </script>
 </head>
 <body>
-	<script>
-      new Swiper('.swiper-container', {
-
-         slidesPerView : 7, // 동시에 보여줄 슬라이드 갯수
-         spaceBetween : 30, // 슬라이드간 간격
-         slidesPerGroup : 1, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
-
-         // 그룹수가 맞지 않을 경우 빈칸으로 메우기
-         // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
-         loopFillGroupWithBlank : true,
-         initialSlide:${cal.day-3},
-         loop : false, //  반복
-
-         navigation : { // 네비게이션
-            nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-            prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-         },
-      });
-   </script>
 	<h1 class="h3 mb-3">예약 페이지</h1>
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<select class="form-control mb-3">
-						<option selected="">자녀 선택</option>
-						<option>One</option>
-						<option>Two</option>
-						<option>Three</option>
+					<select class="form-control mb-3" style="width: 250px; margin-left:15%;"
+						id="childSel" onchange="chgChild()">
+						<option value="" selected>자녀 선택</option>
 					</select>
 				</div>
 				<div class="card-body">
-					<img src="/hokwang/resources/img/avatar.jpg"
-						style="float: left; border-radius: 50%; height: 100px;">
-					<textarea class="form-control" rows="4"
-						style="float: left; margin-left: 10px; width: 240px;" readonly>자녀 정보</textarea>
+					<img id="childImg"
+						style="float: left; margin-right:10px; border-radius: 50%; height: 100px;">
+					<div id="childInfo" style="text-align:left;"></div>
 				</div>
 			</div>
 			<div class="card">
@@ -127,77 +183,11 @@ td {
 						</label>
 					</div>
 					<div style="display: none;" id="resvTypeDiv">
-						<select class="form-control mb-3">
-							<option selected="">접종항목</option>
-							<option>One</option>
-							<option>Two</option>
-							<option>Three</option>
+						<select class="form-control mb-3" class="vacSel" id="vacSel" onchange="chgVac()"
+							style="width: 250px; margin-left:15%;">
+							<option value="">접종항목</option>
 						</select>
 					</div>
-				</div>
-			</div>
-
-			<div class="card">
-				<div class="card-body">
-					<div class="swiper-container" style="margin: 40px">
-
-						<div class="swiper-wrapper" style="cursor: point;">
-						${cal.getIDayOfWeek()}
-							<c:set var="week" value="${cal.getIDayOfWeek()}" />
-
-							<c:forEach begin="1" end="${cal.lastDate }" var="i">
-
-								<div class="swiper-slide" style="hover: #314d9f; cursor: point;">
-									<fmt:formatNumber var="no" minIntegerDigits="2" value="${i}" />
-
-<%-- 									<a href="match?m_date=${date}-${no}"> --%>
-										<div class="aa"
-											style="<c:if test="${i == m_dat }">background-color:#314d9f; color:white;</c:if>;">
-
-											<c:set var="weeklist"
-												value='<%=new String[]{"일", "월", "화", "수", "목", "금", "토"}%>' />
-
-											<c:choose>
-												<c:when test="${i == m_dat }">
-													<c:set var="selcol" value="ww" />
-												</c:when>
-												<c:when test="${week % 7 == 1 }">
-													<c:set var="selcol" value="rr" />
-												</c:when>
-												<c:when test="${week % 7 == 0 }">
-													<c:set var="selcol" value="bb" />
-												</c:when>
-												<c:otherwise>
-													<c:set var="selcol" value="blackk" />
-												</c:otherwise>
-											</c:choose>
-
-											<p class="${selcol}">${i}</p>
-											<br>
-											<div style="font-size: 14px;">
-												<p class="${selcol}">
-													<c:out value="${weeklist[week-1] }" />
-												</p>
-												<c:set var="week"
-													value="${(week+1) == 7 ? 7 : (week+1)% 7 }" />
-											</div>
-										</div>
-<!-- 									</a> -->
-								</div>
-
-							</c:forEach>
-
-						</div>
-
-						<!-- 네비게이션 -->
-						<div class="swiper-button-next"></div>
-						<!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-						<div class="swiper-button-prev"></div>
-						<!-- 이전 버튼 -->
-						<!-- 페이징 -->
-						<div class="swiper-pagination"></div>
-					</div>
-
 				</div>
 			</div>
 
@@ -209,11 +199,20 @@ td {
 							예약 일시</h5>
 					</div>
 					<div class="card-body d-flex">
-						<div class="align-self-center w-100">
-							<div class="chart">
-								<div id="datetimepicker-dashboard"></div>
-							</div>
-						</div>
+						<input type="text" class="selector" placeholder="날짜를 선택하세요."
+							style="margin-left: 30%;" /> <a class="input-button"
+							title="toggle" data-toggle><i class="icon-calendar"></i></a> ​
+
+						<script type="text/javascript">
+							$(".selector").flatpickr({
+								dateFormat : "Y-m-d",
+								minDate : "today",
+								maxDate : new Date().fp_incr(30),
+								disable : [ "2021-01-28", function(date) {
+									return (date.getDay() == 0);
+								} ]
+							});
+						</script>
 					</div>
 				</c:if>
 				<c:if test="${resvType == 'today'}">
@@ -230,49 +229,49 @@ td {
 				<div class="card-footer">
 					<div id="resvTime" style="display: none;">
 						<label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" checked> <span
+							type="radio" class="form-check-input" value="09:00"> <span
 							class="form-check-label">09:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value="09:30"> <span
 							class="form-check-label">09:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">10:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
 							type="radio" class="form-check-input" disabled> <span
 							class="form-check-label" disabled>10:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">11:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">11:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">13:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">14:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">14:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">15:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">15:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">16:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">16:30</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">17:00</span>
 						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input"> <span
+							type="radio" class="form-check-input" value=""> <span
 							class="form-check-label">17:30</span>
 						</label>
 					</div>
@@ -329,27 +328,13 @@ td {
 			</div>
 
 			<div style="text-align: center;">
-				<button class="btn btn-pill btn-success" style="margin-right: 20px;">예약하기</button>
+				<button class="btn btn-pill btn-success" style="margin-right: 20px;"
+					id="resvBtn">예약하기</button>
 				<button class="btn btn-pill btn-secondary"
 					onclick="location.href='child'">취소</button>
 			</div>
 			<!-- </div> -->
 		</div>
 	</div>
-	<script>
-		document
-				.addEventListener(
-						"DOMContentLoaded",
-						function() {
-							document
-									.getElementById("datetimepicker-dashboard")
-									.flatpickr(
-											{
-												inline : true,
-												prevArrow : "<span class=\"fas fa-chevron-left\" title=\"Previous month\"></span>",
-												nextArrow : "<span class=\"fas fa-chevron-right\" title=\"Next month\"></span>",
-											});
-						});
-	</script>
 </body>
 </html>

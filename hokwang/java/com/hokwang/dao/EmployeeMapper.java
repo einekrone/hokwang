@@ -9,28 +9,49 @@ import com.hokwang.vo.TempmessageVO;
 
 public interface EmployeeMapper {
 
-	public EmployeeVO getEmp(EmployeeVO emp_vo); //로그인조회
+	public EmployeeVO getEmp(EmployeeVO emp_vo); // 로그인조회
+
 	public int getCountMsg(EmployeeVO emp_vo);
+
 	public int getTotalCountMsg(EmployeeVO emp_vo);
+
 	public int sendCountMsg(EmployeeVO emp_vo);
+
 	public int tempCountMsg(EmployeeVO emp_vo);
+
 	public void updateInf(EmployeeVO emp_vo);
+
 	public List<MessageVO> showNotReadMsg(EmployeeVO emp_vo);
-	public EmployeeVO findId(EmployeeVO emp_vo); //Id찾기
-	public EmployeeVO findPw(EmployeeVO emp_vo); //Pw찾기
+
+	public EmployeeVO findId(EmployeeVO emp_vo); // Id찾기
+
+	public EmployeeVO findPw(EmployeeVO emp_vo); // Pw찾기
+
 	public List<MessageVO> getTotalMsg(EmployeeVO emp_vo);
+
 	public List<MessageVO> noReadTotalMsg(EmployeeVO emp_vo);
+
 	public List<MessageVO> sendTotalMsg(EmployeeVO emp_vo);
+
 	public List<EmployeeVO> selectEmpInf(EmployeeVO emp_vo);
+
 	public void sendMsgInf(MessageVO vo);
+
 	public void tempMsgInf(TempmessageVO vo);
-	public TempmessageVO checkTemp(TempmessageVO vo); 
-	public int updateUser(EmployeeVO vo); //이미지 수정
+
+	public TempmessageVO checkTemp(TempmessageVO vo);
+
+	public int updateUser(EmployeeVO vo); // 이미지 수정
+
 	public List<MessageVO> sendTotalInf(EmployeeVO vo);
+
 	public List<TempmessageVO> tempTotalMsg(EmployeeVO vo);
-	public MessageVO checkFinal(MessageVO vo); 
+
+	public MessageVO checkFinal(MessageVO vo);
+
 	public void updateYn(MessageVO vo);
-	public TempmessageVO checkTempFinal(TempmessageVO vo); 
-	//모바일
-	public List<EmployeeVO> getEmpInfo();
+
+	public TempmessageVO checkTempFinal(TempmessageVO vo);
+
+	public void deleteMsg(MessageVO vo);
 }

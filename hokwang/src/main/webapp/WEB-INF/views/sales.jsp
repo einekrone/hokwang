@@ -18,7 +18,24 @@
 <script>
 	$(function() {
 		allSales();
+		createChart();
+		Month1()
 	});
+
+	function Month1() {
+		$.ajax({
+			url : "ajax/getMonth1",
+			Type : "POST",
+			dataType : "json",
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + "Http에러메시지 : " + msg);
+			},
+			success : createChart
+
+		});
+	}
+
+	/* allSales() */
 	function allSales() {
 		$.ajax({
 			url : "ajax/allSales",
@@ -48,7 +65,43 @@
 			}
 
 		});
-	}
+	} /* allSales() end */
+
+	/* createChart() */
+	function createChart(data) {
+		
+		var monthdata = data; //bar 입력값 (일,월)	
+		var linedataHalf = []; // line 입력될 데이터값 (연)	
+		//var ctx = document.getElementById("myChart");
+		var ctx = document.getElementsByClassName("myChart");
+		var mixedChart = {
+			type : 'bar',
+			labels : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
+					'10월', '11월', '12월' ],
+			datasets : [ {
+				label : '월 매출',
+				data : monthdata,
+				backgroundColor : 'rgba(256, 0, 0, 0.1)' //bar 차트 색상
+			} ]
+		};
+		var myChart = new Chart(ctx, {
+			type : 'bar',
+			data : mixedChart,
+			options : {
+				legend : {
+					display : true
+				}
+			}
+		}); // var myChart = new Chart(ctx, {  type: 'bar',  data: mixedChart,  options: {  legend: {  display: true  }  }  });
+	} /* createChart() */
+
+	$('#myDropdown').on('show.bs.dropdown', function() {
+
+		$('#myTab a[href="#profile"]').tab('show') // Select tab by name
+		$('#myTab a:first').tab('show') // Select first tab
+		$('#myTab a:last').tab('show') // Select last tab
+		$('#myTab li:eq(2) a').tab('show') // Select third tab (0-indexed)
+	})
 </script>
 
 </head>
@@ -158,47 +211,24 @@
 					<div class="col-md-6" style="flex: 0 0 100%; max-width: 100%;">
 						<div class="card">
 							<div class="card-body">
+								<div class="btn-group">
+									<button type="button" class="btn btn-secondary dropdown-toggle"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">선택</button>
+									<div class="dropdown-menu dropdown-menu-right">
+										<button class="dropdown-item" type="button">2021</button>
+										<button class="dropdown-item" type="button">2020</button>
+										<button class="dropdown-item" type="button">2019</button>
+									</div>
+								</div>
 								<canvas class="myChart"></canvas>
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<!-- 차트 -->
-		<script>
-			const mydata = [ 10, 20, 30, 40 ]; //bar 입력값 (일,월)	
-			const mydataHalf = [ 5, 10, 20, 7 ]; // line 입력될 데이터값 (연)
-			var ctx = document.getElementById("myChart");
-			var ctx = document.getElementsByClassName("myChart");
-			var mixedChart = {
-				type : 'bar',
-				labels : [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-						'11', '12' ],
-				datasets : [ {
-					label : 'Bar Dataset',
-					data : mydata,
-					backgroundColor : 'rgba(256, 0, 0, 0.1)' //bar 차트 색상
-				}, {
-					label : 'Line Dataset',
-					data : mydataHalf,
-					backgroundColor : 'transparent',
-					borderColor : 'skyblue', //line 차트 색상
-					type : 'line'
-				} ]
-			};
-			var myChart = new Chart(ctx, {
-				type : 'bar',
-				data : mixedChart,
-				options : {
-					legend : {
-						display : true
-					}
-				}
-			}); // var myChart = new Chart(ctx, {  type: 'bar',  data: mixedChart,  options: {  legend: {  display: true  }  }  });
-		</script>
-
 	</div>
 
 </body>

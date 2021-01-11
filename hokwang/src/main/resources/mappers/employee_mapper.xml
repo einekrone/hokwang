@@ -7,17 +7,12 @@
 	<update id="updateUser" parameterType="EmployeeVO">
 		<if test="emp_profile != null and emp_profile !=''">
 			update employee set emp_profile=#{emp_profile}
-			where emp_no = #{emp_no}
+			where emp_no
+			= #{emp_no}
 		</if>
 	</update>
 
-	<!-- 의사 조회 -->
-	<select id="getEmpInfo" resultType="EmployeeVO">
-	select emp_name,
-		   emp_room
-	FROM employee
-	WHERE emp_author = 'D'
-	</select>
+
 	<!-- 로그인 단건조회 -->
 	<select id="getEmp" parameterType="employeeVO"
 		resultType="employeeVO">
@@ -124,9 +119,18 @@
 
 	<update id="updateInf" parameterType="employeeVO">
 		update employee set
-		emp_tel=#{emp_tel}
-		,emp_pwd=#{emp_pwd}
-		,emp_addr=#{emp_addr}
+		<if test="emp_tel != null and emp_tel != ''">
+			emp_tel = #{emp_tel}
+		</if>
+		<if test="emp_addr != null and emp_addr != ''">
+			,emp_addr = #{emp_addr}
+		</if>
+		<if test="emp_pwd != null and emp_pwd != ''">
+			,emp_pwd = #{emp_pwd}
+		</if>
+		<if test="emp_profile != null and emp_profile !=''">
+			,emp_profile = #{emp_profile}
+		</if>
 		where emp_no
 		=#{emp_no}
 	</update>
@@ -223,18 +227,24 @@
 		select * from
 		message where msg_no=#{msg_no}
 	</select>
-	
-	
+
+
 	<update id="updateYn" parameterType="messageVO">
-		update message set msg_yn = 'Y' where MSG_NO=#{msg_no}
+		update message set msg_yn =
+		'Y' where MSG_NO=#{msg_no}
 	</update>
-	
-	
+
+
 	<select id="checkTempFinal" parameterType="tempmessageVO"
 		resultType="tempmessageVO">
 		select * from
 		tempmessage where temp_no=#{temp_no}
 	</select>
-	
+
+	<delete id="deleteMsg" parameterType="messageVO">
+		delete from message where
+		msg_no=#{msg_no}
+	</delete>
+
 
 </mapper>

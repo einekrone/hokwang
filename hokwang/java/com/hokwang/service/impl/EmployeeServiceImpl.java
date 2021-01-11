@@ -153,11 +153,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.checkTempFinal(vo);
 	}
 
+	
 	@Override
-	public List<EmployeeVO> getEmpInfo() {
-		// TODO Auto-generated method stub
-		return EmpDAO.getEmpInfo();
+	public void deleteMsg(MessageVO vo) {
+		EmpDAO.deleteMsg(vo);
 	}
+
+	
 
 	
 

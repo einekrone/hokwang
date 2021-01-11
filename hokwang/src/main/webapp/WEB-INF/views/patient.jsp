@@ -17,7 +17,7 @@
 		//dignosisDetail2();//상세진료
 		
 	})
-
+	
 	function patientList(keyword) {
 
 		$.ajax({
@@ -141,23 +141,21 @@
 		$("body").on("click", "#diagnosisRecord tr", function() {
 			var td = $(this).children();
 			console.log("진료내역클릭시 -> 진료기록 요청 dignosisDetail1");
-			console.log("진료번호 : " + td.eq(0).text());
+			console.log("예약번호 : " + td.eq(2).text());
 			$.ajax({
 				url : "ajax/diagDetail",
 				data : {
+					resv_no : td.eq(2).text(),
 					diag_no : td.eq(0).text()
-
 				},
 				dataType : "JSON",
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
 				},
 				success : function(result){
-					dignosisDetailResult(result.medicine);
-					dignosisDetailResult2(result.diag2);
-					dignosisDetailResult3(result.diag3);
-					
-					
+					dignosisDetailResult(result.medicine);//resv_no
+					dignosisDetailResult3(result.diag3);//diag_no
+					dignosisDetailResult2(result.diag2);//diag_no
 				} 
 			});//end of ajax
 

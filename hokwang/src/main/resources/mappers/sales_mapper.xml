@@ -4,20 +4,30 @@
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.dao.SaleMapper">
 	<select id="getDaySales" resultType="integer">
-		select sum(pay_price) from payment where pay_date = TO_CHAR(SYSDATE,'YY/MM/DD')
+		select sum(pay_price) 
+		from payment where pay_date = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
 
 	<select id="getMonthSales" resultType="integer">
-		select sum(pay_price) from payment where TO_CHAR(pay_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
+		select sum(pay_price) 
+		from payment where TO_CHAR(pay_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
 	</select>
 
 	<select id="getYearSales" resultType="integer">
-		select sum(pay_price) from payment where TO_CHAR(pay_date,'YY') = TO_CHAR(SYSDATE,'YY')
+		select sum(pay_price)
+		from payment where TO_CHAR(pay_date,'YY') = TO_CHAR(SYSDATE,'YY')
 	</select>
 
 	<select id="getCountResv" resultType="integer">
-		select count(resv_no) from reservation where resv_date = TO_CHAR(SYSDATE,'YY/MM/DD')
+		select count(resv_no) 
+		from reservation where resv_date = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
-
+	<select id="getMonth1" resultType="integer">
+		select sum(pay_price) 
+		from payment 
+		where diag_no in (select diag_no from diagnosis)
+		 			  and TO_CHAR(PAY_DATE,'YY/MM') BETWEEN '21/01' AND '21/12'
+		 			  GROUP BY TO_CHAR(PAY_DATE,'YY/MM')
+	</select>
 
 </mapper>

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hokwang.service.EmployeeService;
+import com.hokwang.mobile.service.EmployeemService;
 import com.hokwang.vo.EmployeeVO;
 
 @Controller
 public class MainController {
 	@Autowired
-	EmployeeService dao;
+	EmployeemService dao;
 	
 	//의사 조회
 	@ResponseBody

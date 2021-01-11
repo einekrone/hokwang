@@ -153,11 +153,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.checkTempFinal(vo);
 	}
 
-	@Override
-	public List<EmployeeVO> getEmpInfo() {
-		//의사소개
-		return EmpDAO.getEmpInfo();
-	}
+	
 
 	
 

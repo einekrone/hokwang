@@ -11,13 +11,7 @@
 		</if>
 	</update>
 
-	<!-- 의사 조회 -->
-	<select id="getEmpInfo" resultType="EmployeeVO">
-	select emp_name,
-		   emp_room
-	FROM employee
-	WHERE emp_author = 'D'
-	</select>
+	
 	<!-- 로그인 단건조회 -->
 	<select id="getEmp" parameterType="employeeVO"
 		resultType="employeeVO">

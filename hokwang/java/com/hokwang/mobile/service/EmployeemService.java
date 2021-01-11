@@ -1,14 +1,11 @@
-package com.hokwang.mobile.dao;
+package com.hokwang.mobile.service;
 
 import java.util.List;
 
-
 import com.hokwang.vo.EmployeeVO;
 
-
-public interface EmployeemMapper {
+public interface EmployeemService {
 	
 	public List<EmployeeVO> getEmpInfo();
-
 	
 }

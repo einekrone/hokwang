@@ -36,64 +36,10 @@
 
 <script>
 	$(function() {
-		findId();
-		findPw();
+		
 	});
 
-	function findId() {
-		$('#btnId').on("click", function() {
-			$.ajax({
-				url : "ajax/findId",
-				type : "POST",
-				dataType : 'json',
-				data : {
-					emp_name : $('#inputName_1').val(),
-					emp_tel : $('#inputPhone_1').val()
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					if (data.result == true) {
-						$('#resultId').html(data.employeeVO.emp_no);
-						
-					} else {
-						alert("검색결과가 없습니다.")
-					}
-				} 
-			})
-		});
-		$('#btnX').on("click", function(){
-			location.reload();
-		})
-		$('#Cancel').on("click", function(){
-			location.reload();
-		})
-	}
 
-	function findPw() {
-		$('#btnPw').on("click", function() {
-			$.ajax({
-				url : "ajax/findPw",
-				type : "POST",
-				dataType : 'json',
-				data : {
-					emp_no : $('#inputempNo_1').val(),
-					emp_tel : $('#inputemptel_1').val()
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 : " + status + "Http에러메시지 : " + msg);
-				},
-				success : function(data) {
-					if (data.result == true) {
-						$('#resultPw').html(data.employeeVO.emp_pwd);
-					} else {
-						alert("검색결과가 없습니다.")
-					} 
-				}
-			})
-		})
-	}
 </script>
 
 </head>

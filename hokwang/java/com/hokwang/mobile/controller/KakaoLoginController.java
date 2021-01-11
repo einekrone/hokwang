@@ -58,6 +58,7 @@ public class KakaoLoginController {
 		session.setAttribute("kgender", kgender);
 		session.setAttribute("kbirthday", kbirthday);
 		session.setAttribute("kage", kage);
+		System.out.println("aaaaaaaaaaaa"+kemail);
 		mav.setViewName("mobile/main");
 		return mav;
 	}

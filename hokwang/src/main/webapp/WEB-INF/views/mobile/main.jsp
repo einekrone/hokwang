@@ -112,7 +112,8 @@ $(function(){
 		  })
 	  }
 </script>
-
+<body>
+	#{kemail}
 	<div class="row mb-2 mb-xl-3">
 		<div class="col-auto ml-auto text-right mt-n1">
 			<nav aria-label="breadcrumb">

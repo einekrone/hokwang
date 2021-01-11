@@ -57,6 +57,73 @@
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
+.file-upload label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+}
+
+.file-upload input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.file-upload input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.file-upload label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+}
+
+/* named upload */
+.file-upload .upload-name {
+	display: inline-block;
+	padding: .5em .75em; /* label의 패딩값과 일치 */
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
+
 .dataTables_length {
 	display: none;
 }
@@ -170,6 +237,28 @@
 		});
 	})
 
+	
+	$(function(){
+
+     //$('#ex_filename').change(function() {
+     //	var filename = $(this).val();
+     //	$('.upload-name').val(filename);
+     //});
+
+     var fileTarget = $('.file-upload .upload-hidden');
+
+     fileTarget.on('change', function(){  // 값이 변경되면
+          if(window.FileReader){  // modern browser
+               var filename = $(this)[0].files[0].name;
+          } 
+          else {  // old IE
+               var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
+          }
+
+          // 추출한 파일명 삽입
+          $(this).siblings('.upload-name').val(filename);
+     });
+}); 
 
 
 	$(function() {
@@ -184,6 +273,7 @@
 		//deleteMsg();
 		
 
+		
 		$("#uf").on(
 	            'change',
 	            function(e) {
@@ -242,13 +332,13 @@
 
 	                        $('#img').attr('src', e.target.result);
 	                        $('#img').attr('style',
-	                              "width:300px; height: 350px");
+	                              "width:150px; height: 160px");
 	                     }
 	                     reader.readAsDataURL(f);
 	                  } else {
 	                     $('#img').attr('src', e.target.result);
 	                     $('#img').attr('style',
-	                           "width:300px; height: 350px");
+	                           "width:150px; height: 160px");
 	                  }
 	               });//arr.forEach
 	      }
@@ -756,27 +846,32 @@
 					<div class="row" id="row">
 
 						<div class="col-xl-6 col-md-6 mb-4 card">
-							<div class="card-body">
+							<div class="card-body" style="padding-top: 2.5rem;">
 								<div style="float: left;">
 									<form action="updateUser" method="post"
 										encType="multipart/form-data">
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
-										<table>
+										<table style="margin: auto;">
 											<!-- 이미지 파일 -->
 											<tr>
 												<td><img id='img'
 													src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
-													style="width: 150px; height: 160px"><br> <!-- 첨부파일 -->
-													<input id='uf' type="file" name="uploadFile" /><br /> <input
-													type="submit" value="저장"></td>
+													class="img-fluid rounded-circle mb-2"
+													style="width: 150px; height: 160px"> <!-- 첨부파일 -->
 												<td class="content" style="margin: 10px;">
 											</tr>
 										</table>
+										<div class="btn-group file-upload btn-group-toggle">
+											<input type="text" class="upload-name" value="파일선택" disabled="disabled" /> 
+												<label for="uf">업로드</label> 
+												<input type="file" class="upload-hidden" id='uf' name="uploadFile">
+										</div>
 									</form>
 								</div>
 								<!-- 추가 -->
-								<div class="card-body" id="profileInf">
-									<table>
+								<div >
+								<div id="profileInf">
+									<table style="margin: auto;">
 										<tr>
 											<td>&nbsp;&nbsp;이름</td>
 											<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
@@ -814,12 +909,9 @@
 												<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
 											</tr>
 										</c:if>
-
 									</table>
 								</div>
-
-
-
+	</div>
 							</div>
 							<div class="card-footer" style="height: 50px; float: right;">
 								<a class="text-primary" href="#" data-toggle="modal"
@@ -827,9 +919,7 @@
 									style="font-size: 15px"> 프로필 변경 </a>
 							</div>
 						</div>
-						<div class="col-xl-6 col-md-6 mb-4 card">
-
-						</div>
+						<div class="col-xl-6 col-md-6 mb-4 card"></div>
 
 						<div class="card shadow py-2 main_in"
 							style="height: 480px; width: 100%;">
@@ -1073,8 +1163,9 @@
 					<div class="modal-body">
 						<form>
 							<div class="form-group">
-								<label for="recipient-name" class="col-form-label">보내는 사원번호</label>
-								<input type="text" class="form-control" id="recipient-name1" name="recipient-name1" readonly>
+								<label for="recipient-name" class="col-form-label">보내는
+									사원번호</label> <input type="text" class="form-control"
+									id="recipient-name1" name="recipient-name1" readonly>
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
@@ -1128,8 +1219,8 @@
 				</div>
 			</div>
 		</div>
-		
-				<!-- 확인 Modal-->
+
+		<!-- 확인 Modal-->
 		<div class="modal fade" id="mailCheckModal3" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -1144,8 +1235,9 @@
 					<div class="modal-body">
 						<form>
 							<div class="form-group">
-								<label for="recipient-name" class="col-form-label">보낸 사원번호</label>
-								<input type="text" class="form-control" id="recipient-name3" name="recipient-name3" readonly>
+								<label for="recipient-name" class="col-form-label">보낸
+									사원번호</label> <input type="text" class="form-control"
+									id="recipient-name3" name="recipient-name3" readonly>
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
@@ -1161,7 +1253,7 @@
 				</div>
 			</div>
 		</div>
-		
-		
+	</div>
+
 </body>
 </html>

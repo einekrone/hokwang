@@ -107,6 +107,11 @@
 	<div class="row">
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
+				<div class="form-group">
+					 <select class="form-control" name="baby_name">
+						<option value="" selected>==자녀선택==</option>
+					</select>
+				</div>
 				<div>여기사진들어갈곳</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
 			</div>
@@ -145,7 +150,24 @@
 								href="#tab-7">체온</a></li>
 						</ul>
 					</div>
+					
 					<div class="card-body">
+					<div class="card">
+						<ul class="nav nav-pills card-header-pills pull-right">
+							<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab-8">전체</a>
+							</li>
+							<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-9">결제완료</a>
+							</li>
+							<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-10">미결제</a>
+							</li>
+							<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-11">예약</a>
+							</li>
+						</ul>
+					</div>
 						<div class="tab-content" style="height: 310px">
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
 								<div>
@@ -192,5 +214,6 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

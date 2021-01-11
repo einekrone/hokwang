@@ -3,8 +3,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hokwang.mobile.dao.ResvmMapper">
-	<select id="getChildList" resultType="map"
-		parameterType="parentVO">
-		SELECT * FROM BABY WHERE PARENT_NO = 1
+	<select id="getChildList" resultType="babyVO"
+		parameterType="babyVO">
+		SELECT * FROM BABY
+		<where>
+			<if test="parent_no != null and parent_no != ''">
+				PARENT_NO = #{parent_no}
+			</if>
+			<if test="baby_no != null and baby_no != ''">
+				BABY_NO = #{baby_no}
+			</if>
+		</where>
+	</select>
+	<select id="getVacList" resultType="checkupVO">
+		SELECT * FROM CHECKUP
 	</select>
 </mapper>

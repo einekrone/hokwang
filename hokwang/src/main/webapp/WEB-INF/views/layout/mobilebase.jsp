@@ -193,7 +193,7 @@
 								class="text-dark">Charles Hall</span>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="pages-profile.html"><i
+								<a class="dropdown-item" href="mmypage"><i
 									class="align-middle mr-1" data-feather="user"></i> Profile</a>
 
 								<div class="dropdown-divider"></div>

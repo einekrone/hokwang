@@ -92,17 +92,14 @@ td {
 		$.ajax({
 			url : 'ajax/childList',
 			type : 'GET',
-			dataType : 'json',
 // 			data : {parent_no: ~~},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : childListResult
+			success : function(data) {
+				console.log("childList 성공");
+			}
 		});
-	}
-
-	function childListResult(data) {
-		console.log("childListResult");
 	}
 </script>
 </head>
@@ -114,9 +111,9 @@ td {
 				<div class="card-header">
 					<select class="form-control mb-3" style="width: 250px;">
 						<option selected>자녀 선택</option>
-						<option>One</option>
-						<option>Two</option>
-						<option>Three</option>
+						<c:forEach items="${childList}" var="chid">
+							<option><c:out value="${chid.baby_no}" /></option>
+						</c:forEach>
 					</select>
 				</div>
 				<div class="card-body">

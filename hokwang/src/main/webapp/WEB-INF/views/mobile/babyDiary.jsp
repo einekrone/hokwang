@@ -138,11 +138,11 @@
 							<li class="nav-item"><a class="nav-link active"
 								data-toggle="tab" href="#tab-4">예약/진료</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tab-5">검진/접종</a></li>
+								href="#tab-5">접종</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tab-6">성장관리</a></li>
+								href="#tab-6">성장</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tab-7">체온관리</a></li>
+								href="#tab-7">체온</a></li>
 						</ul>
 					</div>
 					<div class="card-body">

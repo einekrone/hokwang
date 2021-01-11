@@ -88,12 +88,10 @@ button {
 		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
 
 		$("#imgChk").change(function() {
-			console.log(">>");
 			if ($(this).is(':checked')) {
 				console.log(">>checked");
 				$("input[id='imgChk']").prop("checked", true);
 			} else {
-				console.log(">>d");
 				$("input[id='imgChk']").prop("checked", false);
 			}
 		});
@@ -117,14 +115,6 @@ button {
 			resvList(searchType, keyword);
 			nonPayList(searchType, keyword2);
 		});
-
-		// 예약환자명 검색
-		/* $("#searchPati").click(function() {
-			var keyword = $("#keyword").val();
-			console.log("keyword : " + keyword);
-			resvList("resvSearch", keyword);
-			$("#keyword").val("");
-		}); */
 
 		// 등록된 이미지 목록
 		$("body").on("click", "#imgBtn", function() {
@@ -169,7 +159,6 @@ button {
 	
 	function SearchClick() {
 		var keyword = $("#keyword").val();
-		console.log("keyword : " + keyword);
 		resvList("resvSearch", keyword);
 		$("#keyword").val("");
 	}

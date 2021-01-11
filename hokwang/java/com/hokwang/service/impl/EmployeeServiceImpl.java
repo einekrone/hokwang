@@ -1,6 +1,7 @@
 package com.hokwang.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -151,12 +152,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// 아이디찾기
 		return EmpDAO.checkTempFinal(vo);
 	}
-	
+
 	@Override
-	public void deleteMsg(MessageVO vo) {
-		EmpDAO.deleteMsg(vo);
+	public List<EmployeeVO> getEmpInfo() {
+		// TODO Auto-generated method stub
+		return EmpDAO.getEmpInfo();
 	}
+
 	
+
 	
 	
 }

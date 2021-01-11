@@ -16,28 +16,40 @@
 	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">	
 <style>
 div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
 }
 </style>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
 <script src="./resources/json.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var searchType = "";
 		var keyword = "";
-
+		
+		var dis_name =""; //질병이름
+		var dis_comm = ""; //질병상세
+		var resv_no = ""; //예약번호
+		
 		waitList();
 		resvHstList();
 		resvUniq();
 		getDiagDetail();
 		getMedicineList();
-		getMediChg();
 		
+		mediModal();
 		getDiseChg();
 		
 		getDiseaseList();
-		diagEndInsert();
+		//diagEndInsert();
 		$(".diagMenu").show();
 		
 		$("#diagStart").on('click', function() {//진료시작 버튼 
@@ -75,31 +87,33 @@ div.dataTables_wrapper div.dataTables_paginate {
 	}
 	
 	
-	
 /* 	  //진료 종료 인설트
 	function diagEndInsert(){
-		$("#diagEnd").on("click",function(){
-			  
+		  $("#diagEnd").on("click",function(){
+		  let list = [];
+		  disObj = {};
+		  mediObj = {};
+		  
+		  //질병 객체에 담기
+		  disObj["dis_name"] = dis_name; //질병이름
+		  disObj["dis_comm"] = dis_comm; //질병상세
+		  
+		  //약 객체에 담기
+		  list.push(mediObj);
 		         $.ajax({ 
-		             url: "/ajax/EndInsertDiagnosis",  
+		             url: "/hokwang/insertAll",  
 		             type: 'POST',  
-		             dataType: 'json', 
-		             data : 
-		             {disease :  $("#insertDiagList").serialize(),
-		            	prescription : 
-		            	 $("# insertMediList").serialize(),
-		            	 resv_no : resv_no}
+		             data : {resv_no : resv_no}
 		             ,
 		             error:function(xhr, status, msg) { 
 		                 alert(" status: "+status+" er:"+msg);
 		             },
-		             success : function(){
-		            	 console.log(data);
+		             success : function(result){
+		            	 console.log(result);
 		             }
 		          });  
-	
 		});
-	}  */
+	}   */
 	 
 
 	
@@ -108,16 +122,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 		 $("#deleteMediTr").on("click", function() {
 				var td = $(this).parent().parent();
 				td.remove();
-		 });
-		
+		 });	
 	}
-	
+
  	//질병 삭제
 	function deleteDisease(){
 	$("#deleteDiseTr").on("click", function() {
 		var td = $(this).parent().parent();
 		td.remove();
- });
+ 		});
 	} 
 	
 	//질병검색
@@ -183,33 +196,51 @@ div.dataTables_wrapper div.dataTables_paginate {
 	 function getMedineListResult(data){
 		 $("#schMedicineTd").empty();
 			$.each(data, function(idx, item) {
-				$("<tr>").append($('<td>').html(item.medi_no))
+				$("<tr data-toggle='modal' data-target='#mediModal'>")
+						 .append($('<td>').html(item.medi_no))
 						 .append($('<td>').html(item.medi_name))
 						 .appendTo($('#schMedicineTd'));
 			});
 	 }
 	 
-	 //약품 이동
-	 function getMediChg(){
-		 $("body").on("click", "#schMedicineTd tr", function() {
-				var tdArr = new Array();
-				var td = $(this).children();
-
-				td.each(function(i) {
-					tdArr.push(td.eq(i).text());
+	 //약품 모달 띄우기
+	function mediModal(){
+		$('#mediModal').on('show.bs.modal', function(event) {
+			var tds = $(event.relatedTarget).find('td');
+			var modal = $(this);
+					
+			modal.find('#medi_no').val(tds.eq(0).text());
+			modal.find('#medi_name').val(tds.eq(1).text());
+			modal.find('#pres_account').val(tds.eq().text());
+			modal.find('#pres_count').val(tds.eq(2).text());
+			modal.find('#pres_total').val(tds.eq(3).text());
+			
+		});
+	}
+ 	 //약품 인설트
+	 function mediSave(){
+		 $('#mediSave').on("click",function(){
+			 $.ajax({
+					url : "ajax/insertPres",
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						medi_no : $('#medi_no').text(),
+						medi_name : $('#medi_name').val(),
+						pres_account : $('#pres_account').text(),
+						pres_count : $('#pres_count').text(),
+						pres_total : $('#pres_total').text(),
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : 
+						
 				});
-
-				console.log("1 : " + td.eq(0).text());
-				console.log("2 : " + td.eq(1).text());
-
-				$("<tr>").append($('<td>').html(td.eq(1).text()))
-				 .append($('<td> <input name="presAccount" id="presAccount" style="width:50px;"></td>'))
-				 .append($('<td> <input name="presccount" id="presccount" style="width:50px;"></td>'))
-				 .append($('<td> <input name="presTotal" id="presTotal" style="width:50px;"></td>'))
-				 .append($('<td> <button type="button" id="deleteMediTr" onclick="deleteMedicine()" style="width:50px;">X</button></td>'))
-				 .appendTo($('#insertMedicine'));
-			});
-	 }
+		 });
+	 } 
+	 
+	 //
 	 
 	 //상병 이동
 	 function getDiseChg(){
@@ -221,19 +252,19 @@ div.dataTables_wrapper div.dataTables_paginate {
 					tdArr.push(td.eq(i).text());
 				});
 
-				console.log("1 : " + td.eq(0).text());
-				console.log("2 : " + td.eq(1).text());
-				console.log("3 : " + td.eq(2).text());
-
-				$("#insertDiagLast").empty();
+				console.log("병 tr: "+ td.eq(1).text());
+				
+	  			$("#insertDiagLast").empty();
 				$("<tr>").append($('<td>').html(td.eq(1).text()))
 					     .append($('<td>').html(td.eq(2).text()))
 				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" style="width:50px;">X</button></td>'))
 				 .appendTo($('#insertDiagLast'));
+			
+				var dis_name = td.eq(1).text();
+				var dis_comm = td.eq(2).text();
 			});
 	 }
 	 
-	 insertDiagLast
 	//진료 기록 상세
 	function getDiagDetail() {
 		$("body").on(
@@ -319,7 +350,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
-				emp_room : ${emp_vo.emp_room}
+				emp_room : ${emp_vo.emp_room},
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -410,9 +441,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-
+			var resv_no = td.eq(0).text();
+			console.log(resv_no);
 			console.log("아기번호 : " + td.eq(4).text());
-			console.log(this);
+			console.log("예약번호 : " + td.eq(0).text());
 			$.ajax({
 				url : 'ajax/HistoryList',
 				data : {
@@ -834,5 +866,39 @@ div.dataTables_wrapper div.dataTables_paginate {
 			
 		</div>
 	</div>
+		<!-- 확인 Modal-->
+		<div class="modal fade" id="mediModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">처방전 약품 등록</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					<div class="card" style="width: 30rem;">
+						<div class="card-body">
+							<span style="font-weight: 600;">약품 코드 :</span><input id="medi_no" style="padding: 5px; margin: 5px;" readonly/><br>
+							<span style="font-weight: 600;"> 약품 명 : </span><input type= "text" id="medi_name" style="padding: 5px; margin: 5px;" readonly/><br>
+							<span style="font-weight: 600;"> 약 갯수 :</span><input type= "text" id="pres_account" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">일 투여 횟수  :</span><input type= "text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">총 투여 일수  :</span><input type= "text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
+							
+						</div>
+					</div>
+				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="mediSave" name="mediSave">Save</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	
+	
 </body>
 </html>

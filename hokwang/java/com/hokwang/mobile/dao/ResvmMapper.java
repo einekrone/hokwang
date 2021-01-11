@@ -1,10 +1,11 @@
 package com.hokwang.mobile.dao;
 
 import java.util.List;
-import java.util.Map;
 
-import com.hokwang.vo.ParentVO;
+import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.CheckupVO;
 
 public interface ResvmMapper {
-	public List<Map<String, Object>> getChildList(ParentVO vo);
+	public List<BabyVO> getChildList(BabyVO vo);
+	public List<CheckupVO> getVacList();
 }

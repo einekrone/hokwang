@@ -1,22 +1,27 @@
 package com.hokwang.mobile.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hokwang.mobile.dao.ResvmMapper;
 import com.hokwang.mobile.service.ResvmService;
-import com.hokwang.vo.ParentVO;
+import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.CheckupVO;
 
 @Service
 public class ResvmServiceImpl implements ResvmService {
 	@Autowired ResvmMapper resvmDao;
 
 	@Override
-	public List<Map<String, Object>> getChildList(ParentVO vo) {
+	public List<BabyVO> getChildList(BabyVO vo) {
 		return resvmDao.getChildList(vo);
+	}
+
+	@Override
+	public List<CheckupVO> getVacList() {
+		return resvmDao.getVacList();
 	}
 
 }

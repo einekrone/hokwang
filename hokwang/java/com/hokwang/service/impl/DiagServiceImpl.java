@@ -98,4 +98,16 @@ public class DiagServiceImpl implements DiagService{
 		return service.UpdateDiagStatus(vo);
 	}
 
+	@Override
+	public List<PrescriptionVO> getPrescription(PrescriptionVO vo) {
+	
+		return service.getPrescription(vo);
+	}
+
+	@Override
+	public int updatePrescription(PrescriptionVO vo) {
+	
+		return service.updatePrescription(vo);
+	}
+
 }

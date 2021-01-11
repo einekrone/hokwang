@@ -26,7 +26,7 @@ td {
 <script type="text/javascript">
 	$(function() {
 		childList();
-		
+
 		$("#resvBtn").on("click", function() {
 			if ($(':radio[name="resvTypeSel"]:checked').length < 1) {
 				alert("예약 상태를 선택해 주세요");
@@ -47,10 +47,24 @@ td {
 			var chkVal = $('input[name="resvTypeSel"]:checked').val();
 
 			if (chkVal == "vac") {
-				console.log("접종");
 				$("#resvTypeDiv").css("display", "block");
+				$.ajax({
+					url : 'ajax/vacList',
+					type : 'GET',
+					// 			data : {parent_no: ~~},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						$.each(data, function(idx, item) {
+							$("#vacSel").append(
+									$('<option>').attr("value", item.chk_no).html(
+											item.chk_name));
+						});
+					}
+				});
+				
 			} else {
-				console.log("일반");
 				$("#resvTypeDiv").css("display", "none");
 			}
 		});
@@ -92,14 +106,51 @@ td {
 		$.ajax({
 			url : 'ajax/childList',
 			type : 'GET',
-// 			data : {parent_no: ~~},
+			// 			data : {parent_no: ~~},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				console.log("childList 성공");
+				$.each(data, function(idx, item) {
+					$("#childSel").append(
+							$('<option>').attr("value", item.baby_no).html(
+									item.baby_name));
+				});
 			}
 		});
+	}
+
+	function chgChild() {
+		var babyNo = $('#childSel option:selected').val();
+		$.ajax({
+			url : 'ajax/childList',
+			type : 'GET',
+			data : {
+				// 	parent_no:
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#childInfo").empty();
+					$("#childInfo").append(
+							$('<p>').html(
+									'이름 : ' + item.baby_name + " (" + item.baby_blood
+											+ "형, " + item.baby_gender + ")")).append(
+							$('<p>').html('주민번호 : ' + item.baby_regno1 + '-' + item.baby_regno2))
+							.append($('<p>').html('방문 여부 : ' + item.baby_visit));
+
+					$("#childImg").attr("src", "${pageContext.request.contextPath}/resources/img/" + item.baby_pic);
+				});
+			}
+		});
+	}
+	
+	function chgVac() {
+		var vacNo = $('#vacSel option:selected').val();
+		console.log("vacNo : "+vacNo);
 	}
 </script>
 </head>
@@ -109,18 +160,15 @@ td {
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<select class="form-control mb-3" style="width: 250px;">
-						<option selected>자녀 선택</option>
-						<c:forEach items="${childList}" var="chid">
-							<option><c:out value="${chid.baby_no}" /></option>
-						</c:forEach>
+					<select class="form-control mb-3" style="width: 250px; margin-left:15%;"
+						id="childSel" onchange="chgChild()">
+						<option value="" selected>자녀 선택</option>
 					</select>
 				</div>
 				<div class="card-body">
-					<img src="/hokwang/resources/img/avatar.jpg"
-						style="float: left; border-radius: 50%; height: 100px;">
-					<textarea class="form-control" rows="4"
-						style="float: left; margin-left: 10px; width: 240px;" readonly>자녀 정보</textarea>
+					<img id="childImg"
+						style="float: left; margin-right:10px; border-radius: 50%; height: 100px;">
+					<div id="childInfo" style="text-align:left;"></div>
 				</div>
 			</div>
 			<div class="card">
@@ -135,12 +183,9 @@ td {
 						</label>
 					</div>
 					<div style="display: none;" id="resvTypeDiv">
-						<select class="form-control mb-3" class="vacSel" id="vacSel"
-							style="width: 250px;">
-							<option value="-">접종항목</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+						<select class="form-control mb-3" class="vacSel" id="vacSel" onchange="chgVac()"
+							style="width: 250px; margin-left:15%;">
+							<option value="">접종항목</option>
 						</select>
 					</div>
 				</div>

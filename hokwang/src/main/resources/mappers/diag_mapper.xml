@@ -124,30 +124,45 @@
 	 
 	 <insert id="insertPres" parameterType="prescriptionVO">
 		<selectKey order="BEFORE" keyProperty="pres_no" resultType="String">
-			SELECT NVL(MAX(DIAG_NO),0)+1 FROM PRESCRIPTION
+			SELECT NVL(MAX(PRES_NO),0)+1 FROM PRESCRIPTION
 		</selectKey>
 		 INSERT INTO PRESCRIPTION(PRES_NO,
 		 						 PRES_COUNT,
 		 						 PRES_ACCOUNT,
 		 						 PRES_TOTAL,
 		 						 PRES_DATE,
+		 						 RESV_NO,
 		 						 MEDI_NO)
 			VALUES(#{pres_no},
 		     		#{pres_count},
 		     		#{pres_account},
 		     		#{pres_total},
 		     		SYSDATE,
+		     		#{resv_no},
 		     		#{medi_no})
 	</insert>
 	
-	<select id="getPrescription" resultType="prescriptionVO"
-	parameterType="prescriptionVO">
-		SELECT * FROM PRESCRIPTION
-		<where>
-		 PRES_NO = #{pres_no}	
-		</where>
+	<select id="getPrescription" resultType="map"
+		parameterType="PrescriptionVO">
+		SELECT P.*, M.*
+		FROM PRESCRIPTION P, MEDICINE M
+		WHERE P.MEDI_NO = M.MEDI_NO
+		<if test="resv_no != null and resv_no != ''">
+			AND RESV_NO = #{resv_no}
+		</if>
 	</select>
-	 
+	<update id="updatePrescription" parameterType="PrescriptionVO">
+	UPDATE PRESCRIPTION
+	SET PRES_COUNT = #{pres_count},
+ 		PRES_ACCOUNT = #{pres_account},
+		PRES_TOTAL = #{pres_total}
+		<where>
+			<if test="pres_no != null and pres_no != ''">
+				PRES_NO = #{pres_no}
+			</if>
+		</where>
+	</update> 
+	
 	<update id="UpdateDiagStatus" parameterType="reservation">
 		UPDATE RESERVATION
 		SET RESV_STATUS = #{resv_status}

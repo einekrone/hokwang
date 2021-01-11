@@ -65,7 +65,7 @@
 		SELECT B.DIS_NAME 
 		FROM DIAGNOSIS A , DISEASE B
 		<where>
-			(A.DIS_CODE=B.DIS_CODE) AND DIAG_NO = #{diag_no}
+			(A.DIS_CODE=B.DIS_CODE) AND RESV_NO = #{resv_no}
 		</where>
 	</select>
 	
@@ -74,8 +74,8 @@
 		SELECT P.*, M.*
 		FROM PRESCRIPTION P, MEDICINE M
 		WHERE P.MEDI_NO = M.MEDI_NO
-		<if test="diag_no != null and diag_no != ''">
-			AND DIAG_NO = #{diag_no}
+		<if test="resv_no != null and resv_no != ''">
+			AND RESV_NO = #{resv_no}
 		</if>
 	</select>
 	

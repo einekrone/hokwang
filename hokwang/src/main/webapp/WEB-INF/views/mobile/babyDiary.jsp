@@ -104,6 +104,7 @@ var checkuplist=[];
 
 function checkuphist() {
 	var checkuplist=[];
+	
 	$.ajax({
 		url : "ajax/",
 		type : "GET",

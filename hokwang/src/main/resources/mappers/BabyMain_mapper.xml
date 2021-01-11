@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.BabyMainMapper">
-	<select id="getBabyInf" resultType="BabyVO">
+	<select id="getBabyInf" resultType="babyVO">
 		select * 
 		from baby where parent_no = 1 
 	</select>

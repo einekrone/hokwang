@@ -17,7 +17,7 @@
 		//dignosisDetail2();//상세진료
 		
 	})
-
+	
 	function patientList(keyword) {
 
 		$.ajax({

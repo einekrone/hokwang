@@ -98,8 +98,45 @@
 
 	});
 </script>
+
 <script type="text/javascript">
-	
+var checkuplist=[];
+
+function checkuphist() {
+	var checkuplist=[];
+	$.ajax({
+		url : "ajax/",
+		type : "GET",
+		dataType : "JSON",
+		data : {
+			
+		},
+		error : function(xhr, status, msg) {
+			alert("상태값 :" + status + " Http에러메시지 :" + msg);
+		},
+		success : checkuphistResult
+
+	});/* end of ajax */
+
+}/* end of function */	
+
+function checkuphistResult(data) {
+	console.log("patientListResult전체환자 리스트 출력 콘솔");
+
+	$("#patientList").empty();
+	$.each(data, function(idx, item) {
+
+		$("<tr>").append(
+				$("<td id='baby_no' value= '"+item.baby_no+"'>").html(
+						item.baby_no)).append(
+				$("<td>").html(item.baby_name)).append(
+				$("<td id='regno "+idx+"'>").html(item.baby_regno1))
+				.append($("<td>").html(item.baby_regno2)).append(
+						$('<td style="display:none;">').html(item.baby_no))
+				.appendTo('#patientList');
+		//console.log("예약번호 : "+td.eq(5).text());
+	})/* end of ajax  */
+}
 </script>
 </head>
 <body>
@@ -108,7 +145,7 @@
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="form-group">
-					 <select class="form-control" name="baby_name">
+					<select class="form-control" name="baby_name">
 						<option value="" selected>==자녀선택==</option>
 					</select>
 				</div>
@@ -142,6 +179,7 @@
 							style="float: left" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
 								data-toggle="tab" href="#tab-4">예약/진료</a></li>
+
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tab-5">접종</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -150,28 +188,23 @@
 								href="#tab-7">체온</a></li>
 						</ul>
 					</div>
-					
 					<div class="card-body">
-					<div class="card">
-						<ul class="nav nav-pills card-header-pills pull-right">
-							<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#tab-8">전체</a>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-9">결제완료</a>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-10">미결제</a>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-11">예약</a>
-							</li>
-						</ul>
-					</div>
 						<div class="tab-content" style="height: 310px">
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
 								<div>
-									<div style="height: 150px">
+									<div style="height: 190px">
+										<div class="card">
+											<ul class="nav nav-pills card-header-pills pull-right">
+												<li class="nav-item"><a class="nav-link active"
+													data-toggle="tab" href="#tab-8">전체</a></li>
+												<li class="nav-item"><a class="nav-link"
+													data-toggle="tab" href="#tab-9">결제완료</a></li>
+												<li class="nav-item"><a class="nav-link"
+													data-toggle="tab" href="#tab-10">미결제</a></li>
+												<li class="nav-item"><a class="nav-link"
+													data-toggle="tab" href="#tab-11">예약</a></li>
+											</ul>
+										</div>
 										<table class="table text-center">
 											<thead>
 												<tr>
@@ -198,22 +231,35 @@
 								</div>
 							</div>
 							<div class="tab-pane fade text-center" id="tab-5" role="tabpanel">
-								<h5 class="card-title">Card with pills</h5>
-								<p class="card-text">2</p>
-							</div>
-							<div class="tab-pane fade" id="tab-6" role="tabpanel">
-								<h5 class="card-title">Card with pills</h5>
-								<p class="card-text">3</p>
-							</div>
-							<div class="tab-pane fade" id="tab-7" role="tabpanel">
-								<h5 class="card-title">Card with pills</h5>
-								<p class="card-text">3</p>
+								<div class="row">
+									<div class="card" style="text-align: center;height:200	px">
+										<ul class="nav nav-pills card-header-pills pull-right">
+											<li class="nav-item"><a class="nav-link active"
+												data-toggle="tab" href="#tab-8">전체</a></li>
+											<li class="nav-item"><a class="nav-link"
+												data-toggle="tab" href="#tab-9">미접종</a></li>
+											<li class="nav-item"><a class="nav-link"
+												data-toggle="tab" href="#tab-10">접종완료</a></li>
+										</ul>
+										<div class="card bg-light py-3 py-md-3 border" style="height:190px">
+											<div class="card-body" id="checkup">
+											
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="tab-6" role="tabpanel">
+										<h5 class="card-title">Card with pills</h5>
+										<p class="card-text">3</p>
+									</div>
+									<div class="tab-pane fade" id="tab-7" role="tabpanel">
+										<h5 class="card-title">Card with pills</h5>
+										<p class="card-text">3</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 </body>
 </html>

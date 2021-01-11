@@ -154,8 +154,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	
-
-	
+	@Override
+	public void deleteMsg(MessageVO vo) {
+		EmpDAO.deleteMsg(vo);
+	}
 
 	
 

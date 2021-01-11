@@ -41,7 +41,7 @@ public class SalesController {
 	
 	@ResponseBody
 	@RequestMapping("/ajax/getMonth1")
-	public Integer getMonth1(Model model, PaymentVO vo){
+	public int[] getMonth1(Model model, PaymentVO vo){
 		return dao.getMonth1();
 	}
 

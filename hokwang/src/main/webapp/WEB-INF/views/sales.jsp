@@ -69,8 +69,8 @@
 
 	/* createChart() */
 	function createChart(data) {
-
-		var monthdata = [ data ]; //bar 입력값 (일,월)	
+		
+		var monthdata = data; //bar 입력값 (일,월)	
 		var linedataHalf = []; // line 입력될 데이터값 (연)	
 		//var ctx = document.getElementById("myChart");
 		var ctx = document.getElementsByClassName("myChart");

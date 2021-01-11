@@ -746,8 +746,12 @@
 	
 	
 	function updateInf() {
+		$("#alert-success").hide();
+		$("#alert-danger").hide();
 		$('#btnUpdate').on("click", function() {
 			if($('#pw').val() == $('#pw2').val()){
+				$("#alert-success").show();
+				$("#alert-danger").hide();
 				$.ajax({
 					url : "ajax/updateInf",
 					type : 'POST',
@@ -757,15 +761,19 @@
 						emp_tel : $('#tel').val(),
 						emp_addr : $('#addr').val(),
 						emp_pwd : $('#pw').val(),
+						emp_profile : $('#img').val()
 					},
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
 						alert("변경되었습니다.");
+						
 					}
 				});
 			}else{
+				$("#alert-success").hide();
+				$("#alert-danger").show();
 				alert("비밀번호 재확인바람 ");
 			}
 			
@@ -853,7 +861,7 @@
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
 											<!-- 이미지 파일 -->
-											<tr>
+											<tr><!-- 이미지원형 -->
 												<td><img id='img'
 													src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
 													class="img-fluid rounded-circle mb-2"
@@ -879,11 +887,6 @@
 										<tr>
 											<td>&nbsp;&nbsp;사원번호</td>
 											<td id="no">${emp_vo.emp_no}</td>
-										</tr>
-										<tr>
-											<td><span class="point">&nbsp;*</span>비밀번호</td>
-											<td><input type="password" id="pw" name="pw"
-												placeholder="변경할 비밀번호를 입력하시오"></td>
 										</tr>
 										<tr>
 											<td>&nbsp;&nbsp;주민등록번호</td>
@@ -916,10 +919,15 @@
 							<div class="card-footer" style="height: 50px; float: right;">
 								<a class="text-primary" href="#" data-toggle="modal"
 									data-target="#UpdateModal" data-backdrop="static"
+									style="font-size: 15px"> 비밀번호 변경 </a> / 
+								<a class="text-primary" href="#" data-toggle="modal"
+									data-target="#UpdateModal2" data-backdrop="static"
 									style="font-size: 15px"> 프로필 변경 </a>
 							</div>
 						</div>
-						<div class="col-xl-6 col-md-6 mb-4 card"></div>
+						<div class="col-xl-6 col-md-6 mb-4 card">
+						
+						</div>
 
 						<div class="card shadow py-2 main_in"
 							style="height: 480px; width: 100%;">
@@ -1132,11 +1140,23 @@
 					<div class="modal-body">
 						<table>
 							<tr>
+							<td><span class="point">&nbsp;*</span>기존 비밀번호</td>
+								<td><input type="password" id="oldpw" name="oldpw"
+												placeholder="기존 비밀번호를 입력하시오"></td>
+							</tr>
+							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
+								<td><input type="password" id="pw" name="pw"
+												placeholder="변경할 비밀번호를 입력하시오"></td>
+							</tr>
+							<tr>
+								<td><span class="point">&nbsp;*</span>비밀번호 재입력</td>
 								<td><input type="password" id="pw2" name="pw2"
-									placeholder="변경할 비밀번호를 입력하시오"></td>
+									placeholder="비밀번호를 재입력하시오"></td>
 							</tr>
 						</table>
+						<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+						<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="btnUpdate"
@@ -1147,7 +1167,31 @@
 			</div>
 		</div>
 
-
+		<!-- Update Modal2-->
+		<div class="modal fade" id="UpdateModal2" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">프로필 변경</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">x</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						프로필변경하시겠습니까?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btnUpdate"
+							name="btnSave">변경</button>
+						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
 		<!-- 확인 Modal-->
 		<div class="modal fade" id="mailCheckModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">

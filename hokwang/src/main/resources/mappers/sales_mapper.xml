@@ -26,7 +26,8 @@
 		select sum(pay_price) 
 		from payment 
 		where diag_no in (select diag_no from diagnosis)
-		 			  and TO_CHAR(PAY_DATE,'YY/MM')='21/01'
+		 			  and TO_CHAR(PAY_DATE,'YY/MM') BETWEEN '21/01' AND '21/12'
+		 			  GROUP BY TO_CHAR(PAY_DATE,'YY/MM')
 	</select>
 
 </mapper>

@@ -119,10 +119,17 @@
 
 	<update id="updateInf" parameterType="employeeVO">
 		update employee set
-		emp_tel=#{emp_tel}
-		,emp_addr=#{emp_addr}
+		<if test="emp_tel != null and emp_tel != ''">
+			emp_tel = #{emp_tel}
+		</if>
+		<if test="emp_addr != null and emp_addr != ''">
+			,emp_addr = #{emp_addr}
+		</if>
 		<if test="emp_pwd != null and emp_pwd != ''">
 			,emp_pwd = #{emp_pwd}
+		</if>
+		<if test="emp_profile != null and emp_profile !=''">
+			,emp_profile = #{emp_profile}
 		</if>
 		where emp_no
 		=#{emp_no}

@@ -93,6 +93,7 @@ td {
 			url : 'ajax/childList',
 			type : 'GET',
 			dataType : 'json',
+// 			data : {parent_no: ~~},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -106,32 +107,13 @@ td {
 </script>
 </head>
 <body>
-	<script>
-		//       new Swiper('.swiper-container', {
-
-		//          slidesPerView : 7, // 동시에 보여줄 슬라이드 갯수
-		//          spaceBetween : 30, // 슬라이드간 간격
-		//          slidesPerGroup : 1, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
-
-		//          // 그룹수가 맞지 않을 경우 빈칸으로 메우기
-		//          // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
-		//          loopFillGroupWithBlank : true,
-		//          initialSlide:${cal.day-3},
-		//          loop : false, //  반복
-
-		//          navigation : { // 네비게이션
-		//             nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-		//             prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-		//          },
-		//       });
-	</script>
 	<h1 class="h3 mb-3">예약 페이지</h1>
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
 					<select class="form-control mb-3" style="width: 250px;">
-						<option selected="">자녀 선택</option>
+						<option selected>자녀 선택</option>
 						<option>One</option>
 						<option>Two</option>
 						<option>Three</option>

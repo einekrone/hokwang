@@ -133,39 +133,64 @@
 				<!-- Tab을 구성할 영역 설정-->
 				<div class="card">
 					<div class="card-header">
-						<ul class="nav nav-pills card-header-pills pull-right" style="float:left" 
-							role="tablist">
+						<ul class="nav nav-pills card-header-pills pull-right"
+							style="float: left" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tab-4">Active</a></li>
+								data-toggle="tab" href="#tab-4">예약/진료</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tab-5">Link</a></li>
-							<li class="nav-item"><a class="nav-link disabled"
-								data-toggle="tab" href="#tab-6">Disabled</a></li>
+								href="#tab-5">검진/접종</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#tab-6">성장관리</a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#tab-7">체온관리</a></li>
 						</ul>
 					</div>
 					<div class="card-body">
-						<div class="tab-content">
+						<div class="tab-content" style="height: 310px">
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
-								<h5 class="card-title">Card with pills</h5>
-								<p class="card-text">1</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+								<div>
+									<div style="height: 150px">
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">예약일시</th>
+													<th class="text-center">병명</th>
+													<th class="text-center">문진표</th>
+												</tr>
+											</thead>
+											<tbody id="patientList"></tbody>
+										</table>
+									</div>
+									<div style="height: 150px">
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">예약일시</th>
+													<th class="text-center">병명</th>
+													<th class="text-center">문진표</th>
+												</tr>
+											</thead>
+											<tbody id="patientList"></tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 							<div class="tab-pane fade text-center" id="tab-5" role="tabpanel">
 								<h5 class="card-title">Card with pills</h5>
 								<p class="card-text">2</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
 							</div>
 							<div class="tab-pane fade" id="tab-6" role="tabpanel">
 								<h5 class="card-title">Card with pills</h5>
 								<p class="card-text">3</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+							</div>
+							<div class="tab-pane fade" id="tab-7" role="tabpanel">
+								<h5 class="card-title">Card with pills</h5>
+								<p class="card-text">3</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
 </body>
 </html>

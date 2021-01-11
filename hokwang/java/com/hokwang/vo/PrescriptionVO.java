@@ -13,6 +13,6 @@ public class PrescriptionVO {//처방전
 	Date pres_date;//처방 일시
 	String diag_no;//진료 번호
 	String medi_no; //약번호
-
+	String resv_no;//예약번호
 
 }

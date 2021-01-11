@@ -40,11 +40,15 @@
 
 	<select id="mediName" resultType="map"
 		parameterType="prescriptionVO">
-		select medi_name from medicine
+   			select medi_name from medicine 
+		<where>
+			MEDI_NO in (select medi_no from
+			prescription where resv_no = #{resv_no})
+<!-- 		select medi_name from medicine
 		<where>
 			MEDI_NO in (select medi_no from
 			prescription where diag_no =
-			#{diag_no})
+			#{diag_no}) -->
 		</where>
 	</select>
 

@@ -133,7 +133,6 @@ public class ResvController {
 	@ResponseBody
 	@RequestMapping("/ajax/roomUpdate")
 	public int roomUpdate(Reservation vo) {
-		System.out.println("resvno : "+vo.getResv_no()+", roomno : "+vo.getResv_room());
 		return resvSvc.roomUpdate(vo);
 	}
 }

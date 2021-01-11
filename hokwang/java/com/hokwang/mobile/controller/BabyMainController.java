@@ -16,12 +16,13 @@ public class BabyMainController {
 	@Autowired
 	BabyMainService dao;
 	
-	//의사 조회
 	@ResponseBody
 	@RequestMapping("/ajax/getBabyInf")
 	public List<BabyVO> getBabyInf() {
 		return dao.getBabyInf();
 	}
+	
+	
 	
 	
 }

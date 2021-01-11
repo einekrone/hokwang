@@ -1,12 +1,13 @@
 package com.hokwang.mobile.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.hokwang.vo.ParentVO;
+import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.CheckupVO;
 
 public interface ResvmService {
 
-	List<Map<String, Object>> getChildList(ParentVO vo);
+	List<BabyVO> getChildList(BabyVO vo);
+	List<CheckupVO> getVacList();
 	
 }

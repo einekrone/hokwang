@@ -100,4 +100,21 @@ public class Diagcontroller {
 	public int insertPres(PrescriptionVO vo) {
 	return diagDao.insertPres(vo);
 	}
+	
+	
+	//처방전 뿌려줌
+	@ResponseBody
+	@RequestMapping("/ajax/getPrescription")
+	public List<PrescriptionVO> getPrescription(PrescriptionVO vo) {
+		System.out.println(vo.getResv_no());
+	return diagDao.getPrescription(vo);
+	}
+	
+	//처방전 수정
+	@ResponseBody
+	@RequestMapping("/ajax/updatePrescription")
+	public int updatePrescription(PrescriptionVO vo){
+	return diagDao.updatePrescription(vo);
+	}
+	
 }

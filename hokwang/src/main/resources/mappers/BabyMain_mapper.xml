@@ -7,5 +7,14 @@
 		select * 
 		from baby where parent_no = 1 
 	</select>
+	
+	<insert id="insertbabyinfo" parameterType="BabyVO">
+		<selectKey order="BEFORE" keyProperty="baby_no"
+			resultType="string">
+			SELECT NVL(MAX(temp_NO),0)+1 FROM BABY
+		</selectKey>
+		insert into baby(baby_no,baby_name,baby_pic,baby_regno1,baby_blood,baby_gender)
+		values(#{baby_no},#{baby_name},#{baby_pic},#{baby_regno1},#{baby_blood},#{baby_gender})
+	</insert>
 
 </mapper>

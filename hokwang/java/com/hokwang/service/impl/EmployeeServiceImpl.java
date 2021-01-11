@@ -155,9 +155,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeVO> getEmpInfo() {
-		// TODO Auto-generated method stub
+		//의사소개
 		return EmpDAO.getEmpInfo();
 	}
+
+	
+
+	
 
 	
 

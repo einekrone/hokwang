@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(basePackages = {"com.hokwang.dao"})
+@MapperScan(basePackages = {"com.hokwang.mobile.dao"})
 public class MybatisConfiguration {
 
 	@Autowired

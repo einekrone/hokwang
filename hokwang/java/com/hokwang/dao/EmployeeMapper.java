@@ -31,6 +31,6 @@ public interface EmployeeMapper {
 	public MessageVO checkFinal(MessageVO vo); 
 	public void updateYn(MessageVO vo);
 	public TempmessageVO checkTempFinal(TempmessageVO vo); 
-	//모바일
+	//
 	public List<EmployeeVO> getEmpInfo();
 }

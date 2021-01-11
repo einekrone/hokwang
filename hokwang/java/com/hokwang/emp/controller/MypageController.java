@@ -106,9 +106,9 @@ public class MypageController {
 		TempmessageVO resultvo = new TempmessageVO();
 		vo = dao.checkTemp(vo);
 		if (vo == null) {
-			return resultvo;//빈거
+			return resultvo;// 빈거
 		} else {
-			return vo;//든거
+			return vo;// 든거
 		}
 	}
 
@@ -128,42 +128,41 @@ public class MypageController {
 		dao.updateUser(emp_vo);
 		return "mypage";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/sendTotalInf")
 	public List<MessageVO> sendTotalInf(Model model, EmployeeVO vo) {
 		List<MessageVO> list = new ArrayList<MessageVO>();
 		list = dao.sendTotalInf(vo);
-		System.out.println("+++++"+list.get(0).getMsg_no());
+		System.out.println("+++++" + list.get(0).getMsg_no());
 		return list;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/tempTotalMsg")
 	public List<TempmessageVO> tempTotalMsg(Model model, EmployeeVO vo) {
 		return dao.tempTotalMsg(vo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/checkFinal")
 	public MessageVO checkFinal(Model model, MessageVO vo) {
 		dao.updateYn(vo);
 		return dao.checkFinal(vo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/checkTempFinal")
 	public TempmessageVO checkTempFinal(Model model, TempmessageVO vo) {
 		return dao.checkTempFinal(vo);
 	}
+
 	
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/ajax/deleteMsg") public boolean deleteMsg(Model model,
-	 * MessageVO vo) { dao.deleteMsg(vo); return true; }
-	 */
-	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteMsg")
+	public boolean deleteMsg(Model model, MessageVO vo) {
+		dao.deleteMsg(vo);
+		return true;
+	}
+
 }

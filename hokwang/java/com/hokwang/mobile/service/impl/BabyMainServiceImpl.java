@@ -18,7 +18,6 @@ public class BabyMainServiceImpl implements BabyMainService {
 	
 	@Override
 	public List<BabyVO> getBabyInf() {
-		//의사소개
 		return dao.getBabyInf();
 	}
 }

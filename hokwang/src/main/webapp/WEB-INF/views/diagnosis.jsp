@@ -46,6 +46,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		getMedicineList();
 		
 		mediModal();
+		mediSave();
 		getDiseChg();
 		
 		getDiseaseList();
@@ -217,7 +218,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			
 		});
 	}
- 	 //약품 인설트
+   	 //약품 인설트
 	 function mediSave(){
 		 $('#mediSave').on("click",function(){
 			 $.ajax({
@@ -234,14 +235,34 @@ div.dataTables_wrapper div.dataTables_paginate {
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
-					success : 
-						
+					success : lastInsertList()
 				});
 		 });
-	 } 
+	 }  
 	 
-	 //
+	 //처방전 뿌려주기
+	 function lastInsertList(){
+		 $.ajax({
+				url : "ajax/",
+				type : 'GET',
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : lastInsertListResult
+			})
+	 }
 	 
+	 function lastInsertListResult(data) {
+			console.log(data);
+			$("<tr>").append($('<td>').html(td.eq(1).text()))
+			 .append($('<td> <input name="presAccount" id="presAccount" style="width:50px;"></td>'))
+			 .append($('<td> <input name="presccount" id="presccount" style="width:50px;"></td>'))
+			 .append($('<td> <input name="presTotal" id="presTotal" style="width:50px;"></td>'))
+			 .append($('<td> <button type="button" id="deleteMediTR" style="width:50px;">X</button></td>'))
+			 .appendTo($('#insertMedicine'));
+		}
+	 	 
 	 //상병 이동
 	 function getDiseChg(){
 		 $("body").on("click", "#InsertDisease tr", function() {
@@ -284,7 +305,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 					$.ajax({
 						url : 'ajax/Alldiag',
 						data : {
-							diag_no : td.eq(0).text()
+							diag_no : td.eq(0).text(),
+							resv_no : td.eq(2).text()
 						},
 						dataType : 'json',
 						error : function(xhr, status, msg) {
@@ -819,7 +841,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 				
 					<!-- 약품리스트 -->
 					<div class="card-body"
-						style="overflow: auto; width: 100%; height: 200px;">
+						style="overflow: auto; width: 100%; height: 200px; visi">
 						<div>
 							<table>
 								<thead>

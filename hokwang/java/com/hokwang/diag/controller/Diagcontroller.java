@@ -133,5 +133,12 @@ public class Diagcontroller {
 	  public int insertDiagList(DiagnosisVO vo){
 	  return diagDao.insertDiagList(vo); 
 	  }
+	  
+	  //진료종료 / 시작시 예약 상태값 변경
+	  @ResponseBody  
+	  @RequestMapping("/ajax/UpdateDiagStatus") 
+	  public int UpdateDiagStatus(Reservation vo){
+	  return diagDao.UpdateDiagStatus(vo); 
+	  }
 	
 }

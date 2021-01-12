@@ -38,6 +38,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		var dis_name =""; //질병이름
 		var dis_comm = ""; //질병상세
 		var resv_no = ""; //예약번호
+		var chk_type = ""; //진료타입
 		
 		waitList();
 		resvHstList();
@@ -53,12 +54,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 		mediDelete();
 		
 		getDiseChg();
-		
+		loadDispaly();
 		getDiseaseList();
-		//diagEndInsert();
-		$(".diagMenu").show();
-			
-		//진료종료
+		
+	
+		
+		//진료 관련 버튼메뉴 출력
+		$(".diagMenu").hide();
+		
+		//진료종료 버튼클릭
 		$("#diagEnd").on('click',function(){
 			diagEndInsert();
 		});
@@ -68,6 +72,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 		window.open("${pageContext.request.contextPath}/Prescript.jsp", "문진표", "width=1500, height=900");
 	}
 	
+	function loadDispaly(){
+		$("#diag3").css("display","none");
+		$("#diag4").css("display","none");
+		$("#diag5").css("display","none");
+	}
 	
   	  //진료 종료 인설트
 	function diagEndInsert(){
@@ -90,7 +99,24 @@ div.dataTables_wrapper div.dataTables_paginate {
 		});
 	} 
 	  
-	
+	function UnChange(){
+		$.ajax({
+			url : 'ajax/UpdateDiagStatus',
+			data : {
+				resv_no : resv_no,
+				resv_status : $("#specValue").find("#End").val()
+			},
+			dataType : 'json',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(){
+				$("#diag3").attr("disable", true);
+				$("#diag4").attr("disable", true);
+				$(".diagMenu").hide();
+			}
+		});
+	}
 	
 	//약 삭제
 	function deleteMedicine(){
@@ -304,7 +330,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 	 
 	function mediDelete(){
 		 $('#mediDelete').on("click",function(){
-
 			 $.ajax({
 					url : "ajax/deletePrescription",
 					type : 'POST',
@@ -349,39 +374,36 @@ div.dataTables_wrapper div.dataTables_paginate {
 	 
 	//진료 기록 상세
 	function getDiagDetail() {
-		$("body").on(
-				"click",
-				"#HistoryList tr",
-				function() {
-					var tdArr = new Array();
-					var td = $(this).children();
+		$("body").on("click","#HistoryList tr", function() {
+			var tdArr = new Array();
+			var td = $(this).children();
 
-					td.each(function(i) {
-						tdArr.push(td.eq(i).text());
-					});
+			td.each(function(i) {
+				tdArr.push(td.eq(i).text());
+			});
 
-					console.log("진료번호 : " + td.eq(0).text());
+			console.log("진료번호 : " + td.eq(0).text());
 
-					//진료일
-					$.ajax({
-						url : 'ajax/Alldiag',
-						data : {
-							diag_no : td.eq(0).text(),
-							resv_no : td.eq(2).text()
-						},
-						dataType : 'json',
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success :function(result){
-							getDiagDetailResult(result.diag1);
-							getDiagDetailResult3(result.diag1);
-							getMedicineResult(result.medicine);
-							getDiagDetailResult2(result.diag2);
-							
-						} 
-					});
-				});
+			//진료기록 상세 다나옴
+			$.ajax({
+				url : 'ajax/Alldiag',
+				data : {
+					diag_no : td.eq(0).text(),
+					resv_no : td.eq(2).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success :function(result){
+					getDiagDetailResult(result.diag1);
+					getDiagDetailResult3(result.diag1);
+					getMedicineResult(result.medicine);
+					getDiagDetailResult2(result.diag2);
+					
+				} 
+			});
+		});
 	}
 	 //진료일 펑션
 	function getDiagDetailResult(data) {
@@ -456,7 +478,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							item.RESV_NO)).append(
 					$('<td>').html(item.RESV_DATETIME)).append(
 					$('<td>').html(item.BABY_NAME)).append(
-					$('<td id="regno'+idx+'">').html(item.BABY_REGNO1)).append(
+					$('<td>').html(item.CHK_TYPE)).append(
 					$('<td style="display:none;">').html(item.BABY_NO))
 					.appendTo('#waitList');
 		});
@@ -523,9 +545,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
+
 			});
 			resv_no = td.eq(0).text();
+			chk_type = td.eq(3).text();
 			console.log("변수 예약번호 콘솔 :" +resv_no);
+			console.log("진료타입 : " + td.eq(3).text());
 			console.log("아기번호 : " + td.eq(4).text());
 			console.log("예약번호 : " + td.eq(0).text());
 			$.ajax({
@@ -551,6 +576,31 @@ div.dataTables_wrapper div.dataTables_paginate {
 				},
 				success : InfoResult
 			});
+			if (confirm('진료를 시작하시겠습니까?')) {
+			$.ajax({
+				url : 'ajax/UpdateDiagStatus',
+				data : {
+					resv_no : td.eq(0).text(),
+					resv_status : $("#specValue").find("#Ing").val()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(){
+					if(chk_type == "N"){
+						$("#diag3").css("display","block");
+						$("#diag4").css("display","block");
+					}else{
+						$("#diag5").css("display","block");
+					}
+					$(".diagMenu").show();
+				}
+			});
+			alert('진료를 시작합니다.')
+		}else{
+			alert('진료를 시작을 취소합니다.')
+		}
 		});
 	}
 
@@ -653,13 +703,17 @@ div.dataTables_wrapper div.dataTables_paginate {
 									<tr id="nbda">
 										<th class="text-center">NO</th>
 										<th class="text-center">일시</th>
-										<th class="text-center" style="width: 80%;">성명</th>
-										<th class="text-center">생년월일</th>
+										<th class="text-center">성명</th>
+										<th class="text-center">타입</th>
 										<th style="display: none;"></th>
 									</tr>
 								</thead>
 								<tbody id="waitList"></tbody>
 							</table>
+						</div>
+						<div id="specValue" style="display:none;">
+							<input type="text" id="Ing" value="I" style="display:none;">
+							<input type="text" id="End" value="Y" style="display:none;">
 						</div>
 					</div>
 				</div>
@@ -945,6 +999,54 @@ div.dataTables_wrapper div.dataTables_paginate {
 				</div>
 				</form>
 			</div>
+			
+			<!-- 진료 5 -->
+			<div class="col-xl-6 col-md-6 mb-4" id="diag5">
+			
+			<!--  -->
+				<div class="card shadow py-2" style="height: 840px;">
+					
+				<div style="height: 100px; padding: 20px;">
+					
+					<!-- Title -->
+					<div class="title_logo">
+						<!-- logo -->
+						<i class="fas fa-capsules"></i>
+						<!-- content -->
+						<span class="tit" style="font-weight: 600;">약품</span>
+					</div>
+
+					
+				</div>
+				
+				
+					<!--  -->
+					<div class="card-body"
+						style="overflow: auto; width: 100%; height: 200px; visi">
+						<div>
+						
+						</div>
+					</div>
+				
+					
+					<!--   -->
+					<div class="card-body" style="height: 400px;">
+						<div>
+						<!-- logo -->
+							<i class="fas fa-capsules"></i>
+							<!-- content -->
+							<span class="tit" style="font-weight: 600;">처방전</span>
+						</div>
+						
+					</div>
+				</div>
+	
+			</div>
+			
+			
+			
+			
+			
 			
 		</div>
 	</div>

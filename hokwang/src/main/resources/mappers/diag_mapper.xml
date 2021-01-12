@@ -8,7 +8,7 @@
 		SELECT R.RESV_NO,
 		R.RESV_DATE || ' ' || R.RESV_TIME AS RESV_DATETIME,
 		B.BABY_NAME,
-		B.BABY_REGNO1, R.RESV_STATUS,
+		B.BABY_REGNO1, R.RESV_STATUS,R.CHK_TYPE,
 		B.BABY_NO,
 		E.EMP_ROOM
 		FROM RESERVATION R, BABY B, EMPLOYEE E
@@ -162,13 +162,10 @@
 	DELETE FROM PRESCRIPTION
 	WHERE PRES_NO = #{pres_no}
 	</delete>
+	
 	<update id="UpdateDiagStatus" parameterType="reservation">
 		UPDATE RESERVATION
 		SET RESV_STATUS = #{resv_status}
-		<where>
-			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = #{resv_no}
-			</if>
-		</where>
+		WHERE RESV_NO = #{resv_no}
 	</update>
 </mapper>

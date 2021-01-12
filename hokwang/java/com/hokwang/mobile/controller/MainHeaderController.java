@@ -27,5 +27,18 @@ public class MainHeaderController {
 		}
 		return false;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/registerAction")
+	public boolean registerAction(ParentVO vo) {
+		dao.registerAction(vo);
+		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/alertCntAction")
+	public int alertCntAction(ParentVO vo) {
+		return dao.alertCntAction(vo);
+	}
 
 }

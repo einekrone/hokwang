@@ -17,4 +17,17 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 	public ParentVO logInAction(ParentVO vo) {
 		return dao.logInAction(vo);
 	}
+
+	@Override
+	public void registerAction(ParentVO vo) {
+		dao.registerAction(vo);
+	}
+
+	@Override
+	public int alertCntAction(ParentVO vo) {
+		// TODO Auto-generated method stub
+		return dao.alertCntAction(vo);
+	}
+	
+	
 }

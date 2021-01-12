@@ -3,9 +3,37 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.MainHeaderMapper">
-	
-	<select id="logInAction" parameterType="parentVO" resultType="parentVO">
-		select * from parent where parent_id = #{parent_id} and parent_pw = #{parent_pw} 
+
+	<select id="logInAction" parameterType="parentVO"
+		resultType="parentVO">
+		select * from parent where parent_id = #{parent_id} and
+		parent_pw = #{parent_pw}
 	</select>
+
+	<insert id="registerAction" parameterType="parentVO">
+		<selectKey order="BEFORE" keyProperty="parent_no" resultType="string">
+			SELECT NVL(MAX(PARENT_NO),0)+1 FROM PARENT
+		</selectKey>
+		insert into
+		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw)
+		values(#{parent_no}
+			  ,#{parent_name}
+			  ,#{parent_tel}
+			  ,#{parent_addr}
+			  ,#{parent_addrdetail}
+			  ,#{parent_addrextra}
+			  ,#{parent_post}
+			  ,#{parent_email}
+			  ,#{parent_regno1}
+			  ,#{parent_regno2}
+			  ,#{parent_id}
+			  ,#{parent_pw}
+			  )
+	</insert>
+	
+	<select id="alertCntAction" parameterType="parentVO" resultType="int">
+
+	</select>
+	
 
 </mapper>

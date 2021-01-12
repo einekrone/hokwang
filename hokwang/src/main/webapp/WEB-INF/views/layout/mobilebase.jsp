@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,8 +26,28 @@
 <script type="text/javascript">
 	$(function() {
 		changeMenu();
+		//alertCntAction();
 	});
+	/*
+	function alertCntAction(){
+		$.ajax({
+			url : "ajax/alertCntAction",
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				parent_no : "${vo.parent_no}"
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
 
+			}
+		})
+	}
+	
+	*/
+	
 	function changeMenu() {
 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
@@ -115,13 +136,14 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
+					<c:if test="${vo != null }">
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item dropdown"><a
 							class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
 							data-toggle="dropdown">
 								<div class="position-relative">
-									<i class="align-middle" data-feather="bell"></i> <span
-										class="indicator">4</span>
+									<i class="align-middle" data-feather="bell"></i> 
+									<span class="indicator" id="alertCnt">4</span>
 								</div>
 						</a>
 							<div
@@ -206,6 +228,7 @@
 								<a class="dropdown-item" href="#">Log out</a>
 							</div></li>
 					</ul>
+					</c:if>
 				</div>
 			</nav>
 

@@ -24,46 +24,60 @@ td {
 </style>
 
 <script type="text/javascript">
+	var d;
+	var today;
 	$(function() {
+		console.log("start");
+		d = new Date();
+
+		today = d.getFullYear() + '-'
+				+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
+				+ ('0' + d.getDate()).slice(-2);
+		
 		childList();
 
+		$(".ansR")
+				.append(
+						'<label class="form-check"> <input name="Ra" type="radio" class="form-check-input" value="Y"> <span class="form-check-label">예</span> </label> <label class="form-check"> <input name="Ra1" type="radio" class="form-check-input" value="N"> <span class="form-check-label">아니오</span> </label>');
+
+		// 예약 버튼 클릭
 		$("#resvBtn").on("click", function() {
-			if($("#childSel option:selected").val() == "") {
+			if ($("#childSel option:selected").val() == "") {
 				alert("자녀를 선택해 주세요.");
 				return;
 			}
-			
+
 			if ($(':radio[name="resvTypeSel"]:checked').length < 1) {
 				alert("예약 상태를 선택해 주세요");
 				$("input[name=resvTypeSel]").focus();
 				return;
 			} else {
 				var chkVal = $('input[name="resvTimeSel"]:checked').val();
-				console.log("chkVal : " + chkVal);
 				if ($('input[name="resvTypeSel"]:checked').val() == "vac") {
-					// vacSel selectbox 값 notnull
-					console.log("선택된 병: "+$("#vacSel option:selected").val());
-					if($("#vacSel option:selected").val() == "") {
+					if ($("#vacSel option:selected").val() == "") {
 						alert("접종할 병명을 선택해 주세요.");
 						return;
 					}
 				}
-				
-				if($(".selector").val() == "") {
+
+				if ($(".selector").val() == "") {
 					alert("예약 날짜를 선택해 주세요.");
 					return;
 				} else {
-					if(chkVal == undefined) {
+					if (chkVal == undefined) {
 						alert("예약 시간을 선택해 주세요.");
 					}
 				}
-				
-				console.log("chkTbArr : "+chkTbArr);
+
+				console.log("chkTbArr : " + chkTbArr);
+				console.log("선택된병 : " + $('#vacSel option:selected').val());
 			}
 		});
 
 		if ('${resvType}' == 'today') {
 			// 			$("#resvTime").css("display", "block");
+			console.log("today : " + today);
+			resvList(today);
 		}
 
 		$("input[name=resvTypeSel]").on(
@@ -141,19 +155,25 @@ td {
 		var arrNumber = [ '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
 				'13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
 				'17:00', '17:30' ];
-		// 		$("#resvTime").css("display", "block");
 		$("#resvTime").empty();
-		console.log("resvList 성공");
+		console.log("현재 시간 : " + d.getHours() + "시");
+		console.log("오늘 날짜 : "+today);
 
 		$.each(data, function(idx, item) {
 			// 시간을 가져와
-			console.log("resvTime : " + item.RESV_TIME);
+			// 			console.log("resvTime : " + item.RESV_TIME);
+			if(today == $(".selector").val()) {
+				var time = item.RESV_TIME;
+				console.log("당일 예약 : "+time.substr(0,2));
+				
+			}
 
 			for (var i = 0; i < arrNumber.length; i++) {
 				if (arrNumber[i] == item.RESV_TIME) {
 					arrNumber.splice(i, 1);
 				}
 			}
+			
 		});
 
 		for (var i = 0; i < arrNumber.length; i++) {
@@ -215,11 +235,6 @@ td {
 			}
 		});
 	}
-
-	function chgVac() {
-		var vacNo = $('#vacSel option:selected').val();
-		console.log("vacNo : " + vacNo);
-	}
 </script>
 </head>
 <body>
@@ -253,7 +268,7 @@ td {
 					</div>
 					<div style="display: none;" id="resvTypeDiv">
 						<select class="form-control mb-3" class="vacSel" id="vacSel"
-							onchange="chgVac()" style="width: 250px; margin-left: 15%;">
+							style="width: 250px; margin-left: 15%;">
 							<option value="">접종항목</option>
 						</select>
 					</div>
@@ -302,8 +317,7 @@ td {
 
 			<div class="card">
 				<div class="card-header">
-					상세 증상 선택&nbsp;<span style="color: red;">[필수]</span>&nbsp;<span
-						style="color: gray;">※중복 선택 가능</span>
+					상세 증상&nbsp;<span style="color: gray;">[선택] ※중복 선택 가능</span>
 				</div>
 				<div class="card-body">
 					<table align="center" border="1"
@@ -345,7 +359,31 @@ td {
 				<div class="card-body">
 					<button id="wMediBtn" class="btn btn-outline-info"
 						style="width: 40%;">문진표 작성</button>
-					<div id="wMedi" style="display: none;">문진표 내용</div>
+					<div id="wMedi" style="display: none; padding: 5px;">
+						<h5>시각</h5>
+						<table style="width: 100%;" border="1">
+							<tr>
+								<td style="width: 10%">1</td>
+								<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
+								<td class="ansR" style="width: 35%"></td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>검은 눈동자(동공)가 혼탁합니까?</td>
+								<td class="ansR"></td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
+								<td class="ansR"></td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
+								<td class="ansR"></td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
 

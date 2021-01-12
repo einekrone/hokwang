@@ -18,4 +18,10 @@
 	<select id="getVacList" resultType="checkupVO">
 		SELECT * FROM CHECKUP
 	</select>
+
+<!-- 	SELECT COUNT(RESV_TIME), RESV_TIME -->
+<!-- 	FROM RESERVATION -->
+<!-- 	WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = '2021-01-12' -->
+<!-- 	GROUP BY RESV_TIME -->
+<!-- 	ORDER BY RESV_TIME; -->
 </mapper>

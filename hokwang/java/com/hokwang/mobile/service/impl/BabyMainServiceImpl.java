@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hokwang.mobile.dao.BabyMainMapper;
 import com.hokwang.mobile.service.BabyMainService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.ParentVO;
 
 @Service
 public class BabyMainServiceImpl implements BabyMainService {
@@ -18,5 +19,10 @@ public class BabyMainServiceImpl implements BabyMainService {
 	@Override
 	public List<BabyVO> getBabyInf() {
 		return dao.getBabyInf();
+	}
+
+	@Override
+	public int insertbabyinfo(BabyVO vo) {
+		return dao.insertbabyinfo(vo);
 	}
 }

@@ -8,5 +8,5 @@ import com.hokwang.vo.ParentVO;
 
 public interface BabyMainService {
 	public List<BabyVO> getBabyInf();
-	
+	public int insertbabyinfo(BabyVO vo);
 }

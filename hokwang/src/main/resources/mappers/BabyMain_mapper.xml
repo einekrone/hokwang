@@ -4,17 +4,29 @@
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.BabyMainMapper">
 	<select id="getBabyInf" resultType="babyVO">
-		select * 
+		select *
 		from baby where parent_no = 1 
 	</select>
 	
 	<insert id="insertbabyinfo" parameterType="BabyVO">
 		<selectKey order="BEFORE" keyProperty="baby_no"
 			resultType="string">
-			SELECT NVL(MAX(temp_NO),0)+1 FROM BABY
+			SELECT NVL(MAX(baby_no),0)+1 FROM BABY
 		</selectKey>
-		insert into baby(baby_no,baby_name,baby_pic,baby_regno1,baby_blood,baby_gender)
-		values(#{baby_no},#{baby_name},#{baby_pic},#{baby_regno1},#{baby_blood},#{baby_gender})
+		insert into baby(baby_no,baby_name,baby_regno1,baby_regno2,baby_blood,baby_gender,baby_pic,parent_no)
+		values(#{baby_no},#{baby_name},#{baby_regno1},#{baby_regno2},#{baby_blood},#{baby_gender},#{baby_pic},'1')
 	</insert>
+	
+	<update id="updatebabyinfo" parameterType="BabyVO">
+		update baby set baby_name=#{baby_name},
+						baby_gender=#{baby_gender},
+						baby_pic=#{baby_pic}
+		<if test="baby_no != null and baby_no != ''">
+		where baby_no = 1
+		</if>
+	
+	</update>
+	
+	
 
 </mapper>

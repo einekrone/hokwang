@@ -202,16 +202,17 @@
           header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            right: '',
             initialView:'dayGridMonth',
          	
             
           },
           
           selectable: true,//선택한 날짜 표시
+          businessHours: true,
          
 		 select: function(arg){ //날짜클릭시 dialog 오픈
-			 
+			 		
 			var start = moment(arg.start).format('YYYY-MM-DD');
 		 	var end = moment(arg.end).format('YYYY-MM-DD');
 			 $('#work_stdate').val(start)
@@ -221,8 +222,6 @@
 			 dialog.dialog("open");
 		
 		 },
-		 
-			
 		
 		eventClick : function(info) {//이벤트 클릭시 삭제	
 			console.log(info);

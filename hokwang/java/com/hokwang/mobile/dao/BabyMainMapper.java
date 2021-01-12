@@ -8,5 +8,6 @@ import com.hokwang.vo.BabyVO;
 public interface BabyMainMapper {
 	
 	public List<BabyVO> getBabyInf();
+	public int insertbabyinfo(BabyVO vo);
 
 }

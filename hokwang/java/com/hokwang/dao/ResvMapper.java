@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hokwang.vo.Images;
 import com.hokwang.vo.PaymentVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -24,4 +25,5 @@ public interface ResvMapper {
 	public Map<String, Object> getPayInfo(PaymentVO vo);
 	public int payUpdate(PaymentVO vo);
 	public int roomUpdate(Reservation vo);
+	public int questInsert(QuestionVO vo);
 }

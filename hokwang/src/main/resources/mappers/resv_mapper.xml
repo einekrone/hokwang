@@ -10,7 +10,8 @@
 		B.BABY_NAME,
 		B.BABY_REGNO1, B.BABY_NO,
 		R.RESV_ROOM, R.RESV_TIME, R.RESV_DATE
-		FROM RESERVATION R,
+		FROM
+		RESERVATION R,
 		BABY B
 		WHERE
 		R.BABY_NO = B.BABY_NO
@@ -159,4 +160,14 @@
 			</if>
 		</where>
 	</update>
+
+	<insert id="questInsert" parameterType="questionVO">
+		<selectKey order="BEFORE" keyProperty="qust_no"
+			resultType="String">
+			SELECT NVL(MAX(QUST_NO),0)+1 FROM QUESTION
+		</selectKey>
+		INSERT INTO QUESTION(QUEST_NO,A1,A2,A3,A4)
+		VALUES (#{qust_no},
+		#{a1}, #{a2}, #{a3})
+	</insert>
 </mapper>

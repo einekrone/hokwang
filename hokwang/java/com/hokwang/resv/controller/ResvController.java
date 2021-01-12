@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.service.ResvService;
 import com.hokwang.vo.Images;
 import com.hokwang.vo.PaymentVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -134,5 +135,18 @@ public class ResvController {
 	@RequestMapping("/ajax/roomUpdate")
 	public int roomUpdate(Reservation vo) {
 		return resvSvc.roomUpdate(vo);
+	}
+
+	// 문진표 등록
+	@ResponseBody
+	@RequestMapping("/ajax/questInsert")
+	public int questInsert(QuestionVO vo) {
+		System.out.println("문진표 등록 S");
+		resvSvc.questInsert(vo);
+		System.out.println("문진표 등록 E");
+		System.out.println("등록된 문진표 번호 : "+vo.getQust_no());
+//		resvSvc.questInsert(vo);
+//		return resvSvc.questInsert(vo);
+		return 0;
 	}
 }

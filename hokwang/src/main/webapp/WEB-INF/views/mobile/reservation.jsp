@@ -30,15 +30,10 @@ td {
 		console.log("start");
 		d = new Date();
 
-		today = d.getFullYear() + '-'
-				+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
-				+ ('0' + d.getDate()).slice(-2);
-		
-		childList();
+		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)
+				+ '-' + ('0' + d.getDate()).slice(-2);
 
-		$(".ansR")
-				.append(
-						'<label class="form-check"> <input name="Ra" type="radio" class="form-check-input" value="Y"> <span class="form-check-label">예</span> </label> <label class="form-check"> <input name="Ra1" type="radio" class="form-check-input" value="N"> <span class="form-check-label">아니오</span> </label>');
+		childList();
 
 		// 예약 버튼 클릭
 		$("#resvBtn").on("click", function() {
@@ -51,27 +46,63 @@ td {
 				alert("예약 상태를 선택해 주세요");
 				$("input[name=resvTypeSel]").focus();
 				return;
-			} else {
-				var chkVal = $('input[name="resvTimeSel"]:checked').val();
-				if ($('input[name="resvTypeSel"]:checked').val() == "vac") {
-					if ($("#vacSel option:selected").val() == "") {
-						alert("접종할 병명을 선택해 주세요.");
-						return;
-					}
-				}
-
-				if ($(".selector").val() == "") {
-					alert("예약 날짜를 선택해 주세요.");
-					return;
-				} else {
-					if (chkVal == undefined) {
-						alert("예약 시간을 선택해 주세요.");
-					}
-				}
-
-				console.log("chkTbArr : " + chkTbArr);
-				console.log("선택된병 : " + $('#vacSel option:selected').val());
 			}
+
+			var chkVal = $('input[name="resvTimeSel"]:checked').val();
+			if ($('input[name="resvTypeSel"]:checked').val() == "vac") {
+				if ($("#vacSel option:selected").val() == "") {
+					alert("접종할 병명을 선택해 주세요.");
+					return;
+				}
+			}
+
+			if ($(".selector").val() == "") {
+				alert("예약 날짜를 선택해 주세요.");
+				return;
+			} else {
+				if (chkVal == undefined) {
+					alert("예약 시간을 선택해 주세요.");
+					return;
+				}
+			}
+			
+			if ($(':radio[name="Ra1"]:checked').length < 1) {
+				alert("문진표의 응답1을 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="Ra2"]:checked').length < 1) {
+				alert("문진표의 응답2를 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="Ra3"]:checked').length < 1) {
+				alert("문진표의 응답3을 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="Ra4"]:checked').length < 1) {
+				alert("문진표의 응답4를 선택해 주세요.");
+				return;
+			}
+
+			console.log("chkTbArr : " + chkTbArr);
+			console.log("a1 : "+$('input[name="Ra1"]:checked').val())
+			
+			$.ajax({
+				url : 'ajax/questInsert',
+				type : 'POST',
+				data : {
+					a1: $('input[name="Ra1"]:checked').val(),
+					a2: $('input[name="Ra2"]:checked').val(),
+					a3: $('input[name="Ra3"]:checked').val(),
+					a4: $('input[name="Ra4"]:checked').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log("questInsert 성공");
+					// 예약 저장
+				}
+			});
 		});
 
 		if ('${resvType}' == 'today') {
@@ -157,15 +188,15 @@ td {
 				'17:00', '17:30' ];
 		$("#resvTime").empty();
 		console.log("현재 시간 : " + d.getHours() + "시");
-		console.log("오늘 날짜 : "+today);
+		console.log("오늘 날짜 : " + today);
 
 		$.each(data, function(idx, item) {
 			// 시간을 가져와
 			// 			console.log("resvTime : " + item.RESV_TIME);
-			if(today == $(".selector").val()) {
+			if (today == $(".selector").val()) {
 				var time = item.RESV_TIME;
-				console.log("당일 예약 : "+time.substr(0,2));
-				
+				console.log("당일 예약 : " + time.substr(0, 2));
+
 			}
 
 			for (var i = 0; i < arrNumber.length; i++) {
@@ -173,7 +204,7 @@ td {
 					arrNumber.splice(i, 1);
 				}
 			}
-			
+
 		});
 
 		for (var i = 0; i < arrNumber.length; i++) {
@@ -251,7 +282,7 @@ td {
 				</div>
 				<div class="card-body">
 					<img id="childImg"
-						style="float: left; margin-right: 10px; border-radius: 50%; height: 100px;">
+						style="float: left; margin: 0 10%; border-radius: 50%; height: 100px;">
 					<div id="childInfo" style="text-align: left;"></div>
 				</div>
 			</div>
@@ -365,22 +396,46 @@ td {
 							<tr>
 								<td style="width: 10%">1</td>
 								<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
-								<td class="ansR" style="width: 35%"></td>
+								<td style="width: 35%"><label class="form-check"> <input
+										name="Ra1" type="radio" class="form-check-input" value="Y">
+										<span class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra1"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
 							</tr>
 							<tr>
 								<td>2</td>
 								<td>검은 눈동자(동공)가 혼탁합니까?</td>
-								<td class="ansR"></td>
+								<td><label class="form-check"> <input name="Ra2"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra2"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
 							</tr>
 							<tr>
 								<td>3</td>
 								<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
-								<td class="ansR"></td>
+								<td><label class="form-check"> <input name="Ra3"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra3"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
 							</tr>
 							<tr>
 								<td>4</td>
 								<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
-								<td class="ansR"></td>
+								<td><label class="form-check"> <input name="Ra4"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra4"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
 							</tr>
 						</table>
 					</div>

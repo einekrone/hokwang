@@ -10,6 +10,7 @@ import com.hokwang.dao.ResvMapper;
 import com.hokwang.service.ResvService;
 import com.hokwang.vo.Images;
 import com.hokwang.vo.PaymentVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -77,5 +78,11 @@ public class ResvServiceImpl implements ResvService {
 	@Override
 	public int roomUpdate(Reservation vo) {
 		return resvDao.roomUpdate(vo);
+	}
+
+	@Override
+	public int questInsert(QuestionVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

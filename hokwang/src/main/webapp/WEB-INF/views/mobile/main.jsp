@@ -18,100 +18,99 @@
 
 <link href="${pageContext.request.contextPath}/resources/css/mobile.css"
 	rel="stylesheet">
-	
- <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-	
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+
 <style>
-#card1{
-width:180px;
-  display:inline-table;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  margin-right: 5px;
+#card1 {
+	width: 180px;
+	display: inline-table;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-right: 5px;
 }
 
-#card2{
-width:180px;
-  display:inline-table;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  margin-left: 1px;
-
-}
-#today{
-
-  width:53px;
-  height:80px;
-  display:inline;
-}
-#reserv{
-  width:53px;
-  height:80px;
-  display:inline;
-}
-#resvname{
-display:inline;
-}
-#issue{
-width : 180px;
-height:80px;
+#card2 {
+	width: 180px;
+	display: inline-table;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-left: 1px;
 }
 
+#resvname {
+	display: inline;
+}
+
+#issue {
+	width: 180px;
+	height: 80px;
+}
+
+.btnt {
+	height: 100%;
+	width: 45%;
+	background-color: #96bb7c;
+	color: white;
+}
+
+.btnv {
+	height: 100%;
+	width: 45%;
+	background-color: #ffc764;
+	color: white;
+}
 </style>
 
 </head>
 <body onload="initialize()">
-<script>
-//지도
-function initialize() {
-	   var myLatlng = new google.maps.LatLng(35.870704, 128.589424);
-	   var mapOptions = {
-	        zoom: 17,
-	        center: myLatlng,
-	        mapTypeId: google.maps.MapTypeId.ROADMAP
-	   }
-	   var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-	   var marker = new google.maps.Marker({
-		    position: myLatlng,
-		    map: map,
-		    title: "호광병원"
-		});
-	  }; // 지도끝
-	  
-$(function(){
-	getEmpInfo();
-	empInfoListResult();	
-	
-})
-	
-	
-	//의료진 소개
-	function getEmpInfo() {
-		$.ajax({
-			url : 'ajax/getEmpInfo',
-			type : 'GET',
-			dataType : 'json',
-			success : 
-				empInfoListResult
-			,
-			error : function() {
-				alert("fail")
+	<script>
+		//지도
+		function initialize() {
+			var myLatlng = new google.maps.LatLng(35.870704, 128.589424);
+			var mapOptions = {
+				zoom : 17,
+				center : myLatlng,
+				mapTypeId : google.maps.MapTypeId.ROADMAP
 			}
+			var map = new google.maps.Map(
+					document.getElementById('map_canvas'), mapOptions);
+			var marker = new google.maps.Marker({
+				position : myLatlng,
+				map : map,
+				title : "호광병원"
+			});
+		}; // 지도끝
 
-		});
-	}
-	  
-	  function empInfoListResult(data){
-		  console.log("aa" + data);
-		  $('tbody').empty();
-		  $.each(data,function(idx,item){
-			  $('<tr>')
-			  .append($('<td>').html(item.emp_name))
-			  .append($('<td>').html(item.emp_room))
-			  .appendTo('tbody');
-		  })
-	  }
-</script>
+		$(function() {
+			getEmpInfo();
+			empInfoListResult();
+
+		})
+
+		//의료진 소개
+		function getEmpInfo() {
+			$.ajax({
+				url : 'ajax/getEmpInfo',
+				type : 'GET',
+				dataType : 'json',
+				success : empInfoListResult,
+				error : function() {
+					alert("fail")
+				}
+
+			});
+		}
+
+		function empInfoListResult(data) {
+			console.log("aa" + data);
+			$('tbody').empty();
+			$.each(data, function(idx, item) {
+				$('<tr>').append($('<td>').html(item.emp_name)).append(
+						$('<td>').html(item.emp_room)).appendTo('tbody');
+			})
+		}
+	</script>
 <body>
 	#{kemail}
 	<div class="row mb-2 mb-xl-3">
@@ -119,7 +118,8 @@ $(function(){
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 				</ol>
-				<input type="button" class="btn btn-primary btn-sm" value="모바일 아기 수첩" onclick="location.href='babyDiary'"/>
+				<input type="button" class="btn btn-primary btn-sm"
+					value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
 			</nav>
 		</div>
 	</div>
@@ -157,17 +157,18 @@ $(function(){
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<div >
-							<div class="mb-1">
-								<input type="button" class="btn btn-primary active" value="당일" id="today">
-								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5>
-								<input type="button" class="btn btn-danger active" value="예약" id="reserv">
+						<div>
+							<div style="height: 80px; text-align: center;">
+								<button class="btn btnt" onclick="location.href='resv?type=today'">당일예약</button>
+								<!-- 								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5> -->
+								<button class="btn btnv" onclick="location.href='resv?type=prio'">우선예약</button>
 							</div>
 						</div>
 					</div>
 					<div id="card2" class="card">
 						<div>
-							<input type="button" class="btn btn-info active" value="증명서발급" id="issue">
+							<input type="button" class="btn btn-info active" value="증명서 발급"
+								id="issue">
 						</div>
 					</div>
 				</div>
@@ -195,7 +196,7 @@ $(function(){
 		</div>
 	</div>
 
-<!-- 병원 위치, 오시는길/영업일시 -->
+	<!-- 병원 위치, 오시는길/영업일시 -->
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">

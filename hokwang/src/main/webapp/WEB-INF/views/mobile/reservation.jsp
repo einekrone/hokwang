@@ -28,55 +28,76 @@ td {
 		childList();
 
 		$("#resvBtn").on("click", function() {
+			if($("#childSel option:selected").val() == "") {
+				alert("자녀를 선택해 주세요.");
+				return;
+			}
+			
 			if ($(':radio[name="resvTypeSel"]:checked').length < 1) {
 				alert("예약 상태를 선택해 주세요");
 				$("input[name=resvTypeSel]").focus();
 				return;
 			} else {
+				var chkVal = $('input[name="resvTimeSel"]:checked').val();
+				console.log("chkVal : " + chkVal);
 				if ($('input[name="resvTypeSel"]:checked').val() == "vac") {
-
+					// vacSel selectbox 값 notnull
+					console.log("선택된 병: "+$("#vacSel option:selected").val());
+					if($("#vacSel option:selected").val() == "") {
+						alert("접종할 병명을 선택해 주세요.");
+						return;
+					}
 				}
+				
+				if($(".selector").val() == "") {
+					alert("예약 날짜를 선택해 주세요.");
+					return;
+				} else {
+					if(chkVal == undefined) {
+						alert("예약 시간을 선택해 주세요.");
+					}
+				}
+				
+				console.log("chkTbArr : "+chkTbArr);
 			}
 		});
 
 		if ('${resvType}' == 'today') {
-			$("#resvTime").css("display", "block");
+			// 			$("#resvTime").css("display", "block");
 		}
 
-		$("input[name=resvTypeSel]").on("click", function() {
-			var chkVal = $('input[name="resvTypeSel"]:checked').val();
+		$("input[name=resvTypeSel]").on(
+				"click",
+				function() {
+					var chkVal = $('input[name="resvTypeSel"]:checked').val();
 
-			if (chkVal == "vac") {
-				$("#resvTypeDiv").css("display", "block");
-				$.ajax({
-					url : 'ajax/vacList',
-					type : 'GET',
-					// 			data : {parent_no: ~~},
-					error : function(xhr, status, msg) {
-						alert("상태값 :" + status + " Http에러메시지 :" + msg);
-					},
-					success : function(data) {
-						$.each(data, function(idx, item) {
-							$("#vacSel").append(
-									$('<option>').attr("value", item.chk_no).html(
-											item.chk_name));
+					if (chkVal == "vac") {
+						$("#resvTypeDiv").css("display", "block");
+						$.ajax({
+							url : 'ajax/vacList',
+							type : 'GET',
+							// 			data : {parent_no: ~~},
+							error : function(xhr, status, msg) {
+								alert("상태값 :" + status + " Http에러메시지 :" + msg);
+							},
+							success : function(data) {
+								$.each(data, function(idx, item) {
+									$("#vacSel").append(
+											$('<option>').attr("value",
+													item.chk_no).html(
+													item.chk_name));
+								});
+							}
 						});
+
+					} else {
+						$("#resvTypeDiv").css("display", "none");
 					}
 				});
-				
-			} else {
-				$("#resvTypeDiv").css("display", "none");
-			}
-		});
-
-		$("input[name=resvTimeSel]").on("click", function() {
-			var chkVal = $('input[name="resvTimeSel"]:checked').val();
-			console.log("chkVal : " + chkVal);
-		});
 
 		$(".selector").on("change", function() {
-			console.log("date : " + $(".selector").val());
-			$("#resvTime").css("display", "block");
+			console.log("날짜 선택 : " + $(".selector").val());
+			resvList($(".selector").val());
 		});
 
 		$("#wMediBtn").on("click", function() {
@@ -101,6 +122,47 @@ td {
 			}
 		});
 	});
+
+	function resvList(resvDate) {
+		$.ajax({
+			url : 'ajax/resvList',
+			type : 'GET',
+			data : {
+				resv_date : resvDate
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : resvListResult
+		});
+	}
+
+	function resvListResult(data) {
+		var arrNumber = [ '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+				'13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+				'17:00', '17:30' ];
+		// 		$("#resvTime").css("display", "block");
+		$("#resvTime").empty();
+		console.log("resvList 성공");
+
+		$.each(data, function(idx, item) {
+			// 시간을 가져와
+			console.log("resvTime : " + item.RESV_TIME);
+
+			for (var i = 0; i < arrNumber.length; i++) {
+				if (arrNumber[i] == item.RESV_TIME) {
+					arrNumber.splice(i, 1);
+				}
+			}
+		});
+
+		for (var i = 0; i < arrNumber.length; i++) {
+			$("#resvTime")
+					.append(
+							'<label class="form-check" style="margin:2px;"><input name="resvTimeSel" type="radio" class="form-check-input" value="'+arrNumber[i]+'"><span class="form-check-label">'
+									+ arrNumber[i] + '</span></label>');
+		}
+	}
 
 	function childList() {
 		$.ajax({
@@ -137,20 +199,26 @@ td {
 					$("#childInfo").empty();
 					$("#childInfo").append(
 							$('<p>').html(
-									'이름 : ' + item.baby_name + " (" + item.baby_blood
-											+ "형, " + item.baby_gender + ")")).append(
-							$('<p>').html('주민번호 : ' + item.baby_regno1 + '-' + item.baby_regno2))
-							.append($('<p>').html('방문 여부 : ' + item.baby_visit));
+									'이름 : ' + item.baby_name + " ("
+											+ item.baby_blood + "형, "
+											+ item.baby_gender + ")")).append(
+							$('<p>').html(
+									'주민번호 : ' + item.baby_regno1 + '-'
+											+ item.baby_regno2)).append(
+							$('<p>').html('방문 여부 : ' + item.baby_visit));
 
-					$("#childImg").attr("src", "${pageContext.request.contextPath}/resources/img/" + item.baby_pic);
+					$("#childImg").attr(
+							"src",
+							"${pageContext.request.contextPath}/resources/img/"
+									+ item.baby_pic);
 				});
 			}
 		});
 	}
-	
+
 	function chgVac() {
 		var vacNo = $('#vacSel option:selected').val();
-		console.log("vacNo : "+vacNo);
+		console.log("vacNo : " + vacNo);
 	}
 </script>
 </head>
@@ -160,15 +228,16 @@ td {
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<select class="form-control mb-3" style="width: 250px; margin-left:15%;"
-						id="childSel" onchange="chgChild()">
+					<select class="form-control mb-3"
+						style="width: 250px; margin-left: 15%;" id="childSel"
+						onchange="chgChild()">
 						<option value="" selected>자녀 선택</option>
 					</select>
 				</div>
 				<div class="card-body">
 					<img id="childImg"
-						style="float: left; margin-right:10px; border-radius: 50%; height: 100px;">
-					<div id="childInfo" style="text-align:left;"></div>
+						style="float: left; margin-right: 10px; border-radius: 50%; height: 100px;">
+					<div id="childInfo" style="text-align: left;"></div>
 				</div>
 			</div>
 			<div class="card">
@@ -183,8 +252,8 @@ td {
 						</label>
 					</div>
 					<div style="display: none;" id="resvTypeDiv">
-						<select class="form-control mb-3" class="vacSel" id="vacSel" onchange="chgVac()"
-							style="width: 250px; margin-left:15%;">
+						<select class="form-control mb-3" class="vacSel" id="vacSel"
+							onchange="chgVac()" style="width: 250px; margin-left: 15%;">
 							<option value="">접종항목</option>
 						</select>
 					</div>
@@ -227,54 +296,7 @@ td {
 				</c:if>
 				<!-- 날짜별 예약 가능 시간 -->
 				<div class="card-footer">
-					<div id="resvTime" style="display: none;">
-						<label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value="09:00"> <span
-							class="form-check-label">09:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value="09:30"> <span
-							class="form-check-label">09:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">10:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" disabled> <span
-							class="form-check-label" disabled>10:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">11:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">11:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">13:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">14:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">14:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">15:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">15:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">16:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">16:30</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">17:00</span>
-						</label> <label class="form-check"> <input name="resvTimeSel"
-							type="radio" class="form-check-input" value=""> <span
-							class="form-check-label">17:30</span>
-						</label>
-					</div>
+					<div id="resvTime"></div>
 				</div>
 			</div>
 

@@ -9,8 +9,9 @@
 		R.RESV_TIME AS RESV_DATETIME, R.RESV_STATUS,
 		B.BABY_NAME,
 		B.BABY_REGNO1, B.BABY_NO,
-		R.RESV_ROOM
-		FROM RESERVATION R, BABY B
+		R.RESV_ROOM, R.RESV_TIME
+		FROM RESERVATION R,
+		BABY B
 		WHERE
 		R.BABY_NO = B.BABY_NO
 		<if
@@ -23,6 +24,9 @@
 				AND B.BABY_NAME LIKE '%'||#{keyword}||'%'
 			</if>
 		</if>
+		<if test="resv_date != '' and resv_date != null">
+			AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
+		</if>
 		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
 	</select>
 
@@ -31,7 +35,8 @@
 		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
 		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO
 		FROM DIAGNOSIS D RIGHT
-		JOIN RESERVATION R ON R.RESV_NO = D.RESV_NO
+		JOIN
+		RESERVATION R ON R.RESV_NO = D.RESV_NO
 		<where>
 			<if test="baby_no != null and baby_no != ''">
 				R.BABY_NO = #{baby_no}
@@ -107,13 +112,16 @@
 
 	<select id="getRoomList" resultType="map">
 		SELECT R.*, B.*
-		FROM RESERVATION R, BABY B
+		FROM
+		RESERVATION R, BABY B
 		WHERE B.BABY_NO = R.BABY_NO
-		AND R.RESV_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND R.RESV_DATE =
+		TO_CHAR(SYSDATE, 'YY/MM/DD')
 		AND R.RESV_STATUS IN ('N', 'I')
-		ORDER BY R.RESV_DATE, R.RESV_TIME, R.RESV_TYPE
+		ORDER BY
+		R.RESV_DATE, R.RESV_TIME, R.RESV_TYPE
 	</select>
-		<!-- AND <![CDATA[ R.RESV_TIME < TO_CHAR(SYSDATE, 'HH24:MI') ]]> -->
+	<!-- AND <![CDATA[ R.RESV_TIME < TO_CHAR(SYSDATE, 'HH24:MI') ]]> -->
 
 	<select id="getPayInfo" resultType="map"
 		parameterType="paymentVO">

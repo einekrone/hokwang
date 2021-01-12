@@ -463,10 +463,7 @@ button {
 
 	function resvListResult(data) {
 		$("#resvList").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
+		$.each(data, function(idx, item) {
 							var date = item.RESV_DATETIME.substring(0, 10);
 							var d = new Date();
 							var today = d.getFullYear() + '-'
@@ -491,9 +488,7 @@ button {
 									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								console.log("진료실번호 : " + item.RESV_ROOM);
 								console.log("예약번호 : " + item.RESV_NO);
-								$("#regno" + idx)
-										.eq(-1)
-										.after(
+								$("#regno" + idx) .eq(-1) .after(
 												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove('
 														+ item.RESV_NO
 														+ ')" class="officeSel" id="officeSel'

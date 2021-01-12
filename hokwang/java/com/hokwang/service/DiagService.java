@@ -29,6 +29,7 @@ public interface DiagService {
 	public int insertPres(PrescriptionVO vo);
 	public List<PrescriptionVO> getPrescription(PrescriptionVO vo);
 	public int updatePrescription(PrescriptionVO vo);
+	public int deletePrescription(PrescriptionVO vo);
 	
 	public int UpdateDiagStatus(Reservation vo);
 }

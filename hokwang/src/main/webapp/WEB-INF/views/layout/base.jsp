@@ -87,7 +87,6 @@
 						<li><a href="medicine">약품관리</a></li>
 						<li><a href="sales">매출</a></li>
 								<div class="diagMenu" style="float: right; display: none;">
-									<button id="diagStart">진료시작</button>
 									<button id="diagEnd">진료종료</button>
 									<button id="prescript">문진표</button>
 									<button id="prePhoto">사진</button>

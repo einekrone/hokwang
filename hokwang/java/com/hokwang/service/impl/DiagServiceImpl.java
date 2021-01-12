@@ -110,4 +110,10 @@ public class DiagServiceImpl implements DiagService{
 		return service.updatePrescription(vo);
 	}
 
+	@Override
+	public int deletePrescription(PrescriptionVO vo) {
+	
+		return service.deletePrescription(vo);
+	}
+
 }

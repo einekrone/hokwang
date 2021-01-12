@@ -107,16 +107,14 @@
 							  diag_time,
 							  resv_no,
 							  emp_no,
-							  diaglist_no,
 							  diaglist_memo,
 							  dis_code
 		)
 		VALUES(
 		#{diag_no},
-		#{diag_time},
+		SYSDATE,
 		#{resv_no},
 		#{emp_no},
-		#{diaglist_no},
 		#{diaglist_memo},
 		#{dis_code}
 		)
@@ -155,14 +153,15 @@
 	UPDATE PRESCRIPTION
 	SET PRES_COUNT = #{pres_count},
  		PRES_ACCOUNT = #{pres_account},
-		PRES_TOTAL = #{pres_total}
-		<where>
-			<if test="pres_no != null and pres_no != ''">
-				PRES_NO = #{pres_no}
-			</if>
-		</where>
+		PRES_TOTAL = #{pres_total},
+		PRES_DATE = SYSDATE
+		WHERE PRES_NO = #{pres_no}
 	</update> 
 	
+	<delete id="deletePrescription" parameterType="PrescriptionVO">
+	DELETE FROM PRESCRIPTION
+	WHERE PRES_NO = #{pres_no}
+	</delete>
 	<update id="UpdateDiagStatus" parameterType="reservation">
 		UPDATE RESERVATION
 		SET RESV_STATUS = #{resv_status}

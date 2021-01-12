@@ -50,40 +50,17 @@ div.dataTables_wrapper div.dataTables_paginate {
 		
 		updatemediModal();
 		mediUpdate();
+		mediDelete();
 		
 		getDiseChg();
 		
 		getDiseaseList();
 		//diagEndInsert();
 		$(".diagMenu").show();
-		
-		$("#diagStart").on('click', function() {//진료시작 버튼 
-	         console.log("진료시작 버튼")
-	         if (confirm("진료를 시작하시겠습니까?")) {
-	            getDiseaseList();//질병리스트   
-	            $("#medicine").css("visibility", "visible");
-
-	            // pointer-events: none;  클릭금지
-
-	            if ($('#Info').children().length == 0) {
-	               console.log("널값체크")
-	               console.log("널값체크"+ $('#Info'));
-	               
-	            }
-	            else{
-	               console.log("실행");
-	               $("#waitList tr").off("click");
-	            }
-	         } else {
-	            $("#medicine").css("visibility", "hidden");
-	            $("#InsertDisease").empty();
-	         }
-	      });
-
-		
+			
 		//진료종료
 		$("#diagEnd").on('click',function(){
-			console.log("ㅁㄴㅇㄹ");
+			diagEndInsert();
 		});
 		
 	});
@@ -92,34 +69,27 @@ div.dataTables_wrapper div.dataTables_paginate {
 	}
 	
 	
-/* 	  //진료 종료 인설트
+  	  //진료 종료 인설트
 	function diagEndInsert(){
-		  $("#diagEnd").on("click",function(){
-		  let list = [];
-		  disObj = {};
-		  mediObj = {};
-		  
-		  //질병 객체에 담기
-		  disObj["dis_name"] = dis_name; //질병이름
-		  disObj["dis_comm"] = dis_comm; //질병상세
-		  
-		  //약 객체에 담기
-		  list.push(mediObj);
+		
 		         $.ajax({ 
-		             url: "/hokwang/insertAll",  
+		             url: "ajax/insertDiagList",  
 		             type: 'POST',  
-		             data : {resv_no : resv_no}
-		             ,
+		             data : {
+		            	resv_no : resv_no,
+		            	emp_no : ${emp_vo.emp_no},
+		            	diaglist_memo : $("#insertDiagList").find('#patient_records').val(),
+		            	dis_code : $("#insertDiagLast").children().children().eq(0).text()
+		             },
 		             error:function(xhr, status, msg) { 
 		                 alert(" status: "+status+" er:"+msg);
 		             },
 		             success : function(result){
-		            	 console.log(result);
-		             }
-		          });  
+		            	 UnChange();
+		             } 
 		});
-	}   */
-	 
+	} 
+	  
 	
 	
 	//약 삭제
@@ -275,6 +245,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 				 .append($('<td>').html(item.PRES_COUNT))
 				 .append($('<td>').html(item.PRES_TOTAL))
 				 .append($('<td style="display:none;">').html(item.PRES_NO))
+				 .append($('<td style="display:none;">').html(item.RESV_NO))
 				 .appendTo($('#insertMedicine'));
 			});
 		}
@@ -284,32 +255,40 @@ div.dataTables_wrapper div.dataTables_paginate {
 			$('#updatemediModal').on('show.bs.modal', function(event) {
 				var tds = $(event.relatedTarget).find('td');
 				var modal = $(this);
-						
+				
+				console.log(tds.eq(0).text());
+				console.log(tds.eq(1).text());
+				console.log(tds.eq(2).text());
+				console.log(tds.eq(3).text());
+				console.log(tds.eq(4).text());
+				console.log(tds.eq(5).text());
+				console.log(tds.eq(6).text());
+				
 				modal.find('#medi_no').val(tds.eq(0).text())
 				modal.find('#medi_name').val(tds.eq(1).text())
 				modal.find('#pres_account').val(tds.eq(2).text())
 				modal.find('#pres_count').val(tds.eq(3).text())
 				modal.find('#pres_total').val(tds.eq(4).text())
-				modal.find('#resv_no').val(tds.eq(5).text());
-				modal.find('#pres_no').val(tds.eq(6).text());
+				modal.find('#pres_no').val(tds.eq(5).text())
+				modal.find('#resv_no').val(tds.eq(6).text())
 			});
 		}
 	 
 	//약품 수정
 	 function mediUpdate(){
 		 $('#mediUpdate').on("click",function(){
-			 console.log($('#medi_no').val());
+			 console.log($('#pres_no').val());
 			 $.ajax({
 					url : "ajax/updatePrescription",
 					type : 'POST',
 					dataType : 'json',
 					data : {
-						medi_no : $('#medi_no').val(),
-						medi_name : $('#medi_name').val(),
-						pres_account : $('#pres_account').val(),
-						pres_count : $('#pres_count').val(),
-						pres_total : $('#pres_total').val(),
-						pres_no : $('#pres_no').val(),
+						medi_no : $("#updatemediModal").find('#medi_no').val(),
+						medi_name : $("#updatemediModal").find('#medi_name').val(),
+						pres_account : $("#updatemediModal").find('#pres_account').val(),
+						pres_count : $("#updatemediModal").find('#pres_count').val(),
+						pres_total : $("#updatemediModal").find('#pres_total').val(),
+						pres_no : $("#updatemediModal").find('#pres_no').val(),
 						resv_no : resv_no
 					},
 					error : function(xhr, status, msg) {
@@ -323,7 +302,26 @@ div.dataTables_wrapper div.dataTables_paginate {
 		 });
 	 }  
 	 
+	function mediDelete(){
+		 $('#mediDelete').on("click",function(){
 
+			 $.ajax({
+					url : "ajax/deletePrescription",
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						pres_no : $("#updatemediModal").find('#pres_no').val()
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data){
+						$("#insertMedicine").empty();
+						lastInsertList();
+					}
+				});
+		 });
+	}
 	 
 	 //상병 이동
 	 function getDiseChg(){
@@ -338,13 +336,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 				console.log("병 tr: "+ td.eq(1).text());
 				
 	  			$("#insertDiagLast").empty();
-				$("<tr>").append($('<td>').html(td.eq(1).text()))
+				$("<tr>").append($('<td style="display:none;">').html(td.eq(0).text()))
+						 .append($('<td>').html(td.eq(1).text()))
 					     .append($('<td>').html(td.eq(2).text()))
 				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" style="width:50px;">X</button></td>'))
 				 .appendTo($('#insertDiagLast'));
 			
-				var dis_name = td.eq(1).text();
-				var dis_comm = td.eq(2).text();
+				 dis_name = td.eq(1).text();
+				 dis_comm = td.eq(2).text();
 			});
 	 }
 	 
@@ -804,7 +803,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							</div>
 						</div>
 						<div style="overflow: auto; width: 100%; height: 200px;">
-							<table>
+							<table class="table">
 								<thead>
 									<tr>
 										<th style="width: 200px;">코드</th>
@@ -974,7 +973,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 					</div>
 				</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="mediSave" name="mediSave">Save</button>
+						<button type="button" class="btn btn-primary" id="mediSave" name="mediSave" data-dismiss="modal">Save</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -1001,14 +1000,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<span style="font-weight: 600;"> 약 갯수 :</span><input type= "text" id="pres_account" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">일 투여 횟수  :</span><input type= "text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">총 투여 일수  :</span><input type= "text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
-							<input type= "text" id="resv_no" style="display:none;">
-							<input type= "text" id="pres_no" style="display:none;">
+							<input type="text" id="resv_no" style="display:none;">
+							<input type="text" id="pres_no" style="display:none;">
 						</div>
 					</div>
 				</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="mediUpdate" name="mediUpdate">update</button>
-						<button type="button" class="btn btn-primary" id="mediDelete" name="mediDelete">delete</button>
+						<button type="button" class="btn btn-primary" id="mediUpdate" name="mediUpdate" data-dismiss="modal">update</button>
+						<button type="button" class="btn btn-primary" id="mediDelete" name="mediDelete" data-dismiss="modal">delete</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					</div>
 				</div>

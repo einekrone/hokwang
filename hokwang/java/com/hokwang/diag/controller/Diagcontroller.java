@@ -114,7 +114,24 @@ public class Diagcontroller {
 	@ResponseBody
 	@RequestMapping("/ajax/updatePrescription")
 	public int updatePrescription(PrescriptionVO vo){
+	System.out.println(vo);	
 	return diagDao.updatePrescription(vo);
 	}
+	
+	//처방전 삭제
+	@ResponseBody
+	@RequestMapping("/ajax/deletePrescription")
+	public int deletePrescription(PrescriptionVO vo){
+	System.out.println(vo);	
+	return diagDao.deletePrescription(vo);
+	}
+	
+	
+	  //진단서 인설트
+	  @ResponseBody  
+	  @RequestMapping("/ajax/insertDiagList") 
+	  public int insertDiagList(DiagnosisVO vo){
+	  return diagDao.insertDiagList(vo); 
+	  }
 	
 }

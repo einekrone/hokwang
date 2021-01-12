@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.CheckHistService;
+import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckHistVO;
 
 @Controller
 public class CheckHistListController {
 @Autowired CheckHistService service;
 
-
-//의사 조회
 	@ResponseBody
 	@RequestMapping("/ajax/checkhist")
-	public List<CheckHistVO> checkHistlist(CheckHistVO vo) {
+	public List<CheckHistVO> checkHistlist(BabyVO vo) {
 		return service.checkHistlist(vo);
 	}
 }

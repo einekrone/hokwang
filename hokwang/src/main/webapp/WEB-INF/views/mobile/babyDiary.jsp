@@ -53,91 +53,106 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <style>
-#card1 {
-	width: 180px;
-	display: inline-table;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	margin-right: 5px;
+.card-header-pills {
+	margin-right: auto;
+	margin-left: auto;
 }
 
-#card2 {
-	width: 180px;
-	display: inline-table;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	margin-left: 1px;
+ul.tabs {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
 }
 
-#today {
-	width: 53px;
-	height: 80px;
-	display: inline;
+ul.tabs li {
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
 }
 
-#reserv {
-	width: 53px;
-	height: 80px;
-	display: inline;
+ul.tabs li.current {
+	background: #ededed;
+	color: #222;
 }
 
-#resvname {
-	display: inline;
-}
-
-#issue {
-	width: 180px;
-	height: 80px; body { margin-top : 100px;
-	font-family: 'Trebuchet MS', serif;
-	line-height: 1.6
-}
+.tab-content.current {
+	display: inherit;
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(function() {
+		checkuphist();
+		$('ul.tabs li').click(function() {
+			var tab_id = $(this).attr('data-tab');
 
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		})
 	});
 </script>
-
 <script type="text/javascript">
-var checkuplist=[];
-
-function checkuphist() {
-	var checkuplist=[];
 	
-	$.ajax({
-		url : "ajax/",
-		type : "GET",
-		dataType : "JSON",
-		data : {
-			
-		},
-		error : function(xhr, status, msg) {
-			alert("상태값 :" + status + " Http에러메시지 :" + msg);
-		},
-		success : checkuphistResult
+</script>
+<script type="text/javascript">
+	var checkuplist = [];
 
-	});/* end of ajax */
+	function checkuphist() {
+		var checkuplist = [];
 
-}/* end of function */	
+		console.log("DDD");
+		$.ajax({
+			url : "ajax/checkhist",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				list : checkuplist
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : checkuphistResult
 
-function checkuphistResult(data) {
-	console.log("patientListResult전체환자 리스트 출력 콘솔");
+		});/* end of ajax */
 
-	$("#patientList").empty();
-	$.each(data, function(idx, item) {
+	}/* end of function */
 
-		$("<tr>").append(
-				$("<td id='baby_no' value= '"+item.baby_no+"'>").html(
-						item.baby_no)).append(
-				$("<td>").html(item.baby_name)).append(
-				$("<td id='regno "+idx+"'>").html(item.baby_regno1))
-				.append($("<td>").html(item.baby_regno2)).append(
-						$('<td style="display:none;">').html(item.baby_no))
-				.appendTo('#patientList');
-		//console.log("예약번호 : "+td.eq(5).text());
-	})/* end of ajax  */
-}
+	function checkuphistResult(data) {
+		var text = "";
+		console.log("patientListResult전체환자 리스트 출력 콘솔");
+
+		$("#checkup").empty();
+		$.each(data, function(idx, item) {
+
+			$("<tr>").append(
+					$("<td id='hist_no' value= '"+item.hist_no+"'>").html(
+							item.hist_no)).append(
+					$("<td id='hist_cnt'>").html(item.hist_count+" 회")).appendTo(
+					'#checkup');
+
+			if (item.hist_state == "I") {
+				console.log(">> " + item.hist_state);
+				text = "접종 중";
+				$("#hist_cnt").eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} else if (item.hist_state == "N") {
+				console.log(">> " + item.hist_state);
+				text = "미접종";
+				$("#hist_cnt").eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} else if (item.hist_state == "Y") {
+				console.log(">> " + item.hist_state);
+				text = "접종 완료";
+				$("#hist_cnt").eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			}
+
+		})/* end of ajax  */
+	}
 </script>
 </head>
 <body>
@@ -150,7 +165,12 @@ function checkuphistResult(data) {
 						<option value="" selected>==자녀선택==</option>
 					</select>
 				</div>
-				<div>여기사진들어갈곳</div>
+				<div style="align-self: center;">
+					<img
+						src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg"
+						alt="Christina Mason" class="img-fluid rounded-circle mb-2"
+						width="120" height="120" />
+				</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
 			</div>
 		</div>
@@ -168,19 +188,18 @@ function checkuphistResult(data) {
 			</div>
 		</div>
 	</div>
-
 	<!-- 2 -->
 	<div class="row">
 		<div class="col-15 col-lg-8 col-xxl-7 d-flex">
 			<div class="card flex-fill" style="height: 400px;">
 				<!-- Tab을 구성할 영역 설정-->
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header"
+						style="padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 15px;">
 						<ul class="nav nav-pills card-header-pills pull-right"
 							style="float: left" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
 								data-toggle="tab" href="#tab-4">예약/진료</a></li>
-
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tab-5">접종</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -194,8 +213,8 @@ function checkuphistResult(data) {
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
 								<div>
 									<div style="height: 190px">
-										<div class="card">
-											<ul class="nav nav-pills card-header-pills pull-right">
+										<div class="card" >
+											<ul class="nav nav-pills card-header-pills pull-right" >
 												<li class="nav-item"><a class="nav-link active"
 													data-toggle="tab" href="#tab-8">전체</a></li>
 												<li class="nav-item"><a class="nav-link"
@@ -214,7 +233,7 @@ function checkuphistResult(data) {
 													<th class="text-center">문진표</th>
 												</tr>
 											</thead>
-											<tbody id="patientList"></tbody>
+											<tbody id="#"></tbody>
 										</table>
 									</div>
 									<div style="height: 150px">
@@ -226,41 +245,106 @@ function checkuphistResult(data) {
 													<th class="text-center">문진표</th>
 												</tr>
 											</thead>
-											<tbody id="patientList"></tbody>
+											<tbody id="#"></tbody>
 										</table>
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane fade text-center" id="tab-5" role="tabpanel">
-								<div class="row">
-									<div class="card" style="text-align: center;height:200	px">
-										<ul class="nav nav-pills card-header-pills pull-right">
-											<li class="nav-item"><a class="nav-link active"
-												data-toggle="tab" href="#tab-8">전체</a></li>
-											<li class="nav-item"><a class="nav-link"
-												data-toggle="tab" href="#tab-9">미접종</a></li>
-											<li class="nav-item"><a class="nav-link"
-												data-toggle="tab" href="#tab-10">접종완료</a></li>
-										</ul>
-										<div class="card bg-light py-3 py-md-3 border" style="height:190px">
-											<div class="card-body" id="checkup">
-											
-											</div>
+							<!-- 2 시작-->
+							<!-- 2 -->
+							<div class="tab-pane fade" id="tab-5" role="tabpanel">
+								<div class="card">
+									<ul class="nav nav-pills card-header-pills pull-right"
+										role="tablist">
+										<li class="nav-item"><a class="nav-link active"
+											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">전체</a></li>
+										<li class="nav-item"><a class="nav-link"
+											data-toggle="tab" href="#tab-2">미검진</a></li>
+										<li class="nav-item"><a class="nav-link"
+											data-toggle="tab" href="#tab-3">검진완료</a></li>
+
+									</ul>
+								</div>
+								<div>
+									<div class="tab-content">
+										<div class="tab-pane fade active show" id="tab-1"
+											role="tabpanel">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">전체</th>
+														<th class="text-center">차수</th>
+														<th class="text-center">접종완료</th>
+													</tr>
+												</thead>
+												<tbody id="checkup"></tbody>
+											</table>
+										</div>
+
+
+										<div class="tab-pane fade text-center" id="tab-2"
+											role="tabpanel">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">전체</th>
+														<th class="text-center">차수</th>
+														<th class="text-center">접종완료</th>
+													</tr>
+												</thead>
+												<tbody id="#"></tbody>
+											</table>
+										</div>
+
+										<div class="tab-pane fade text-center" id="tab-3"
+											role="tabpanel">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">전체</th>
+														<th class="text-center">차수</th>
+														<th class="text-center">접종완료</th>
+													</tr>
+												</thead>
+												<tbody id="#"></tbody>
+											</table>
 										</div>
 									</div>
-									<div class="tab-pane fade" id="tab-6" role="tabpanel">
-										<h5 class="card-title">Card with pills</h5>
-										<p class="card-text">3</p>
-									</div>
-									<div class="tab-pane fade" id="tab-7" role="tabpanel">
-										<h5 class="card-title">Card with pills</h5>
-										<p class="card-text">3</p>
-									</div>
 								</div>
+							</div>
+							<!-- 3 -->
+							<div class="tab-pane fade" id="tab-6" role="tabpanel">
+
+								<table class="table text-center">
+									<thead>
+										<tr>
+											<th class="text-center">등록일시</th>
+											<th class="text-center">키</th>
+											<th class="text-center">몸무게</th>
+										</tr>
+									</thead>
+									<tbody id="#"></tbody>
+								</table>
+
+							</div>
+							<!-- 4 -->
+							<div class="tab-pane fade" id="tab-7" role="tabpanel">
+								<table class="table text-center">
+									<thead>
+										<tr>
+											<th class="text-center">등록일시</th>
+											<th class="text-center">체온</th>
+											<th class="text-center">상태</th>
+										</tr>
+									</thead>
+									<tbody id="#"></tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 </body>
 </html>

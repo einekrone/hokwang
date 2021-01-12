@@ -6,7 +6,7 @@
 	<select id="checkHistlist" resultType="checkHistVO">
 		select * from CHECKHIST 
 		<where>
-		baby_no=1
+				BABY_NO = 1
 		</where>
 	</select>
 

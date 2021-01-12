@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- sale_mapper.xml -->
+<mapper namespace="com.hokwang.mobile.dao.MainHeaderMapper">
+	
+	<select id="logInAction" parameterType="parentVO" resultType="parentVO">
+		select * from parent where parent_id = #{parent_id} and parent_pw = #{parent_pw} 
+	</select>
+
+</mapper>

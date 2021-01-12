@@ -5,290 +5,216 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>호광병원</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link
-	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link
-	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
-	rel="stylesheet">
-
-<script>
-	$(function() {
-		
-	});
-
-
-</script>
-
-</head>
-
 <style>
-.page-header {
-	height: 95vh;
-	background-position: center center;
-	background-size: cover;
+* {
 	margin: 0;
 	padding: 0;
-	border: 0;
-	display: flex;
-	align-items: center;
+	font-family: sans-serif;
 }
 
-.card .card-header {
-	border-radius: 3px;
-	padding: 1rem 15px;
-	margin-left: 15px;
-	margin-right: 15px;
-	margin-top: -30px;
-	border: 0;
-	box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.2), 0 13px 24px -11px
-		rgb(196 137 206/ 0%);
-}
-
-.text-center {
-	text-align: center !important;
-}
-
-.card-title {
-	margin-bottom: 0;
-}
-
-.input-group1 {
-	/* position: revert;
-    display: inline; */
-	position: relative;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: stretch;
+.wrap {
+	height: 100%;
 	width: 100%;
-}
-
-.input-group1-prepend {
-	margin-right: -1px;
-	display: flex;
-}
-
-.input-group1 .input-group1-text {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 0px 15px 0px 15px;
-	background-color: transparent;
-	margin-bottom: 0;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1.5;
-	color: #495057;
-	text-align: center;
-	white-space: nowrap;
-}
-
-.material-icons {
-	font-family: 'Material Icons';
-	font-weight: normal;
-	font-style: normal;
-	font-size: 24px;
-	line-height: 1;
-	letter-spacing: normal;
-	text-transform: none;
-	display: inline-block;
-	white-space: nowrap;
-	direction: ltr;
-}
-
-.input-group1 .input-group1-prepend .input-group1-text {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-.form-control {
-	background: no-repeat center bottom, center calc(100% - 1px);
-	background-size: 0 100%, 100% 100%;
-	border: 0;
-	height: 36px;
-	transition: background 0s ease-out;
-	padding-left: 0;
-	padding-right: 0;
-	border-radius: 0;
-	display: block;
-	width: 100%;
-	padding: 1.5rem 0;
-	color: #495057;
-	background-image: linear-gradient(to top, #9c27b0 2px, rgba(156, 39, 176, 0)
-		2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
-}
-
-.form-group {
-	margin-bottom: 17px;
-	position: relative;
-}
-
-.bmd-form-group {
-	padding-top: 27px;
-}
-
-.bmd-form-group .bmd-help {
-	margin-top: 0;
-	font-size: 1rem;
-}
-
-.bmd-help {
+	background-image:
+		url(${pageContext.request.contextPath}/resources/img/mainPic.png);
+	background-position: center;
+	background-size: cover;
 	position: absolute;
-	display: none;
-	font-weight: normal;
-	color: #6c757d !important;
 }
 
-.btn-lg {
-	font-size: 1.25rem;
-	line-height: 1.2;
-	border-radius: .3rem;
-	color: #f8f9fc;
-	background-color: #169b6bba;
-	border-color: #ffffff
+.form-wrap {
+	width: 380px;
+	height: 700px;
+	position: relative;
+	margin: 6% auto;
+	background: #fff;
+	padding: 5px;
+	overflow: hidden;
 }
+
+.button-wrap {
+	width: 230px;
+	margin: 35px auto;
+	position: relative;
+	box-shadow: 0 0 600px 9px #fcae8f;
+	border-radius: 30px;
+}
+
+.togglebtn {
+	padding: 10px 30px;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	outline: none;
+	position: relative;
+}
+
+#btn {
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 110px;
+	height: 100%;
+	background: linear-gradient(to right, #ff105f, #ffad06);
+	border-radius: 30px;
+	transition: .5s;
+}
+
+.social-icons {
+	margin: 30px auto;
+	text-align: center;
+}
+
+.social-icons img {
+	width: 30px;
+	cursor: pointer;
+}
+
+.input-group {
+	top: 180px;
+	position: absolute;
+	width: 280px;
+	transition: .5s;
+}
+
+.input-field {
+	width: 100%;
+	padding: 10px 0;
+	margin: 5px 0;
+	border: none;
+	border-bottom: 1px solid #999;
+	outline: none;
+	background: transparent;
+}
+
+.submit {
+	width: 85%;
+	padding: 10px 30px;
+	cursor: pointer;
+	display: block;
+	margin: auto;
+	background: linear-gradient(to right, #ff105f, #ffad06);
+	border: 0;
+	outline: none;
+	border-radius: 30px;
+}
+
+.checkbox {
+	margin: 30px 10px 30px 0;
+}
+
+span {
+	color: #777;
+	font-size: 12px;
+	bottom: 68px;
+	position: absolute;
+}
+
+#login {
+	left: 50px;
+}
+
+#register {
+	left: 450px;
+}
+
 </style>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#btnIn').on("click",function(){
+			$.ajax({
+				url : "ajax/logInAction",
+				type : 'GET',
+ 				data: {
+					parent_id : $('#idInput').val(),
+					parent_pw : $('#pwInput').val()
+				}, 
+				/* dataType : 'json', */
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if (data==true){
+						location.href = "mobile";						
+					}
+					
+				}
+			})
+		});
+	});
+</script>
+</head>
+
+
 
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<input type="hidden" name="redirectUrl">
-	<div class="page-header"
-		style="background-size: cover; background-position: top center;">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-md-6 ml-auto mr-auto">
-					<div class="card">
-						<div class="card-header text-center">
-							<h4 class="card-title">호광병원</h4>
-							<img src="${pageContext.request.contextPath}/resources/img/mainPic.png" width="300px">
-						</div>
-
-						<!-- 로그인 끝 -->
-						<div class="card-footer">
-							<span class="txt_find">
-								<a href="${kakao_url}" ><img src="${pageContext.request.contextPath}/resources/img/kakaoimg.png" width="100px" height="50px" style = "background-color:#f8f9fc"></a>
-							</span>
-						</div>
-					</div>
-				</div>
+	<div class="wrap">
+		<div class="form-wrap">
+			<div class="button-wrap">
+				<div id="btn"></div>
+				<button type="button" class="togglebtn" onclick="login()">
+					로그인</button>
+				<button type="button" class="togglebtn" onclick="register()">회원가입</button>
 			</div>
+			<div class="social-icons">
+				<img
+					src="${pageContext.request.contextPath}/resources/img/kakao.png"
+					alt="kakao"> <img
+					src="${pageContext.request.contextPath}/resources/img/facebook.png"
+					alt="facebook"> <img
+					src="${pageContext.request.contextPath}/resources/img/twitter.png"
+					alt="twitter">
+			</div>
+			<form id="login" action="" class="input-group">
+				<input type="text" class="input-field" placeholder="User name or Email" id = "idInput" name = "idInput" required> 
+				<input type="password" class="input-field" placeholder="Enter Password" id = "pwInput" name = "pwInput" required> 
+				<br>
+				<br>
+				<br>
+				<br> 
+				<input type="button" class="submit" id="btnIn" name="btnIn" value="로그인">
+			</form>
+			<form id="register" action="" class="input-group">
+				<input type="text" class="input-field" placeholder="id" id="id"
+					name="id" required> <input type="password"
+					class="input-field" placeholder="password" id="pw" name="pw"
+					required> <input type="text" class="input-field"
+					placeholder="name" id="name" name="name" required> <input
+					type="email" class="input-field" placeholder="email" id="email"
+					name="email" required> <input type="tel"
+					class="input-field" placeholder="phone" id="tel" name="tel"
+					required> <input type="text" class="input-field"
+					placeholder="주민등록번호 앞자리" id="reg1" name="reg1" required> <input
+					type="password" class="input-field" placeholder="주민등록번호 뒷자리"
+					id="reg2" name="reg2" required> <input type="text"
+					class="input-field" placeholder="address" id="addr" name="addr"
+					required> 
+					<input type="button" class="submit" id="btnRegister" name="btnRegister" value="등록">
+			</form>
 		</div>
 	</div>
 
-	<!-- id Modal-->
-	<div class="modal fade" id="idModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
 
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close" id="btnX">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
+	<script>
+		var x = document.getElementById("login");
+		var y = document.getElementById("register");
+		var z = document.getElementById("btn");
 
-				<div class="modal-body">
-					<div class="card-body">
-						<div id="searchI">
-							<div class="form-group">
-								<label class="font-weight-bold" for="inputName_1">이름</label>
-								<div>
-									<input type="text" class="form-control" id="inputName_1"
-										name="inputName_1" placeholder="ex) hokwang" required="required">
-								</div>
-							</div>
+		function login() {
+			x.style.left = "50px";
+			y.style.left = "450px";
+			z.style.left = "0";
+		}
 
-							<div class="form-group">
-								<label class="font-weight-bold" for="inputPhone_1">휴대폰번호</label>
-								<div>
-									<input type="text" class="form-control" id="inputPhone_1"
-										name="inputPhone_1" placeholder="ex) 1111-1111" required="required">
-								</div>
-							</div>
-
-							<h1 id="resultId"></h1>
-						</div>
-					</div>
-				</div>
-
-				<div class="modal-footer">
-					<input type="button" class="btn btn-primary" id="btnId"
-						name="btnId" value="찾기">
-					<button class="btn btn-secondary" type="button" id="Cancel"
-						data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- pw Modal-->
-	<div class="modal fade" id="pwModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">비밀번호 찾기</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close" id="btnX">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<div class="card-body">
-						<div id="searchI">
-							<div class="form-group">
-								<label class="font-weight-bold" for="inputempNo_1">사원번호</label>
-								<input type="text" class="form-control" id="inputempNo_1"
-									name="inputempNo_1" placeholder="ex) 사원번호" required="required">
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-bold " for="inputemptel_1">휴대폰번호</label>
-								<input type="email" class="form-control" id="inputemptel_1"
-									aria-describedby="emailHelp" placeholder="ex) 1111-1111"
-									required="required"> <small id="emailHelp"
-									class="form-text text-muted"></small>
-							</div>
-
-							<h1 id="resultPw"></h1>
-						</div>
-
-
-						<div class="modal-footer">
-							<button class="btn btn-primary" id="btnPw" name="btnPw">찾기</button>
-							<button class="btn btn-secondary" type="button" id="Cancel"
-								data-dismiss="modal">Cancel</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+		function register() {
+			x.style.left = "-400px";
+			y.style.left = "50px";
+			z.style.left = "110px";
+		}
+	</script>
 </body>
 </html>

@@ -16,5 +16,7 @@ public class ParentVO {//보호자
 	String parent_regno2;//주민번호2
 	String parent_token;//토큰
 	String parent_sns;//소셜타입
+	String parent_id;
+	String parent_pw;
 
 }

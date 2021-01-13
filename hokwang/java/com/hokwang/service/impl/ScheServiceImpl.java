@@ -16,20 +16,17 @@ public class ScheServiceImpl implements ScheService  {
 	ScheMapper dao;
 
 	@Override
-	public List<ManagementVO> getScheList(ManagementVO sche) {
-		// TODO Auto-generated method stub
+	public List<Map<String, Object>> getScheList(ManagementVO sche) {
 		return dao.getScheList(sche);
 	}
 
 	@Override
 	public int insertSche(ManagementVO sche) {
-		// TODO Auto-generated method stub
 		return dao.insertSche(sche);
 	}
 
 	@Override
 	public void deleteSche(ManagementVO sche) {
-		// TODO Auto-generated method stub
 		dao.deleteSche(sche);
 	}
 	

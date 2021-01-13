@@ -1,6 +1,7 @@
 package com.hokwang.mobile.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class CheckHistListController {
 
 	@ResponseBody
 	@RequestMapping("/ajax/checkhist")
-	public List<CheckHistVO> checkHistlist(BabyVO vo) {
+	public List<Map<String,Object>> checkHistlist(BabyVO vo){// 전체 접종 리스트 
 		return service.checkHistlist(vo);
 	}
 }

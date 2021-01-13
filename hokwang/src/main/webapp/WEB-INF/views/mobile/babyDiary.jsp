@@ -83,7 +83,9 @@ ul.tabs li.current {
 </style>
 <script type="text/javascript">
 	$(function() {
-		checkuphist();
+		//checkuphist();
+		reserlist();
+
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -99,9 +101,46 @@ ul.tabs li.current {
 	
 </script>
 <script type="text/javascript">
-	var checkuplist = [];
+	function reserlist() {
+		var checkuplist = [];
+		var reserlist = [];
+		console.log("DDD");
+		$.ajax({
+			url : "ajax/reserlist",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				list : reserlist
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data){ 
+				reserlistResult(data)
+				var modal = $('#question');
+				console.log(data);
+				if(modal.find('name="Ra1"').val()==""){
+				modal.find('name="Ra1"').val(data.A1);
+				modal.modal('show');
+				}
+			}
+		//만들어야함
+		});/* end of ajax */
+	}/* end of function */
 
-	function checkuphist() {
+	function reserlistResult(data) {
+		$("#reser2").empty();
+		$.each(data, function(idx, item) {
+
+			$("<tr>").append(
+					$("<td id='reserNo' value= '"+item.resv_date+"'>").html(item.resv_date))
+					.append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표'data-toggle='modal'  data-target='#question' data-backdrop='static'>" ))
+					.append($("<input type='button' id='modi'style='width:100px;height:50px;'value='수정/삭제'data-toggle='modal' data-target='#' data-backdrop='static'>"))
+					.appendTo('#reser2');
+		})
+	}
+
+	function checkuphist() {//접종 리스트
 		var checkuplist = [];
 
 		console.log("DDD");
@@ -123,29 +162,29 @@ ul.tabs li.current {
 
 	function checkuphistResult(data) {
 		var text = "";
-		console.log("patientListResult전체환자 리스트 출력 콘솔");
 
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
 
 			$("<tr>").append(
-					$("<td id='hist_no' value= '"+item.hist_no+"'>").html(
-							item.hist_no)).append(
-					$("<td id='hist_cnt'>").html(item.hist_count + " 회"))
-					.appendTo('#checkup');
+					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
+							item.CHK_NAME)).append(
+					$("<td id='hist_cnt'>").html(
+							item.HIST_COUNT + " 회" + " / " + item.CHK_TOTAL
+									+ " 회")).appendTo('#checkup');
 
-			if (item.hist_state == "I") {
-				console.log(">> " + item.hist_state);
+			if (item.HIST_STATE == "I") {
+				console.log(">> " + item.HIST_STATE);
 				text = "접종 중";
 				$("#hist_cnt").eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
-			} else if (item.hist_state == "N") {
-				console.log(">> " + item.hist_state);
+			} else if (item.HIST_STATE == "N") {
+				console.log(">> " + item.HIST_STATE);
 				text = "미접종";
 				$("#hist_cnt").eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
-			} else if (item.hist_state == "Y") {
-				console.log(">> " + item.hist_state);
+			} else if (item.HIST_STATE == "Y") {
+				console.log(">> " + item.HIST_STATE);
 				text = "접종 완료";
 				$("#hist_cnt").eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
@@ -211,119 +250,117 @@ ul.tabs li.current {
 					<div class="card-body">
 						<div class="tab-content" style="height: 310px">
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
-									
-										<div class="card">
-											<ul class="nav nav-pills card-header-pills pull-right">
-												<li class="nav-item"><a class="nav-link active"
-													data-toggle="tab" href="#tab-8">전체</a></li>
-												<li class="nav-item"><a class="nav-link"
-													data-toggle="tab" href="#tab-9">결제완료</a></li>
-												<li class="nav-item"><a class="nav-link"
-													data-toggle="tab" href="#tab-10">미결제</a></li>
-												<li class="nav-item"><a class="nav-link"
-													data-toggle="tab" href="#tab-11">예약</a></li>
-											</ul>
+
+								<div class="card">
+									<ul class="nav nav-pills card-header-pills pull-right">
+										<li class="nav-item"><a class="nav-link active"
+											data-toggle="tab" href="#tab-8">전체</a></li>
+										<li class="nav-item"><a class="nav-link"
+											data-toggle="tab" href="#tab-9">결제완료</a></li>
+										<li class="nav-item"><a class="nav-link"
+											data-toggle="tab" href="#tab-10">미결제</a></li>
+										<li class="nav-item"><a class="nav-link"
+											data-toggle="tab" href="#tab-11">예약</a></li>
+									</ul>
+								</div>
+								<!-- 예약/진료 => 전체탭  -->
+								<div class="tab-content">
+									<div class="tab-pane fade active show" id="tab-8"
+										role="tabpanel">
+										<div style="height: 100px; overflow: auto;">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">예약일시1</th>
+														<th class="text-center">병명</th>
+														<th class="text-center">문진표</th>
+													</tr>
+												</thead>
+												<tbody id="#"></tbody>
+											</table>
 										</div>
-										<!-- 예약/진료 => 전체탭  -->
-											<div class="tab-content">
-												<div class="tab-pane fade" id="tab-8" role="tabpanel">
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시1</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
+										<br>
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">예약일시</th>
+													<th class="text-center">병명</th>
+													<th class="text-center">문진표</th>
+												</tr>
+											</thead>
+											<tbody id="#"></tbody>
+										</table>
+									</div>
 
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
-												</div>
-												<div class="tab-pane fade" id="tab-9" role="tabpanel">
+									<!-- 예약/진료 => 결제완료탭  -->
+									<div class="tab-pane fade" id="tab-9" role="tabpanel">
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">진료일시</th>
+													<th class="text-center">병명</th>
+													<th class="text-center">결제여부</th>
+												</tr>
+											</thead>
+											<tbody id="#"></tbody>
+										</table>
+									</div>
 
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시2</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
+									<!-- 예약/진료 => 미결제탭  -->
+									<div class="tab-pane fade" id="tab-10" role="tabpanel">
 
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
-												</div>
-												<div class="tab-pane fade" id="tab-10" role="tabpanel">
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">예약일시3</th>
+													<th class="text-center">문진표</th>
+													<th class="text-center">결제 여부</th>
+												</tr>
+											</thead>
+											<tbody id="#"></tbody>
+										</table>
 
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시3</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
+										<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">진료일시</th>
+													<th class="text-center">병명</th>
+												</tr>
+											</thead>
+											<tbody id="#"></tbody>
+										</table>
+									</div>
 
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
-												</div>
-												<div class="tab-pane fade" id="tab-11" role="tabpanel">
-
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시4</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
-
-													<table class="table text-center">
-														<thead>
-															<tr>
-																<th class="text-center">예약일시</th>
-																<th class="text-center">병명</th>
-																<th class="text-center">문진표</th>
-															</tr>
-														</thead>
-														<tbody id="#"></tbody>
-													</table>
-												</div>
+									<!-- 예약/진료 => 예약탭  -->
+									<div class="tab-pane fade" id="tab-11" role="tabpanel">
+										<div style="height:250px; overflow: auto;">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">예약일시</th>
+														<th class="text-center">문진표</th>
+														<th class="text-center">수정/취소</th>
+													</tr>
+												</thead>
+												<tbody id="reser2"></tbody>
+											</table>
 										</div>
-									
-								
+										<!-- 	<table class="table text-center">
+											<thead>
+												<tr>
+													<th class="text-center">예약일시</th>
+													<th class="text-center">병명</th>
+													<th class="text-center">문진표</th>
+												</tr>
+											</thead>
+											<tbody id="#"></tbody>
+										</table> -->
+									</div>
+									<!-- 예약 end -->
+
+								</div>
+
+
 							</div>
 							<!-- 2 시작-->
 							<!-- 2 -->
@@ -420,5 +457,68 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
+	
+	<!-- 문진표 모달 -->
+	<div class="modal fade" id="question" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">문진표</h5>
+					</div>
+					<div class="modal-body">
+						<table style="width: 100%;display:block;" border="1" >
+							<tr>
+								<td style="width: 10%">1</td>
+								<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
+								<td style="width: 35%"><label class="form-check"> <input id="ra1"
+										name="Ra1" type="radio" class="form-check-input" value="Y">
+										<span class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra1"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>검은 눈동자(동공)가 혼탁합니까?</td>
+								<td><label class="form-check"> <input name="Ra2"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra2"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
+								<td><label class="form-check"> <input name="Ra3"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra3"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
+								<td><label class="form-check"> <input name="Ra4"
+										type="radio" class="form-check-input" value="Y"> <span
+										class="form-check-label">예</span>
+								</label> <label class="form-check"> <input name="Ra4"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">아니오</span>
+								</label></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="button" data-dismiss="modal">확인 </button>
+					</div>
+				</div>
+			</div>
+		</div>
 </body>
 </html>

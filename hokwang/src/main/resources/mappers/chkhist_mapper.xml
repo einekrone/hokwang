@@ -3,10 +3,11 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.CheckHistMapper">
-	<select id="checkHistlist" resultType="checkHistVO">
-		select * from CHECKHIST 
+	<select id="checkHistlist" resultType="map">
+		select b.chk_name ,b.chk_total,a.hist_count,a.hist_state from
+		CHECKHIST a,CHECKUP b
 		<where>
-				BABY_NO = 1
+			a.chk_no=b.chk_no and a.baby_no=1
 		</where>
 	</select>
 

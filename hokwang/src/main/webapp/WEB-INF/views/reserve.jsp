@@ -404,8 +404,7 @@ button {
 											.after(
 													'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-no="'+item.PAY_NO+'">승인</button></td>');
 								} else if (item.PAY_STATE == 'N') { // 미수납
-									$("#price" + idx).eq(-1).after(
-											'<td>미수납</td>');
+									$("#price" + idx).eq(-1).after('<td>미수납</td>');
 								}
 							}
 						});
@@ -535,7 +534,7 @@ button {
 
 	function resvUniqResult(data) {
 		$("#resvDetail").empty();
-		$("#resvDetail").append(data.RESV_MEMO);
+		$("#resvDetail").append($('<p>').html(data.RESV_DETAIL)).append($('<hr>')).append($('<p>').html(data.RESV_MEMO));
 	}
 
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력
@@ -578,6 +577,7 @@ button {
 				.each(
 						data,
 						function(idx, item) {
+							console.log("CHK_TYPE : "+item.CHK_TYPE);
 							var resvNo = "";
 							if (typeof item.RESV_NO != 'undefined') {
 								resvNo = item.RESV_NO;
@@ -587,15 +587,15 @@ button {
 							$('<tr>')
 									.append($('<td>').html(item.RESV_NO))
 									.append($('<td>').html(item.RESV_DATE))
-									.append($('<td>').html(item.RESV_DETAIL))
-									.append(
-											$('<td>')
-													.html(
-															'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>'))
+									.append($('<td id="dtl'+idx+'">').html(item.RESV_DETAIL))
 									.append(
 											$('<td style="display:none;">')
 													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
+							
+							if(item.CHK_TYPE == "N") {	// 일반 검진. 사진 버튼 출력
+								$("#dtl" + idx).eq(-1).after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
+							}
 
 							var d = new Date();
 							var today = d.getFullYear() + '-'
@@ -692,22 +692,22 @@ button {
 						</div>
 					</div>
 				</form>
-				<div class="card shadow py-2" style="height: 250px;">
+				<div class="card shadow py-2" style="height: 230px;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-success">환자정보</p>
-						<div style="width: 100%; height: 160px; overflow: auto;"
+						<div style="width: 100%; height: 150px; overflow: auto;"
 							id="ptInfo"></div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 150px; margin: 10px 0;">
+				<div class="card shadow py-2" style="height: 230px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-danger"
-							style="margin-bottom: 3px !important;">특이사항</p>
-						<div style="overflow: auto; width: 100%; height: 85px;"
+							style="margin-bottom: 3px !important;">상세증상 및 특이사항</p>
+						<div style="overflow: auto; width: 100%; height: 160px; padding-top: 10px;"
 							id="resvDetail"></div>
 					</div>
 				</div>
-				<div class="card shadow py-2" style="height: 326px">
+				<div class="card shadow py-2" style="height: 266px">
 					<div class="card-body"
 						style="overflow-y: auto; border-collapse: collapse;">
 						<!-- style="position:sticky; position: absolute; top:5px;" -->

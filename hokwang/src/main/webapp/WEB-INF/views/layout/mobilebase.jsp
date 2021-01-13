@@ -136,7 +136,7 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
-					<c:if test="${vo != null }">
+					<c:if test="${parent_vo != null }">
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item dropdown"><a
 							class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
@@ -204,6 +204,7 @@
 								</div>
 							</div></li>
 
+						<!-- 톱니모양 -->
 						<li class="nav-item dropdown"><a
 							class="nav-icon dropdown-toggle d-inline-block d-sm-none"
 							href="#" data-toggle="dropdown"> <i class="align-middle"
@@ -215,17 +216,13 @@
 								class="text-dark">Charles Hall</span>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="mmypage"><i
-									class="align-middle mr-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="mmypage">
+								<i class="align-middle mr-1" data-feather="user"></i> 마이페이지
+								</a>
 
+							
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="pages-settings.html"><i
-									class="align-middle mr-1" data-feather="settings"></i> Settings
-									& Privacy</a> <a class="dropdown-item" href="#"><i
-									class="align-middle mr-1" data-feather="help-circle"></i> Help
-									Center</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Log out</a>
+								<a class="dropdown-item" href="logoutM">로그 아웃</a>
 							</div></li>
 					</ul>
 					</c:if>

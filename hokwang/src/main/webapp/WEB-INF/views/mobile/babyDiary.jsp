@@ -131,8 +131,8 @@ ul.tabs li.current {
 			$("<tr>").append(
 					$("<td id='hist_no' value= '"+item.hist_no+"'>").html(
 							item.hist_no)).append(
-					$("<td id='hist_cnt'>").html(item.hist_count+" 회")).appendTo(
-					'#checkup');
+					$("<td id='hist_cnt'>").html(item.hist_count + " 회"))
+					.appendTo('#checkup');
 
 			if (item.hist_state == "I") {
 				console.log(">> " + item.hist_state);
@@ -191,7 +191,7 @@ ul.tabs li.current {
 	<!-- 2 -->
 	<div class="row">
 		<div class="col-15 col-lg-8 col-xxl-7 d-flex">
-			<div class="card flex-fill" style="height: 400px;">
+			<div class="card flex-fill">
 				<!-- Tab을 구성할 영역 설정-->
 				<div class="card">
 					<div class="card-header"
@@ -211,10 +211,9 @@ ul.tabs li.current {
 					<div class="card-body">
 						<div class="tab-content" style="height: 310px">
 							<div class="tab-pane fade active show" id="tab-4" role="tabpanel">
-								<div>
-									<div style="height: 190px">
-										<div class="card" >
-											<ul class="nav nav-pills card-header-pills pull-right" >
+									
+										<div class="card">
+											<ul class="nav nav-pills card-header-pills pull-right">
 												<li class="nav-item"><a class="nav-link active"
 													data-toggle="tab" href="#tab-8">전체</a></li>
 												<li class="nav-item"><a class="nav-link"
@@ -225,30 +224,106 @@ ul.tabs li.current {
 													data-toggle="tab" href="#tab-11">예약</a></li>
 											</ul>
 										</div>
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">예약일시</th>
-													<th class="text-center">병명</th>
-													<th class="text-center">문진표</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
-									</div>
-									<div style="height: 150px">
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">예약일시</th>
-													<th class="text-center">병명</th>
-													<th class="text-center">문진표</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
-									</div>
-								</div>
+										<!-- 예약/진료 => 전체탭  -->
+											<div class="tab-content">
+												<div class="tab-pane fade" id="tab-8" role="tabpanel">
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시1</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+												</div>
+												<div class="tab-pane fade" id="tab-9" role="tabpanel">
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시2</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+												</div>
+												<div class="tab-pane fade" id="tab-10" role="tabpanel">
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시3</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+												</div>
+												<div class="tab-pane fade" id="tab-11" role="tabpanel">
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시4</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+
+													<table class="table text-center">
+														<thead>
+															<tr>
+																<th class="text-center">예약일시</th>
+																<th class="text-center">병명</th>
+																<th class="text-center">문진표</th>
+															</tr>
+														</thead>
+														<tbody id="#"></tbody>
+													</table>
+												</div>
+										</div>
+									
+								
 							</div>
 							<!-- 2 시작-->
 							<!-- 2 -->
@@ -325,7 +400,6 @@ ul.tabs li.current {
 									</thead>
 									<tbody id="#"></tbody>
 								</table>
-
 							</div>
 							<!-- 4 -->
 							<div class="tab-pane fade" id="tab-7" role="tabpanel">

@@ -136,6 +136,18 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
+				<!-- 로그인모양 -->
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item">
+						<a class="nav-icon" href="#" >
+							<img src="${pageContext.request.contextPath}/resources/img/logM.png"
+								 style="width: 35px; height: 30px;" />
+						</a>
+						</li>
+					</ul>
+
+				
+
 					<c:if test="${parent_vo != null }">
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item dropdown"><a

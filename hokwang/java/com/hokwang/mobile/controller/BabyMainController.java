@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.mobile.service.BabyMainService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.ParentVO;
 
 @Controller
 public class BabyMainController {
@@ -25,20 +27,17 @@ public class BabyMainController {
 
 	@ResponseBody
 	@RequestMapping("/ajax/getBabyInf")
-	public List<BabyVO> getBabyInf() {
-		return dao.getBabyInf();
+	public List<BabyVO> getBabyInf(HttpSession session,BabyVO vo) {
+		
+		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
+		System.out.println(vo);
+		return dao.getBabyInf(vo);
 	}
 
-//	@ResponseBody
-//	@RequestMapping("/ajax/insertbabyinfo")
-//	public int insertbabyinfo(BabyVO vo) {
-//	return dao.insertbabyinfo(vo);
-//	}
 
 	@ResponseBody
 	@RequestMapping("/insertbabyinfo")
 	public ModelAndView insertbabyinfo(HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
-		System.out.println("insertbabyinfo");
 		// request multipart로 캐스팅
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 이미지파일
@@ -53,5 +52,32 @@ public class BabyMainController {
 		dao.insertbabyinfo(vo);
 		return new ModelAndView("redirect:/child");
 	}
+	
+	@ResponseBody
+	@RequestMapping("/getInfo")
+	public BabyVO getInfo(BabyVO vo) {		
+		return dao.getInfo(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updatebabyinfo")
+	public ModelAndView updatebabyinfo(HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
+		// request multipart로 캐스팅
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		// 이미지파일
+		MultipartFile multipartFile = multipartRequest.getFile("uploadFile1");
+		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
+			String path = request.getSession().getServletContext().getRealPath("/resources/img");
+			System.out.println("path=" + path);
+			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
+			vo.setBaby_pic(multipartFile.getOriginalFilename());
+			
+		}
+		System.out.println("pic : "+vo.getBaby_pic());
+		dao.updatebabyinfo(vo);
+		return new ModelAndView("redirect:/child");
+	}
+	
+	
 
 }

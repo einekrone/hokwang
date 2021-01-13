@@ -7,6 +7,8 @@ import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.ParentVO;
 
 public interface BabyMainService {
-	public List<BabyVO> getBabyInf();
+	public List<BabyVO> getBabyInf(BabyVO vo);
 	public int insertbabyinfo(BabyVO vo);
+	public int updatebabyinfo(BabyVO vo);
+	public BabyVO getInfo(BabyVO vo);
 }

@@ -5,7 +5,8 @@
 <mapper namespace="com.hokwang.mobile.dao.BabyMainMapper">
 	<select id="getBabyInf" resultType="babyVO">
 		select *
-		from baby where parent_no = 1 
+		from baby 
+		where parent_no = #{parent_no}
 	</select>
 	
 	<insert id="insertbabyinfo" parameterType="BabyVO">
@@ -14,18 +15,24 @@
 			SELECT NVL(MAX(baby_no),0)+1 FROM BABY
 		</selectKey>
 		insert into baby(baby_no,baby_name,baby_regno1,baby_regno2,baby_blood,baby_gender,baby_pic,parent_no)
-		values(#{baby_no},#{baby_name},#{baby_regno1},#{baby_regno2},#{baby_blood},#{baby_gender},#{baby_pic},'1')
+		values(#{baby_no},#{baby_name},#{baby_regno1},#{baby_regno2},#{baby_blood},#{baby_gender},#{baby_pic},#{parent_no})
 	</insert>
 	
-	<update id="updatebabyinfo" parameterType="BabyVO">
+	<update id="updatebabyinfo" parameterType="babyVO">
 		update baby set baby_name=#{baby_name},
+						baby_regno1=#{baby_regno1},
+						baby_regno2=#{baby_regno2},
 						baby_gender=#{baby_gender},
-						baby_pic=#{baby_pic}
-		<if test="baby_no != null and baby_no != ''">
-		where baby_no = 1
-		</if>
+						baby_blood=#{baby_blood},
+					<if test="baby_pic != null and baby_pic != ''">#{baby_pic}</if>
+		where baby_name = #{baby_name} and parent_no = #{parent_no}
 	
 	</update>
+	<select id="getInfo" parameterType="babyVO" resultType="babyVO">
+		select *
+		from baby
+		where baby_name=#{baby_name} and parent_no =#{parent_no} 
+	</select>
 	
 	
 

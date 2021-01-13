@@ -103,9 +103,9 @@
 						<ul id="resv" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="resv?type=today">당일 예약</a></li>
+								href="resv?type=T">당일 예약</a></li>
 							<li class="sidebar-item"><a class="sidebar-link"
-								href="resv?type=prio">우선 예약</a></li>
+								href="resv?type=R">우선 예약</a></li>
 						</ul></li>
 				</ul>
 

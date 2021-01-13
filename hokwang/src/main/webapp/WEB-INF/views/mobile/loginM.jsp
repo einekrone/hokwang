@@ -15,7 +15,7 @@
 	font-family: sans-serif;
 }
 
-.wrap {
+/* .wrap {
 	height: 100%;
 	width: 100%;
 	background-image:
@@ -23,7 +23,7 @@
 	background-position: center;
 	background-size: cover;
 	position: absolute;
-}
+} */
 
 .form-wrap {
 	width: 380px;
@@ -61,6 +61,7 @@
 	background: linear-gradient(to right, #ff105f, #ffad06);
 	border-radius: 30px;
 	transition: .5s;
+	
 }
 
 .social-icons {
@@ -90,8 +91,20 @@
 	background: transparent;
 }
 
+.input-fieldbtn {
+	/* width: 75%; */
+	padding: 5px 5px 5px 0;
+	margin: 5px 5px 5px 0;
+	border: none;
+	border-bottom: 1px solid #999;
+	outline: none;
+	background: transparent;
+}
+
+
+
 .submit {
-	width: 85%;
+	width: 50%;
 	padding: 10px 30px;
 	cursor: pointer;
 	display: block;
@@ -124,10 +137,42 @@ span {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		login();
 		logInAction();
 		registerAction();
+		checkId();
 	});
 
+	function checkId(){
+		$('#btnIn').on("click", function() {
+			$.ajax({
+				url : "ajax/checkId",
+				type : 'GET',
+				data : {
+					parent_id : $('#id').val()
+				},
+				/* dataType : 'json', */
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if (data == true) {
+						location.href = "mobile";
+					}
+
+				}
+			})
+		});
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 	function registerAction() {
 		$('#btnRegister').on("click", function() {
 			$.ajax({
@@ -187,6 +232,7 @@ span {
 
 
 <body>
+
 	<div class="wrap">
 		<div class="form-wrap">
 			<div class="button-wrap">
@@ -210,11 +256,13 @@ span {
 				<br> <br> <br> <br> 
 				<input type="button" class="submit" id="btnIn" name="btnIn" value="로그인" />
 			</form>
-			<form id="register" action="" class="input-group">
-				<input type="text" class="input-field" placeholder="id" id="id" name="id" required/> 
+			<form id="register" action="" class="input-group" style="left: 50px; overflow:auto; height:400px;">
+				<input type="text" class="input-fieldbtn" placeholder="id" id="id" name="id"  required />
+				<input type="button" class="btn btn-secondary" value="중복검사" id="checkId" name="checkId"> 
 				<input type="password" class="input-field" placeholder="password" id="pw" name="pw" required/> 
 				<input type="text" class="input-field" placeholder="name" id="name" name="name" required/> 
-				<input type="email" class="input-field" placeholder="email" id="email" name="email" required/> 
+				<input type="email" class="input-fieldbtn" placeholder="email" id="email" name="email" required />
+				<input type="button" class="btn btn-secondary" value="중복검사" id="checkEmail" name="checkEmail">  
 				<input type="tel" class="input-field" placeholder="phone" id="tel" name="tel" required/> 
 				<input type="text" class="input-field" placeholder="주민등록번호 앞자리" id="reg1" name="reg1" required/> 
 				<input type="password" class="input-field" placeholder="주민등록번호 뒷자리" id="reg2" name="reg2" required/> 
@@ -227,7 +275,47 @@ span {
 			</form>
 		</div>
 	</div>
-	
+
+
+
+
+			<!-- 확인 Modal-->
+		<div class="modal fade" id="mailCheckModal3" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">메일 확인</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label">보낸
+									사원번호</label> <input type="text" class="form-control"
+									id="recipient-name3" name="recipient-name3" readonly>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label">내용</label>
+								<textarea class="form-control" id="message-text3"
+									name="message-text3"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" id="btnDeleteT"
+							name="btnDelete">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
 	
 	<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
 	<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
@@ -246,6 +334,7 @@ span {
 			x.style.left = "50px";
 			y.style.left = "450px";
 			z.style.left = "0";
+			
 		}
 
 		function register() {

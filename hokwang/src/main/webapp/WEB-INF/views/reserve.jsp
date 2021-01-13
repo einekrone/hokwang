@@ -495,7 +495,7 @@ button {
 
 							var resvNN = item.RESV_NO;
 							if (date == today
-									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
+									&& (item.RESV_STATUS == 'N')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(

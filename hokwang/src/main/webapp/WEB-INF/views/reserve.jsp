@@ -755,7 +755,7 @@ button {
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span><span
 								class="font-weight-bold"
-								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span
+								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span> 사전예약(R) | 방문예약(T)</span><span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"

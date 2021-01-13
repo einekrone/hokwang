@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,9 +58,19 @@ public class MypageController {
 
 	@ResponseBody
 	@RequestMapping("/ajax/updateInf")
-	public void updateInf(Model model, EmployeeVO vo) {
+	public boolean updateInf(EmployeeVO vo, HttpSession session) {
+		vo.setEmp_no(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_no());
 		System.out.println(vo);
-		dao.updateInf(vo);
+		if (((EmployeeVO) session.getAttribute("emp_vo")).getEmp_pwd().equals(vo.getEmp_pwd1())) {
+			if (dao.updateInf(vo) == 1) {
+				
+				return true;
+			}
+		} else {
+			System.out.println("실패 비밀번호 확인");
+			
+		}
+		return false;
 	}
 
 	@ResponseBody
@@ -157,7 +168,6 @@ public class MypageController {
 		return dao.checkTempFinal(vo);
 	}
 
-	
 	@ResponseBody
 	@RequestMapping("/ajax/deleteMsg")
 	public boolean deleteMsg(Model model, MessageVO vo) {

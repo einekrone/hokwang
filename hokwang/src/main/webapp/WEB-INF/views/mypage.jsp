@@ -351,7 +351,7 @@
 				url : 'ajax/checkTemp',
 				type : 'POST',
 				data : {
-					temp_sendno : ${emp_vo.emp_no}
+					temp_sendno : "${emp_vo.emp_no}"
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -382,9 +382,9 @@
 					}
  					
 				}
-			})	
-		})
-	}
+			})	//endof 
+		})//end of click function
+	}//end ofo function
 	
 	
 	
@@ -401,7 +401,7 @@
 				type : 'POST',
 				/* dataType : 'json', */
 				data : {
-					temp_sendno : ${emp_vo.emp_no},
+					temp_sendno : "${emp_vo.emp_no}",
 					temp_cont : $('#message-text').val(),
 					temp_resvno : $('#recipient-name option:selected').val()
 					
@@ -434,7 +434,7 @@
 				type : 'POST',
 				/* dataType : 'json', */
 				data : {
-					emp_sendno : ${emp_vo.emp_no},
+					emp_sendno : "${emp_vo.emp_no}",
 					msg_cont : $('#message-text').val(),
 					emp_resvno : $('#recipient-name option:selected').val()
 					
@@ -746,36 +746,33 @@
 	
 	
 	function updateInf() {
-		$("#alert-success").hide();
-		$("#alert-danger").hide();
 		$('#btnUpdate').on("click", function() {
-			if($('#pw').val() == $('#pw2').val()){
-				$("#alert-success").show();
-				$("#alert-danger").hide();
-				$.ajax({
-					url : "ajax/updateInf",
-					type : 'POST',
-					/* dataType : 'json', */
-					data : {
-						emp_no : $('#no').text(),
-						emp_tel : $('#tel').val(),
-						emp_addr : $('#addr').val(),
-						emp_pwd : $('#pw').val(),
-						emp_profile : $('#img').val()
-					},
-					error : function(xhr, status, msg) {
-						alert("상태값 :" + status + " Http에러메시지 :" + msg);
-					},
-					success : function(data) {
-						alert("변경되었습니다.");
-						
-					}
-				});
-			}else{
-				$("#alert-success").hide();
-				$("#alert-danger").show();
-				alert("비밀번호 재확인바람 ");
-			}
+				/////비밀 번호 같으면 새비밀번호 입력
+				if($('#pw').val() == $('#pw2').val()){
+					$.ajax({
+						url : "ajax/updateInf",
+						type : 'POST',
+						/* dataType : 'json', */
+						data : {
+							emp_pwd1 : $('#oldpw').val(),
+							emp_pwd : $('#pw').val(),
+						},
+						error : function(xhr, status, msg) {
+							alert("상태값 :" + status + " Http에러메시지 :" + msg);
+						},
+						success : function(data) {
+							if(data==true){
+							alert("변경되었습니다.");
+							location.href="logout";
+							}else{
+								alert("기존 비밀번호 재확인 ")
+							}
+						}
+					});
+				}else{
+					alert("새 비밀번호 재확인바람 ");
+				}
+			
 			
 			
 		});
@@ -841,7 +838,6 @@
 <body id="page-top">
 	<!-- Page Wrapper -->
 	<div id="wrapper">
-
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
@@ -920,7 +916,7 @@
 								<a class="text-primary" href="#" data-toggle="modal"
 									data-target="#UpdateModal" data-backdrop="static"
 									style="font-size: 15px"> 비밀번호 변경 </a> / 
-								<a class="text-primary" href="#" data-toggle="modal"
+								<a class="text-primary" href="#" data-toggle="modal" 
 									data-target="#UpdateModal2" data-backdrop="static"
 									style="font-size: 15px"> 프로필 변경 </a>
 							</div>
@@ -1142,7 +1138,9 @@
 							<tr>
 							<td><span class="point">&nbsp;*</span>기존 비밀번호</td>
 								<td><input type="password" id="oldpw" name="oldpw"
-												placeholder="기존 비밀번호를 입력하시오"></td>
+												placeholder="기존 비밀번호를 입력하시오">
+								</td>
+								
 							</tr>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
@@ -1155,11 +1153,9 @@
 									placeholder="비밀번호를 재입력하시오"></td>
 							</tr>
 						</table>
-						<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
-						<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="btnUpdate"
+						<button type="button" class="btn btn-primary" id="btnUpdate" data-dismiss="modal"
 							name="btnSave">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>

@@ -15,9 +15,12 @@ public class Reservation {//예약
 	String resv_memo;//특이사항
 	String resv_payyn;//결제 여부
 	String resv_room;//예약된 진료실
+	String chk_type;	// 검진 타입
+	String resv_type;	// 예약 종류
 
 	String qust_no;//문진표 번호
 	
 	String resv_datetime;	// 예약 일시
 	String baby_no;		// 아기번호
+	String chk_no;//검진 번호
 }

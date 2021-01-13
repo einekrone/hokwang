@@ -159,9 +159,9 @@
 					<div id="card1" class="card">
 						<div>
 							<div style="height: 80px; text-align: center;">
-								<button class="btn btnt" onclick="location.href='resv?type=today'">당일예약</button>
+								<button class="btn btnt" onclick="location.href='resv?type=T'">당일예약</button>
 								<!-- 								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5> -->
-								<button class="btn btnv" onclick="location.href='resv?type=prio'">우선예약</button>
+								<button class="btn btnv" onclick="location.href='resv?type=R'">우선예약</button>
 							</div>
 						</div>
 					</div>

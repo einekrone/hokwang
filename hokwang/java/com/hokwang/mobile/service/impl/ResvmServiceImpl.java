@@ -9,6 +9,8 @@ import com.hokwang.mobile.dao.ResvmMapper;
 import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
+import com.hokwang.vo.QuestionVO;
+import com.hokwang.vo.Reservation;
 
 @Service
 public class ResvmServiceImpl implements ResvmService {
@@ -22,6 +24,16 @@ public class ResvmServiceImpl implements ResvmService {
 	@Override
 	public List<CheckupVO> getVacList() {
 		return resvmDao.getVacList();
+	}
+
+	@Override
+	public void questInsert(QuestionVO quVO) {
+		resvmDao.questInsert(quVO);
+	}
+
+	@Override
+	public int resvInsert(Reservation resvVO) {
+		return resvmDao.resvInsert(resvVO);
 	}
 
 }

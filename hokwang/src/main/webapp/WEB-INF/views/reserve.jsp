@@ -61,11 +61,6 @@ button {
 	border: 0;
 }
 
-.filebox {
-	float: left;
-	padding-right: 600px;
-}
-
 #imgShow::-webkit-scrollbar {
 	display: none;
 }
@@ -494,12 +489,13 @@ button {
 							}
 
 							var resvNN = item.RESV_NO;
-							if (date == today
-									&& (item.RESV_STATUS == 'N')) {
+							if (date == today && (item.RESV_STATUS == 'N')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove(\'' + resvNN + '\');" class="officeSel" id="officeSel'
+												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove(\''
+														+ resvNN
+														+ '\');" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
 								$(
@@ -603,7 +599,8 @@ button {
 									.append(
 											$('<td id="dtl'+idx+'">').html(
 													item.RESV_DETAIL)).append(
-											$('<td style="display:none;">').html(item.BABY_NO))
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
 
 							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
@@ -755,8 +752,8 @@ button {
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span><span
 								class="font-weight-bold"
-								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span> 사전예약(R) | 방문예약(T)</span><span
-								class="mb-0 font-weight-bold"
+								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span>
+								사전예약(R) | 방문예약(T)</span><span class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
@@ -891,7 +888,7 @@ button {
 				<div class="modal-body" style="min-height: 100px;">
 					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
 						<input type="hidden" id="resv_no" value="">
-						<div class="filebox">
+						<div class="filebox" style="float: left; padding-right: 600px;">
 							<label for="imgInput">업로드</label> <input type="file"
 								id="imgInput" name="imgInput" accept="image/*"
 								onchange="setImages(event);">

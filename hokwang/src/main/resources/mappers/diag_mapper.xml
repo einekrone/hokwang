@@ -20,15 +20,13 @@
 		ORDER BY RESV_NO,RESV_DATE
 	</select>
 	
-	<select id="getResvHistList" resultType="DiagnosisVO"
-		parameterType="BabyVO">
-		SELECT * FROM DIAGNOSIS
-		<where>
-			<if test="baby_no != null and baby_no != ''">
-				RESV_NO IN (SELECT RESV_NO FROM RESERVATION WHERE BABY_NO = #{baby_no})
-			</if>
-		</where>
-		ORDER BY DIAG_NO
+	<select id="getResvHistList" resultType="map">
+		SELECT D.*, B.*,E.*, R.*
+		FROM DIAGNOSIS D, BABY B , EMPLOYEE E, RESERVATION R
+		WHERE R.RESV_NO = D.RESV_NO
+		AND B.BABY_NO = R.BABY_NO
+		AND E.EMP_NO = D.EMP_NO
+		AND R.BABY_NO = #{baby_no}
 	</select>
 
 	<select id="getInfoList" resultType="map">

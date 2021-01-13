@@ -46,7 +46,7 @@ public class Diagcontroller {
 	// 선택된 환자 예약/진료 이력 리스트 조회
 	@ResponseBody
 	@RequestMapping("/ajax/HistoryList")
-	public List<DiagnosisVO> getResvHistList(BabyVO vo) {
+	public List<Map<String, Object>> getResvHistList(BabyVO vo) {
 		return diagDao.getResvHistList(vo);
 	}
 	

@@ -407,10 +407,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 	}
 	 //진료일 펑션
 	function getDiagDetailResult(data) {
+		console.log(data);
 		$("#diagDetail").empty();
 
 		$("<tr>").append($("<td>").html(data.diag_time))
-				.appendTo('#diagDetail');
+				 .appendTo('#diagDetail');
 
 	}
 	 //병 펑션
@@ -607,12 +608,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 	function HistoryListResult(data) {
 		$("#HistoryList").empty();
 		$.each(data, function(idx, item) {
-			$("<tr>")
-					.append($('<td style="display:none;">').html(item.diag_no))
-					.append($("<td>").html(item.diag_time)).append(
-							$('<td style="display:none;">').html(item.resv_no))
-					.appendTo('#HistoryList');
-			console.log(item.diag_no);
+			$("<tr>").append($('<td style="display:none;">').html(item.DIAG_NO))
+					 .append($("<td>").html(item.DIAG_TIME))
+					 .append($('<td style="display:none;">').html(item.RESV_NO))
+					 .append($('<td>').html(item.EMP_NAME))		
+					 .appendTo('#HistoryList');
+			console.log(item.DIAG_NO);
 		});
 	}
 
@@ -735,13 +736,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<i class="fas fa-file-medical"></i>
 
 								<!-- content -->
-								<span class="tit" style="font-weight: 600;">진료 기록</span>
+								<span class="tit" style="font-weight: 600;">진료/접종 기록</span>
 							</div>
-							<table id="noborder_table">
+							<table id="noborder_table" class="table">
 								<thead>
 									<tr id="nbab">
 										<br />
-										<th>일시</th>
+										<th style="width:100px;">일시</th>
+										<th>담당의</th>
 									</tr>
 								</thead>
 								<tbody id="HistoryList"></tbody>
@@ -1011,9 +1013,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 					<!-- Title -->
 					<div class="title_logo">
 						<!-- logo -->
-						<i class="fas fa-capsules"></i>
+						<i class="fas fa-syringe"></i>
 						<!-- content -->
-						<span class="tit" style="font-weight: 600;">약품</span>
+						<span class="tit" style="font-weight: 600;">예방접종</span>
 					</div>
 
 					

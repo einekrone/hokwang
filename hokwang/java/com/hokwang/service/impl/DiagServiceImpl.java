@@ -36,7 +36,7 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public List<DiagnosisVO> getResvHistList(BabyVO vo) {
+	public List<Map<String, Object>> getResvHistList(BabyVO vo) {
 		return service.getResvHistList(vo);
 	}
 

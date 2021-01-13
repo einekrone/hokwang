@@ -16,7 +16,7 @@ public interface DiagService {
 
 	public Map<String,Object> getInfoList(Reservation vo);
 	public List<Map<String, Object>> getResvList(EmployeeVO vo);
-	public List<DiagnosisVO> getResvHistList(BabyVO vo);
+	public List<Map<String, Object>> getResvHistList(BabyVO vo);
 	public Map<String, Object> getUniqInfo(Reservation vo);
 	public BodyVO getBodyList(BodyVO vo);
 	public DiagnosisVO getDiagDetail(DiagnosisVO vo);

@@ -78,6 +78,8 @@
 
 </head>
 <body>
+<button style="margin: 5px; float: right;" onclick="location.href='schExcelView'">엑셀 다운로드</button>
+<button style="margin: 5px; float: right;" onclick="location.href='#'">엑셀 업로드</button>
 <!-- 드래그 이벤트 
 <div id="external-events">
     <p>
@@ -120,7 +122,6 @@
     </fieldset>
   </form>
 </div>
- 
  <script>
        //취소
  		$("#btnCancel").on('click',function(){

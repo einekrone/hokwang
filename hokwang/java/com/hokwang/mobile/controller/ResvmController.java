@@ -42,9 +42,9 @@ public class ResvmController {
 	@ResponseBody
 	@RequestMapping("/ajax/insertReservation")
 	public String questInsert(QuestionVO quVO, Reservation resvVO) {
-		resvmSvc.questInsert(quVO);
-		resvVO.setQust_no(quVO.getQust_no());
 		resvmSvc.resvInsert(resvVO);
+		quVO.setQust_no(resvVO.getResv_no());
+		resvmSvc.questInsert(quVO);
 		return "redirect:/mobile";
 	}
 }

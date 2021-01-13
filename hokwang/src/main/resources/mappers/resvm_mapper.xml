@@ -26,10 +26,6 @@
 	<!-- ORDER BY RESV_TIME; -->
 
 	<insert id="questInsert" parameterType="questionVO">
-		<selectKey order="BEFORE" keyProperty="qust_no"
-			resultType="String">
-			SELECT NVL(MAX(QUST_NO),0)+1 FROM QUESTION
-		</selectKey>
 		INSERT INTO QUESTION(QUST_NO,A1,A2,A3,A4)
 		VALUES (#{qust_no},
 		#{a1},
@@ -42,9 +38,8 @@
 		<!-- SELECT NVL(MAX(RESV_NO),0)+1 FROM RESERVATION -->
 		<!-- </selectKey> -->
 		INSERT INTO RESERVATION(resv_no, resv_date, resv_time, resv_detail,
-		resv_memo, baby_no, qust_no, chk_no, chk_type, resv_type)
+		resv_memo, baby_no, chk_no, chk_type, resv_type)
 		VALUES (#{resv_no},
-		#{resv_date}, #{resv_time}, #{resv_detail}, #{resv_memo}, #{baby_no},
-		#{qust_no}, #{chk_no}, #{chk_type}, #{resv_type})
+		#{resv_date}, #{resv_time}, #{resv_detail}, #{resv_memo}, #{baby_no}, #{chk_no}, #{chk_type}, #{resv_type})
 	</insert>
 </mapper>

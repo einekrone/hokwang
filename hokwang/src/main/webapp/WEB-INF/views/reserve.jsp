@@ -165,6 +165,7 @@ button {
 	// 진료실 이동
 	function roomMove(resvNo) {
 		var offSel = $("#officeSel" + resvNo + " option:selected").val();
+		console.log("roomMove : " + resvNo);
 		console.log("change : " + offSel);
 		if (offSel != "-") {
 			console.log("진료실로 이동");
@@ -492,14 +493,13 @@ button {
 								$("#resvNo" + idx).css("background", "#bed3c3");
 							}
 
+							var resvNN = item.RESV_NO;
 							if (date == today
 									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
 								$("#regno" + idx)
 										.eq(-1)
 										.after(
-												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove('
-														+ item.RESV_NO
-														+ ')" class="officeSel" id="officeSel'
+												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove(\'' + resvNN + '\');" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
 								$(

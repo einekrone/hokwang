@@ -60,7 +60,8 @@
 		SELECT * FROM RESERVATION
 		<where>
 			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = TO_CHAR(#{resv_no})
+				RESV_NO LIKE '%'||#{resv_no}||'%'
+				
 			</if>
 		</where>
 	</select>
@@ -73,8 +74,7 @@
 		FROM PAYMENT P, DIAGNOSIS D,
 		RESERVATION R, BABY B
 		WHERE P.DIAG_NO = D.DIAG_NO
-		AND D.RESV_NO =
-		R.RESV_NO
+		AND D.RESV_NO = R.RESV_NO
 		AND R.BABY_NO = B.BABY_NO
 		AND P.PAY_STATE IN('N', 'W', 'Y')
 		<if
@@ -105,7 +105,7 @@
 		SELECT * FROM IMAGES
 		<where>
 			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = #{resv_no}
+				RESV_NO LIKE '%'||#{resv_no}||'%'
 			</if>
 		</where>
 		ORDER BY IMG_DATE
@@ -156,7 +156,7 @@
 		SET RESV_ROOM = #{resv_room}
 		<where>
 			<if test="resv_no != null and resv_no != ''">
-				RESV_NO = #{resv_no}
+				RESV_NO LIKE '%'||#{resv_no}||'%'
 			</if>
 		</where>
 	</update>

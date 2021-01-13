@@ -160,14 +160,4 @@
 			</if>
 		</where>
 	</update>
-
-	<insert id="questInsert" parameterType="questionVO">
-		<selectKey order="BEFORE" keyProperty="qust_no"
-			resultType="String">
-			SELECT NVL(MAX(QUST_NO),0)+1 FROM QUESTION
-		</selectKey>
-		INSERT INTO QUESTION(QUEST_NO,A1,A2,A3,A4)
-		VALUES (#{qust_no},
-		#{a1}, #{a2}, #{a3})
-	</insert>
 </mapper>

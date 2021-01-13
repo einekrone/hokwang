@@ -2,12 +2,10 @@ package com.hokwang.resv.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,18 +133,5 @@ public class ResvController {
 	@RequestMapping("/ajax/roomUpdate")
 	public int roomUpdate(Reservation vo) {
 		return resvSvc.roomUpdate(vo);
-	}
-
-	// 문진표 등록
-	@ResponseBody
-	@RequestMapping("/ajax/questInsert")
-	public int questInsert(QuestionVO vo) {
-		System.out.println("문진표 등록 S");
-		resvSvc.questInsert(vo);
-		System.out.println("문진표 등록 E");
-		System.out.println("등록된 문진표 번호 : "+vo.getQust_no());
-//		resvSvc.questInsert(vo);
-//		return resvSvc.questInsert(vo);
-		return 0;
 	}
 }

@@ -23,5 +23,4 @@ public interface ResvService {
 	public Map<String, Object> getPayInfo(PaymentVO vo);
 	public int payUpdate(PaymentVO vo);
 	public int roomUpdate(Reservation vo);
-	public int questInsert(QuestionVO vo);
 }

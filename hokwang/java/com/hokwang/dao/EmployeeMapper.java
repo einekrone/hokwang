@@ -1,13 +1,14 @@
 package com.hokwang.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
 import com.hokwang.vo.TempmessageVO;
 
 public interface EmployeeMapper {
+
+	public EmployeeVO getEmpList(EmployeeVO emp_vo); // 로그인조회
 
 	public EmployeeVO getEmp(EmployeeVO emp_vo); // 로그인조회
 
@@ -19,7 +20,7 @@ public interface EmployeeMapper {
 
 	public int tempCountMsg(EmployeeVO emp_vo);
 
-	public void updateInf(EmployeeVO emp_vo);
+	public int updateInf(EmployeeVO emp_vo);//
 
 	public List<MessageVO> showNotReadMsg(EmployeeVO emp_vo);
 
@@ -54,4 +55,5 @@ public interface EmployeeMapper {
 	public TempmessageVO checkTempFinal(TempmessageVO vo);
 
 	public void deleteMsg(MessageVO vo);
+	
 }

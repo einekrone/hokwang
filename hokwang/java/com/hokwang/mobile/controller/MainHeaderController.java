@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,4 +42,13 @@ public class MainHeaderController {
 		return dao.alertCntAction(vo);
 	}
 
+	@GetMapping("/logoutM") //로그아웃
+	public String logoutM(HttpSession session) {
+		session.invalidate(); //세션무효화
+		return "redirect:/mobile";
+	}
+	
+	
+	
+	
 }

@@ -73,10 +73,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return EmpDAO.findPw(emp_vo);
 	}
 	
+	
 	@Override
-	public void updateInf(EmployeeVO emp_vo) {
+	public int updateInf(EmployeeVO emp_vo) {
 		// 비밀번호찾기
-		EmpDAO.updateInf(emp_vo);
+		
+		return EmpDAO.updateInf(emp_vo);
 	}
 	
 	
@@ -159,10 +161,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmpDAO.deleteMsg(vo);
 	}
 
-	
+	@Override
+	public int pwdselect(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-	
-
+	@Override
+	public EmployeeVO getEmpList(EmployeeVO emp_vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.getEmpList(emp_vo);
+	}
 	
 	
 }

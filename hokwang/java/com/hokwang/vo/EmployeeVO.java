@@ -16,4 +16,6 @@ public class EmployeeVO {//관리자
 	String emp_lic;//면허번호
 	String emp_room;//진료실
 	String emp_profile; //이미지
+	
+	String emp_pwd1;//옛날 변경전 비밀번호
 }

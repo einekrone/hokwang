@@ -118,21 +118,22 @@
 
 
 	<update id="updateInf" parameterType="employeeVO">
-		update employee set
-		<if test="emp_tel != null and emp_tel != ''">
+		update EMPLOYEE set
+		 <!-- <if test="emp_tel != null and emp_tel != ''">
 			emp_tel = #{emp_tel}
 		</if>
 		<if test="emp_addr != null and emp_addr != ''">
 			,emp_addr = #{emp_addr}
-		</if>
+		</if> -->
 		<if test="emp_pwd != null and emp_pwd != ''">
-			,emp_pwd = #{emp_pwd}
+			emp_pwd = #{emp_pwd}
 		</if>
-		<if test="emp_profile != null and emp_profile !=''">
+		<!-- <if test="emp_profile != null and emp_profile !=''">
 			,emp_profile = #{emp_profile}
-		</if>
-		where emp_no
-		=#{emp_no}
+		</if>  -->
+		<where>
+		 EMP_NO=#{emp_no}
+		</where>
 	</update>
 
 	<select id="getTotalMsg" parameterType="employeeVO"
@@ -246,5 +247,7 @@
 		msg_no=#{msg_no}
 	</delete>
 
-
+	<select id="pwdselect" parameterType="employeeVO" resultType="messageVO">
+		select EMP_PWD from employeeVO where EMP_NO= #{emp_no}
+	</select>
 </mapper>

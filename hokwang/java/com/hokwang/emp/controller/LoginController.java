@@ -66,6 +66,7 @@ public class LoginController {
 		session.invalidate(); //세션무효화
 		return "redirect:/";
 	}
+	
 	@ResponseBody
 	@RequestMapping("/ajax/findId")
 	public Map<String, Object> getInf(Model model,EmployeeVO vo) {

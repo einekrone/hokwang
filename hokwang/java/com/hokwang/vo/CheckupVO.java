@@ -4,10 +4,10 @@ package com.hokwang.vo;
 import lombok.Data;
 
 @Data
-public class CheckupVO {//검진
-	String chk_no;//검진 번호
-	String chk_name;//접종명
-	String chk_total;//총 차수
-	String chk_desc;//설명
+public class CheckupVO {//접종
+	String chk_no;//예방접종 번호 시퀀스
+	String chk_name;//백신명
+	String chk_first;//최초 접종일
+	String chk_dis;//질병명
 
 }

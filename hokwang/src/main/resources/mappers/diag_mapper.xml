@@ -166,4 +166,11 @@
 		SET RESV_STATUS = #{resv_status}
 		WHERE RESV_NO = #{resv_no}
 	</update>
+	
+	<select id="getInjection" resultType="map">
+		SELECT R.* , C.*
+		FROM CHECKUP C, RESERVATION R
+		WHERE R.CHK_NO = C.CHK_NO
+		AND RESV_NO = #{resv_no}
+	</select>
 </mapper>

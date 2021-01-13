@@ -5,9 +5,10 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class CheckHistVO {//검진 이력
-	String hist_no;//검진이력 번호
-	String hist_count;//차수
-	String stat_status;//검진 상태
-	String hist_state;//검진 현황
+public class CheckHistVO {//접종 이력
+	String hist_no;//접종이력 번호 시퀀스
+	Date hist_date; // 검진일시
+	String hist_state;// 검진현황
+	String chk_no; //예방접종 번호
+	String resv_no; //예약번호
 }

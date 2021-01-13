@@ -534,7 +534,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 	function MemoResult(data) {
 		$("#baby_unusual").empty();
-		$("#baby_unusual").append(data.RESV_MEMO);
+		$("#baby_unusual").append($('<p>').html(data.RESV_DETAIL))
+						  .append($('<hr>'))
+						  .append($('<p>').html(data.RESV_MEMO));
 	}
 
 	// 환자목록 클릭 시 진료기록 목록 출력
@@ -594,6 +596,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 						$("#diag4").css("display","block");
 					}else{
 						$("#diag5").css("display","block");
+						getInjection();
 					}
 					$(".diagMenu").show();
 				}
@@ -634,6 +637,33 @@ div.dataTables_wrapper div.dataTables_paginate {
 										+ data.PARENT_ADDRDETAIL + ' '
 										+ data.PARENT_POST))
 	}
+	
+	//예방접종 띄우기
+	function getInjection() {
+		$.ajax({
+			url : 'ajax/getInjection',
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				resv_no : resv_no
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : getInjectionResult
+		});
+	}
+	function getInjectionResult(data){
+		$("#injection").empty();
+		$.each(data, function(idx, item) {	
+			$("<tr>").append($('<td>').html(item.CHK_DIS))
+					 .append($("<td>").html(item.CHK_NAME))	
+					 .append($("<td>").html(item.CHK_FIRST))
+					 .append($('<td style="display:none;">').html(item.CHK_DIS))
+					 .appendTo('#injection');
+		});
+	}
+
 </script>
 </head>
 <body>
@@ -1004,52 +1034,62 @@ div.dataTables_wrapper div.dataTables_paginate {
 			
 			<!-- 진료 5 -->
 			<div class="col-xl-6 col-md-6 mb-4" id="diag5">
-			
-			<!--  -->
-				<div class="card shadow py-2" style="height: 840px;">
-					
-				<div style="height: 100px; padding: 20px;">
-					
-					<!-- Title -->
-					<div class="title_logo">
-						<!-- logo -->
-						<i class="fas fa-syringe"></i>
-						<!-- content -->
-						<span class="tit" style="font-weight: 600;">예방접종</span>
-					</div>
 
-					
-				</div>
-				
-				
-					<!--  -->
-					<div class="card-body"
-						style="overflow: auto; width: 100%; height: 200px; visi">
-						<div>
-						
-						</div>
-					</div>
-				
-					
-					<!--   -->
-					<div class="card-body" style="height: 400px;">
-						<div>
-						<!-- logo -->
-							<i class="fas fa-capsules"></i>
+				<!-- 접종 맞을 것-->
+				<div class="card shadow py-2" style="height: 400px;">
+
+					<div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
+						<!-- Title -->
+						<div class="title_logo">
+							<!-- logo -->
+							<i class="fas fa-syringe"></i>
 							<!-- content -->
-							<span class="tit" style="font-weight: 600;">처방전</span>
+							<span class="tit" style="font-weight: 600;">예방접종</span>
 						</div>
-						
+					</div>
+				
+					<div class="card-body"
+						style="overflow: auto; width: 100%; height: 300px; padding-top: 5px;">
+						<div>
+							<table class="table">
+								<thead>								
+									<tr>				
+										<th>예방접종 종류</th>
+										<th>예방접종 백신명</th>
+										<th>예방접종 기간</th>
+									</tr>
+								</thead>
+								<tbody id="injection"></tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-	
+				
+				<!-- 접종 내역-->
+				<div class="card shadow py-2" style="height: 440px;">
+
+					<div style="height: 100px; padding: 20px;">
+						<!-- Title -->
+						<div class="title_logo">
+							<!-- logo -->
+							<i class="fas fa-syringe"></i>
+							<!-- content -->
+							<span class="tit" style="font-weight: 600;">예방 접종 현황</span>
+						</div>
+					</div>
+					<!-- ㅇ -->
+					<div class="card-body"
+						style="overflow: auto; width: 100%; height: 200px;">
+					</div>
+				</div>
+				
 			</div>
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
 		</div>
 	</div>
 		<!-- 약품 insert Modal -->

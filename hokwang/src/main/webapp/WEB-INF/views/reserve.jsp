@@ -819,7 +819,7 @@ button {
 								class="tgl-btn" for="cb4"></label>
 							</span>
 						</div>
-						<div style="overflow: auto;">
+						<div style="overflow: auto; height:300px;">
 							<table class="table text-center">
 								<thead>
 									<tr>
@@ -838,7 +838,7 @@ button {
 				<div class="card shadow py-2" style="height: 395px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-info">수납 완료</p>
-						<div style="overflow: auto;">
+						<div style="overflow: auto; height:300px;">
 							<table class="table text-center">
 								<thead>
 									<tr>

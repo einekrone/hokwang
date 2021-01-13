@@ -139,7 +139,7 @@
 				<!-- 로그인모양 -->
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item">
-						<a class="nav-icon" href="#" >
+						<a class="nav-icon" href="loginM" >
 							<img src="${pageContext.request.contextPath}/resources/img/logM.png"
 								 style="width: 35px; height: 30px;" />
 						</a>

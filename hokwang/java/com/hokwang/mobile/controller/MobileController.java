@@ -12,10 +12,10 @@ import com.hokwang.vo.ResvCalendar;
 @Controller
 public class MobileController {
 	
-	@RequestMapping(value = "/loginM")
-	public String login() {
-		return "loginM";
-	}
+	/*
+	 * @RequestMapping(value = "/loginM") public String login() { //return "loginM";
+	 * return "mobile/loginM"; }
+	 */
 	
 
 	@RequestMapping(value = "/child")

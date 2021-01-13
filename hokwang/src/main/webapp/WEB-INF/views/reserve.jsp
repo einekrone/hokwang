@@ -155,7 +155,7 @@ button {
 			});
 		});
 	});
-	
+
 	function SearchClick() {
 		var keyword = $("#keyword").val();
 		resvList("resvSearch", keyword);
@@ -164,7 +164,7 @@ button {
 
 	// 진료실 이동
 	function roomMove(resvNo) {
-		var offSel = $("#officeSel"+resvNo+" option:selected").val();
+		var offSel = $("#officeSel" + resvNo + " option:selected").val();
 		console.log("change : " + offSel);
 		if (offSel != "-") {
 			console.log("진료실로 이동");
@@ -404,7 +404,8 @@ button {
 											.after(
 													'<td><button id="stBtn" type="button" data-toggle="modal" data-target="#stPopup" data-no="'+item.PAY_NO+'">승인</button></td>');
 								} else if (item.PAY_STATE == 'N') { // 미수납
-									$("#price" + idx).eq(-1).after('<td>미수납</td>');
+									$("#price" + idx).eq(-1).after(
+											'<td>미수납</td>');
 								}
 							}
 						});
@@ -462,7 +463,11 @@ button {
 
 	function resvListResult(data) {
 		$("#resvList").empty();
-		$.each(data, function(idx, item) {
+		$
+				.each(
+						data,
+						function(idx, item) {
+							console.log(">>>> " + item.CHK_TYPE);
 							var date = item.RESV_DATETIME.substring(0, 10);
 							var d = new Date();
 							var today = d.getFullYear() + '-'
@@ -472,7 +477,7 @@ button {
 							$('<tr>')
 									.append(
 											$(
-													'<td id="resvNo" value="'+item.RESV_NO+'">')
+													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
@@ -483,17 +488,25 @@ button {
 													.html(item.BABY_NO))
 									.appendTo('#resvList');
 
+							if (item.CHK_TYPE == "V") { // 예방접종
+								$("#resvNo" + idx).css("background", "#bed3c3");
+							}
+
 							if (date == today
 									&& (item.RESV_STATUS == 'N' || item.RESV_STATUS == 'I')) {
-								console.log("진료실번호 : " + item.RESV_ROOM);
-								console.log("예약번호 : " + item.RESV_NO);
-								$("#regno" + idx) .eq(-1) .after(
+								$("#regno" + idx)
+										.eq(-1)
+										.after(
 												'<td id="room" onclick="event.cancelBubble=true"><select onchange="roomMove('
 														+ item.RESV_NO
 														+ ')" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
-								$("#officeSel" + item.RESV_NO+ " option:eq("+ item.RESV_ROOM + ")").attr("selected", "selected");
+								$(
+										"#officeSel" + item.RESV_NO
+												+ " option:eq("
+												+ item.RESV_ROOM + ")").attr(
+										"selected", "selected");
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(
@@ -534,7 +547,8 @@ button {
 
 	function resvUniqResult(data) {
 		$("#resvDetail").empty();
-		$("#resvDetail").append($('<p>').html(data.RESV_DETAIL)).append($('<hr>')).append($('<p>').html(data.RESV_MEMO));
+		$("#resvDetail").append($('<p>').html(data.RESV_DETAIL)).append(
+				$('<hr>')).append($('<p>').html(data.RESV_MEMO));
 	}
 
 	// 환자목록 클릭 시 진료/예약 이력 목록 출력
@@ -577,24 +591,27 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log("CHK_TYPE : "+item.CHK_TYPE);
+							console.log("CHK_TYPE : " + item.CHK_TYPE);
 							var resvNo = "";
 							if (typeof item.RESV_NO != 'undefined') {
 								resvNo = item.RESV_NO;
 							}
 							//console.log("ph> " + item.IMG_ADDR);
 							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
-							$('<tr>')
-									.append($('<td>').html(item.RESV_NO))
+							$('<tr>').append($('<td>').html(item.RESV_NO))
 									.append($('<td>').html(item.RESV_DATE))
-									.append($('<td id="dtl'+idx+'">').html(item.RESV_DETAIL))
 									.append(
+											$('<td id="dtl'+idx+'">').html(
+													item.RESV_DETAIL)).append(
 											$('<td style="display:none;">')
 													.html(item.BABY_NO))
 									.appendTo('#resvHstList');
-							
-							if(item.CHK_TYPE == "N") {	// 일반 검진. 사진 버튼 출력
-								$("#dtl" + idx).eq(-1).after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
+
+							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
+								$("#dtl" + idx)
+										.eq(-1)
+										.after(
+												'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
 							}
 
 							var d = new Date();
@@ -661,11 +678,11 @@ button {
 			reader.readAsDataURL(f);
 		});
 	}
-	
+
 	function close_pop() {
 		$("#stPopup").hide();
 	}
-	
+
 	function cancle_pop() {
 		console.log("cancel_pop");
 		$("#stPopup").show();
@@ -684,9 +701,11 @@ button {
 					<div class="input-group">
 						<input type="text" class="form-control border-0 small"
 							name="keyword" id="keyword" placeholder="예약환자명"
-							aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); SearchClick();}">
+							aria-label="Search" aria-describedby="basic-addon2"
+							onkeypress="if(event.keyCode=='13'){event.preventDefault(); SearchClick();}">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button" id="searchPati" onclick="SearchClick()">
+							<button class="btn btn-primary" type="button" id="searchPati"
+								onclick="SearchClick()">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div>
@@ -703,7 +722,8 @@ button {
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-danger"
 							style="margin-bottom: 3px !important;">상세증상 및 특이사항</p>
-						<div style="overflow: auto; width: 100%; height: 160px; padding-top: 10px;"
+						<div
+							style="overflow: auto; width: 100%; height: 160px; padding-top: 10px;"
 							id="resvDetail"></div>
 					</div>
 				</div>
@@ -734,7 +754,8 @@ button {
 					<div class="card-body"
 						style="overflow-y: auto; border-collapse: collapse;">
 						<div class="text-s" style="margin-bottom: 20px;">
-							<span class="text-primary font-weight-bold">전체 예약 환자</span> <span
+							<span class="text-primary font-weight-bold">전체 예약 환자</span><span
+								class="font-weight-bold" style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
@@ -819,7 +840,7 @@ button {
 								class="tgl-btn" for="cb4"></label>
 							</span>
 						</div>
-						<div style="overflow: auto; height:300px;">
+						<div style="overflow: auto; height: 300px;">
 							<table class="table text-center">
 								<thead>
 									<tr>
@@ -838,7 +859,7 @@ button {
 				<div class="card shadow py-2" style="height: 395px; margin: 10px 0;">
 					<div class="card-body">
 						<p class="text-s font-weight-bold text-info">수납 완료</p>
-						<div style="overflow: auto; height:300px;">
+						<div style="overflow: auto; height: 300px;">
 							<table class="table text-center">
 								<thead>
 									<tr>
@@ -909,7 +930,8 @@ button {
 					<div class="modal-footer text-center"
 						style="justify-content: center !important;">
 						<button class="btn-primary" type="button" style="margin: 0 25px;"
-							id="stRBtn" data-toggle="modal" data-target="#stChkPop" onclick="close_pop()">승인</button>
+							id="stRBtn" data-toggle="modal" data-target="#stChkPop"
+							onclick="close_pop()">승인</button>
 						<button type="button" style="margin: 0 25px;" data-dismiss="modal">취소</button>
 					</div>
 				</div>
@@ -930,7 +952,8 @@ button {
 					<p style="font-size: 25px; width: 100%;">결제를 승인하시겠습니까?</p>
 					<button class="btn-primary" type="button" style="margin: 0 25px;"
 						id="stRBtn2" data-dismiss="modal">승인</button>
-					<button type="button" style="margin: 0 25px;" data-dismiss="modal" onclick="cancle_pop()">취소</button>
+					<button type="button" style="margin: 0 25px;" data-dismiss="modal"
+						onclick="cancle_pop()">취소</button>
 				</div>
 			</div>
 		</div>

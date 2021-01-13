@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -24,6 +26,8 @@ import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
 import com.hokwang.vo.TempmessageVO;
+
+
 
 @Controller
 public class MypageController {
@@ -59,16 +63,16 @@ public class MypageController {
 	@ResponseBody
 	@RequestMapping("/ajax/updateInf")
 	public boolean updateInf(EmployeeVO vo, HttpSession session) {
-		vo.setEmp_no(((EmployeeVO)session.getAttribute("emp_vo")).getEmp_no());
+		vo.setEmp_no(((EmployeeVO) session.getAttribute("emp_vo")).getEmp_no());
 		System.out.println(vo);
 		if (((EmployeeVO) session.getAttribute("emp_vo")).getEmp_pwd().equals(vo.getEmp_pwd1())) {
 			if (dao.updateInf(vo) == 1) {
-				
+
 				return true;
 			}
 		} else {
 			System.out.println("실패 비밀번호 확인");
-			
+
 		}
 		return false;
 	}
@@ -124,20 +128,21 @@ public class MypageController {
 	}
 
 	// 등록처리
-	@RequestMapping("/updateUser")
-	public String updateUser(HttpServletRequest request, EmployeeVO emp_vo) throws IllegalStateException, IOException {
+	@ResponseBody
+	@RequestMapping("/ajax/updateImg")
+	public boolean updateImg(HttpServletRequest request, EmployeeVO vo) throws IllegalStateException, IOException {
 		// request multipart로 캐스팅
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 이미지파일
-		MultipartFile multipartFile = multipartRequest.getFile("uploadFile");
+		MultipartFile multipartFile = multipartRequest.getFile("uf");
 		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
 			String path = request.getSession().getServletContext().getRealPath("/resources/img");
 			System.out.println("path=" + path);
 			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
-			emp_vo.setEmp_profile(multipartFile.getOriginalFilename());
+			vo.setEmp_profile(multipartFile.getOriginalFilename());
 		}
-		dao.updateUser(emp_vo);
-		return "mypage";
+		dao.updateImg(vo);
+		return true;
 	}
 
 	@ResponseBody
@@ -173,6 +178,13 @@ public class MypageController {
 	public boolean deleteMsg(Model model, MessageVO vo) {
 		dao.deleteMsg(vo);
 		return true;
+	}
+
+	// 단건조회
+	@ResponseBody
+	@RequestMapping(value = "/ajax/selectempl")
+	public EmployeeVO selectempl(EmployeeVO vo, Model model) {
+		return dao.selectempl(vo);
 	}
 
 }

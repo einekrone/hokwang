@@ -237,164 +237,150 @@
 		});
 	})
 
-	
-	$(function(){
-
-     //$('#ex_filename').change(function() {
-     //	var filename = $(this).val();
-     //	$('.upload-name').val(filename);
-     //});
-
-     var fileTarget = $('.file-upload .upload-hidden');
-
-     fileTarget.on('change', function(){  // 값이 변경되면
-          if(window.FileReader){  // modern browser
-               var filename = $(this)[0].files[0].name;
-          } 
-          else {  // old IE
-               var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
-          }
-
-          // 추출한 파일명 삽입
-          $(this).siblings('.upload-name').val(filename);
-     });
-}); 
-
-
 	$(function() {
-		changeClick();
 		updateInf();
-		AllCntMsg();
+		updateImg();
+
+		btnModal();
+		writeTempMsg();
 		writeMsg();
 		firstMsg();
-		writeTempMsg();
-		btnModal();
+		changeClick();
+		AllCntMsg();
 		//ClickTable()
 		//deleteMsg();
-		
+		 
 
-		
-		$("#uf").on(
-	            'change',
-	            function(e) {
-	             
-
-	               var files = e.target.files;
-	               var arr = Array.prototype.slice.call(files);
-	               for (var i = 0; i < files.length; i++) {
-	                  if (!checkExtension(files[i].name, files[i].size)) {
-	                     return false;
-	                  }
-	               }
-
-	               preview(arr);
-
-	            });
-
-	      function checkExtension(fileName, fileSize) {
-
-	         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	         var maxSize = 20971520; //20MB
-
-	         if (fileSize >= maxSize) {
-	            alert('파일 사이즈 초과');
-	            $("input[type='file']").val(""); //파일 초기화
-	            return false;
-	         }
-
-	         if (regex.test(fileName)) {
-	            alert('업로드 불가능한 파일이 있습니다.');
-	            $("input[type='file']").val(""); //파일 초기화
-	            return false;
-	         }
-	         return true;
-	      }
-
-	      function preview(arr) {
-	         arr
-	               .forEach(function(f) {
-
-	                  //파일명이 길면 파일명...으로 처리
-	                  var fileName = f.name;
-	                  if (fileName.length > 10) {
-	                     fileName = fileName.substring(0, 7) + "...";
-	                  }
-
-	                  //div에 이미지 추가
-	                  var str = '<div style="display: inline-flex; padding: 10px;"><li>';
-	                  str += '<span>' + fileName + '</span><br>';
-
-	                  //이미지 파일 미리보기
-	                  if (f.type.match('image.*')) {
-	                     var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
-	                     reader.onload = function(e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
-	                        //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
-
-	                        $('#img').attr('src', e.target.result);
-	                        $('#img').attr('style',
-	                              "width:150px; height: 160px");
-	                     }
-	                     reader.readAsDataURL(f);
-	                  } else {
-	                     $('#img').attr('src', e.target.result);
-	                     $('#img').attr('style',
-	                           "width:150px; height: 160px");
-	                  }
-	               });//arr.forEach
-	      }
 	});
+
 	
-	function btnModal(){
-		$('#wri_m_bt').on("click",function(){
-			console.log("asdasdasd");
+	
+	function updateInf() {
+		$('#btnUpdate').on("click", function() {
+			if ($('#pw').val() == $('#pw2').val()) {
+				$.ajax({
+					url : "ajax/updateInf",
+					type : 'POST',
+					/* dataType : 'json', */
+					data : {
+						emp_pwd1 : $('#oldpw').val(),
+						emp_pwd : $('#pw').val(),
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						if (data == true) {
+							alert("변경되었습니다.");
+							location.href = "logout";
+						} else {
+							alert("기존 비밀번호 재확인 ")
+						}
+					}
+				});
+			} else {
+				alert("새 비밀번호 재확인바람 ");
+			}
+		});
+	}//end of function (updateInf)
+
+	
+	
+	/* function updateImg() {
+		$('#btnUpdateImg').on("click", function() {
+			var inputFile = $('input[name="uf"]')
 			$.ajax({
-				url : 'ajax/checkTemp',
+				url : "ajax/updateImg",
 				type : 'POST',
+				dataType : 'json',
 				data : {
-					temp_sendno : "${emp_vo.emp_no}"
+					emp_tel : $('#tel').val(),
+					emp_addr : $('#addr').val(),
+					//emp_profile : inputFile
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				}, 
+				},
 				success : function(data) {
-
-					var modal = $('#mailModal');
-					
-					console.log(data);
-					
-					if(data.temp_no !=null ){
-						var result = confirm("최근 작성하던 임시 메일이 있습니다.불러올까요?");
-						if(result){						  
-						    modal.find('#recipient-name').val(data.temp_resvno);
-						    modal.find('#message-text').html(data.temp_cont);
-						    modal.modal('show');
-						}else{
-						    modal.find('#recipient-name').html();
-					    	modal.find('#message-text').html("");
-					    	modal.modal('show');
-						    
-						}
-					}
-					else {
-						modal.find('#recipient-name').html();
-				    	modal.find('#message-text').html("");
-				    	modal.modal('show');
-					}
- 					
+					alert("변경되었습니다.");
 				}
-			})	//endof 
-		})//end of click function
-	}//end ofo function
+			})
+		});
+	}//end of function (updateImg) */
+	
+	function updateImg() {
+	      //수정 버튼 클릭
+
+	      $('#btnUpdateImg').on('click', function() {
+	         var form = $('#form1')[0];
+	         var formData = new FormData(form);
+
+	         $.ajax({
+	            url : "ajax/updateImg",
+	            dataType : 'json',
+	            data : {
+					formData
+				},
+	            method : 'post',
+	            contentType : false,
+	            processData : false,
+	            success : function(data) {
+	            	empSelect();
+	               alert("수정되었습니다");
+	              
+	            },
+	            error : function(xhr, status, message) {
+	               alert(" status: " + status + " er:" + message);
+	            }
+	         });
+	      });//수정 버튼 클릭
+	   }//userUpdate
+
 	
 	
-	
-	
+	function btnModal() {
+		$('#wri_m_bt').on("click", function() {
+							console.log("asdasdasd");
+							$.ajax({
+									url : 'ajax/checkTemp',
+									type : 'POST',
+									data : {
+										temp_sendno : "${emp_vo.emp_no}"
+									},
+									error : function(xhr, status, msg) {
+										alert("상태값 :" + status + " Http에러메시지 :" + msg);
+									},
+									success : function(data) {
+										var modal = $('#mailModal');
+											console.log(data);
+										if (data.temp_no != null) {
+												var result = confirm("최근 작성하던 임시 메일이 있습니다.불러올까요?");
+												if (result) {
+													modal.find('#recipient-name').val(data.temp_resvno);
+													modal.find('#message-text').html(data.temp_cont);
+													modal.modal('show');
+												} else {
+													modal.find('#recipient-name').html();
+													modal.find('#message-text').html("");
+													modal.modal('show');
+												}
+											} else {
+													modal.find('#recipient-name').html();
+													modal.find('#message-text').html("");
+													modal.modal('show');
+											}
+										}
+									}); //endof 
+						})//end of click function
+						}//end of function (btnModal)
+
+						
+						
 	function writeTempMsg() {
 		$('#btnTempSave').on("click", function() {
 			console.log("${emp_vo.emp_no}");
 			console.log($('#message-text').val());
 			console.log($('#recipient-name option:selected').val());
-			
 
 			$.ajax({
 				url : "ajax/tempMsgInf",
@@ -404,7 +390,7 @@
 					temp_sendno : "${emp_vo.emp_no}",
 					temp_cont : $('#message-text').val(),
 					temp_resvno : $('#recipient-name option:selected').val()
-					
+
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -414,20 +400,14 @@
 					AllCntMsg();
 				}
 			});
-			
-			
 		})
-	}
-	
-
-	
+	}//end of function (writeTempMsg)
 
 	function writeMsg() {
 		$('#btnSave').on("click", function() {
 			console.log("${emp_vo.emp_no}");
 			console.log($('#message-text').val());
 			console.log($('#recipient-name option:selected').val());
-			
 
 			$.ajax({
 				url : "ajax/sendMsgInf",
@@ -437,7 +417,7 @@
 					emp_sendno : "${emp_vo.emp_no}",
 					msg_cont : $('#message-text').val(),
 					emp_resvno : $('#recipient-name option:selected').val()
-					
+
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -452,13 +432,12 @@
 				}
 			});
 		})
-	}
-
+	}//end of function (writeMsg)
 
 	function firstMsg() {
 		var table1 = $('#dataTab1').DataTable({
 			responsive : true,
-			autoWidth :false,
+			autoWidth : false,
 			ajax : {
 
 				url : 'ajax/getTotalMsg',
@@ -480,17 +459,17 @@
 			}, {
 				data : 'msg_no'
 			} ],
-			columnDefs:[{
-				targets:[5],
-				searchable:false,
-				visible:false
-				
-			}]
+			columnDefs : [ {
+				targets : [ 5 ],
+				searchable : false,
+				visible : false
+
+			} ]
 		});
-		
+
 		var table2 = $('#dataTab2').DataTable({
 			responsive : true,
-			autoWidth :false,
+			autoWidth : false,
 			ajax : {
 				url : 'ajax/noReadTotalMsg',
 				data : {
@@ -509,16 +488,17 @@
 			}, {
 				data : 'msg_no'
 			} ],
-			columnDefs:[{
-				targets:[4],
-				searchable:false,
-				visible:false
-				
-			}]
+			columnDefs : [ {
+				targets : [ 4 ],
+				searchable : false,
+				visible : false
+
+			} ]
 		});
+
 		var table3 = $('#dataTab3').DataTable({
 			responsive : true,
-			autoWidth :false,
+			autoWidth : false,
 			ajax : {
 				url : 'ajax/sendTotalInf',
 				data : {
@@ -537,17 +517,18 @@
 			}, {
 				data : 'msg_no'
 			} ],
-			columnDefs:[{
-				targets:[4],
-				searchable:false,
-				visible:false
-				
-			}]
+			columnDefs : [ {
+				targets : [ 4 ],
+				searchable : false,
+				visible : false
+
+			} ]
 		});
+
 		var table4 = $('#dataTab4').DataTable({
-			
+
 			responsive : true,
-			autoWidth :false,
+			autoWidth : false,
 			ajax : {
 				url : 'ajax/tempTotalMsg',
 				data : {
@@ -564,18 +545,18 @@
 			}, {
 				data : 'temp_no'
 			} ],
-			columnDefs:[{
-				targets:[3],
-				searchable:false,
-				visible:false
-				
-			}]
+			columnDefs : [ {
+				targets : [ 3 ],
+				searchable : false,
+				visible : false
+
+			} ]
 		});
-		
-		$('#dataTab1 tbody').on('click','td',function(){
+
+		$('#dataTab1 tbody').on('click', 'td', function() {
 			var no1 = table1.row($(this).parents('tr')).data().msg_no;
 			console.log(no1);
-			
+
 			$.ajax({
 				url : 'ajax/checkFinal',
 				type : 'POST',
@@ -584,18 +565,18 @@
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				}, 
+				},
 				success : function(data) {
 
 					var modal = $('#mailCheckModal');
-					console.log(data);					  
+					console.log(data);
 					modal.find('#recipient-name1').val(data.emp_sendno);
 					modal.find('#message-text1').html(data.msg_cont);
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab1').DataTable().ajax.reload();
-					
-					$('button[name=btnDelete]').on('click',function(){
+
+					$('button[name=btnDelete]').on('click', function() {
 						console.log(data.msg_no);
 						$.ajax({
 							url : "ajax/deleteMsg",
@@ -615,13 +596,13 @@
 						});
 					})
 				}
-			});		
+			});
 		})
-		
-		$('#dataTab2 tbody').on('click','td',function(){
+
+		$('#dataTab2 tbody').on('click', 'td', function() {
 			var no2 = table2.row($(this).parents('tr')).data().msg_no;
 			console.log(no2);
-			
+
 			$.ajax({
 				url : 'ajax/checkFinal',
 				type : 'POST',
@@ -630,17 +611,17 @@
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				}, 
+				},
 				success : function(data) {
 
 					var modal = $('#mailCheckModal');
-					console.log(data);					  
+					console.log(data);
 					modal.find('#recipient-name1').val(data.emp_sendno);
 					modal.find('#message-text1').html(data.msg_cont);
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab2').DataTable().ajax.reload();
-					$('button[name=btnDelete]').on('click',function(){
+					$('button[name=btnDelete]').on('click', function() {
 						console.log("삭제버튼 클릭");
 						$.ajax({
 							url : "ajax/deleteMsg",
@@ -661,11 +642,9 @@
 					})
 				}
 			});
-			
-			
 		})
-		
-		$('#dataTab3 tbody').on('click','td',function(){
+
+		$('#dataTab3 tbody').on('click', 'td', function() {
 			var no3 = table3.row($(this).parents('tr')).data().msg_no;
 			console.log(no3);
 			$.ajax({
@@ -676,16 +655,16 @@
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				}, 
+				},
 				success : function(data) {
 
 					var modal = $('#mailCheckModal3');
-					console.log(data);					  
+					console.log(data);
 					modal.find('#recipient-name3').val(data.emp_resvno);
 					modal.find('#message-text3').html(data.msg_cont);
 					modal.modal('show');
-					
-					$('#btnDeleteT').on('click',function(){
+
+					$('#btnDeleteT').on('click', function() {
 						console.log("삭제버튼 클릭");
 						$.ajax({
 							url : "ajax/deleteMsg",
@@ -704,16 +683,15 @@
 							}
 						});
 					})
-				
+
 				}
 			});
 		})
-		
-		
-		$('#dataTab4 tbody').on('click','td',function(){
+
+		$('#dataTab4 tbody').on('click', 'td', function() {
 			var no4 = table4.row($(this).parents('tr')).data().temp_no;
 			console.log(no4);
-			
+
 			$.ajax({
 				url : 'ajax/checkTempFinal',
 				type : 'POST',
@@ -722,86 +700,42 @@
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				}, 
+				},
 				success : function(data) {
 
 					var modal = $('#mailModal');
-					console.log(data);					  
+					console.log(data);
 					modal.find('#recipient-name').val(data.temp_resvno);
 					modal.find('#message-text').html(data.temp_cont);
-					modal.modal('show');	
-									
+					modal.modal('show');
+
 				}
 			});
-			
-			
-			
-		})	
-	}
-	
-	
-	
-	
-	
-	
-	
-	function updateInf() {
-		$('#btnUpdate').on("click", function() {
-				/////비밀 번호 같으면 새비밀번호 입력
-				if($('#pw').val() == $('#pw2').val()){
-					$.ajax({
-						url : "ajax/updateInf",
-						type : 'POST',
-						/* dataType : 'json', */
-						data : {
-							emp_pwd1 : $('#oldpw').val(),
-							emp_pwd : $('#pw').val(),
-						},
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success : function(data) {
-							if(data==true){
-							alert("변경되었습니다.");
-							location.href="logout";
-							}else{
-								alert("기존 비밀번호 재확인 ")
-							}
-						}
-					});
-				}else{
-					alert("새 비밀번호 재확인바람 ");
-				}
-			
-			
-			
-		});
-
-	}
+		})
+	} //end of function (firstMsg)
 
 	function changeClick() {
 		$('#v-pills-tab').on('click', 'a', function(event) {
 			$(event.target).siblings().attr('class', 'nav-link');
 			$(event.target).attr('class', 'nav-link active');
-			
+
 			$('.note_bt').hide();
-			
-			if($(event.target).attr('id') == 'v-pills-home-tab'){
+
+			if ($(event.target).attr('id') == 'v-pills-home-tab') {
 				$('#cont1').show();
 			}
-			if($(event.target).attr('id') == 'v-pills-profile-tab'){
-				
-				$('#cont2').show();	
+			if ($(event.target).attr('id') == 'v-pills-profile-tab') {
+
+				$('#cont2').show();
 			}
-			if($(event.target).attr('id') == 'v-pills-messages-tab'){
+			if ($(event.target).attr('id') == 'v-pills-messages-tab') {
 				$('#cont3').show();
 			}
-			if($(event.target).attr('id') == 'v-pills-settings-tab'){
+			if ($(event.target).attr('id') == 'v-pills-settings-tab') {
 				$('#cont4').show();
 			}
 		});
-	}
-	
+	} //end of function (changeClick)
 
 	function AllCntMsg() {
 		$.ajax({
@@ -819,19 +753,136 @@
 				$('#noReadMsg').empty();
 				$('#totalMsg').empty();
 				$('#tempMsg').empty();
-				
-				
+
 				$('#sendMsg').text(data.send);
 				$('#noReadMsg').text(data.noread);
 				$('#totalMsg').text(data.total);
 				$('#tempMsg').text(data.temp);
-				$.each(data.empInf, function(idx,item) {
-					$('#recipient-name').append($('<option>').attr("value",item.emp_no).html(item.emp_name));
+				$.each(data.empInf, function(idx, item) {
+					$('#recipient-name').append(
+							$('<option>').attr("value", item.emp_no).html(
+									item.emp_name));
 				});
 			}
-		})
+		});
+	} //end of function (AllCntMsg)
+	//사용자 조회 요청
+	function empSelect() {
+		
+		
+			
+			//특정 사용자 조회
+			$.ajax({
+				url:'ajax/selectempl/',
+				type:'GET',
+				data : {
+					emp_no : "${emp_vo.emp_no}"
+				},
+				contentType:'application/json;charset=utf-8',
+				dataType:'json',
+				error:function(xhr,status,msg){
+					alert("상태값 :" + status + " Http에러메시지 :"+msg);
+				},
+				success : empSelectResult
+			});
+	
+	}//userSelect
+	
+	//사용자 조회 응답
+	function empSelectResult(emp) {
+		console.log(emp);
+		
+		$('#img').attr('src','${pageContext.request.contextPath}/resources/img/'+emp.emp_profile);
+		$('#regno').val(emp.emp_regno);
+		$('#lic').val(emp.emp_lic);
+		$('#tel').val(emp.emp_tel);
+		$('#addr').val(emp.emp_addr);
+		$('#no').val(emp.emp_no);
+		$("#name").val(emp.emp_name);
+		$('#room').val(emp.emp_room);
+		$('select[name="role"]').val(user.role).attr("selected", "selected");
+		
+		
+	}//userSelectResult
+	//img view
+	
+	$(function() {
 
-	}
+		var fileTarget = $('.file-upload .upload-hidden');
+
+		fileTarget.on('change',
+				function() { // 값이 변경되면
+					if (window.FileReader) { // modern browser
+						var filename = $(this)[0].files[0].name;
+					} else { // old IE
+						var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+					}
+					// 추출한 파일명 삽입
+					$(this).siblings('.upload-name').val(filename);
+				});
+		
+		$("#uf").on('change', function(e) {
+			var files = e.target.files;
+			var arr = Array.prototype.slice.call(files);
+			for (var i = 0; i < files.length; i++) {
+				if (!checkExtension(files[i].name, files[i].size)) {
+					return false;
+				}
+			}
+			preview(arr);
+		});
+
+		function checkExtension(fileName, fileSize) {
+
+			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+			var maxSize = 20971520; //20MB
+
+			if (fileSize >= maxSize) {
+				alert('파일 사이즈 초과');
+				$("input[type='file']").val(""); //파일 초기화
+				return false;
+			}
+
+			if (regex.test(fileName)) {
+				alert('업로드 불가능한 파일이 있습니다.');
+				$("input[type='file']").val(""); //파일 초기화
+				return false;
+			}
+			return true;
+		}
+
+		function preview(arr) {
+			arr.forEach(function(f) {
+
+						//파일명이 길면 파일명...으로 처리
+						var fileName = f.name;
+						if (fileName.length > 10) {
+							fileName = fileName.substring(0, 7) + "...";
+						}
+
+						//div에 이미지 추가
+						var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+						str += '<span>' + fileName + '</span><br>';
+
+						//이미지 파일 미리보기
+						if (f.type.match('image.*')) {
+							var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+							reader.onload = function(e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+								//str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+
+								$('#img').attr('src', e.target.result);
+								$('#img').attr('style',
+										"width:150px; height: 160px");
+							}
+							reader.readAsDataURL(f);
+						} else {
+							$('#img').attr('src', e.target.result);
+							$('#img').attr('style',
+									"width:150px; height: 160px");
+						}
+					});//arr.forEach
+		}
+	});
 </script>
 </head>
 
@@ -852,12 +903,12 @@
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body" style="padding-top: 2.5rem;">
 								<div style="float: left;">
-									<form action="updateUser" method="post"
-										encType="multipart/form-data">
+									<form id='form1'>
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
 											<!-- 이미지 파일 -->
-											<tr><!-- 이미지원형 -->
+											<tr>
+												<!-- 이미지원형 -->
 												<td><img id='img'
 													src="${pageContext.request.contextPath}/resources/img/${emp_vo.emp_profile}"
 													class="img-fluid rounded-circle mb-2"
@@ -866,64 +917,61 @@
 											</tr>
 										</table>
 										<div class="btn-group file-upload btn-group-toggle">
-											<input type="text" class="upload-name" value="파일선택" disabled="disabled" /> 
-												<label for="uf">업로드</label> 
-												<input type="file" class="upload-hidden" id='uf' name="uploadFile">
+											<input type="text" class="upload-name" value="파일선택"
+												disabled="disabled" /> <label for="uf">업로드</label> <input
+												type="file" class="upload-hidden" id='uf' name="uf">
 										</div>
 									</form>
 								</div>
 								<!-- 추가 -->
-								<div >
-								<div id="profileInf">
-									<table style="margin: auto;">
-										<tr>
-											<td>&nbsp;&nbsp;이름</td>
-											<td>&nbsp;&nbsp;${emp_vo.emp_name}</td>
-										</tr>
-										<tr>
-											<td>&nbsp;&nbsp;사원번호</td>
-											<td id="no">${emp_vo.emp_no}</td>
-										</tr>
-										<tr>
-											<td>&nbsp;&nbsp;주민등록번호</td>
-											<td>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
-										</tr>
-										<tr>
-											<td>&nbsp;&nbsp;면허 정보</td>
-											<td>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
-										</tr>
-										<tr>
-											<td>&nbsp;&nbsp;전화번호</td>
-											<td><input type="text" value="${emp_vo.emp_tel}"
-												id="tel" name="tel"></td>
-										</tr>
-										<tr>
-											<td>&nbsp;&nbsp;주소</td>
-											<td><input type="text" value="${emp_vo.emp_addr}"
-												id="addr" name="addr"></td>
-										</tr>
-										<c:if test="${emp_vo.emp_author=='D'}">
+								<div>
+									<div id="profileInf">
+										<table style="margin: auto;">
 											<tr>
-												<td>&nbsp;&nbsp;진료실</td>
-												<td>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
+												<td>&nbsp;&nbsp;이름</td>
+												<td id='name'>&nbsp;&nbsp;${emp_vo.emp_name}</td>
 											</tr>
-										</c:if>
-									</table>
+											<tr>
+												<td>&nbsp;&nbsp;사원번호</td>
+												<td id="no">${emp_vo.emp_no}</td>
+											</tr>
+											<tr>
+												<td>&nbsp;&nbsp;주민등록번호</td>
+												<td id='regno'>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
+											</tr>
+											<tr>
+												<td>&nbsp;&nbsp;면허 정보</td>
+												<td id='lic'>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
+											</tr>
+											<tr>
+												<td>&nbsp;&nbsp;전화번호</td>
+												<td><input type="text" value="${emp_vo.emp_tel}"
+													id="tel" name="emp_tel"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;&nbsp;주소</td>
+												<td><input type="text" value="${emp_vo.emp_addr}"
+													id="addr" name="emp_addr"></td>
+											</tr>
+											<c:if test="${emp_vo.emp_author=='D'}">
+												<tr>
+													<td>&nbsp;&nbsp;진료실</td>
+													<td id='room'>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
+												</tr>
+											</c:if>
+										</table>
+									</div>
 								</div>
-	</div>
 							</div>
 							<div class="card-footer" style="height: 50px; float: right;">
 								<a class="text-primary" href="#" data-toggle="modal"
 									data-target="#UpdateModal" data-backdrop="static"
-									style="font-size: 15px"> 비밀번호 변경 </a> / 
-								<a class="text-primary" href="#" data-toggle="modal" 
-									data-target="#UpdateModal2" data-backdrop="static"
-									style="font-size: 15px"> 프로필 변경 </a>
+									style="font-size: 15px"> 비밀번호 변경 </a> / <a class="text-primary"
+									href="#" data-toggle="modal" data-target="#UpdateModal2"
+									data-backdrop="static" style="font-size: 15px"> 프로필 변경 </a>
 							</div>
 						</div>
-						<div class="col-xl-6 col-md-6 mb-4 card">
-						
-						</div>
+						<div class="col-xl-6 col-md-6 mb-4 card"></div>
 
 						<div class="card shadow py-2 main_in"
 							style="height: 480px; width: 100%;">
@@ -1136,16 +1184,15 @@
 					<div class="modal-body">
 						<table>
 							<tr>
-							<td><span class="point">&nbsp;*</span>기존 비밀번호</td>
+								<td><span class="point">&nbsp;*</span>기존 비밀번호</td>
 								<td><input type="password" id="oldpw" name="oldpw"
-												placeholder="기존 비밀번호를 입력하시오">
-								</td>
-								
+									placeholder="기존 비밀번호를 입력하시오"></td>
+
 							</tr>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
 								<td><input type="password" id="pw" name="pw"
-												placeholder="변경할 비밀번호를 입력하시오"></td>
+									placeholder="변경할 비밀번호를 입력하시오"></td>
 							</tr>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호 재입력</td>
@@ -1155,8 +1202,8 @@
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="btnUpdate" data-dismiss="modal"
-							name="btnSave">변경</button>
+						<button type="button" class="btn btn-primary" id="btnUpdate"
+							data-dismiss="modal" name="btnUpdate">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>
@@ -1175,19 +1222,17 @@
 							<span aria-hidden="true">x</span>
 						</button>
 					</div>
-					<div class="modal-body">
-						프로필변경하시겠습니까?
-					</div>
+					<div class="modal-body">프로필변경하시겠습니까?</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="btnUpdate"
-							name="btnSave">변경</button>
+						<button type="button" class="btn btn-primary" id="btnUpdateImg"
+							name="btnUpdateImg">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- 확인 Modal-->
 		<div class="modal fade" id="mailCheckModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">

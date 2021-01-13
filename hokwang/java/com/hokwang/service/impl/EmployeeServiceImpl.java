@@ -120,12 +120,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public int updateUser(EmployeeVO vo) {
-		// TODO Auto-generated method stub
-		return EmpDAO.updateUser(vo);
-	}
-
-	@Override
 	public List<MessageVO> sendTotalInf(EmployeeVO vo) {
 		
 		return EmpDAO.sendTotalInf(vo);
@@ -171,6 +165,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeVO getEmpList(EmployeeVO emp_vo) {
 		// TODO Auto-generated method stub
 		return EmpDAO.getEmpList(emp_vo);
+	}
+
+	@Override
+	public void updateImg(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		EmpDAO.updateImg(vo);
+	}
+
+	@Override
+	public EmployeeVO selectempl(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.selectempl(vo);
 	}
 	
 	

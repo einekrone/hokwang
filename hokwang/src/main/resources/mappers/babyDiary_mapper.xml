@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- sale_mapper.xml -->
+<mapper namespace="com.hokwang.mobile.dao.BabyDiaryMapper">
+	<select id="reserlist" resultType="reservation">
+		select a.*, b.* from reservation a ,QUESTION b  
+		<where>
+		a.resv_no=b.qust_no and baby_no=1 and resv_no='T21011317001'
+		</where>
+	</select>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.hokwang.mobile.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class CheckHistServiceImpl implements CheckHistService {
 	@Autowired CheckHistMapper dao;
 
 	@Override
-	public List<CheckHistVO> checkHistlist(BabyVO vo){// 전체 접종 리스트
+	public List<Map<String,Object>> checkHistlist(BabyVO vo){// 전체 접종 리스트{// 전체 접종 리스트
 		return dao.checkHistlist(vo);
 	}
 	

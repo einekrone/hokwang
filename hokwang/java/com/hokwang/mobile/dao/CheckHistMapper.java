@@ -1,10 +1,10 @@
 package com.hokwang.mobile.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hokwang.vo.BabyVO;
-import com.hokwang.vo.CheckHistVO;
 
 public interface CheckHistMapper {
-	public List<CheckHistVO> checkHistlist(BabyVO vo);// 전체 접종 리스트
+	public List<Map<String,Object>> checkHistlist(BabyVO vo);// 전체 접종 리스트
 }

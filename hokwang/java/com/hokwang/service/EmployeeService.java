@@ -8,6 +8,7 @@ import com.hokwang.vo.MessageVO;
 import com.hokwang.vo.TempmessageVO;
 
 public interface EmployeeService {
+	public EmployeeVO getEmpList(EmployeeVO emp_vo); // 로그인조회
 
 	public EmployeeVO getEmp(EmployeeVO emp_vo); // 로그인조회
 
@@ -19,7 +20,7 @@ public interface EmployeeService {
 
 	public int tempCountMsg(EmployeeVO vo);
 
-	public void updateInf(EmployeeVO vo);
+	public int updateInf(EmployeeVO vo);
 
 	public List<MessageVO> showNotReadMsg(EmployeeVO vo);
 
@@ -54,5 +55,7 @@ public interface EmployeeService {
 	public TempmessageVO checkTempFinal(TempmessageVO vo);
 
 	public void deleteMsg(MessageVO vo);
+	
+	public int pwdselect (EmployeeVO vo);//패스워드
 
 }

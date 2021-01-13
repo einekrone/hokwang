@@ -19,9 +19,32 @@
 		SELECT * FROM CHECKUP
 	</select>
 
-<!-- 	SELECT COUNT(RESV_TIME), RESV_TIME -->
-<!-- 	FROM RESERVATION -->
-<!-- 	WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = '2021-01-12' -->
-<!-- 	GROUP BY RESV_TIME -->
-<!-- 	ORDER BY RESV_TIME; -->
+	<!-- SELECT COUNT(RESV_TIME), RESV_TIME -->
+	<!-- FROM RESERVATION -->
+	<!-- WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = '2021-01-12' -->
+	<!-- GROUP BY RESV_TIME -->
+	<!-- ORDER BY RESV_TIME; -->
+
+	<insert id="questInsert" parameterType="questionVO">
+		<selectKey order="BEFORE" keyProperty="qust_no"
+			resultType="String">
+			SELECT NVL(MAX(QUST_NO),0)+1 FROM QUESTION
+		</selectKey>
+		INSERT INTO QUESTION(QUST_NO,A1,A2,A3,A4)
+		VALUES (#{qust_no},
+		#{a1},
+		#{a2}, #{a3}, #{a4})
+	</insert>
+
+	<insert id="resvInsert" parameterType="reservation">
+		<!-- <selectKey order="BEFORE" keyProperty="resv_no" -->
+		<!-- resultType="String"> -->
+		<!-- SELECT NVL(MAX(RESV_NO),0)+1 FROM RESERVATION -->
+		<!-- </selectKey> -->
+		INSERT INTO RESERVATION(resv_no, resv_date, resv_time, resv_detail,
+		resv_memo, baby_no, qust_no, chk_no, chk_type, resv_type)
+		VALUES (#{resv_no},
+		#{resv_date}, #{resv_time}, #{resv_detail}, #{resv_memo}, #{baby_no},
+		#{qust_no}, #{chk_no}, #{chk_type}, #{resv_type})
+	</insert>
 </mapper>

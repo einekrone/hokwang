@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
+import com.hokwang.vo.QuestionVO;
+import com.hokwang.vo.Reservation;
 
 @Controller
 public class ResvmController {
@@ -33,5 +35,16 @@ public class ResvmController {
 		List<CheckupVO> list = resvmSvc.getVacList();
 		model.addAttribute("vacList", list);
 		return list;
+	}
+
+
+	// 문진표 등록
+	@ResponseBody
+	@RequestMapping("/ajax/insertReservation")
+	public String questInsert(QuestionVO quVO, Reservation resvVO) {
+		resvmSvc.questInsert(quVO);
+		resvVO.setQust_no(quVO.getQust_no());
+		resvmSvc.resvInsert(resvVO);
+		return "redirect:/mobile";
 	}
 }

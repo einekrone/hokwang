@@ -603,8 +603,7 @@ button {
 									.append(
 											$('<td id="dtl'+idx+'">').html(
 													item.RESV_DETAIL)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
+											$('<td style="display:none;">').html(item.BABY_NO))
 									.appendTo('#resvHstList');
 
 							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
@@ -755,7 +754,8 @@ button {
 						style="overflow-y: auto; border-collapse: collapse;">
 						<div class="text-s" style="margin-bottom: 20px;">
 							<span class="text-primary font-weight-bold">전체 예약 환자</span><span
-								class="font-weight-bold" style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span
+								class="font-weight-bold"
+								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span
 								class="mb-0 font-weight-bold"
 								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"

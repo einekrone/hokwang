@@ -318,9 +318,8 @@
 	         $.ajax({
 	            url : "ajax/updateImg",
 	            dataType : 'json',
-	            data : {
-					formData
-				},
+	            enctype: 'multipart/form-data',
+	            data : formData,
 	            method : 'post',
 	            contentType : false,
 	            processData : false,
@@ -800,8 +799,8 @@
 		$('#no').val(emp.emp_no);
 		$("#name").val(emp.emp_name);
 		$('#room').val(emp.emp_room);
-		$('select[name="role"]').val(user.role).attr("selected", "selected");
-		
+ 		$('select[name="role"]').val(emp.role).attr("selected", "selected");
+		 
 		
 	}//userSelectResult
 	//img view
@@ -903,7 +902,7 @@
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body" style="padding-top: 2.5rem;">
 								<div style="float: left;">
-									<form id='form1'>
+									<form id='form1' method="post" >
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
 											<!-- 이미지 파일 -->

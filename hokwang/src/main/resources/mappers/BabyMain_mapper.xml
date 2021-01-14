@@ -24,7 +24,7 @@
 						baby_regno2=#{baby_regno2},
 						baby_gender=#{baby_gender},
 						baby_blood=#{baby_blood},
-					<if test="baby_pic != null and baby_pic != ''">#{baby_pic}</if>
+						baby_pic=#{baby_pic}
 		where baby_name = #{baby_name} and parent_no = #{parent_no}
 	
 	</update>
@@ -33,6 +33,7 @@
 		from baby
 		where baby_name=#{baby_name} and parent_no =#{parent_no} 
 	</select>
+	
 	
 	
 

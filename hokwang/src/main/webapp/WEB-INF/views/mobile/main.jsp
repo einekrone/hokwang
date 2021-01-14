@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,10 +105,10 @@
 
 		function empInfoListResult(data) {
 			console.log("aa" + data);
-			$('tbody').empty();
+			$('#dcList').empty();
 			$.each(data, function(idx, item) {
 				$('<tr>').append($('<td>').html(item.emp_name)).append(
-						$('<td>').html(item.emp_room)).appendTo('tbody');
+						$('<td>').html(item.emp_room)).appendTo('#dcList');
 			})
 		}
 	</script>
@@ -175,6 +176,33 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
+			<div class="card flex-fill">
+				<div class="card-header">
+					<h5 class="card-title mb-0">코로나 현황</h5>
+				</div>
+				<div style="height: 200px; overflow: auto;">
+					<table class="table" style="text-align: center;">
+						<tr>
+							<th>시도명</th>
+							<th>확진자수</th>
+							<th>사망자</th>
+							<th>발생률</th>
+						</tr>
+						<c:forEach var="stat" items="${corona}">
+							<tr>
+								<td>${stat.title}</td>
+								<td>${stat.total}(${stat.beTotal})</td>
+								<td>${stat.death}</td>
+								<td>${stat.inci}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 의료진 소개 -->
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
@@ -189,7 +217,7 @@
 							<th>진료실</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="dcList">
 					</tbody>
 				</table>
 			</div>

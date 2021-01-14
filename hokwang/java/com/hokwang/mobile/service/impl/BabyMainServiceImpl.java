@@ -34,4 +34,6 @@ public class BabyMainServiceImpl implements BabyMainService {
 	public BabyVO getInfo(BabyVO vo) {
 		return dao.getInfo(vo);
 	}
+
+	
 }

@@ -37,7 +37,7 @@
 	}/* end of function */
 	function patientListResult(data) {
 		console.log("patientListResult전체환자 리스트 출력 콘솔");
-
+		
 		$("#patientList").empty();
 		$.each(data, function(idx, item) {
 

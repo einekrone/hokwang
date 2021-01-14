@@ -48,6 +48,7 @@ td {
 
 					if (chkVal == "V") {
 						$("#resvTypeDiv").css("display", "block");
+						$("#detailCard").css("display", "none");
 						$.ajax({
 							url : 'ajax/vacList',
 							type : 'GET',
@@ -67,6 +68,7 @@ td {
 
 					} else {
 						$("#resvTypeDiv").css("display", "none");
+						$("#detailCard").css("display", "block");
 					}
 				});
 
@@ -96,9 +98,8 @@ td {
 			}
 		});
 	});
-	
-	function resvInsert() {
 
+	function resvInsert() {
 
 		// 예약 버튼 클릭
 		$("#resvBtn").on("click", function() {
@@ -148,22 +149,22 @@ td {
 				return;
 			}
 			var eee = $("input[name=resv_date]").val();
-			eee = eee.replaceAll('-','').substr(2);
+			eee = eee.replaceAll('-', '').substr(2);
 			var aaa = $('input[name="resv_time"]:checked').val();
-			aaa = aaa.replaceAll(':','');
+			aaa = aaa.replaceAll(':', '');
 			var bbb = $('#childSel option:selected').val();
 
-			var resvNo = "${resvType}"+eee+aaa+bbb;
+			var resvNo = "${resvType}" + eee + aaa + bbb;
 			$("#resv_detail").val(chkTbArr);
 			var resvTy = "${resvType}";
 			$("#resv_type").val(resvTy);
 			$("#resv_no").val(resvNo);
-			
+
 			$.ajax({
 				url : "ajax/insertReservation",
 				method : "post",
 				data : $("#frm").serialize(),
-// 				data : data,
+				// 				data : data,
 				success : function(response) {
 					alert("예약 성공");
 					location.href = "mobile";
@@ -194,8 +195,6 @@ td {
 				'13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
 				'17:00', '17:30' ];
 		$("#resvTime").empty();
-		console.log("현재 시간 : " + ("00" + d.getHours()).slice(-2) + "시");
-		console.log("오늘 날짜 : " + today);
 
 		$.each(data, function(idx, item) {
 			var time = item.RESV_TIME;
@@ -203,20 +202,21 @@ td {
 
 			for (var i = 0; i < arrNumber.length; i++) {
 				chgti = Number(arrNumber[i].substr(0, 2));
-				if (arrNumber[i] == item.RESV_TIME) {
-					arrNumber.splice(i, 1);
+				if (arrNumber[i] == item.RESV_TIME) { // 현재 시간대 예약불가
+					arrNumber.splice(i, 1, "");
 				}
 
-				if ('${resvType}' == 'T') {	// 당일 예약
+				// 현재 이전 시간대 예약 불가
+				if ('${resvType}' == 'T') { // 당일 예약
 					if (today == $("input[name='resv_date']").val()) {
 						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1);
+							arrNumber.splice(i, 1, "");
 						}
 					}
 				} else {
 					if (today == $(".selector").val()) {
 						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1);
+							arrNumber.splice(i, 1, "");
 						}
 					}
 				}
@@ -224,10 +224,12 @@ td {
 		});
 
 		for (var i = 0; i < arrNumber.length; i++) {
-			$("#resvTime")
-					.append(
-							'<label class="form-check" style="margin:2px;"><input name="resv_time" type="radio" class="form-check-input" value="'+arrNumber[i]+'"><span class="form-check-label">'
-									+ arrNumber[i] + '</span></label>');
+			if (arrNumber[i] != "") {
+				$("#resvTime")
+						.append(
+								'<label class="form-check" style="margin:2px;"><input name="resv_time" type="radio" class="form-check-input" value="'+arrNumber[i]+'"><span class="form-check-label">'
+										+ arrNumber[i] + '</span></label>');
+			}
 		}
 	}
 
@@ -363,7 +365,7 @@ td {
 					</div>
 				</div>
 
-				<div class="card">
+				<div class="card" style="display: none;" id="detailCard">
 					<div class="card-header">
 						상세 증상&nbsp;<span style="color: gray;">[선택] ※중복 선택 가능</span>
 					</div>

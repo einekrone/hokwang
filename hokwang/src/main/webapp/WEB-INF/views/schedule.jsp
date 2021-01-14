@@ -97,7 +97,7 @@
 	<button style="margin: 5px; float: right;"
 		onclick="location.href='schExcelView'">엑셀 다운로드</button>
 	<div class="filebox" style="float:right; text-align: center;">
-		<label for="imgInput" style="width:120px; height:43px; margin-top:5px;">엑셀 업로드</label><input type="file" id="excelInput" name="excelInput">
+		<label for="imgInput" style="width:120px; height:43px; margin-top:5px;">엑셀 업로드</label><input type="file" id="excelInput" name="excelInput" accept=".xlsx, .xlsm, .xlsb, .xltx, .xml, .xlam">
 	</div>
 	<!-- 드래그 이벤트 
 <div id="external-events">

@@ -16,4 +16,10 @@
 		 a.resv_no=b.qust_no and baby_no=1 and resv_no='T21011317001' <!-- #{resv_no} -->
 		</where>
 	</select>
+	
+	<select id="getBabyList" resultType="BabyVO">
+	select *
+	from baby
+	where baby_no=#{baby_no} and parent_no=#{parent_no}
+	</select>
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hokwang.mobile.dao.BabyDiaryMapper;
 import com.hokwang.mobile.service.BabyDiaryService;
+import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -24,6 +25,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public List<QuestionVO> question(QuestionVO vo) {
 		// TODO Auto-generated method stub
 		return dao.question(vo);
+	}
+
+	@Override
+	public List<BabyVO> getBabyList(BabyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.getBabyList(vo);
 	}
 	
 	

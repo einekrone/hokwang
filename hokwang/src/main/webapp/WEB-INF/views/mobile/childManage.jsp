@@ -37,7 +37,7 @@ function numberMaxLength(e){
 	$(function() {
 		showBabyInf();
 		getBabyInf();
-		deleteinfo();
+	
 		
 		//파일 클릭 div클릭시
 		$(".img-print").on("click",function(){
@@ -55,20 +55,21 @@ function numberMaxLength(e){
 			type : 'GET',
 			dataType : 'json',
 			data:{
-				parent_no:${parent_vo.parent_no}
+				
+				parent_no:"${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				$('tbody').empty();
+				$('#babyList').empty();
 				$.each(data, function(idx,item) {
 					 $('<tr>')
 					  .append($('<td>').html(item.baby_name))
 					  .append($('<td>').html(item.baby_gender))
 					  .append($('<td>').html(item.baby_regno1))
 					  .append($('<td>').html(item.baby_blood))
-					  .appendTo('tbody');
+					  .appendTo('#babyList');
 					$('div#imgInf').append($('<img>').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic).attr("width","180px").attr("height","180px")
 							);
 				});
@@ -278,7 +279,7 @@ function numberMaxLength(e){
 							<th>혈액형</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="babyList">
 					</tbody>
 				</table>
 			</div>

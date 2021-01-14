@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.BabyDiaryService;
-import com.hokwang.vo.EmployeeVO;
+import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.ParentVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
@@ -32,5 +32,11 @@ public class BabyDiaryController {
 	@RequestMapping("/ajax/question")
 	public List<QuestionVO> aa(QuestionVO vo) {
 		return service.question(vo);
+	}
+	@ResponseBody
+	@RequestMapping("/ajax/getBabyInfo")
+	public List<BabyVO> getBabyList(BabyVO vo,HttpSession session){
+		vo.setParent_no(((ParentVO) session.getAttribute("parent_vo")).getParent_no());
+		return service.getBabyList(vo);
 	}
 }

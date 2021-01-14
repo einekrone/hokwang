@@ -46,8 +46,8 @@
 		})
 	}
 	
-	*/
-	
+	 */
+
 	function changeMenu() {
 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
@@ -136,107 +136,108 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
-				<!-- 로그인모양 -->
-					<ul class="navbar-nav navbar-align">
-						<li class="nav-item">
-						<a class="nav-icon" href="loginM" >
-							<img src="${pageContext.request.contextPath}/resources/img/logM.png"
-								 style="width: 35px; height: 30px;" />
-						</a>
-						</li>
-					</ul>
+					<!-- 로그인모양 -->
+					<c:if test="${parent_vo == null }">
 
-				
+						<ul class="navbar-nav navbar-align">
+							<li class="nav-item"><a class="nav-icon" href="loginM">
+									<img
+									src="${pageContext.request.contextPath}/resources/img/logM.png"
+									style="width: 35px; height: 30px;" />
+							</a></li>
+						</ul>
+					</c:if>
+
 
 					<c:if test="${parent_vo != null }">
-					<ul class="navbar-nav navbar-align">
-						<li class="nav-item dropdown"><a
-							class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
-							data-toggle="dropdown">
-								<div class="position-relative">
-									<i class="align-middle" data-feather="bell"></i> 
-									<span class="indicator" id="alertCnt">4</span>
-								</div>
-						</a>
-							<div
-								class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
-								aria-labelledby="alertsDropdown">
-								<div class="dropdown-menu-header">4 New Notifications</div>
-								<div class="list-group">
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-danger" data-feather="alert-circle"></i>
+						<ul class="navbar-nav navbar-align">
+							<li class="nav-item dropdown"><a
+								class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
+								data-toggle="dropdown">
+									<div class="position-relative">
+										<i class="align-middle" data-feather="bell"></i> <span
+											class="indicator" id="alertCnt">4</span>
+									</div>
+							</a>
+								<div
+									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
+									aria-labelledby="alertsDropdown">
+									<div class="dropdown-menu-header">4 New Notifications</div>
+									<div class="list-group">
+										<a href="#" class="list-group-item">
+											<div class="row g-0 align-items-center">
+												<div class="col-2">
+													<i class="text-danger" data-feather="alert-circle"></i>
+												</div>
+												<div class="col-10">
+													<div class="text-dark">Update completed</div>
+													<div class="text-muted small mt-1">Restart server 12
+														to complete the update.</div>
+													<div class="text-muted small mt-1">30m ago</div>
+												</div>
 											</div>
-											<div class="col-10">
-												<div class="text-dark">Update completed</div>
-												<div class="text-muted small mt-1">Restart server 12
-													to complete the update.</div>
-												<div class="text-muted small mt-1">30m ago</div>
+										</a> <a href="#" class="list-group-item">
+											<div class="row g-0 align-items-center">
+												<div class="col-2">
+													<i class="text-warning" data-feather="bell"></i>
+												</div>
+												<div class="col-10">
+													<div class="text-dark">Lorem ipsum</div>
+													<div class="text-muted small mt-1">Aliquam ex eros,
+														imperdiet vulputate hendrerit et.</div>
+													<div class="text-muted small mt-1">2h ago</div>
+												</div>
 											</div>
-										</div>
-									</a> <a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-warning" data-feather="bell"></i>
+										</a> <a href="#" class="list-group-item">
+											<div class="row g-0 align-items-center">
+												<div class="col-2">
+													<i class="text-primary" data-feather="home"></i>
+												</div>
+												<div class="col-10">
+													<div class="text-dark">Login from 192.186.1.8</div>
+													<div class="text-muted small mt-1">5h ago</div>
+												</div>
 											</div>
-											<div class="col-10">
-												<div class="text-dark">Lorem ipsum</div>
-												<div class="text-muted small mt-1">Aliquam ex eros,
-													imperdiet vulputate hendrerit et.</div>
-												<div class="text-muted small mt-1">2h ago</div>
+										</a> <a href="#" class="list-group-item">
+											<div class="row g-0 align-items-center">
+												<div class="col-2">
+													<i class="text-success" data-feather="user-plus"></i>
+												</div>
+												<div class="col-10">
+													<div class="text-dark">New connection</div>
+													<div class="text-muted small mt-1">Christina accepted
+														your request.</div>
+													<div class="text-muted small mt-1">14h ago</div>
+												</div>
 											</div>
-										</div>
-									</a> <a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-primary" data-feather="home"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">Login from 192.186.1.8</div>
-												<div class="text-muted small mt-1">5h ago</div>
-											</div>
-										</div>
-									</a> <a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-success" data-feather="user-plus"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">New connection</div>
-												<div class="text-muted small mt-1">Christina accepted
-													your request.</div>
-												<div class="text-muted small mt-1">14h ago</div>
-											</div>
-										</div>
+										</a>
+									</div>
+									<div class="dropdown-menu-footer">
+										<a href="#" class="text-muted">Show all notifications</a>
+									</div>
+								</div></li>
+
+							<!-- 톱니모양 -->
+							<li class="nav-item dropdown"><a
+								class="nav-icon dropdown-toggle d-inline-block d-sm-none"
+								href="#" data-toggle="dropdown"> <i class="align-middle"
+									data-feather="settings"></i>
+							</a> <a class="nav-link dropdown-toggle d-none d-sm-inline-block"
+								href="#" data-toggle="dropdown"> <img
+									src="${pageContext.request.contextPath}/resources/img/avatar.jpg"
+									class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span
+									class="text-dark">Charles Hall</span>
+							</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="mmypage"> <i
+										class="align-middle mr-1" data-feather="user"></i> 마이페이지
 									</a>
-								</div>
-								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all notifications</a>
-								</div>
-							</div></li>
 
-						<!-- 톱니모양 -->
-						<li class="nav-item dropdown"><a
-							class="nav-icon dropdown-toggle d-inline-block d-sm-none"
-							href="#" data-toggle="dropdown"> <i class="align-middle"
-								data-feather="settings"></i>
-						</a> <a class="nav-link dropdown-toggle d-none d-sm-inline-block"
-							href="#" data-toggle="dropdown"> <img
-								src="${pageContext.request.contextPath}/resources/img/avatar.jpg"
-								class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span
-								class="text-dark">Charles Hall</span>
-						</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="mmypage">
-								<i class="align-middle mr-1" data-feather="user"></i> 마이페이지
-								</a>
 
-							
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="logoutM">로그 아웃</a>
-							</div></li>
-					</ul>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="logoutM">로그 아웃</a>
+								</div></li>
+						</ul>
 					</c:if>
 				</div>
 			</nav>

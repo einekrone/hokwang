@@ -144,7 +144,7 @@ span {
 	});
 
 	function checkId(){
-		$('#btnIn').on("click", function() {
+		$('#overLapId').on("click", function() {
 			$.ajax({
 				url : "ajax/checkId",
 				type : 'GET',
@@ -258,11 +258,11 @@ span {
 			</form>
 			<form id="register" action="" class="input-group" style="left: 50px; overflow:auto; height:400px;">
 				<input type="text" class="input-fieldbtn" placeholder="id" id="id" name="id"  required />
-				<input type="button" class="btn btn-secondary" value="중복검사" id="checkId" name="checkId"> 
+				<input type="button" class="btn btn-secondary" value="중복검사" id="overLapId" name="overLapId"> 
 				<input type="password" class="input-field" placeholder="password" id="pw" name="pw" required/> 
 				<input type="text" class="input-field" placeholder="name" id="name" name="name" required/> 
 				<input type="email" class="input-fieldbtn" placeholder="email" id="email" name="email" required />
-				<input type="button" class="btn btn-secondary" value="중복검사" id="checkEmail" name="checkEmail">  
+				<input type="button" class="btn btn-secondary" value="중복검사" id="overLapEmail" name="overLapEmail">  
 				<input type="tel" class="input-field" placeholder="phone" id="tel" name="tel" required/> 
 				<input type="text" class="input-field" placeholder="주민등록번호 앞자리" id="reg1" name="reg1" required/> 
 				<input type="password" class="input-field" placeholder="주민등록번호 뒷자리" id="reg2" name="reg2" required/> 

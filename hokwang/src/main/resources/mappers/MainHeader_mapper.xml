@@ -40,6 +40,11 @@
 	<select id="checkId" parameterType="parentVO" resultType="parentVO">
 		select * from parent where parent_id = #{parent_id}
 	</select>
+	
+	<select id="checkEmail" parameterType="parentVO" resultType="parentVO">
+		select * from parent where parent_email = #{parent_email}
+	</select>
+	
 
 
 

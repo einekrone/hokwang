@@ -129,49 +129,78 @@ span {
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <script type="text/javascript">
 	$(function() {
+		var e = false;
+		var i = false;
 		login();
 		logInAction();
-		registerAction();
+		registerAction(e,i);
 		checkId();
+		checkEmail();
 	});
-
-	function checkId() {
-		$('#overLapId').on("click", function() {
-			var modal = $('#idCheck');
-			modal.modal('show');
-			$('#checkIdid').on("click", function() {
+	
+	function checkEmail(){
+		$('#overLapEmail').on("click",function(){
+			if($('#email').val() == ''){
+				alert("이메일을 입력하시오")
+			}
+			else{
 				$.ajax({
-					url : "ajax/checkId",
-					type : 'GET',
+					url:"ajax/checkEmail",
+					type:'GET',
 					data : {
-						parent_id : $('#idid').val()
+						parent_email : $('#email').val(),
 					},
-					/* dataType : 'json', */
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
-					success : function(data) {
-						if (data == true) {
-							$('#id').val($('#idid').val());
-							alert("사용가능합니다.")
-							modal.hide();
-						}
-
+					success: function(data){
+						alert("사용가능합니다");
+						$('#email').attr("readonly",true);
+						e=true;
 					}
-				})
-
-			})
-		});
-
+				})	
+			}
+		})
+				
 	}
 
+	function checkId(){
+		$('#overLapId').on("click",function(){
+			if($('#id').val() == ''){
+				alert("id를 입력하시오")
+			}
+			else{
+				$.ajax({
+					url:"ajax/checkId",
+					type:'GET',
+					data : {
+						parent_id : $('#id').val(),
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success: function(data){
+						alert("사용가능합니다");
+						$('#id').attr("readonly",true);
+						i=true;
+					}
+				})	
+			}
+		})
+				
+	}
+	
 	function registerAction() {
-		$('#btnRegister')
-				.on(
-						"click",
-						function() {
-							$
-									.ajax({
+		$('#btnRegister').on("click",function() {
+			console.log(e);
+			if(e==false || i==false){
+				alert("아이디와 이메일의 중복검사를 해야합니다.");
+			}						
+			else if($('#pw').val() == '' || $('#name').val() == '' || $('#reg1').val() == '' || $('#reg2').val() == '' || $('#sample3_detailAddress').val() == ''){
+				alert('필수 입력을 해야합니다');
+			}
+			else{	
+									$.ajax({
 										url : "ajax/registerAction",
 										type : 'GET',
 										data : {
@@ -183,13 +212,9 @@ span {
 											parent_regno1 : $('#reg1').val(),
 											parent_regno2 : $('#reg2').val(),
 											parent_addr : $('#sample3_address').val(),
-											parent_addrdetail : $('#sample3_detailAddress')
-													.val(),
-											parent_addrextra : $(
-													'#sample3_extraAddress')
-													.val(),
-											parent_post : $('#sample3_postcode')
-													.val()
+											parent_addrdetail : $('#sample3_detailAddress').val(),
+											parent_addrextra : $('#sample3_extraAddress').val(),
+											parent_post : $('#sample3_postcode').val()
 										},
 										dataType : 'json',
 										error : function(xhr, status, msg) {
@@ -204,6 +229,8 @@ span {
 											login();
 										}
 									})
+								}
+			
 						});
 	}
 
@@ -223,6 +250,8 @@ span {
 				success : function(data) {
 					if (data == true) {
 						location.href = "mobile";
+					}else{
+						alert("아이디와 비밀번호를 확인하시오.")
 					}
 
 				}
@@ -231,105 +260,102 @@ span {
 	}
 </script>
 
-	<div class="wrap">
-		<div class="form-wrap">
-			<div class="button-wrap">
-				<div id="btn"></div>
-				<button type="button" class="togglebtn" onclick="login()">
-					로그인</button>
-				<button type="button" class="togglebtn" onclick="register()">회원가입</button>
-			</div>
-			<div class="social-icons">
-				<img
-					src="${pageContext.request.contextPath}/resources/img/kakao.png"
-					alt="kakao"> <img
-					src="${pageContext.request.contextPath}/resources/img/facebook.png"
-					alt="facebook"> <img
-					src="${pageContext.request.contextPath}/resources/img/twitter.png"
-					alt="twitter">
-			</div>
-			<form id="login" action="" class="input-group">
-				<input type="text" class="input-field" placeholder="id" id="idInput"
-					name="idInput" required /> <input type="password"
-					class="input-field" placeholder="pw" id="pwInput" name="pwInput"
-					required /> <br> <br> <br> <br> <input
-					type="button" class="submit" id="btnIn" name="btnIn" value="로그인" />
-			</form>
-			<form id="register" action="" class="input-group"
-				style="left: 50px; overflow: auto; height: 400px;">
-				<input type="text" class="input-fieldbtn" placeholder="id" id="id"
-					name="id"  /> <input type="button"
-					class="btn btn-secondary" value="중복검사" id="overLapId"
-					name="overLapId"> <input type="password"
-					class="input-field" placeholder="password" id="pw" name="pw"
-					 /> <input type="text" class="input-field"
-					placeholder="name" id="name" name="name"/> <input
-					type="email" class="input-fieldbtn" placeholder="email" id="email"
-					name="email" /> <input type="button"
-					class="btn btn-secondary" value="중복검사" id="overLapEmail"
-					name="overLapEmail"> <input type="tel" class="input-field"
-					placeholder="phone" id="tel" name="tel"/> <input
-					type="text" class="input-field" placeholder="주민등록번호 앞자리" id="reg1"
-					name="reg1"/> <input type="password" class="input-field"
-					placeholder="주민등록번호 뒷자리" id="reg2" name="reg2"/> <input
-					type="text" id="sample3_postcode" placeholder="우편번호"> <input
-					type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"
-					id="postBtn"><br> <input type="text"
-					class="input-field" id="sample3_address" placeholder="주소"><br>
-				<input type="text" class="input-field" id="sample3_detailAddress"
-					placeholder="상세주소"> <input type="text" class="input-field"
-					id="sample3_extraAddress" placeholder="참고항목"> <input
-					type="button" class="submit" id="btnRegister" name="btnRegister"
-					value="등록" />
-			</form>
+<div class="wrap">
+	<div class="form-wrap">
+		<div class="button-wrap">
+			<div id="btn"></div>
+			<button type="button" class="togglebtn" onclick="login()">
+				로그인</button>
+			<button type="button" class="togglebtn" onclick="register()">회원가입</button>
 		</div>
+		<div class="social-icons">
+			<img src="${pageContext.request.contextPath}/resources/img/kakao.png"
+				alt="kakao"> <img
+				src="${pageContext.request.contextPath}/resources/img/facebook.png"
+				alt="facebook"> <img
+				src="${pageContext.request.contextPath}/resources/img/twitter.png"
+				alt="twitter">
+		</div>
+		<form id="login" action="" class="input-group">
+			<input type="text" class="input-field" placeholder="id" id="idInput"
+				name="idInput" required /> <input type="password"
+				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
+				required /> <br> <br> <br> <br> <input
+				type="button" class="submit" id="btnIn" name="btnIn" value="로그인" />
+		</form>
+		<form id="register" action="" class="input-group"
+			style="left: 50px; overflow: auto; height: 400px;">
+			<input type="text" class="input-fieldbtn" placeholder="id" id="id"
+				name="id" /> <input type="button" class="btn btn-secondary"
+				value="중복검사" id="overLapId" name="overLapId"> <input
+				type="password" class="input-field" placeholder="password" id="pw"
+				name="pw" /> <input type="text" class="input-field"
+				placeholder="name" id="name" name="name" /> <input type="text"
+				class="input-fieldbtn" placeholder="email" id="email" name="email" />
+			<input type="button" class="btn btn-secondary" value="중복검사"
+				id="overLapEmail" name="overLapEmail"> <input type="tel"
+				class="input-field" placeholder="전화번호는 - 를 제외하고 입력하시오" id="tel"
+				name="tel" /> <input type="text" class="input-field"
+				placeholder="주민등록번호 앞자리" id="reg1" name="reg1" /> <input
+				type="password" class="input-field" placeholder="주민등록번호 뒷자리"
+				id="reg2" name="reg2" /> <input type="text" id="sample3_postcode"
+				placeholder="우편번호"> <input type="button"
+				onclick="sample3_execDaumPostcode()" value="우편번호 찾기" id="postBtn"><br>
+			<input type="text" class="input-field" id="sample3_address"
+				placeholder="주소"><br> <input type="text"
+				class="input-field" id="sample3_detailAddress" placeholder="상세주소">
+			<input type="text" class="input-field" id="sample3_extraAddress"
+				placeholder="참고항목"> <input type="button" class="submit"
+				id="btnRegister" name="btnRegister" value="등록" />
+		</form>
 	</div>
+</div>
 
 
 
 
-	<!-- 확인 Modal-->
-	<div class="modal fade" id="idCheck" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">아이디 중복 확인</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+<!-- 확인 Modal-->
+<div class="modal fade" id="idCheck" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">아이디 중복 확인</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<input type="text" class="form-control" id="idid" name="idid">
+					<input type="button" class="btn btn-secondary" id="checkIdid"
+						name="checkIdid" value="중복 검사">
 				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<input type="text" class="form-control" id="idid" name="idid">
-						<input type="button" class="btn btn-secondary" id="checkIdid"
-							name="checkIdid" value="중복 검사">
-					</div>
 
-				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 
 
 
 
-	<div id="wrap"
-		style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
-		<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
-			id="btnFoldWrap"
-			style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
-			onclick="foldDaumPostcode()" alt="접기 버튼">
-	</div>
+<div id="wrap"
+	style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
+	<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+		id="btnFoldWrap"
+		style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+		onclick="foldDaumPostcode()" alt="접기 버튼">
+</div>
 
 
 
 
- 	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
-	<script>
+<script
+	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
 		var x = document.getElementById("login");
 		var y = document.getElementById("register");
 		var z = document.getElementById("btn");

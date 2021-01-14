@@ -34,16 +34,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <script src="./resources/json.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script
@@ -85,7 +77,7 @@ ul.tabs li.current {
 	$(function() {
 		//checkuphist();
 		reserlist();
-
+		aa();
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -104,7 +96,9 @@ ul.tabs li.current {
 	function reserlist() {
 		var checkuplist = [];
 		var reserlist = [];
-		console.log("DDD");
+		console.log("예약리스트");
+		
+		//console.log("td 번호 : "+td);
 		$.ajax({
 			url : "ajax/reserlist",
 			type : "GET",
@@ -115,29 +109,53 @@ ul.tabs li.current {
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : function(data){ 
+			success : function(data) {
 				reserlistResult(data)
-				var modal = $('#question');
 				console.log(data);
-				if(modal.find('name="Ra1"').val()==""){
-				modal.find('name="Ra1"').val(data.A1);
-				modal.modal('show');
-				}
 			}
 		//만들어야함
 		});/* end of ajax */
 	}/* end of function */
+	function aa() {
+		console.log("문진표 클릭/////////////////");
+		
+		$('#reser2').on("click", "#que", function()  { 
+			var modal = $('#question');
+			var resvNo =  $(event.target).parent().siblings("#aa").text();
+			console.log(resvNo);
+			$.ajax({
+				url : "ajax/question",
+				type : "GET",
+				dataType : "JSON",
+				data : {
+					qust_no : resvNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log(data);
+					
+					modal.find($('input[name=Ra1]')).val([data[0].a1]);
+					modal.find($('input[name=Ra2]')).val([data[0].a2]);
+					modal.find($('input[name=Ra3]')).val([data[0].a3]);
+					modal.find($('input[name=Ra4]')).val([data[0].a4]);
+					//modal.modal('show');
+				}
+			});
+		});
 
+	}
 	function reserlistResult(data) {
 		$("#reser2").empty();
-		$.each(data, function(idx, item) {
-
-			$("<tr>").append(
-					$("<td id='reserNo' value= '"+item.resv_date+"'>").html(item.resv_date))
-					.append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표'data-toggle='modal'  data-target='#question' data-backdrop='static'>" ))
-					.append($("<input type='button' id='modi'style='width:100px;height:50px;'value='수정/삭제'data-toggle='modal' data-target='#' data-backdrop='static'>"))
-					.appendTo('#reser2');
-		})
+		$.each(data,function(idx, item) {
+							$("<tr id='a2'>")	
+							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
+							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
+							.appendTo('#reser2');
+						})
 	}
 
 	function checkuphist() {//접종 리스트
@@ -333,7 +351,7 @@ ul.tabs li.current {
 
 									<!-- 예약/진료 => 예약탭  -->
 									<div class="tab-pane fade" id="tab-11" role="tabpanel">
-										<div style="height:250px; overflow: auto;">
+										<div style="height: 250px; overflow: auto;">
 											<table class="table text-center">
 												<thead>
 													<tr>
@@ -457,68 +475,91 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 문진표 모달 -->
 	<div class="modal fade" id="question" tabindex="-1" role="dialog"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">문진표</h5>
-					</div>
-					<div class="modal-body">
-						<table style="width: 100%;display:block;" border="1" >
-							<tr>
-								<td style="width: 10%">1</td>
-								<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
-								<td style="width: 35%"><label class="form-check"> <input id="ra1"
-										name="Ra1" type="radio" class="form-check-input" value="Y">
-										<span class="form-check-label">예</span>
-								</label> <label class="form-check"> <input name="Ra1"
-										type="radio" class="form-check-input" value="N"> <span
-										class="form-check-label">아니오</span>
-								</label></td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>검은 눈동자(동공)가 혼탁합니까?</td>
-								<td><label class="form-check"> <input name="Ra2"
-										type="radio" class="form-check-input" value="Y"> <span
-										class="form-check-label">예</span>
-								</label> <label class="form-check"> <input name="Ra2"
-										type="radio" class="form-check-input" value="N"> <span
-										class="form-check-label">아니오</span>
-								</label></td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
-								<td><label class="form-check"> <input name="Ra3"
-										type="radio" class="form-check-input" value="Y"> <span
-										class="form-check-label">예</span>
-								</label> <label class="form-check"> <input name="Ra3"
-										type="radio" class="form-check-input" value="N"> <span
-										class="form-check-label">아니오</span>
-								</label></td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
-								<td><label class="form-check"> <input name="Ra4"
-										type="radio" class="form-check-input" value="Y"> <span
-										class="form-check-label">예</span>
-								</label> <label class="form-check"> <input name="Ra4"
-										type="radio" class="form-check-input" value="N"> <span
-										class="form-check-label">아니오</span>
-								</label></td>
-							</tr>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" type="button" data-dismiss="modal">확인 </button>
-					</div>
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">문진표</h5>
+				</div>
+				<div class="modal-body">
+					<table style="width: 100%; display: block;" border="1">
+						<tr>
+							<td style="width: 10%">1</td>
+							<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
+							<td style="width: 35%"><label class="form-check"> <input
+									id="ra1" name="Ra1" type="radio" class="form-check-input"
+									value="Y"> <span class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra1" id="ra1"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>검은 눈동자(동공)가 혼탁합니까?</td>
+							<td><label class="form-check"> <input name="Ra2"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra2"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
+							<td><label class="form-check"> <input name="Ra3"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra3"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
+							<td><label class="form-check"> <input name="Ra4"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra4"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal">확인
+					</button>
 				</div>
 			</div>
 		</div>
+	</div>
+		<!-- 수정/취소 모달 -->
+	<div class="modal fade" id="modifyAndCancel" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">수정/취소</h5>
+				</div>
+				<div class="modal-body"><!-- 모달바디 시작 -->
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal">확인
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal">취소
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

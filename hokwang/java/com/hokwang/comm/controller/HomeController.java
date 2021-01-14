@@ -1,18 +1,24 @@
 package com.hokwang.comm.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hokwang.mobile.service.CoronaService;
 import com.hokwang.vo.Reservation;
 
 @Controller
 public class HomeController {
+	@Autowired
+	CoronaService corSvc;
 
 	@RequestMapping(value = "/")
 	public ModelAndView test(HttpServletResponse response) throws IOException {
@@ -35,7 +41,10 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/mobile")
-	public String mobile() {
+	public String mobile(Model model) throws IOException {
+		List<Map<String, Object>> list = corSvc.getCorona();
+		model.addAttribute("corona", list);
+		
 		return "mobile/main";
 	}
 

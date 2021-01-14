@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -30,14 +31,15 @@ public class BabyMainController {
 	public List<BabyVO> getBabyInf(HttpSession session,BabyVO vo) {
 		
 		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
-		System.out.println(vo);
+		//System.out.println(vo);
 		return dao.getBabyInf(vo);
 	}
 
 
 	@ResponseBody
 	@RequestMapping("/insertbabyinfo")
-	public ModelAndView insertbabyinfo(HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
+	public ModelAndView insertbabyinfo(HttpSession session,HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
+		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
 		// request multipart로 캐스팅
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 이미지파일
@@ -61,7 +63,8 @@ public class BabyMainController {
 	
 	@ResponseBody
 	@RequestMapping("/updatebabyinfo")
-	public ModelAndView updatebabyinfo(HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
+	public ModelAndView updatebabyinfo(HttpSession session, HttpServletRequest request, BabyVO vo) throws IllegalStateException, IOException {
+		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
 		// request multipart로 캐스팅
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 이미지파일
@@ -74,9 +77,12 @@ public class BabyMainController {
 			
 		}
 		System.out.println("pic : "+vo.getBaby_pic());
+		System.out.println(vo);
 		dao.updatebabyinfo(vo);
 		return new ModelAndView("redirect:/child");
 	}
+	
+	
 	
 	
 

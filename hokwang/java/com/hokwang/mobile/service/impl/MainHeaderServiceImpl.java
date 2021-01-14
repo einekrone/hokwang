@@ -29,5 +29,9 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 		return dao.alertCntAction(vo);
 	}
 	
+	@Override
+	public ParentVO checkId(ParentVO vo) {
+		return dao.checkId(vo);
+	}
 	
 }

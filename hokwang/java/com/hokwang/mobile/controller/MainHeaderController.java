@@ -48,7 +48,14 @@ public class MainHeaderController {
 		return "redirect:/mobile";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/checkId")
+	public boolean checkId(ParentVO vo) {
+		if(dao.checkId(vo) == null) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

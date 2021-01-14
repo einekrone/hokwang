@@ -96,10 +96,11 @@
 		console.log(data);
 		$("#mediTotalList").empty();
 		$.each(data, function(idx, item) {
-			$('<tr>').append($('<td>').html(item.medi_no)).append(
-					$('<td>').html(item.medi_com)).append(
-					$('<td>').html(item.medi_name)).append(
-					$('<td>').html(item.medi_composition)).appendTo('#mediTotalList');
+			$('<tr>').append($('<td>').html(item.medi_no))
+			         .append($('<td>').html(item.medi_com))
+			         .append($('<td>').html(item.medi_name))
+			         .append($('<td>').html(item.medi_composition))
+			         .appendTo('#mediTotalList');
 		});
 		$('#use_table').DataTable();
 		

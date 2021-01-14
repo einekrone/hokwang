@@ -37,10 +37,15 @@ function numberMaxLength(e){
 	$(function() {
 		showBabyInf();
 		getBabyInf();
+		deleteinfo();
 		
 		//파일 클릭 div클릭시
 		$(".img-print").on("click",function(){
 		    $(".uploadFile").click();            
+		       
+		 });
+		$(".img-print1").on("click",function(){
+		    $(".uploadFile1").click();            
 		       
 		 });
 	});
@@ -74,7 +79,8 @@ function numberMaxLength(e){
 	function getBabyInf(){
 		$('body').on('click','#mobile-babyinfo tr',function(){
 			var td = $(this).children();
-			console.log("이름 : " + td.eq(0).text());
+			//console.log("이름 : " + td.eq(0).text());
+			
 			$.ajax({
 				url:'getInfo',
 				type:'GET',
@@ -103,6 +109,8 @@ function numberMaxLength(e){
 			
 		})
 	}
+	
+
 	
 	
 	
@@ -150,7 +158,7 @@ function numberMaxLength(e){
 						<div class="form-group">
 								<input type="text" class="form-control" id="baby-name" name="baby_name" placeholder="이름" >
 							</div>
-							<input type="hidden" class="form-control" id="parent-no">
+							<input type="hidden" class="form-control" id="parent-no" name="parent_no">
 							<div class="form-group">
 								<input type="number" class="form-control" id="baby-regno1" name="baby_regno1" placeholder="생년월일 6자리 ex)910504" 
 								maxlength="6" oninput="numberMaxLength(this);">
@@ -178,7 +186,7 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label>
-								 <div style="width:300px; height:250px; background-color:white;" class="img-print"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile" class="uploadFile" style="display:none;" onchange="changeValue(event)">
 									
 							</div>
@@ -211,7 +219,7 @@ function numberMaxLength(e){
 						<div class="form-group">
 								<input type="text" class="form-control" id="baby-name" name="baby_name"  placeholder="이름" >
 							</div>
-							<input type="hidden" class="form-control" id="parent-no">
+							<input type="hidden" class="form-control" id="parent-no" name="parent_no">
 							<div class="form-group">
 								<input type="number" class="form-control" id="baby-regno1" name="baby_regno1" placeholder="생년월일 6자리 ex)910504" 
 								maxlength="6" oninput="numberMaxLength(this);">
@@ -239,14 +247,12 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label><br>
-								 <div style="width:300px; height:250px; background-color:white;" class="img-print"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print1"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile1" class="uploadFile1" style="display:none;" onchange="changeValue(event)">
 									
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
-						<button type="button" class="btn btn-secondary" id="btnCancel"
-							name="btnCancel">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">

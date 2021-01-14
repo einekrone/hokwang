@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>호광병원</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<%-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+ --%>
+
 
 <style>
 * {
@@ -131,7 +126,7 @@ span {
 	left: 450px;
 }
 </style>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <script type="text/javascript">
 	$(function() {
 		login();
@@ -143,7 +138,6 @@ span {
 	function checkId() {
 		$('#overLapId').on("click", function() {
 			var modal = $('#idCheck');
-			modal.find('#idid').val("");
 			modal.modal('show');
 			$('#checkIdid').on("click", function() {
 				$.ajax({
@@ -158,7 +152,9 @@ span {
 					},
 					success : function(data) {
 						if (data == true) {
-							$('#id').val($('#idid').val());	
+							$('#id').val($('#idid').val());
+							alert("사용가능합니다.")
+							modal.hide();
 						}
 
 					}
@@ -186,10 +182,8 @@ span {
 											parent_tel : $('#tel').val(),
 											parent_regno1 : $('#reg1').val(),
 											parent_regno2 : $('#reg2').val(),
-											parent_addr : $('#sample3_address')
-													.val(),
-											parent_addrdetail : $(
-													'#sample3_detailAddress')
+											parent_addr : $('#sample3_address').val(),
+											parent_addrdetail : $('#sample3_detailAddress')
 													.val(),
 											parent_addrextra : $(
 													'#sample3_extraAddress')
@@ -236,11 +230,6 @@ span {
 		});
 	}
 </script>
-</head>
-
-
-
-<body>
 
 	<div class="wrap">
 		<div class="form-wrap">
@@ -269,20 +258,20 @@ span {
 			<form id="register" action="" class="input-group"
 				style="left: 50px; overflow: auto; height: 400px;">
 				<input type="text" class="input-fieldbtn" placeholder="id" id="id"
-					name="id" required /> <input type="button"
+					name="id"  /> <input type="button"
 					class="btn btn-secondary" value="중복검사" id="overLapId"
 					name="overLapId"> <input type="password"
 					class="input-field" placeholder="password" id="pw" name="pw"
-					required /> <input type="text" class="input-field"
-					placeholder="name" id="name" name="name" required /> <input
+					 /> <input type="text" class="input-field"
+					placeholder="name" id="name" name="name"/> <input
 					type="email" class="input-fieldbtn" placeholder="email" id="email"
-					name="email" required /> <input type="button"
+					name="email" /> <input type="button"
 					class="btn btn-secondary" value="중복검사" id="overLapEmail"
 					name="overLapEmail"> <input type="tel" class="input-field"
-					placeholder="phone" id="tel" name="tel" required /> <input
+					placeholder="phone" id="tel" name="tel"/> <input
 					type="text" class="input-field" placeholder="주민등록번호 앞자리" id="reg1"
-					name="reg1" required /> <input type="password" class="input-field"
-					placeholder="주민등록번호 뒷자리" id="reg2" name="reg2" required /> <input
+					name="reg1"/> <input type="password" class="input-field"
+					placeholder="주민등록번호 뒷자리" id="reg2" name="reg2"/> <input
 					type="text" id="sample3_postcode" placeholder="우편번호"> <input
 					type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"
 					id="postBtn"><br> <input type="text"
@@ -312,7 +301,6 @@ span {
 					</button>
 				</div>
 				<div class="modal-body">
-
 					<div class="form-group">
 						<input type="text" class="form-control" id="idid" name="idid">
 						<input type="button" class="btn btn-secondary" id="checkIdid"
@@ -339,8 +327,8 @@ span {
 
 
 
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+ 	<script
+		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
 	<script>
 		var x = document.getElementById("login");
 		var y = document.getElementById("register");
@@ -439,5 +427,3 @@ span {
 			element_wrap.style.display = 'block';
 		}
 	</script>
-</body>
-</html>

@@ -54,20 +54,9 @@
 						function(idx, item) {
 
 							if (item.msg_yn == "N") {
-								$('#showMessage')
-										.append(
-												$('<a>')
-														.addClass(
-																"dropdown-item d-flex align-items-center")
-														.append(
-																$('<div>')
-																		.addClass(
-																				"dropdown-list-image mr-3")
-																		.append(
-																				$(
-																						'<img>')
-																						.addClass(
-																								'rounded-circle')
+								$('#showMessage').append($('<a>').addClass("dropdown-item d-flex align-items-center")
+														.append($('<div>').addClass("dropdown-list-image mr-3")
+														.append($('<img>').addClass('rounded-circle')
 																						.attr(
 																								'src',
 																								"${pageContext.request.contextPath}/resources/img/"

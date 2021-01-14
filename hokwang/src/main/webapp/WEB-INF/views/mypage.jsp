@@ -324,14 +324,31 @@
 	            contentType : false,
 	            processData : false,
 	            success : function(data) {
-	            	empSelect();
 	               alert("수정되었습니다");
-	              
+	               empSelect();		              
 	            },
 	            error : function(xhr, status, message) {
 	               alert(" status: " + status + " er:" + message);
 	            }
 	         });
+	         
+	         $.ajax({
+		            url : "ajax/updateFinal",
+		            dataType : 'json',
+		            data : {
+		            	emp_no : "${emp_vo.emp_no}",
+		            	emp_tel : $('#tel').val(),
+		            	emp_addr : $('#addr').val()
+		            },
+		            method : 'post',
+		            success : function(data) {
+		               empSelect();		              
+		            },
+		            error : function(xhr, status, message) {
+		               alert(" status: " + status + " er:" + message);
+		            }
+		         });
+
 	      });//수정 버튼 클릭
 	   }//userUpdate
 
@@ -767,12 +784,9 @@
 	} //end of function (AllCntMsg)
 	//사용자 조회 요청
 	function empSelect() {
-		
-		
-			
 			//특정 사용자 조회
 			$.ajax({
-				url:'ajax/selectempl/',
+				url:'ajax/selectempl',
 				type:'GET',
 				data : {
 					emp_no : "${emp_vo.emp_no}"

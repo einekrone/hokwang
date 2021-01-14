@@ -183,8 +183,25 @@ public class MypageController {
 	// 단건조회
 	@ResponseBody
 	@RequestMapping(value = "/ajax/selectempl")
-	public EmployeeVO selectempl(EmployeeVO vo, Model model) {
-		return dao.selectempl(vo);
+	public EmployeeVO selectempl(EmployeeVO vo, Model model,HttpSession session) {
+		vo = dao.selectempl(vo);
+		session.setAttribute("emp_vo", vo);
+		return vo;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajax/updateFinal")
+	public EmployeeVO updateFinal(EmployeeVO vo, Model model,HttpSession session) {
+		dao.updateImg(vo);
+		session.setAttribute("emp_vo", vo);
+		return vo;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

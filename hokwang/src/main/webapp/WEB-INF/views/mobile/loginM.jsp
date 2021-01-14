@@ -133,7 +133,7 @@ span {
 		var i = false;
 		login();
 		logInAction();
-		registerAction(e,i);
+		registerAction();
 		checkId();
 		checkEmail();
 	});

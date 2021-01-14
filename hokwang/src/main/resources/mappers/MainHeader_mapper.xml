@@ -32,9 +32,8 @@
 		)
 	</insert>
 
-	<select id="alertCntAction" parameterType="parentVO"
-		resultType="int">
-
+	<select id="alertCntAction" parameterType="parentVO" resultType="int">
+		select count(alert_no) from alert where BABY_NO in (select baby_no from baby where parent_no = #{parent_no})
 	</select>
 
 	<select id="checkId" parameterType="parentVO" resultType="parentVO">

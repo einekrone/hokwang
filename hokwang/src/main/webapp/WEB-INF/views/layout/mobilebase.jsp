@@ -30,27 +30,26 @@
 <script type="text/javascript">
 	$(function() {
 		changeMenu();
-		//alertCntAction();
+		alertCntAction();
 	});
-	/*
+	
 	function alertCntAction(){
 		$.ajax({
 			url : "ajax/alertCntAction",
 			type : 'GET',
 			dataType : 'json',
 			data : {
-				parent_no : "${vo.parent_no}"
+				parent_no : "${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-
+				$('#alertCnt').text(data);
 			}
 		})
 	}
 	
-	 */
 
 	function changeMenu() {
 		console.log("changeMenu");
@@ -166,8 +165,8 @@
 								<div
 									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
 									aria-labelledby="alertsDropdown">
-									<div class="dropdown-menu-header">4 New Notifications</div>
-									<div class="list-group">
+									<!-- <div class="dropdown-menu-header">4 New Notifications</div> -->
+									<div class="list-group"> <!-- 알림 출력부분 -->
 										<a href="#" class="list-group-item">
 											<div class="row g-0 align-items-center">
 												<div class="col-2">
@@ -180,7 +179,8 @@
 													<div class="text-muted small mt-1">30m ago</div>
 												</div>
 											</div>
-										</a> <a href="#" class="list-group-item">
+										</a>
+										 <a href="#" class="list-group-item">
 											<div class="row g-0 align-items-center">
 												<div class="col-2">
 													<i class="text-warning" data-feather="bell"></i>

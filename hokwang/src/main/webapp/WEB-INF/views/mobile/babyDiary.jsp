@@ -78,7 +78,7 @@ ul.tabs li.current {
 		//checkuphist();
 		reserlist();
 		aa();
-		chgBaby();
+		//chgBaby();
 		babyList();
 		
 		$('ul.tabs li').click(function() {
@@ -226,10 +226,16 @@ ul.tabs li.current {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				$.each(data, function(idx, item) {
+				/* $.each(data, function(idx, item) {
 							$('#baby-name').children().attr("value", item.baby_no).html(
 									item.baby_name);
+				}); */
+				$.each(data, function(idx, item) {
+					$("#baby-name").append(
+							$('<option>').attr("value", item.baby_no).html(
+									item.baby_name));
 				});
+			
 			}
 		});
 	}
@@ -237,20 +243,24 @@ ul.tabs li.current {
 	
 	function chgBaby(){
 		var babyNo = $("#baby-name option:selected").val();
-		console.log(babyNo);
+		var babyNo2 = $("#baby-name option:selected").text();
+		console.log("아기 번호 : "+babyNo2);
 		$.ajax({
 			url:'ajax/getBabyInfo',
 			type:'GET',
 			data :{
-				baby_no:babyNo
+				baby_no : babyNo,
+				parent_no : "${parent_vo.parent_no}"
 			},
 			error:function(xhr,status,msg){
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data){
+				console.log(data);
 				$.each(data, function(idx, item) {
 					$("#babyInfo").empty();
-					$("#babyInfo").append(
+
+					 $("#babyInfo").append(
 							$('<p>').html(
 									'이름 : ' + item.baby_name + " ("
 											+ item.baby_blood + "형, "
@@ -259,7 +269,7 @@ ul.tabs li.current {
 									'주민번호 : ' + item.baby_regno1 + '-'
 											+ item.baby_regno2)).append(
 							$('<p>').html('방문 여부 : ' + item.baby_visit));
-
+ 
 					$("#babyImg").attr(
 							"src",
 							"${pageContext.request.contextPath}/resources/img/"
@@ -289,8 +299,7 @@ ul.tabs li.current {
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div id="babyInfo">
-				</div>
+				<div id="babyInfo" style="text-align: left;"></div>
 			</div>
 		</div>
 	</div>

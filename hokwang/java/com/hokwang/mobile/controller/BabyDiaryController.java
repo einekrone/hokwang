@@ -25,7 +25,6 @@ public class BabyDiaryController {
 	public List<Reservation> reserlist(Reservation vo,HttpSession session) {
 		//vo.setResv_no(((ParentVO) session.getAttribute("parent_vo")).getEmp_no());
 		System.out.println(vo);
-		
 		return service.reserlist(vo);//예약리스트
 	}
 	@ResponseBody

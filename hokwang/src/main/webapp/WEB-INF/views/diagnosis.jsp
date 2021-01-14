@@ -39,6 +39,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 		var dis_comm = ""; //질병상세
 		var resv_no = ""; //예약번호
 		var chk_type = ""; //진료타입
+		var chk_no = "";
+		var baby_no = "";
 		
 		waitList();
 		resvHstList();
@@ -56,7 +58,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 		getDiseChg();
 		loadDispaly();
 		getDiseaseList();
-		
 	
 		
 		//진료 관련 버튼메뉴 출력
@@ -76,7 +77,64 @@ div.dataTables_wrapper div.dataTables_paginate {
 		$("#diag3").css("display","none");
 		$("#diag4").css("display","none");
 		$("#diag5").css("display","none");
+		$("#diag7").css("display","none");
 	}
+	
+	//예방접종 리스트 뿌려줌
+	function getCheckHist(){
+		 $.ajax({
+				url : 'ajax/getCheckHist',
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					resv_no : resv_no,
+					baby_no : baby_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getCheckHistResult
+			});
+	}
+	
+	function getCheckHistResult(data){
+		$("#getCheckHist").empty();
+		$.each(data, function(idx, item) {
+			$("<tr>").append($('<td>').html(item.CHK_DIS))
+					 .append($('<td>').html(item.CHK_NAME))
+					 .append($('<td>').html(item.CHK_PRO))
+					 .append($('<td>').html(item.HIST_DATE))
+					 .appendTo($('#getCheckHist'));
+		});
+		
+	}
+	
+	//예방접종 인설트
+	function injectInsert(){
+		 $.ajax({ 
+             url: "ajax/insertInjection",  
+             type: 'POST',
+             data : {
+             	chk_no : $("#injection").find('#chk_no').val(),
+            	hist_state : $("#injection").find('#hist_state').val(),
+            	resv_no : resv_no
+             },
+             error:function(xhr, status, message) { 
+                 alert(" status: "+status+" er:"+message);
+             },
+
+             success: function(result){
+            	 if (confirm('상기 예방접종을 등록하시겠습니까?')) {
+            		 getCheckHist();
+                	 UnChange();
+                	 $(".btn_injectInsert").hide();
+                	 alert("예방접종 등록 완료 되었습니다.")
+            	 }else{
+            		 alert("예방접종 등록을 취소하셨습니다.")
+            	 }
+             }
+      });  		
+	} 
 	
   	  //진료 종료 인설트
 	function diagEndInsert(){
@@ -104,7 +162,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 			url : 'ajax/UpdateDiagStatus',
 			data : {
 				resv_no : resv_no,
-				resv_status : $("#specValue").find("#End").val()
+				resv_status : $("#specValue").find("#End").val(),
+				
 			},
 			dataType : 'json',
 			error : function(xhr, status, msg) {
@@ -113,6 +172,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 			success : function(){
 				$("#diag3").attr("disable", true);
 				$("#diag4").attr("disable", true);
+				$("#diag5").attr("disable", true);
+				$("#diag6").attr("disable", true);
+				$("#diag7").attr("disable", true);
 				$(".diagMenu").hide();
 			}
 		});
@@ -552,7 +614,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 			});
 			resv_no = td.eq(0).text();
 			chk_type = td.eq(3).text();
+			baby_no = td.eq(4).text();
 			console.log("변수 예약번호 콘솔 :" +resv_no);
+			console.log("변수 아기번호 콘솔 :" +baby_no);
 			console.log("진료타입 : " + td.eq(3).text());
 			console.log("아기번호 : " + td.eq(4).text());
 			console.log("예약번호 : " + td.eq(0).text());
@@ -594,11 +658,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 					if(chk_type == "N"){
 						$("#diag3").css("display","block");
 						$("#diag4").css("display","block");
+						$(".diagMenu").show();
 					}else{
 						$("#diag5").css("display","block");
+						$("#diag6").css("display","none");
+						$("#diag7").css("display","block");
 						getInjection();
+						getCheckHist();
 					}
-					$(".diagMenu").show();
+
 				}
 			});
 			alert('진료를 시작합니다.')
@@ -623,19 +691,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 	function InfoResult(data) {
 		$("#Info").empty();
 		//var regno2 = data.BABY_REGNO2;
-		$("#Info").append($('<p>').html('NO : ' + data.BABY_NO)).append(
-				$('<p>').html(
-						'이름 : ' + data.BABY_NAME + " (" + data.BABY_BLOOD
-								+ "형, " + data.BABY_GENDER + ")")).append(
-				$('<p>').html(
-						'주민번호 : ' + data.BABY_REGNO1 + '-' + data.BABY_REGNO2))
-				.append($('<hr>')).append(
-						$('<p>').html('보호자명 : ' + data.PARENT_NAME)).append(
-						$('<p>').html('연락처 : ' + data.PARENT_TEL)).append(
-						$('<p>').html(
-								'주소 : ' + data.PARENT_ADDR + ' '
-										+ data.PARENT_ADDRDETAIL + ' '
-										+ data.PARENT_POST))
+		$("#Info").append($('<p>').html('NO : ' + data.BABY_NO))
+				  .append($('<p>').html('이름 : ' + data.BABY_NAME + " (" + data.BABY_BLOOD+ "형, " + data.BABY_GENDER + ")"))
+		   		  .append($('<p>').html('주민번호 : ' + data.BABY_REGNO1 + '-' + data.BABY_REGNO2))
+				  .append($('<hr>'))
+				  .append($('<p>').html('보호자명 : ' + data.PARENT_NAME))
+				  .append($('<p>').html('연락처 : ' + data.PARENT_TEL))
+				  .append($('<p>').html('주소 : ' + data.PARENT_ADDR + ' '
+												+ data.PARENT_ADDRDETAIL + ' '
+												+ data.PARENT_POST))
 	}
 	
 	//예방접종 띄우기
@@ -645,7 +709,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 			type : 'GET',
 			dataType : 'json',
 			data : {
-				resv_no : resv_no
+				resv_no : resv_no,
+				emp_no : ${emp_vo.emp_no}
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -655,13 +720,17 @@ div.dataTables_wrapper div.dataTables_paginate {
 	}
 	function getInjectionResult(data){
 		$("#injection").empty();
-		$.each(data, function(idx, item) {	
-			$("<tr>").append($('<td>').html(item.CHK_DIS))
-					 .append($("<td>").html(item.CHK_NAME))	
-					 .append($("<td>").html(item.CHK_FIRST))
-					 .append($('<td style="display:none;">').html(item.CHK_DIS))
-					 .appendTo('#injection');
-		});
+		console.log(data);
+			$("#injection").append($("<p>").html('질병명 : ' + data.CHK_DIS))
+						   .append($("<p>").html('접종백신명(차수) : ' +data.CHK_NAME))	
+					 	   .append($("<p>").html('접종 제품명  : ' + data.CHK_PRO))
+					 	   .append($("<p>").html('제조사 : ' +data.CHK_COM))	
+					 	   .append($("<p>").html('예진의사 : ' + data.EMP_NAME))
+					 	   .append($("<p>").html('접종기관 : ' +data.HOSP_NAME))	
+					 	   .append($('<p style="display:none;">').html(data.CHK_DIS))
+					 	   .append($('<input style="display:none;" id="chk_no" name="chk_no">').val(data.CHK_NO))
+					 	   .append($('<input style="display:none;" id="hist_state" name="hist_state" value="Y">'))
+					 	   .appendTo('#injection');
 	}
 
 </script>
@@ -756,7 +825,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			<div class="col-xl-3 col-md-6 mb-4">
 
 				<!-- 환자 기록 -->
-				<div class="card shadow py-2" style="height: 840px;">
+				<div class="card shadow py-2" style="height: 340px;">
 					<div class="card-body">
 
 						<!-- 진료 기록 -->
@@ -779,9 +848,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<tbody id="HistoryList"></tbody>
 							</table>
 						</div>
-
+					</div>
+				</div>
+					
+					
 						<!-- 진료 기록 상세 -->
-						<div style="height: 500px; overflow: auto;">
+						
+				<div class="card shadow py-2" style="height: 500px; overflow: auto;" id="diag6">
+					<div class="card-body">
+							
 							<!-- logo -->
 							<div class="title_logo">
 								<i class="far fa-clipboard"></i>
@@ -841,11 +916,36 @@ div.dataTables_wrapper div.dataTables_paginate {
 										<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
 									</table>
 								</div>
-
 							</div>
+					</div>
+				</div>	
+				<!-- 접종 맞을 것-->
+				<div class="card shadow py-2" style="height: 500px;" id="diag5">
+
+					<div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
+						<!-- Title -->
+						<div class="title_logo">
+							<!-- logo -->
+							<i class="fas fa-syringe"></i>
+							<!-- content -->
+							<span class="tit" style="font-weight: 600;">예방접종</span>
 						</div>
 					</div>
+				
+					<div class="card-body"
+						style="width: 100%; height: 400px; padding-top: 5px;">
+						<form id="injectInsert">
+							<div>
+								<div style="width: 100%;"
+									id="injection"></div>
+							</div>
+							<div>
+								<button type="button" class="btn_injectInsert" onclick="injectInsert();">예방접종 등록</button>
+							</div>
+						</form>
+					</div>
 				</div>
+						
 			</div>
 
 			<!-- 진료 3 -->
@@ -879,13 +979,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 													</button>
 												</div>
 											</div>
-
+										</div>
 									</div>
-									<div style="float: right; height: 50px">
-										<button>+</button>
-									</div>
-								</div>
-
 							</div>
 						</div>
 						<div style="overflow: auto; width: 100%; height: 200px;">
@@ -1033,40 +1128,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 			</div>
 			
 			<!-- 진료 5 -->
-			<div class="col-xl-6 col-md-6 mb-4" id="diag5">
+			<div class="col-xl-5 col-md-6 mb-4" id="diag7">
 
-				<!-- 접종 맞을 것-->
-				<div class="card shadow py-2" style="height: 400px;">
-
-					<div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
-						<!-- Title -->
-						<div class="title_logo">
-							<!-- logo -->
-							<i class="fas fa-syringe"></i>
-							<!-- content -->
-							<span class="tit" style="font-weight: 600;">예방접종</span>
-						</div>
-					</div>
-				
-					<div class="card-body"
-						style="overflow: auto; width: 100%; height: 300px; padding-top: 5px;">
-						<div>
-							<table class="table">
-								<thead>								
-									<tr>				
-										<th>예방접종 종류</th>
-										<th>예방접종 백신명</th>
-										<th>예방접종 기간</th>
-									</tr>
-								</thead>
-								<tbody id="injection"></tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				
 				<!-- 접종 내역-->
-				<div class="card shadow py-2" style="height: 440px;">
+				<div class="card shadow py-2" style="height: 840px;">
 
 					<div style="height: 100px; padding: 20px;">
 						<!-- Title -->
@@ -1077,9 +1142,19 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<span class="tit" style="font-weight: 600;">예방 접종 현황</span>
 						</div>
 					</div>
-					<!-- ㅇ -->
-					<div class="card-body"
-						style="overflow: auto; width: 100%; height: 200px;">
+					<!-- 예방접종기록 -->
+					<div class="card-body" style="height: 800px; overflow: auto;" >
+						<table class="table">
+						 <thead>						
+							<tr>
+								<th style="width: 200px;">질병명</th>
+								<th style="width: 200px;">접종 백신명</th>
+								<th style="width: 200px;">백신 제품명</th>
+								<th style="width: 200px;">접종 일</th>
+							</tr>	
+						 </thead>
+						 <tbody id="getCheckHist"></tbody>
+						</table>
 					</div>
 				</div>
 				

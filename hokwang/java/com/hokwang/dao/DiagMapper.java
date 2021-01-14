@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
-import com.hokwang.vo.CheckupVO;
+import com.hokwang.vo.CheckHistVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.EmployeeVO;
@@ -35,6 +35,7 @@ public interface DiagMapper {
 	
 	public int UpdateDiagStatus(Reservation vo);
 	
-	public List<Map<String, Object>> getInjection(Reservation vo);
-	
+	public Map<String, Object> getInjection(Reservation vo);
+	public int insertInjection(CheckHistVO vo);
+	public List<Map<String, Object>> getCheckHist(Reservation vo);
 }

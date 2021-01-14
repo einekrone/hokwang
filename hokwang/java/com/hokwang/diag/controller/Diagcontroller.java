@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.service.DiagService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
+import com.hokwang.vo.CheckHistVO;
 import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
@@ -145,10 +146,22 @@ public class Diagcontroller {
 	  //예방접종 리스트 뿌려줌
 	  @ResponseBody  
 	  @RequestMapping("/ajax/getInjection") 
-	  public List<Map<String, Object>> getInjection(Reservation vo){
+	  public Map<String, Object> getInjection(Reservation vo){
 	  return diagDao.getInjection(vo); 
 	  }
 	  
-	  
+	  //예방접종 인설트
+	  @ResponseBody  
+	  @RequestMapping("/ajax/insertInjection") 
+	  public int insertInjection(CheckHistVO vo){
+	  return diagDao.insertInjection(vo); 
+	  }
 	
+	  //예방접종 기록 리스트 뿌려줌
+	  @ResponseBody  
+	  @RequestMapping("/ajax/getCheckHist") 
+	  public List<Map<String, Object>> getCheckHist(Reservation vo){
+	  return diagDao.getCheckHist(vo); 
+	  }
+	  
 }

@@ -23,4 +23,5 @@ public class Reservation {//예약
 	String resv_datetime;	// 예약 일시
 	String baby_no;		// 아기번호
 	String chk_no;//검진 번호
+	String emp_no;
 }

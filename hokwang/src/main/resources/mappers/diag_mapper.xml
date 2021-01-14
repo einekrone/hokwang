@@ -168,9 +168,60 @@
 	</update>
 	
 	<select id="getInjection" resultType="map">
-		SELECT R.* , C.*
-		FROM CHECKUP C, RESERVATION R
+		SELECT R.*, C.*, E.*, H.*
+		FROM CHECKUP C, RESERVATION R, EMPLOYEE E, HOSPITAL H
 		WHERE R.CHK_NO = C.CHK_NO
+   		AND E.EMP_NO = #{emp_no}
 		AND RESV_NO = #{resv_no}
+	</select>
+	<insert id="insertInjection" parameterType="CheckHistVO">
+		<selectKey order="BEFORE" keyProperty="hist_no" resultType="String">
+			SELECT NVL(MAX(HIST_NO),0)+1 FROM CHECKHIST
+		</selectKey>
+	INSERT INTO CHECKHIST(HIST_NO,
+						  CHK_NO,
+						  HIST_STATE,
+						  RESV_NO,
+						  HIST_DATE
+	
+	)
+				  VALUES(#{hist_no},
+				  		 #{chk_no},
+				  		 #{hist_state},
+				  		 #{resv_no},
+				  		 SYSDATE
+	
+	)
+	</insert>
+	<select id="getCheckHist" resultType="map">
+		SELECT H.RESV_NO,
+		H.HIST_STATE, 
+		H.CHK_NO, 
+		H.HIST_NO,
+		TO_CHAR(H.HIST_DATE, 'YYYY-MM-DD') HIST_DATE,
+		C.CHK_NO,
+		C.CHK_NAME,
+		C.CHK_FIRST,
+		C.CHK_DIS,
+		C.CHK_COM,
+		C.CHK_PRO,
+		C.CHK_PRICE,
+		R.RESV_NO,
+		R.RESV_DATE,
+		R.RESV_TIME,
+		R.RESV_STATUS,
+		R.RESV_PAYYN,
+		R.RESV_ROOM,
+		R.BABY_NO,
+		R.RESV_TYPE,
+		R.CHK_TYPE,
+		R.CHK_NO
+		FROM CHECKHIST H, CHECKUP C, RESERVATION R
+		WHERE H.CHK_NO = C.CHK_NO
+   		AND R.CHK_NO = C.CHK_NO
+   		AND H.RESV_NO = R.RESV_NO
+		AND H.HIST_STATE = 'Y'
+    	AND R.BABY_NO = #{baby_no}
+    	ORDER BY H.HIST_DATE, C.CHK_FIRST
 	</select>
 </mapper>

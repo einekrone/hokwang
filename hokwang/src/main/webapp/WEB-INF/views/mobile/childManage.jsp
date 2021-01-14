@@ -111,11 +111,6 @@ function numberMaxLength(e){
 		})
 	}
 	
-
-	
-	
-	
-	
 	
 </script>
 </head>

@@ -36,7 +36,7 @@ public class BabyDiaryController {
 	@ResponseBody
 	@RequestMapping("/ajax/getBabyInfo")
 	public List<BabyVO> getBabyList(BabyVO vo,HttpSession session){
-		vo.setParent_no(((ParentVO) session.getAttribute("parent_vo")).getParent_no());
+		//vo.setParent_no(((ParentVO) session.getAttribute("parent_vo")).getParent_no());
 		return service.getBabyList(vo);
 	}
 }

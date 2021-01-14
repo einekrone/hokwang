@@ -216,20 +216,18 @@ ul.tabs li.current {
 	
 	
 	function babyList() {
-		
 		$.ajax({
 			url : 'ajax/getBabyInfo',
 			type : 'GET',
 			data : { 
 				parent_no:"${parent_vo.parent_no}"
-				
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
 				$.each(data, function(idx, item) {
-							$('<option>').attr("value", item.baby_no).html(
+							$('#baby-name').children().attr("value", item.baby_no).html(
 									item.baby_name);
 				});
 			}

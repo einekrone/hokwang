@@ -20,6 +20,6 @@
 	<select id="getBabyList" resultType="BabyVO">
 	select *
 	from baby
-	where baby_no=#{baby_no} and parent_no=#{parent_no}
+	where  parent_no=#{parent_no}
 	</select>
 </mapper>

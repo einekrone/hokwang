@@ -418,9 +418,7 @@ function payment(){
 										<li class="nav-item"><a class="nav-link active"
 											data-toggle="tab" href="#tab-8">전체</a></li>
 										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-9">결제완료</a></li>
-										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-10">미결제</a></li>
+											data-toggle="tab" href="#tab-10">결제</a></li>
 										<li class="nav-item"><a class="nav-link"
 											data-toggle="tab" href="#tab-11">예약</a></li>
 									</ul>
@@ -470,7 +468,7 @@ function payment(){
 
 									<!-- 예약/진료 => 미결제탭  -->
 									<div class="tab-pane fade" id="tab-10" role="tabpanel">
-
+										<div style="height: 250px; overflow: auto;">
 										<table class="table text-center">
 											<thead>
 												<tr>
@@ -481,16 +479,7 @@ function payment(){
 											</thead>
 											<tbody id="unpayList"></tbody>
 										</table>
-
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">진료일시</th>
-													<th class="text-center">병명</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
+										</div>
 									</div>
 
 									<!-- 예약/진료 => 예약탭  -->

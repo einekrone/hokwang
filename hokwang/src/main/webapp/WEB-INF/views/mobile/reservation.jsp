@@ -207,37 +207,35 @@ td {
 		$("#resvTime").empty();
 
 		$.each(data, function(idx, item) {
-// 			var time = item.RESV_TIME;
-// 			var chgti;
+			var time = item.RESV_TIME;
+			var chgti;
 
 			for (var i = 0; i < arrNumber.length; i++) {
-				console.log("ddd2 "+item.RESV_TIME);
+				chgti = Number(arrNumber[i].substr(0, 2));
 				if(arrNumber[i] == item.RESV_TIME) {
-					console.log("예약정보있음");
-					console.log("cnt "+item.CNT);
 					if(item.CNT > 3) {
 						arrNumber.splice(i, 1, "");
 					}
 				}
-// 				chgti = Number(arrNumber[i].substr(0, 2));
-// 				if (arrNumber[i] == item.RESV_TIME) { // 현재 시간대 예약불가
-// 					arrNumber.splice(i, 1, "");
-// 				}
 
-// 				// 현재 이전 시간대 예약 불가
-// 				if ('${resvType}' == 'T') { // 당일 예약
-// 					if (today == $("input[name='resv_date']").val()) {
-// 						if (chgti <= d.getHours()) {
-// 							arrNumber.splice(i, 1, "");
-// 						}
-// 					}
-// 				} else {
-// 					if (today == $(".selector").val()) {
-// 						if (chgti <= d.getHours()) {
-// 							arrNumber.splice(i, 1, "");
-// 						}
-// 					}
-// 				}
+				// 현재 이전 시간대 예약 불가
+				if ('${resvType}' == 'T') { // 당일 예약
+					if (today == $("input[name='resv_date']").val()) {
+						console.log("* : "+chgti);
+						console.log("** : "+d.getHours());
+						if (chgti <= d.getHours()) {
+							console.log("-");
+							arrNumber.splice(i, 1, "");
+						}
+					}
+				} else {
+					if (today == $(".selector").val()) {
+						if (chgti <= d.getHours()) {
+							console.log("+");
+							arrNumber.splice(i, 1, "");
+						}
+					}
+				}
 			}
 		});
 

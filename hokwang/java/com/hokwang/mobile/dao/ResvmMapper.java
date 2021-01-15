@@ -12,4 +12,5 @@ public interface ResvmMapper {
 	public List<CheckupVO> getVacList(BabyVO vo);
 	public int questInsert(QuestionVO vo);
 	public int resvInsert(Reservation vo);
+	public int alertInsert(BabyVO vo);
 }

@@ -319,7 +319,7 @@ td {
 					</div>
 					<div class="card-body">
 						<img id="childImg"
-							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px;">
+							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px; width: 100px;">
 						<div id="childInfo" style="text-align: left;"></div>
 					</div>
 				</div>

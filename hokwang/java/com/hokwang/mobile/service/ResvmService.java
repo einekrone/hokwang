@@ -13,4 +13,5 @@ public interface ResvmService {
 	List<CheckupVO> getVacList(BabyVO vo);
 	void questInsert(QuestionVO quVO);
 	int resvInsert(Reservation resvVO);
+	int alertInsert(BabyVO vo);
 }

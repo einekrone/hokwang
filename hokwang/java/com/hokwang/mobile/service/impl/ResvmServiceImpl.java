@@ -36,4 +36,9 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.resvInsert(resvVO);
 	}
 
+	@Override
+	public int alertInsert(BabyVO vo) {
+		return resvmDao.alertInsert(vo);
+	}
+
 }

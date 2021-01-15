@@ -20,7 +20,8 @@
 		<where>
 			<if test="baby_no != null and baby_no != ''">
 				CHK_NO NOT IN(SELECT H.CHK_NO
-				FROM CHECKHIST H, RESERVATION R
+				FROM CHECKHIST H,
+				RESERVATION R
 				WHERE R.BABY_NO = #{baby_no})
 			</if>
 		</where>
@@ -33,6 +34,15 @@
 	<!-- GROUP BY RESV_TIME -->
 	<!-- ORDER BY RESV_TIME; -->
 
+	<insert id="alertInsert" parameterType="alertVO">
+		INSERT INTO ALERT
+		VALUES
+		(#{alert_no},
+		#{alert_cont},
+		#{alert_title}, sysdate, #{alert_send}
+		#{baby_no})
+	</insert>
+
 	<insert id="questInsert" parameterType="questionVO">
 		INSERT INTO
 		QUESTION(QUST_NO,A1,A2,A3,A4)
@@ -41,6 +51,24 @@
 		#{a2}, #{a3},
 		#{a4})
 	</insert>
+
+	<update id="questUpdate" parameterType="questionVO">
+		UPDATE QUESTION
+		SET QUST_NO = #{qust_no},
+		A1 = #{a1},
+		A2 = #{a2},
+		A3 =
+		#{a3},
+		A4 = #{a4}
+		<where>
+			QUST_NO = #{qust_no}
+		</where>
+	</update>
+
+	<delete id="questDelete" parameterType="questionVO">
+		DELETE FROM QUESTION
+		WHERE QUST_NO = #{qust_no}
+	</delete>
 
 	<insert id="resvInsert" parameterType="reservation">
 		<!-- <selectKey order="BEFORE" keyProperty="resv_no" -->
@@ -54,7 +82,11 @@
 		<if test="resv_memo != null and resv_memo != ''">
 			, resv_memo
 		</if>
-		, baby_no, chk_no, chk_type, resv_type)
+		, baby_no
+		<if test="chk_no != null and chk_no != ''">
+			, chk_no
+		</if>
+		, chk_type, resv_type)
 		VALUES (#{resv_no},
 		#{resv_date}, #{resv_time}
 		<if test="resv_detail != null and resv_detail != ''">
@@ -63,6 +95,37 @@
 		<if test="resv_memo != null and resv_memo != ''">
 			, #{resv_memo}
 		</if>
-		, #{baby_no}, #{chk_no}, #{chk_type}, #{resv_type})
+		, #{baby_no}
+		<if test="chk_no != null and chk_no != ''">
+			, #{chk_no}
+		</if>
+		, #{chk_type}, #{resv_type})
 	</insert>
+
+	<update id="resvUpdate" parameterType="reservation">
+		update reservation
+		set RESV_NO = #{resv_no}
+		, resv_date = #{resv_date}
+		,
+		resv_time = #{resv_time}
+		<if test="resv_detail != null and resv_detail != ''">
+			, resv_detail = #{resv_detail}
+		</if>
+		<if test="resv_memo != null and resv_memo != ''">
+			, resv_memo = #{resv_memo}
+		</if>
+		, chk_type = #{chk_type}
+		<if test="chk_no != null and chk_no != ''">
+			, chk_no = #{chk_no}
+		</if>
+		, resv_type = #{resv_type}
+		<where>
+			RESV_NO = #{resv_no}
+		</where>
+	</update>
+
+	<delete id="resvDelete" parameterType="reservation">
+		DELETE FROM RESERVATION
+		WHERE RESV_NO = #{resv_no}
+	</delete>
 </mapper>

@@ -38,13 +38,14 @@ public class ResvmController {
 	}
 
 
-	// 문진표 등록
+	// 예약 등록(+문진표, 알림)
 	@ResponseBody
 	@RequestMapping("/ajax/insertReservation")
 	public String questInsert(QuestionVO quVO, Reservation resvVO) {
 		resvmSvc.resvInsert(resvVO);
 		quVO.setQust_no(resvVO.getResv_no());
 		resvmSvc.questInsert(quVO);
+		// 예약한 아기 번호를 외래키로 받아서 alert에 insert
 		return "redirect:/mobile";
 	}
 }

@@ -85,6 +85,7 @@ td {
 	});
 	
 	function vacList() {
+		$("#vacSel").empty();
 		var babyNo = $('#childSel option:selected').val();
 		console.log("babyNo : "+babyNo);
 		$.ajax({
@@ -92,7 +93,7 @@ td {
 			type : 'GET',
 			data : {
 				baby_no : babyNo
-			}
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -267,7 +268,6 @@ td {
 			url : 'ajax/childList',
 			type : 'GET',
 			data : {
-				// 	parent_no:
 				baby_no : babyNo
 			},
 			error : function(xhr, status, msg) {
@@ -296,10 +296,10 @@ td {
 		
 		var chkVal = $('input[name="chk_type"]:checked').val();
 
-		if (chkVal == "V") {
-			console.log("아기 변경시");
-			vacList();
-		}
+// 		if (chkVal == "V") {
+// 			console.log("아기 변경시");
+// 			vacList();
+// 		}
 	}
 </script>
 </head>
@@ -313,7 +313,7 @@ td {
 					<div class="card-header">
 						<select class="form-control mb-3"
 							style="width: 250px; margin-left: 15%;" id="childSel"
-							name="baby_no" onchange="chgChild()">
+							name="baby_no" onchange="chgChild(); vacList();">
 							<option value="" selected>자녀 선택</option>
 						</select>
 					</div>

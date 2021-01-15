@@ -39,11 +39,14 @@
 			resultType="String">
 			SELECT NVL(MAX(ALERT_NO),0)+1 FROM ALERT
 		</selectKey>
-		INSERT INTO ALERT
+		INSERT INTO
+		ALERT(ALERT_NO,ALERT_CONT,ALERT_TITLE,ALERT_DATE,ALERT_SEND,BABY_NO)
 		VALUES
 		(#{alert_no},
 		#{alert_cont},
-		#{alert_title}, sysdate, #{alert_send}
+		#{alert_title},
+		SYSDATE,
+		#{alert_send},
 		#{baby_no})
 	</insert>
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.ResvmService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.QuestionVO;
@@ -41,11 +42,18 @@ public class ResvmController {
 	// 예약 등록(+문진표, 알림)
 	@ResponseBody
 	@RequestMapping("/ajax/insertReservation")
-	public String questInsert(QuestionVO quVO, Reservation resvVO) {
+	public String questInsert(QuestionVO quVO, Reservation resvVO, AlertVO altVO) {
 		resvmSvc.resvInsert(resvVO);
 		quVO.setQust_no(resvVO.getResv_no());
 		resvmSvc.questInsert(quVO);
+		
 		// 예약한 아기 번호를 외래키로 받아서 alert에 insert
+		altVO.setBaby_no(resvVO.getBaby_no());
+		altVO.setAlert_title(resvVO.getResv_no()+" 예약 완료");
+		String alertCont = resvVO.getResv_date() + " " + resvVO.getResv_time() +" 예약되었습니다.";
+		altVO.setAlert_cont(alertCont);
+		altVO.setAlert_send("호광병원");
+		resvmSvc.alertInsert(altVO);
 		return "redirect:/mobile";
 	}
 }

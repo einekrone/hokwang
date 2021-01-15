@@ -113,17 +113,18 @@
 		}
 	</script>
 <body>
-	#{kemail}
-	<div class="row mb-2 mb-xl-3">
-		<div class="col-auto ml-auto text-right mt-n1">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-				</ol>
-				<input type="button" class="btn btn-primary btn-sm"
-					value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
-			</nav>
+	<c:if test="${parent_vo != null }">
+		<div class="row mb-2 mb-xl-3">
+			<div class="col-auto ml-auto text-right mt-n1">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+					</ol>
+					<input type="button" class="btn btn-primary btn-sm"
+						value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
+				</nav>
+			</div>
 		</div>
-	</div>
+	</c:if>
 
 	<div class="row">
 		<div class="col-xl-6 col-xxl-5 d-flex">

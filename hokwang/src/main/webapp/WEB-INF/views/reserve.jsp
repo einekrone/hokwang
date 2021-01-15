@@ -366,6 +366,7 @@ button {
 				.each(
 						data,
 						function(idx, item) {
+							console.log("@@ "+item.PAY_STATE);
 							if (item.PAY_STATE == 'Y') { // 수납 완료
 								$('<tr>')
 										.append(

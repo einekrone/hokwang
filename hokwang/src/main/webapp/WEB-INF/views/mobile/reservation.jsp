@@ -49,22 +49,7 @@ td {
 					if (chkVal == "V") {
 						$("#resvTypeDiv").css("display", "block");
 						$("#detailCard").css("display", "none");
-						$.ajax({
-							url : 'ajax/vacList',
-							type : 'GET',
-							// 			data : {parent_no: ~~},
-							error : function(xhr, status, msg) {
-								alert("상태값 :" + status + " Http에러메시지 :" + msg);
-							},
-							success : function(data) {
-								$.each(data, function(idx, item) {
-									$("#vacSel").append(
-											$('<option>').attr("value",
-													item.chk_no).html(
-													item.chk_name));
-								});
-							}
-						});
+						vacList();
 
 					} else {
 						$("#resvTypeDiv").css("display", "none");
@@ -98,6 +83,29 @@ td {
 			}
 		});
 	});
+	
+	function vacList() {
+		var babyNo = $('#childSel option:selected').val();
+		console.log("babyNo : "+babyNo);
+		$.ajax({
+			url : 'ajax/vacList',
+			type : 'GET',
+			data : {
+				baby_no : babyNo
+			}
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#vacSel").append(
+							$('<option>').attr("value",
+									item.chk_no).html(
+									item.chk_name));
+				});
+			}
+		});
+	}
 
 	function resvInsert() {
 
@@ -237,7 +245,9 @@ td {
 		$.ajax({
 			url : 'ajax/childList',
 			type : 'GET',
-			// 			data : {parent_no: ~~},
+			data : { 
+				parent_no:"${parent_vo.parent_no}"
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -283,6 +293,13 @@ td {
 				});
 			}
 		});
+		
+		var chkVal = $('input[name="chk_type"]:checked').val();
+
+		if (chkVal == "V") {
+			console.log("아기 변경시");
+			vacList();
+		}
 	}
 </script>
 </head>

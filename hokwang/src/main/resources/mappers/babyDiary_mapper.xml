@@ -34,7 +34,7 @@
 	</select>
 
 	<select id="allreser" resultType="map">
-		select a.resv_date,d.dis_name
+		select a.resv_date,d.dis_name,a.resv_status
 		from reservation a ,DIAGNOSIS b,disease d
 		where a.resv_no=b.resv_no
 		and b.dis_code=d.dis_code

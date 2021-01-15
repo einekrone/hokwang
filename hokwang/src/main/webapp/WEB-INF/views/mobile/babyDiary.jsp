@@ -198,29 +198,12 @@ ul.tabs li.current {
 	//미결제
 	function reserlistResult2(data) {
 		$("#unpayList").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
-							$("<tr>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.resv_date)
-													.html(item.resv_date))
-									.append(
-											$("<td>")
-													.attr("id",
-															'question' + idx)
-													.append(
-															$("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa2').attr(
-															'value',
-															item.resv_no).html(
-															item.resv_no))
-									.appendTo('#unpayList');
+		$.each(data,function(idx, item) {
+				$("<tr>")
+					.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+					.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+					.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
+					.appendTo('#unpayList');
 							if (item.resv_payyn == "N") {
 								console.log(">> " + item.resv_payyn);
 								$("#question" + idx)
@@ -314,7 +297,6 @@ ul.tabs li.current {
 							$('<option>').attr("value", item.baby_no).html(
 									item.baby_name));
 				});
-
 			}
 		});
 	}
@@ -366,61 +348,46 @@ ul.tabs li.current {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				reserlistResult(data)
-				reserlistResult2(data)
+				reserlistResult(data.reserlist)
+				reserlistResult2(data.reserlist)
+				allreserResult(data.allreser)
 				console.log(data);
 			}
 		//만들어야함
 		});
-		$.ajax({//전체예약
-			url : "ajax/allreser",
-			type : "GET",
-			dataType : "JSON",
-			data : {
-				baby_no : babyNo
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				allreserResult(data)
-				console.log(data);
-			}
-		//만들어야함
-		});
+		
 	}
 
 	function allreserResult(data) {
+		var text = "";
+
 		$("#allreser").empty();
 		console.log(data);
-		$
-				.each(
-						data,
-						function(idx, item) {
-							$("<tr id='allreser'>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.RESV_DATE)
-													.html(item.RESV_DATE))
-									.append(
-											$("<td>").attr("id", 'diagsis')
-													.attr('value',
-															item.DIS_NAME)
-													.html(item.DIS_NAME))
-									.append(
-											$("<td>")
-													.attr("id", '')
-													.append(
-															$("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa').attr(
-															'value',
-															item.RESV_NO).html(
-															item.RESV_NO))
-									.appendTo('#allreser');
-						})
+		$.each(data,function(idx, item) {
+			$("<tr id='allreser'>")
+				.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
+				.append($("<td>").attr("id", 'diagsis'+idx).attr('value',item.DIS_NAME).html(item.DIS_NAME))
+				//.append($("<td>").attr("id", 'status'))
+				//.append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+				.append($("<td style='display:none;'>").attr("id", 'aa').attr('value',item.RESV_NO).html(item.RESV_NO))
+				.appendTo('#allreser');
+						
+			if (item.RESV_STATUS == "N") {
+				console.log(">> 1 " + item.RESV_STATUS);
+				text = "";
+				$("#diagsis"+idx).eq(-1).after('<td id="diag_yn">'
+						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" >'
+						+ '</td>');
+			} else if (item.RESV_STATUS == "Y") {
+				console.log(">>2 " + item.RESV_STATUS);
+				text = "진료완료";
+				$("#diagsis"+idx).eq(-1).after(
+						'<td id="diag_yn">' + text + '</td>');
+			} 
+		})
+		/* $("#question" + idx).eq(-1).after('<td id="resv_payyn">'
+						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
+						+ '</td>'); */
 	}
 </script>
 </head>
@@ -491,25 +458,16 @@ ul.tabs li.current {
 											<table class="table text-center">
 												<thead>
 													<tr>
-														<th class="text-center">예약일시1</th>
+														<th class="text-center">예약일시</th>
 														<th class="text-center">병명</th>
-														<th class="text-center">문진표</th>
+														<th class="text-center">&nbsp;</th>
 													</tr>
 												</thead>
 												<tbody id="allreser"></tbody>
 											</table>
 										</div>
 										<br>
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">진료일시</th>
-													<th class="text-center">병명</th>
-													<th class="text-center">문진표</th>
-												</tr>
-											</thead>
-											<tbody id="allDaigno"></tbody>
-										</table>
+										
 									</div>
 
 									<!-- 예약/진료 => 결제완료탭  -->

@@ -57,5 +57,13 @@ public class MainHeaderController {
 		return false;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/checkEmail")
+	public boolean checkEmail(ParentVO vo) {
+		if(dao.checkEmail(vo) == null) {
+			return true;
+		}
+		return false;
+	}
 	
 }

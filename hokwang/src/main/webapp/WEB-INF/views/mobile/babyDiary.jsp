@@ -77,11 +77,17 @@ ul.tabs li.current {
 }
 </style>
 <script type="text/javascript">
+	var d;
+	var today;
 	function payment() {
 		location.href = "pay";
 	}
 
 	$(function() {
+		d = new Date();
+
+		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)
+				+ '-' + ('0' + d.getDate()).slice(-2);
 		//checkuphist();
 		//reserlist();
 		question1();
@@ -97,13 +103,125 @@ ul.tabs li.current {
 
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
-		})
+		});
+
+		// 예약 취소/수정 모달 S
+		$("input[name=chk_type]").on("click", function() {
+			var chkVal = $('input[name="chk_type"]:checked').val();
+
+			if (chkVal == "V") {
+				$("#resvTypeDiv").css("display", "block");
+				$("#detailCard").css("display", "none");
+				vacList();
+
+			} else {
+				$("#resvTypeDiv").css("display", "none");
+				$("#detailCard").css("display", "block");
+			}
+		});
+
+		$(".selector").on("change", function() {
+			resvList($(".selector").val());
+		});
+
+		$("body").on("click", "#modi", function() {
+			var babyNo = $(this).data("baby");
+			$("#baby_no").val(babyNo);
+		});
+
+		function resvList(resvDate) {
+			$.ajax({
+				//	 			url : 'ajax/resvList',
+				url : 'ajax/getCntTimeList',
+				type : 'GET',
+				data : {
+					resv_date : resvDate
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : resvListResult
+			});
+		}
+
+		function resvListResult(data) {
+			var arrNumber = [ '09:00', '09:30', '10:00', '10:30', '11:00',
+					'11:30', '13:30', '14:00', '14:30', '15:00', '15:30',
+					'16:00', '16:30', '17:00', '17:30' ];
+			$("#resvTime").empty();
+
+			$.each(data, function(idx, item) {
+				var time = item.RESV_TIME;
+				var chgti;
+
+				for (var i = 0; i < arrNumber.length; i++) {
+					chgti = Number(arrNumber[i].substr(0, 2));
+					if (arrNumber[i] == item.RESV_TIME) {
+						if (item.CNT > 3) {
+							arrNumber.splice(i, 1, "");
+						}
+					}
+
+					// 현재 이전 시간대 예약 불가
+					if ('${resvType}' == 'T') { // 당일 예약
+						if (today == $("input[name='resv_date']").val()) {
+							if (chgti <= d.getHours()) {
+								arrNumber.splice(i, 1, "");
+							}
+						}
+					} else {
+						if (today == $(".selector").val()) {
+							if (chgti <= d.getHours()) {
+								arrNumber.splice(i, 1, "");
+							}
+						}
+					}
+				}
+			});
+
+			var chk = false;
+			for (var i = 0; i < arrNumber.length; i++) {
+				if (arrNumber[i] != "" && arrNumber[i] != null) {
+					$("#resvTime")
+							.append(
+									'<label class="form-check" style="margin:2px;"><input name="resv_time" type="radio" class="form-check-input" value="'+arrNumber[i]+'"><span class="form-check-label">'
+											+ arrNumber[i] + '</span></label>');
+					chk = true;
+				}
+			}
+			if(!chk) {
+				$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
+			}
+		}
+		// 예약 취소/수정 모달 E
 	});
 </script>
 <script type="text/javascript">
 	
 </script>
 <script type="text/javascript">
+	function vacList() {
+		$("#vacSel").empty();
+		var babyNo = $("#baby_no").val();
+		console.log("babyNo : " + babyNo);
+		$.ajax({
+			url : 'ajax/vacList',
+			type : 'GET',
+			data : {
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#vacSel").append(
+							$('<option>').attr("value", item.chk_no).html(
+									item.chk_name));
+				});
+			}
+		});
+	}
 	function question1() {
 		console.log("문진표 클릭/////////////////");
 
@@ -184,7 +302,7 @@ ul.tabs li.current {
 											$("<td>")
 													.attr("id", '')
 													.append(
-															$("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
+															$("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
 									.append(
 											$("<td style='display:none;'>")
 													.attr("id", 'aa1').attr(
@@ -745,6 +863,7 @@ ul.tabs li.current {
 					</button>
 				</div>
 				<div class="modal-body">
+					<input id="baby_no" type="hidden" value="">
 					<form id="frm" name="frm">
 						<div class="card">
 							<div class="card-body">
@@ -774,7 +893,7 @@ ul.tabs li.current {
 							</div>
 							<div class="card-body d-flex">
 								<input type="text" class="selector" placeholder="날짜를 선택하세요."
-									style="margin-left: 30%; text-align: center;" name="resv_date"
+									style="margin-left: 20%; text-align: center;" name="resv_date"
 									class="" /> <a class="input-button" title="toggle" data-toggle><i
 									class="icon-calendar"></i></a> ​
 

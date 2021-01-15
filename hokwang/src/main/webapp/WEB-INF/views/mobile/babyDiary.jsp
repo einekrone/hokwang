@@ -78,6 +78,9 @@ ul.tabs li.current {
 		//checkuphist();
 		reserlist();
 		aa();
+		//chgBaby();
+		babyList();
+		
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -210,6 +213,71 @@ ul.tabs li.current {
 
 		})/* end of ajax  */
 	}
+	
+	
+	function babyList() {
+		$.ajax({
+			url : 'ajax/getBabyInfo',
+			type : 'GET',
+			data : { 
+				parent_no:"${parent_vo.parent_no}"
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				/* $.each(data, function(idx, item) {
+							$('#baby-name').children().attr("value", item.baby_no).html(
+									item.baby_name);
+				}); */
+				$.each(data, function(idx, item) {
+					$("#baby-name").append(
+							$('<option>').attr("value", item.baby_name).html(
+									item.baby_name));
+				});
+			
+			}
+		});
+	}
+	
+	
+	function chgBaby(){
+		var babyNo = $("#baby-name option:selected").val();
+		var babyNo2 = $("#baby-name option:selected").text();
+		console.log("아기 번호 : "+babyNo2);
+		$.ajax({
+			url:'ajax/getBabyInfo2',
+			type:'GET',
+			data :{
+				baby_name : babyNo,
+				parent_no : "${parent_vo.parent_no}"
+			},
+			error:function(xhr,status,msg){
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data){
+				console.log(data);
+				$.each(data, function(idx, item) {
+					$("#babyInfo").empty();
+
+					 $("#babyInfo").append(
+							$('<p>').html(
+									'이름 : ' + item.baby_name + " ("
+											+ item.baby_blood + "형, "
+											+ item.baby_gender + ")")).append(
+							$('<p>').html(
+									'주민번호 : ' + item.baby_regno1 + '-'
+											+ item.baby_regno2)).append(
+							$('<p>').html('방문 여부 : ' + item.baby_visit));
+ 
+					$("#babyImg").attr(
+							"src",
+							"${pageContext.request.contextPath}/resources/img/"
+									+ item.baby_pic);
+				});
+			}
+		})
+	}
 </script>
 </head>
 <body>
@@ -218,14 +286,12 @@ ul.tabs li.current {
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="form-group">
-					<select class="form-control" name="baby_name">
+					<select class="form-control" name="baby_name" id="baby-name" onchange="chgBaby()">
 						<option value="" selected>==자녀선택==</option>
 					</select>
 				</div>
 				<div style="align-self: center;">
-					<img
-						src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg"
-						alt="Christina Mason" class="img-fluid rounded-circle mb-2"
+					<img id="babyImg" class="img-fluid rounded-circle mb-2"
 						width="120" height="120" />
 				</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
@@ -233,15 +299,7 @@ ul.tabs li.current {
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div>
-					<h5 class="card-title mb-0">이름</h5>
-					<br> <br>
-					<h5 class="card-title mb-0">생년월일</h5>
-					<br> <br>
-					<h5 class="card-title mb-0">나이</h5>
-					<br> <br>
-					<h5 class="card-title mb-0">혈액형</h5>
-				</div>
+				<div id="babyInfo" style="text-align: left;"></div>
 			</div>
 		</div>
 	</div>

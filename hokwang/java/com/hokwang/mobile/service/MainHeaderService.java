@@ -8,5 +8,5 @@ public interface MainHeaderService {
 	public void registerAction(ParentVO vo);
 	public int alertCntAction(ParentVO vo);
 	public ParentVO checkId(ParentVO vo);
-
+	public ParentVO checkEmail(ParentVO vo);
 }

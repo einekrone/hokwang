@@ -10,6 +10,7 @@ import com.hokwang.dao.DiagMapper;
 import com.hokwang.service.DiagService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
+import com.hokwang.vo.CheckHistVO;
 import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
@@ -118,9 +119,21 @@ public class DiagServiceImpl implements DiagService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getInjection(Reservation vo) {
+	public Map<String, Object> getInjection(Reservation vo) {
 
 		return service.getInjection(vo);
+	}
+
+	@Override
+	public int insertInjection(CheckHistVO vo) {
+
+		return service.insertInjection(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCheckHist(Reservation vo) {
+		
+		return service.getCheckHist(vo);
 	}
 
 }

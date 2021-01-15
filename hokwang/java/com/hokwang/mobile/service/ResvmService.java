@@ -10,7 +10,7 @@ import com.hokwang.vo.Reservation;
 public interface ResvmService {
 
 	List<BabyVO> getChildList(BabyVO vo);
-	List<CheckupVO> getVacList();
+	List<CheckupVO> getVacList(BabyVO vo);
 	void questInsert(QuestionVO quVO);
 	int resvInsert(Reservation resvVO);
 }

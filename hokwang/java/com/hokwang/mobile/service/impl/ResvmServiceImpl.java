@@ -22,8 +22,8 @@ public class ResvmServiceImpl implements ResvmService {
 	}
 
 	@Override
-	public List<CheckupVO> getVacList() {
-		return resvmDao.getVacList();
+	public List<CheckupVO> getVacList(BabyVO vo) {
+		return resvmDao.getVacList(vo);
 	}
 
 	@Override

@@ -34,4 +34,9 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 		return dao.checkId(vo);
 	}
 	
+	@Override
+	public ParentVO checkEmail(ParentVO vo) {
+		return dao.checkEmail(vo);
+	}
+	
 }

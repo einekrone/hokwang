@@ -24,33 +24,33 @@
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 <!-- CSS only -->
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
- --><script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+ -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		changeMenu();
-		//alertCntAction();
+		alertCntAction();
 	});
-	/*
-	function alertCntAction(){
+
+	function alertCntAction() {
 		$.ajax({
 			url : "ajax/alertCntAction",
 			type : 'GET',
 			dataType : 'json',
 			data : {
-				parent_no : "${vo.parent_no}"
+				parent_no : "${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-
+				$('#alertCnt').text(data);
 			}
 		})
 	}
-	
-	 */
 
 	function changeMenu() {
 		console.log("changeMenu");
@@ -80,20 +80,21 @@
 							<span class="align-middle">홈</span>
 					</a></li>
 
-					<li class="sidebar-item"><a class="sidebar-link"
-						href="mmypage"> <i class="align-middle" data-feather="user"></i>
-							<span class="align-middle">마이페이지</span>
-					</a></li>
-					<li class="sidebar-item"><a class="sidebar-link" href="child">
-							<i class="align-middle" data-feather="book"></i> <span
-							class="align-middle">자녀 관리</span>
-					</a></li>
+					<c:if test="${parent_vo != null }">
+						<li class="sidebar-item"><a class="sidebar-link"
+							href="mmypage"> <i class="align-middle" data-feather="user"></i>
+								<span class="align-middle">마이페이지</span>
+						</a></li>
+						<li class="sidebar-item"><a class="sidebar-link" href="child">
+								<i class="align-middle" data-feather="book"></i> <span
+								class="align-middle">자녀 관리</span>
+						</a></li>
 
-					<li class="sidebar-item"><a class="sidebar-link" href="pay">
-							<i class="align-middle" data-feather="credit-card"></i> <span
-							class="align-middle">결제 관리</span>
-					</a></li>
-
+						<li class="sidebar-item"><a class="sidebar-link" href="pay">
+								<i class="align-middle" data-feather="credit-card"></i> <span
+								class="align-middle">결제 관리</span>
+						</a></li>
+					</c:if>
 					<li class="sidebar-item"><a class="sidebar-link" href="doc">
 							<i class="align-middle" data-feather="book"></i> <span
 							class="align-middle">증명서 관리</span>
@@ -166,8 +167,9 @@
 								<div
 									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
 									aria-labelledby="alertsDropdown">
-									<div class="dropdown-menu-header">4 New Notifications</div>
+									<!-- <div class="dropdown-menu-header">4 New Notifications</div> -->
 									<div class="list-group">
+										<!-- 알림 출력부분 -->
 										<a href="#" class="list-group-item">
 											<div class="row g-0 align-items-center">
 												<div class="col-2">

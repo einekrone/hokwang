@@ -31,8 +31,8 @@ public class ResvmController {
 	// 예약 자녀 리스트
 	@ResponseBody
 	@RequestMapping(value = "/ajax/vacList")
-	public List<CheckupVO> getVacList( Model model) {
-		List<CheckupVO> list = resvmSvc.getVacList();
+	public List<CheckupVO> getVacList(BabyVO vo, Model model) {
+		List<CheckupVO> list = resvmSvc.getVacList(vo);
 		model.addAttribute("vacList", list);
 		return list;
 	}

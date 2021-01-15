@@ -17,6 +17,14 @@
 	</select>
 	<select id="getVacList" resultType="checkupVO">
 		SELECT * FROM CHECKUP
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				CHK_NO NOT IN(SELECT H.CHK_NO
+				FROM CHECKHIST H, RESERVATION R
+				WHERE R.BABY_NO = #{baby_no})
+			</if>
+		</where>
+		ORDER BY CHK_NO
 	</select>
 
 	<!-- SELECT COUNT(RESV_TIME), RESV_TIME -->
@@ -47,7 +55,8 @@
 			, resv_memo
 		</if>
 		, baby_no, chk_no, chk_type, resv_type)
-		VALUES (#{resv_no}, #{resv_date}, #{resv_time}
+		VALUES (#{resv_no},
+		#{resv_date}, #{resv_time}
 		<if test="resv_detail != null and resv_detail != ''">
 			, #{resv_detail}
 		</if>

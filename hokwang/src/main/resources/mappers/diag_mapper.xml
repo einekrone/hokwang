@@ -224,4 +224,21 @@
     	AND R.BABY_NO = #{baby_no}
     	ORDER BY H.HIST_DATE, C.CHK_FIRST
 	</select>
+	<insert id="insertPayment" parameterType="PaymentVO">
+		<selectKey order="BEFORE" keyProperty="pay_no" resultType="String">
+			SELECT NVL(MAX(PAY_NO),0)+1 FROM PAYMENT
+		</selectKey>
+			INSERT INTO PAYMENT(PAY_NO,PAY_PRICE,RESV_NO)
+			VALUES(#{pay_no},#{pay_price},#{resv_no})
+	</insert>
+	
+	<select id="getImages" resultType="map" parameterType="images">
+		SELECT * FROM IMAGES
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				RESV_NO = #{resv_no}
+			</if>
+		</where>
+		ORDER BY IMG_DATE
+	</select>
 </mapper>

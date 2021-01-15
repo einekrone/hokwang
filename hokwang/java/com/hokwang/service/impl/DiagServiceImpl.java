@@ -15,7 +15,9 @@ import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.EmployeeVO;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
@@ -134,6 +136,18 @@ public class DiagServiceImpl implements DiagService{
 	public List<Map<String, Object>> getCheckHist(Reservation vo) {
 		
 		return service.getCheckHist(vo);
+	}
+
+	@Override
+	public int insertPayment(PaymentVO vo) {
+		
+		return service.insertPayment(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> getImages(Images vo) {
+		
+		return service.getImages(vo);
 	}
 
 }

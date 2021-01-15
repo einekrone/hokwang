@@ -37,6 +37,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 		
 		var dis_name =""; //질병이름
 		var dis_comm = ""; //질병상세
+		var pay_price = ""; //질병 가격
+		
 		var resv_no = ""; //예약번호
 		var chk_type = ""; //진료타입
 		var chk_no = "";
@@ -66,8 +68,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 		//진료종료 버튼클릭
 		$("#diagEnd").on('click',function(){
 			diagEndInsert();
+			insertPayment();
 		});
-		
+		$("#prePhoto").on('click',function(){
+			getImages();
+		})
 	});
 	function openPrescript(){
 		window.open("${pageContext.request.contextPath}/Prescript.jsp", "문진표", "width=1500, height=900");
@@ -79,6 +84,54 @@ div.dataTables_wrapper div.dataTables_paginate {
 		$("#diag5").css("display","none");
 		$("#diag7").css("display","none");
 	}
+	
+	function getImages() {
+			$.ajax({
+				url : 'ajax/getImages',
+				type : 'GET',
+				data : {
+					resv_no : resv_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : getImagesResult
+			});
+	}
+
+	function getImagesResult(data) {
+		$("#lastImagesList").empty();
+		console.log(data);
+		$.each(data, function(idx, item) {
+			var img = document.createElement("img");
+			img.setAttribute("src",
+					"${pageContext.request.contextPath}/resources/img/"
+							+ item.IMG_ADDR);
+			img.setAttribute('style', 'margin:0 20px;');
+			document.querySelector("#lastImagesList").appendChild(img);
+		});
+	}
+	
+	
+	 //약품 인설트
+	 function insertPayment(){
+		console.log(resv_no);
+		console.log(pay_price);
+		 $.ajax({
+				url : "ajax/insertPayment",
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					pay_price : pay_price,
+					resv_no : resv_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : alert("인설트 성공")
+			});
+	 }  
+
 	
 	//예방접종 리스트 뿌려줌
 	function getCheckHist(){
@@ -126,6 +179,7 @@ div.dataTables_wrapper div.dataTables_paginate {
              success: function(result){
             	 if (confirm('상기 예방접종을 등록하시겠습니까?')) {
             		 getCheckHist();
+                	 insertPayment();
                 	 UnChange();
                 	 $(".btn_injectInsert").hide();
                 	 alert("예방접종 등록 완료 되었습니다.")
@@ -235,6 +289,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 					$("<tr>").append($('<td>').html(item.dis_code))
 							 .append($('<td>').html(item.dis_name))
 							 .append($('<td>').html(item.dis_desc))
+							 .append($('<td style="display:none;">').html(item.dis_price))
 							 .appendTo("#InsertDisease");
 			});
 	 }
@@ -426,11 +481,18 @@ div.dataTables_wrapper div.dataTables_paginate {
 				$("<tr>").append($('<td style="display:none;">').html(td.eq(0).text()))
 						 .append($('<td>').html(td.eq(1).text()))
 					     .append($('<td>').html(td.eq(2).text()))
+					     .append($('<td style="display:none;">').html(td.eq(3).text()))
 				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" style="width:50px;">X</button></td>'))
 				 .appendTo($('#insertDiagLast'));
 			
 				 dis_name = td.eq(1).text();
 				 dis_comm = td.eq(2).text();
+				 pay_price = td.eq(3).text();
+				 
+				 console.log(dis_name);
+				 console.log(dis_comm);
+				 console.log(pay_price);
+				 
 			});
 	 }
 	 
@@ -721,6 +783,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 	function getInjectionResult(data){
 		$("#injection").empty();
 		console.log(data);
+		pay_price = data.CHK_PRICE;
+		console.log(pay_price);
 			$("#injection").append($("<p>").html('질병명 : ' + data.CHK_DIS))
 						   .append($("<p>").html('접종백신명(차수) : ' +data.CHK_NAME))	
 					 	   .append($("<p>").html('접종 제품명  : ' + data.CHK_PRO))
@@ -812,6 +876,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							</table>
 						</div>
 						<div id="specValue" style="display:none;">
+							<input type="number" id="NN" value="N" style="display:none;">
 							<input type="text" id="Ing" value="I" style="display:none;">
 							<input type="text" id="End" value="Y" style="display:none;">
 						</div>
@@ -1232,6 +1297,34 @@ div.dataTables_wrapper div.dataTables_paginate {
 				</div>
 			</div>
 		</div>
+	
+	
+		<div class="modal fade" id="imagesModal">
+		 <div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 550px;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">환자 사진</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				
+				<div class="modal-body" style="min-height: 100px;">
+						<div id="lastImagesList"
+							style="max-height: 640px; overflow-y: auto; width: 100%;"></div>
+						<div class="modal-footer text-center"
+							style="justify-content: center !important;">
+							<!-- disabled -->
+							<button type="button" style="margin: 0 25px;" id="imgCBtn"
+								data-dismiss="modal">취소</button>
+						</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	
 </body>
 </html>

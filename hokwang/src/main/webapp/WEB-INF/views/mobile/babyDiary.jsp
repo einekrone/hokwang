@@ -74,10 +74,15 @@ ul.tabs li.current {
 }
 </style>
 <script type="text/javascript">
+function payment(){
+	   location.href="pay";
+	}
+
 	$(function() {
 		//checkuphist();
 		//reserlist();
-		aa();
+		question1();
+		question2();
 		//chgBaby();
 		babyList();
 		
@@ -96,37 +101,42 @@ ul.tabs li.current {
 	
 </script>
 <script type="text/javascript">
-	function reserlist() {
-		var babyNo = $("#baby-name option:selected").val();
-		var checkuplist = [];
-		var reserlist = [];
-		console.log("예약리스트");
-		console.log(babyNo);
-		
-		//console.log("td 번호 : "+td);
-		$.ajax({
-			url : "ajax/reserlist",
-			type : "GET",
-			dataType : "JSON",
-			data : {
-				list:reserlist
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				reserlistResult(data)
-				console.log(data);
-			}
-		//만들어야함
-		});/* end of ajax */
-	}/* end of function */
-	function aa() {
+	
+	function question1() {
 		console.log("문진표 클릭/////////////////");
 		
-		$('#reser2').on("click", "#que", function()  { 
+		$('#reser2').on("click", "#que1", function()  { 
 			var modal = $('#question');
-			var resvNo =  $(event.target).parent().siblings("#aa").text();
+			var resvNo =  $(event.target).parent().siblings("#aa1").text();
+			console.log("aaaaaaaaaaa"+resvNo);
+			$.ajax({
+				url : "ajax/question",
+				type : "GET",
+				dataType : "JSON",
+				data : {
+					qust_no : resvNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log(data);
+					
+					modal.find($('input[name=Ra1]')).val([data[0].a1]);
+					modal.find($('input[name=Ra2]')).val([data[0].a2]);
+					modal.find($('input[name=Ra3]')).val([data[0].a3]);
+					modal.find($('input[name=Ra4]')).val([data[0].a4]);
+					//modal.modal('show');
+				}
+			});
+		});
+
+	}
+	function question2() {
+		
+		$('#unpayList').on("click", "#que2", function()  { 
+			var modal = $('#question');
+			var resvNo =  $(event.target).parent().siblings("#aa2").text();
 			console.log("aaaaaaaaaaa"+resvNo);
 			$.ajax({
 				url : "ajax/question",
@@ -156,25 +166,38 @@ ul.tabs li.current {
 		$.each(data,function(idx, item) {
 							$("<tr id='a2'>")
 							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='que1' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
-							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
+							.append($("<td style='display:none;'>").attr("id",'aa1').attr('value',item.resv_no).html(item.resv_no))
 							.appendTo('#reser2');
 						})
 	}
 	
-	function reserlistResult2(data) {
-		$("#reser2").empty();
-		$.each(data,function(idx, item) {
-							$("<tr id='unpayList'>")
-							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
-							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
-							.appendTo('#unpayList');
-						})
-	}
+	//미결제
+	   function reserlistResult2(data) {
+	      $("#unpayList").empty();
+	      $.each(data,function(idx, item) {
+	                     $("<tr>")
+	                     .append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
+	                     .append($("<td>").attr("id",'question'+idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+	                     .append($("<td style='display:none;'>").attr("id",'aa2').attr('value',item.resv_no).html(item.resv_no))
+	                     .appendTo('#unpayList');
+	                     if (item.resv_payyn == "N") {
+	                        console.log(">> " + item.resv_payyn);
+	                          $("#question"+idx).eq(-1).after(
+	                              '<td id="resv_payyn">' + '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">' + '</td>');
+	                     } else if (item.resv_payyn == "Y") {
+	                        console.log(">> " + item.resv_payyn);
+	                        text = "결제 완료";
+	                        $("#question"+idx).eq(-1).after(
+	                              '<td id="resv_payyn">' + text + '</td>');
+	                     }
+	                     
+	                  })
+	   };
 
+	
+	
 	function checkuphist() {//접종 리스트
 		var checkuplist = [];
 
@@ -255,7 +278,7 @@ ul.tabs li.current {
 	}
 	
 	
-	function chgBaby(){
+	function chgBaby(){//체인지 아기
 		var babyNo = $("#baby-name option:selected").val();
 		var babyNo2 = $("#baby-name option:selected").text();
 		console.log("아기 번호 : "+babyNo);
@@ -291,23 +314,52 @@ ul.tabs li.current {
 				});
 			}
 		})
-		
-		$.ajax({
+			$.ajax({//예약
 			url : "ajax/reserlist",
 			type : "GET",
 			dataType : "JSON",
 			data : {
-				baby_no:babyNo
+				baby_no : babyNo
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
 				reserlistResult(data)
+				reserlistResult2(data)
 				console.log(data);
 			}
 		//만들어야함
 		});
+		$.ajax({//전체예약
+			url : "ajax/allreser",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				allreserResult(data)
+				console.log(data);
+			}
+		//만들어야함
+		}); 
+	}
+	
+	function allreserResult(data) {
+		$("#allreser").empty();
+		console.log(data);
+		$.each(data,function(idx, item) {
+							$("<tr id='allreser'>")
+							.append($("<td>").attr("id",'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
+							.append($("<td>").attr("id",'diagsis').attr('value',item.DIS_NAME).html(item.DIS_NAME))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.RESV_NO).html(item.RESV_NO))
+							.appendTo('#allreser');
+						})
 	}
 	
 	
@@ -336,6 +388,7 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
+	
 	<!-- 2 -->
 	<div class="row">
 		<div class="col-15 col-lg-8 col-xxl-7 d-flex">
@@ -385,19 +438,19 @@ ul.tabs li.current {
 														<th class="text-center">문진표</th>
 													</tr>
 												</thead>
-												<tbody id="#"></tbody>
+												<tbody id="allreser"></tbody>
 											</table>
 										</div>
 										<br>
 										<table class="table text-center">
 											<thead>
 												<tr>
-													<th class="text-center">예약일시</th>
+													<th class="text-center">진료일시</th>
 													<th class="text-center">병명</th>
 													<th class="text-center">문진표</th>
 												</tr>
 											</thead>
-											<tbody id="#"></tbody>
+											<tbody id="allDaigno"></tbody>
 										</table>
 									</div>
 

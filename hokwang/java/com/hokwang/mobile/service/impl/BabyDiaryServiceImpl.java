@@ -1,6 +1,7 @@
 package com.hokwang.mobile.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public List<BabyVO> getBabyinfo(BabyVO vo) {
 		// TODO Auto-generated method stub
 		return dao.getBabyinfo(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> allreser(Reservation vo) {
+		// TODO Auto-generated method stub
+		return dao.allreser(vo);
 	}
 	
 	

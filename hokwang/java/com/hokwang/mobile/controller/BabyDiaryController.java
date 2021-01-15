@@ -1,6 +1,8 @@
 package com.hokwang.mobile.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.BabyDiaryService;
 import com.hokwang.vo.BabyVO;
-import com.hokwang.vo.ParentVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -47,5 +48,11 @@ public class BabyDiaryController {
 		return service.getBabyinfo(vo);
 		
 	}
-	
+	@ResponseBody
+	@RequestMapping("/ajax/allreser")
+	public List<Map<String,Object>> getallreser(Reservation vo){
+		return service.allreser(vo);
+		
+	}
+
 }

@@ -15,6 +15,7 @@
 			</if>
 		</where>
 	</select>
+	
 	<select id="getVacList" resultType="checkupVO">
 		SELECT * FROM CHECKUP
 		<where>
@@ -28,11 +29,14 @@
 		ORDER BY CHK_NO
 	</select>
 
-	<!-- SELECT COUNT(RESV_TIME), RESV_TIME -->
-	<!-- FROM RESERVATION -->
-	<!-- WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = '2021-01-12' -->
-	<!-- GROUP BY RESV_TIME -->
-	<!-- ORDER BY RESV_TIME; -->
+	<select id="getCntTimeList" resultType="map" parameterType="reservation">
+		SELECT COUNT(RESV_TIME) CNT,
+		RESV_TIME
+		FROM RESERVATION
+		WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
+		GROUP BY RESV_TIME
+		ORDER BY 2
+	</select>
 
 	<insert id="alertInsert" parameterType="alertVO">
 		<selectKey order="BEFORE" keyProperty="alert_no"

@@ -1,6 +1,7 @@
 package com.hokwang.mobile.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,11 @@ public class ResvmServiceImpl implements ResvmService {
 	@Override
 	public int alertInsert(AlertVO vo) {
 		return resvmDao.alertInsert(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCntTimeList(Reservation vo) {
+		return resvmDao.getCntTimeList(vo);
 	}
 
 }

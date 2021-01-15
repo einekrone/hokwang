@@ -6,7 +6,7 @@
 	<select id="question" resultType="questionVO">
 		select * from question 
 		<where>
-		 QUST_NO=#{qust_no} <!-- #{resv_no} -->
+		 QUST_NO=#{qust_no}
 		</where>
 	</select>
 	

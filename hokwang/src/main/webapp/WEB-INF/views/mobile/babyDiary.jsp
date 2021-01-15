@@ -232,7 +232,7 @@ ul.tabs li.current {
 				}); */
 				$.each(data, function(idx, item) {
 					$("#baby-name").append(
-							$('<option>').attr("value", item.baby_no).html(
+							$('<option>').attr("value", item.baby_name).html(
 									item.baby_name));
 				});
 			
@@ -246,10 +246,10 @@ ul.tabs li.current {
 		var babyNo2 = $("#baby-name option:selected").text();
 		console.log("아기 번호 : "+babyNo2);
 		$.ajax({
-			url:'ajax/getBabyInfo',
+			url:'ajax/getBabyInfo2',
 			type:'GET',
 			data :{
-				baby_no : babyNo,
+				baby_name : babyNo,
 				parent_no : "${parent_vo.parent_no}"
 			},
 			error:function(xhr,status,msg){

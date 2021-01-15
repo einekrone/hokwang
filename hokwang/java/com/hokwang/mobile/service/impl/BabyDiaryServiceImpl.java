@@ -32,6 +32,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 		// TODO Auto-generated method stub
 		return dao.getBabyList(vo);
 	}
+
+	@Override
+	public List<BabyVO> getBabyinfo(BabyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.getBabyinfo(vo);
+	}
 	
 	
 }

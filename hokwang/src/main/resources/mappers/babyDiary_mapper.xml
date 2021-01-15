@@ -22,4 +22,9 @@
 	from baby
 	where  parent_no=#{parent_no}
 	</select>
+		<select id="getBabyinfo" resultType="BabyVO">
+	select *
+	from baby
+	where  parent_no=#{parent_no} and baby_name=#{baby_name}
+	</select>
 </mapper>

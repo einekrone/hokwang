@@ -6,25 +6,29 @@
 	<select id="question" resultType="questionVO">
 		select * from question 
 		<where>
-		 QUST_NO='T21011317001' <!-- #{resv_no} -->
+		 QUST_NO=#{qust_no}
 		</where>
 	</select>
 	
 	<select id="reserlist" resultType="reservation">
-		select a.*, b.* from reservation a ,QUESTION b 
-		<where>
-		 a.resv_no=b.qust_no and baby_no=1 and resv_no='T21011317001' <!-- #{resv_no} -->
-		</where>
+		select * from reservation 
+		where baby_no=(select baby_no from baby where baby_no=#{baby_no})
 	</select>
 	
 	<select id="getBabyList" resultType="BabyVO">
 	select *
 	from baby
-	where  parent_no=#{parent_no}
+	where parent_no=#{parent_no}
 	</select>
 		<select id="getBabyinfo" resultType="BabyVO">
 	select *
 	from baby
-	where  parent_no=#{parent_no} and baby_name=#{baby_name}
+	where  parent_no=#{parent_no} and baby_no=#{baby_no}
+	</select>
+	
+	<select id="unpayList" resultType="reservation">
+		select *
+		from reservation
+		where resv_no=#{resv_no}
 	</select>
 </mapper>

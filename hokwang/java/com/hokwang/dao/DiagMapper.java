@@ -9,7 +9,9 @@ import com.hokwang.vo.CheckHistVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.EmployeeVO;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
 
@@ -38,4 +40,8 @@ public interface DiagMapper {
 	public Map<String, Object> getInjection(Reservation vo);
 	public int insertInjection(CheckHistVO vo);
 	public List<Map<String, Object>> getCheckHist(Reservation vo);
+	
+	public int insertPayment(PaymentVO vo);
+	
+	public List<Map<String, Object>> getImages(Images vo);
 }

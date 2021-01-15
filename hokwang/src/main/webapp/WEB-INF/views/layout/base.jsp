@@ -89,7 +89,7 @@
 								<div class="diagMenu" style="float: right; display: none;">
 									<button id="diagEnd">진료종료</button>
 									<button id="prescript">문진표</button>
-									<button id="prePhoto">사진</button>
+									<button id="prePhoto" type="button" data-toggle="modal" data-target="#imagesModal" data-num="resv_no">사진</button>
 								</div>
 					</ul>
 				</div>

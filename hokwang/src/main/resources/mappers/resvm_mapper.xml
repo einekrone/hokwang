@@ -35,6 +35,10 @@
 	<!-- ORDER BY RESV_TIME; -->
 
 	<insert id="alertInsert" parameterType="alertVO">
+		<selectKey order="BEFORE" keyProperty="alert_no"
+			resultType="String">
+			SELECT NVL(MAX(ALERT_NO),0)+1 FROM ALERT
+		</selectKey>
 		INSERT INTO ALERT
 		VALUES
 		(#{alert_no},

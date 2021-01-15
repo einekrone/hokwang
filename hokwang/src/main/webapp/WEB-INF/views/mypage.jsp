@@ -249,11 +249,36 @@
 		AllCntMsg();
 		//ClickTable()
 		//deleteMsg();
-		 
+		 oneSales();
 
 	});
 
-	
+	/* allSales() */
+	function oneSales() {
+		$.ajax({
+			url : "ajax/oneSales",
+			type : "GET",
+			dataType : "json",
+			data: {
+				emp_room:"${emp_vo.emp_room}"
+			}
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				if (data.day == null) {
+					data.day = 0;
+				}
+				if (data.resv == null) {
+					data.resv = 0;
+				}
+
+				$('#daySales').append(data.day).append('원');
+				$('#countResv').append(data.resv).append('건');
+			}
+
+		});
+	} 
 	
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
@@ -284,30 +309,7 @@
 		});
 	}//end of function (updateInf)
 
-	
-	
-	/* function updateImg() {
-		$('#btnUpdateImg').on("click", function() {
-			var inputFile = $('input[name="uf"]')
-			$.ajax({
-				url : "ajax/updateImg",
-				type : 'POST',
-				dataType : 'json',
-				data : {
-					emp_tel : $('#tel').val(),
-					emp_addr : $('#addr').val(),
-					//emp_profile : inputFile
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					alert("변경되었습니다.");
-				}
-			})
-		});
-	}//end of function (updateImg) */
-	
+
 	function updateImg() {
 	      //수정 버튼 클릭
 
@@ -984,7 +986,50 @@
 									data-backdrop="static" style="font-size: 15px"> 프로필 변경 </a>
 							</div>
 						</div>
-						<div class="col-xl-6 col-md-6 mb-4 card"></div>
+						<div class="col-xl-6 col-md-6 mb-4 card">
+						
+									<!-- Earnings (Monthly) Card Example -->
+									
+									<div class="row1" style="margin-top: 40px;">
+										<div class="col-xl-6 col-md-6 mb-4">
+											<div class="card border-left-primary shadow h-100 py-2">
+												<div class="card-body">
+													<div class="row1 no-gutters align-items-center">
+														<div class="col mr-2">
+															<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+																일 매출
+															</div>
+															<div class="h5 mb-0 font-weight-bold text-gray-800"	id="daySales">
+															</div>
+														</div>
+														<div class="col-auto">
+															<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+													<!-- Pending Requests Card Example -->
+										<div class="col-xl-6 col-md-6 mb-4">
+											<div class="card border-left-warning shadow h-100 py-2">
+												<div class="card-body">
+													<div class="row1 no-gutters align-items-center">
+														<div class="col mr-2">
+															<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+																당일 예약 건수
+															</div>
+															<div class="h5 mb-0 font-weight-bold text-gray-800" id="countResv">
+															</div>
+														</div>
+														<div class="col-auto">
+															<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+						</div>
+						</div>
 
 						<div class="card shadow py-2 main_in"
 							style="height: 480px; width: 100%;">

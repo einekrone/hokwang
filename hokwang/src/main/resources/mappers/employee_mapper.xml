@@ -231,10 +231,15 @@
 	</select>
 	<select id="getCountResv" parameterType="employeeVO" resultType="integer">
 		select count(resv_no)
-		from
-		reservation where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
+		from reservation 
+		where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
 	</select>
 
+	<select id="getMonthSales" parameterType="employeeVO" resultType="integer">
+		select sum(pay_price)
+		from reservation 
+		where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
+	</select>
 
 	<select id="getDaySales" parameterType="employeeVO" resultType="integer">
 		<!-- 
@@ -252,4 +257,5 @@
 		AND R.RESV_ROOM = #{emp_room}
 		AND TO_CHAR(R.RESV_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
+	
 </mapper>

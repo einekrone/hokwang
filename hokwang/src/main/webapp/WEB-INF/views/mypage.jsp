@@ -249,7 +249,7 @@
 		AllCntMsg();
 		//ClickTable()
 		//deleteMsg();
-		 oneSales();
+		oneSales();
 
 	});
 
@@ -259,8 +259,8 @@
 			url : "ajax/oneSales",
 			type : "GET",
 			dataType : "json",
-			data: {
-				emp_room:"${emp_vo.emp_room}"
+			data : {
+				emp_room : "${emp_vo.emp_room}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -272,14 +272,17 @@
 				if (data.resv == null) {
 					data.resv = 0;
 				}
-
+				if (data.month == null) {
+					data.month = 0;
+				}
 				$('#daySales').append(data.day).append('원');
 				$('#countResv').append(data.resv).append('건');
+				$('#monthSales').append(data.month).append('원');
 			}
 
 		});
-	} 
-	
+	}
+
 	function updateInf() {
 		$('#btnUpdate').on("click", function() {
 			if ($('#pw').val() == $('#pw2').val()) {
@@ -309,91 +312,104 @@
 		});
 	}//end of function (updateInf)
 
-
 	function updateImg() {
-	      //수정 버튼 클릭
+		//수정 버튼 클릭
 
-	      $('#btnUpdateImg').on('click', function() {
-	         var form = $('#form1')[0];
-	         var formData = new FormData(form);
+		$('#btnUpdateImg').on('click', function() {
+			var form = $('#form1')[0];
+			var formData = new FormData(form);
 
-	         $.ajax({
-	            url : "ajax/updateImg",
-	            dataType : 'json',
-	            enctype: 'multipart/form-data',
-	            data : formData,
-	            method : 'post',
-	            contentType : false,
-	            processData : false,
-	            success : function(data) {
-	               alert("수정되었습니다");
-	               empSelect();		              
-	            },
-	            error : function(xhr, status, message) {
-	               alert(" status: " + status + " er:" + message);
-	            }
-	         });
-	         
-	         $.ajax({
-		            url : "ajax/updateFinal",
-		            dataType : 'json',
-		            data : {
-		            	emp_no : "${emp_vo.emp_no}",
-		            	emp_tel : $('#tel').val(),
-		            	emp_addr : $('#addr').val()
-		            },
-		            method : 'post',
-		            success : function(data) {
-		               empSelect();		              
-		            },
-		            error : function(xhr, status, message) {
-		               alert(" status: " + status + " er:" + message);
-		            }
-		         });
+			$.ajax({
+				url : "ajax/updateImg",
+				dataType : 'json',
+				enctype : 'multipart/form-data',
+				data : formData,
+				method : 'post',
+				contentType : false,
+				processData : false,
+				success : function(data) {
+					alert("수정되었습니다");
+					empSelect();
+				},
+				error : function(xhr, status, message) {
+					alert(" status: " + status + " er:" + message);
+				}
+			});
 
-	      });//수정 버튼 클릭
-	   }//userUpdate
+			$.ajax({
+				url : "ajax/updateFinal",
+				dataType : 'json',
+				data : {
+					emp_no : "${emp_vo.emp_no}",
+					emp_tel : $('#tel').val(),
+					emp_addr : $('#addr').val()
+				},
+				method : 'post',
+				success : function(data) {
+					empSelect();
+				},
+				error : function(xhr, status, message) {
+					alert(" status: " + status + " er:" + message);
+				}
+			});
 
-	
-	
+		});//수정 버튼 클릭
+	}//userUpdate
+
 	function btnModal() {
-		$('#wri_m_bt').on("click", function() {
+		$('#wri_m_bt')
+				.on(
+						"click",
+						function() {
 							console.log("asdasdasd");
-							$.ajax({
-									url : 'ajax/checkTemp',
-									type : 'POST',
-									data : {
-										temp_sendno : "${emp_vo.emp_no}"
-									},
-									error : function(xhr, status, msg) {
-										alert("상태값 :" + status + " Http에러메시지 :" + msg);
-									},
-									success : function(data) {
-										var modal = $('#mailModal');
+							$
+									.ajax({
+										url : 'ajax/checkTemp',
+										type : 'POST',
+										data : {
+											temp_sendno : "${emp_vo.emp_no}"
+										},
+										error : function(xhr, status, msg) {
+											alert("상태값 :" + status
+													+ " Http에러메시지 :" + msg);
+										},
+										success : function(data) {
+											var modal = $('#mailModal');
 											console.log(data);
-										if (data.temp_no != null) {
+											if (data.temp_no != null) {
 												var result = confirm("최근 작성하던 임시 메일이 있습니다.불러올까요?");
 												if (result) {
-													modal.find('#recipient-name').val(data.temp_resvno);
-													modal.find('#message-text').html(data.temp_cont);
+													modal
+															.find(
+																	'#recipient-name')
+															.val(
+																	data.temp_resvno);
+													modal
+															.find(
+																	'#message-text')
+															.html(
+																	data.temp_cont);
 													modal.modal('show');
 												} else {
-													modal.find('#recipient-name').html();
-													modal.find('#message-text').html("");
+													modal.find(
+															'#recipient-name')
+															.html();
+													modal.find('#message-text')
+															.html("");
 													modal.modal('show');
 												}
 											} else {
-													modal.find('#recipient-name').html();
-													modal.find('#message-text').html("");
-													modal.modal('show');
+												modal.find('#recipient-name')
+														.html();
+												modal.find('#message-text')
+														.html("");
+												modal.modal('show');
 											}
 										}
 									}); //endof 
 						})//end of click function
-						}//end of function (btnModal)
+	}//end of function (btnModal)
 
-						
-						
 	function writeTempMsg() {
 		$('#btnTempSave').on("click", function() {
 			console.log("${emp_vo.emp_no}");
@@ -786,28 +802,31 @@
 	} //end of function (AllCntMsg)
 	//사용자 조회 요청
 	function empSelect() {
-			//특정 사용자 조회
-			$.ajax({
-				url:'ajax/selectempl',
-				type:'GET',
-				data : {
-					emp_no : "${emp_vo.emp_no}"
-				},
-				contentType:'application/json;charset=utf-8',
-				dataType:'json',
-				error:function(xhr,status,msg){
-					alert("상태값 :" + status + " Http에러메시지 :"+msg);
-				},
-				success : empSelectResult
-			});
-	
+		//특정 사용자 조회
+		$.ajax({
+			url : 'ajax/selectempl',
+			type : 'GET',
+			data : {
+				emp_no : "${emp_vo.emp_no}"
+			},
+			contentType : 'application/json;charset=utf-8',
+			dataType : 'json',
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : empSelectResult
+		});
+
 	}//userSelect
-	
+
 	//사용자 조회 응답
 	function empSelectResult(emp) {
 		console.log(emp);
-		
-		$('#img').attr('src','${pageContext.request.contextPath}/resources/img/'+emp.emp_profile);
+
+		$('#img').attr(
+				'src',
+				'${pageContext.request.contextPath}/resources/img/'
+						+ emp.emp_profile);
 		$('#regno').val(emp.emp_regno);
 		$('#lic').val(emp.emp_lic);
 		$('#tel').val(emp.emp_tel);
@@ -815,12 +834,11 @@
 		$('#no').val(emp.emp_no);
 		$("#name").val(emp.emp_name);
 		$('#room').val(emp.emp_room);
- 		$('select[name="role"]').val(emp.role).attr("selected", "selected");
-		 
-		
+		$('select[name="role"]').val(emp.role).attr("selected", "selected");
+
 	}//userSelectResult
 	//img view
-	
+
 	$(function() {
 
 		var fileTarget = $('.file-upload .upload-hidden');
@@ -830,12 +848,13 @@
 					if (window.FileReader) { // modern browser
 						var filename = $(this)[0].files[0].name;
 					} else { // old IE
-						var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+						var filename = $(this).val().split('/').pop().split(
+								'\\').pop(); // 파일명만 추출
 					}
 					// 추출한 파일명 삽입
 					$(this).siblings('.upload-name').val(filename);
 				});
-		
+
 		$("#uf").on('change', function(e) {
 			var files = e.target.files;
 			var arr = Array.prototype.slice.call(files);
@@ -867,7 +886,8 @@
 		}
 
 		function preview(arr) {
-			arr.forEach(function(f) {
+			arr
+					.forEach(function(f) {
 
 						//파일명이 길면 파일명...으로 처리
 						var fileName = f.name;
@@ -918,7 +938,7 @@
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body" style="padding-top: 2.5rem;">
 								<div style="float: left;">
-									<form id='form1' method="post" >
+									<form id='form1' method="post">
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
 											<!-- 이미지 파일 -->
@@ -987,51 +1007,71 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
-						
-									<!-- Earnings (Monthly) Card Example -->
-									
-									<div class="row1" style="margin-top: 40px;">
-										<div class="col-xl-6 col-md-6 mb-4">
-											<div class="card border-left-primary shadow h-100 py-2">
-												<div class="card-body">
-													<div class="row1 no-gutters align-items-center">
+							
+
+
+
+							<!-- Earnings (Monthly) Card Example -->
+
+							<div class="row1" style="margin-top: 40px;">
+															<!-- Pending Requests Card Example -->
+								<div class="col-xl-6 col-md-6 mb-4">
+									<div class="card border-left-warning shadow h-100 py-2">
+										<div class="card-body">
+											<div class="row1 no-gutters align-items-center">
 												<div class="col mr-2">
-													<div
-														class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+													<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+														당일 예약 건수</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800" id="countResv">
+														<div class="col-auto" style="float: right;">
+															<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							<div class="col-xl-6 col-md-6 mb-4">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row1 no-gutters align-items-center">
+							<div class="col mr-2">
+								<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+									월 매출</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800" id="monthSales"></div>
+							<div class="col-auto" style="float: right;">
+								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+							
+							
+							
+								<div class="col-xl-6 col-md-6 mb-4">
+									<div class="card border-left-primary shadow h-100 py-2">
+										<div class="card-body">
+											<div class="row1 no-gutters align-items-center">
+												<div class="col mr-2">
+													<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
 														일 매출</div>
-													<div class="h5 mb-0 font-weight-bold text-gray-800"
-														id="daySales">
+													<div class="h5 mb-0 font-weight-bold text-gray-800" id="daySales">
 														<div class="col-auto" style="float: right;">
 															<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 														</div>
 													</div>
 												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-											</div>
-												</div>
-											</div>
-										</div>
-													<!-- Pending Requests Card Example -->
-										<div class="col-xl-6 col-md-6 mb-4">
-											<div class="card border-left-warning shadow h-100 py-2">
-												<div class="card-body">
-													<div class="row1 no-gutters align-items-center">
-														<div class="col mr-2">
-															<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-																당일 예약 건수
-															</div>
-															<div class="h5 mb-0 font-weight-bold text-gray-800" id="countResv">
-															<div class="col-auto" style="float: right;">
-																<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-															</div>
-															</div>
-														</div>
-														
-													</div>
-												</div>
-											</div>
-										</div>
-						</div>
+
+							</div>
 						</div>
 
 						<div class="card shadow py-2 main_in"

@@ -189,6 +189,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// TODO Auto-generated method stub
 		return EmpDAO.getDaySales(vo);
 	}
+
+	@Override
+	public Integer getMonthSales(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.getMonthSales(vo);
+	}
 	
 	
 }

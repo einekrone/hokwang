@@ -205,7 +205,7 @@ public class MypageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("resv", dao.getCountResv(vo));
 		map.put("day", dao.getDaySales(vo));
-		
+		map.put("month", dao.getMonthSales(vo));
 		return map;
 	}
 	

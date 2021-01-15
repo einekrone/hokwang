@@ -39,7 +39,6 @@ public class MobileController {
 	@RequestMapping(value = "/resv")
 	public String resv(HttpServletRequest request, Model model, HttpServletResponse response, ResvCalendar vo) {
 		String type = request.getParameter("type");
-		System.out.println("type : "+type);
 		model.addAttribute("resvType", type);
 		return "mobile/reservation";
 	}

@@ -31,20 +31,21 @@ public class ResvmController {
 	// 예약 자녀 리스트
 	@ResponseBody
 	@RequestMapping(value = "/ajax/vacList")
-	public List<CheckupVO> getVacList( Model model) {
-		List<CheckupVO> list = resvmSvc.getVacList();
+	public List<CheckupVO> getVacList(BabyVO vo, Model model) {
+		List<CheckupVO> list = resvmSvc.getVacList(vo);
 		model.addAttribute("vacList", list);
 		return list;
 	}
 
 
-	// 문진표 등록
+	// 예약 등록(+문진표, 알림)
 	@ResponseBody
 	@RequestMapping("/ajax/insertReservation")
 	public String questInsert(QuestionVO quVO, Reservation resvVO) {
 		resvmSvc.resvInsert(resvVO);
 		quVO.setQust_no(resvVO.getResv_no());
 		resvmSvc.questInsert(quVO);
+		// 예약한 아기 번호를 외래키로 받아서 alert에 insert
 		return "redirect:/mobile";
 	}
 }

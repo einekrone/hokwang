@@ -3,6 +3,7 @@ package com.hokwang.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -77,4 +78,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
 		bean.setOrder(1);
 		return bean;
 	}
+	
+	@Bean
+	BCryptPasswordEncoder bcryptPasswordEncoder() {
+		BCryptPasswordEncoder en = new BCryptPasswordEncoder();
+		return en;
+	}
+	
 }

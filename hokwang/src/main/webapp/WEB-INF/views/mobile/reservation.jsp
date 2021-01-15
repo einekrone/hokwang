@@ -49,22 +49,7 @@ td {
 					if (chkVal == "V") {
 						$("#resvTypeDiv").css("display", "block");
 						$("#detailCard").css("display", "none");
-						$.ajax({
-							url : 'ajax/vacList',
-							type : 'GET',
-							// 			data : {parent_no: ~~},
-							error : function(xhr, status, msg) {
-								alert("상태값 :" + status + " Http에러메시지 :" + msg);
-							},
-							success : function(data) {
-								$.each(data, function(idx, item) {
-									$("#vacSel").append(
-											$('<option>').attr("value",
-													item.chk_no).html(
-													item.chk_name));
-								});
-							}
-						});
+						vacList();
 
 					} else {
 						$("#resvTypeDiv").css("display", "none");
@@ -98,6 +83,30 @@ td {
 			}
 		});
 	});
+	
+	function vacList() {
+		$("#vacSel").empty();
+		var babyNo = $('#childSel option:selected').val();
+		console.log("babyNo : "+babyNo);
+		$.ajax({
+			url : 'ajax/vacList',
+			type : 'GET',
+			data : {
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					$("#vacSel").append(
+							$('<option>').attr("value",
+									item.chk_no).html(
+									item.chk_name));
+				});
+			}
+		});
+	}
 
 	function resvInsert() {
 
@@ -237,7 +246,9 @@ td {
 		$.ajax({
 			url : 'ajax/childList',
 			type : 'GET',
-			// 			data : {parent_no: ~~},
+			data : { 
+				parent_no:"${parent_vo.parent_no}"
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -257,7 +268,6 @@ td {
 			url : 'ajax/childList',
 			type : 'GET',
 			data : {
-				// 	parent_no:
 				baby_no : babyNo
 			},
 			error : function(xhr, status, msg) {
@@ -283,6 +293,13 @@ td {
 				});
 			}
 		});
+		
+		var chkVal = $('input[name="chk_type"]:checked').val();
+
+// 		if (chkVal == "V") {
+// 			console.log("아기 변경시");
+// 			vacList();
+// 		}
 	}
 </script>
 </head>
@@ -296,13 +313,13 @@ td {
 					<div class="card-header">
 						<select class="form-control mb-3"
 							style="width: 250px; margin-left: 15%;" id="childSel"
-							name="baby_no" onchange="chgChild()">
+							name="baby_no" onchange="chgChild(); vacList();">
 							<option value="" selected>자녀 선택</option>
 						</select>
 					</div>
 					<div class="card-body">
 						<img id="childImg"
-							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px;">
+							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px; width: 100px;">
 						<div id="childInfo" style="text-align: left;"></div>
 					</div>
 				</div>

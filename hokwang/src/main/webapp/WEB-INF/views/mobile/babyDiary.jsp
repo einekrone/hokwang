@@ -76,7 +76,7 @@ ul.tabs li.current {
 <script type="text/javascript">
 	$(function() {
 		//checkuphist();
-		reserlist();
+		//reserlist();
 		aa();
 		//chgBaby();
 		babyList();
@@ -97,9 +97,11 @@ ul.tabs li.current {
 </script>
 <script type="text/javascript">
 	function reserlist() {
+		var babyNo = $("#baby-name option:selected").val();
 		var checkuplist = [];
 		var reserlist = [];
 		console.log("예약리스트");
+		console.log(babyNo);
 		
 		//console.log("td 번호 : "+td);
 		$.ajax({
@@ -107,7 +109,7 @@ ul.tabs li.current {
 			type : "GET",
 			dataType : "JSON",
 			data : {
-				list : reserlist
+				list:reserlist
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -125,7 +127,7 @@ ul.tabs li.current {
 		$('#reser2').on("click", "#que", function()  { 
 			var modal = $('#question');
 			var resvNo =  $(event.target).parent().siblings("#aa").text();
-			console.log(resvNo);
+			console.log("aaaaaaaaaaa"+resvNo);
 			$.ajax({
 				url : "ajax/question",
 				type : "GET",
@@ -152,12 +154,24 @@ ul.tabs li.current {
 	function reserlistResult(data) {
 		$("#reser2").empty();
 		$.each(data,function(idx, item) {
-							$("<tr id='a2'>")	
+							$("<tr id='a2'>")
+							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
+							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
+							.appendTo('#reser2');
+						})
+	}
+	
+	function reserlistResult2(data) {
+		$("#reser2").empty();
+		$.each(data,function(idx, item) {
+							$("<tr id='unpayList'>")
 							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
 							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
 							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
 							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
-							.appendTo('#reser2');
+							.appendTo('#unpayList');
 						})
 	}
 
@@ -232,7 +246,7 @@ ul.tabs li.current {
 				}); */
 				$.each(data, function(idx, item) {
 					$("#baby-name").append(
-							$('<option>').attr("value", item.baby_name).html(
+							$('<option>').attr("value", item.baby_no).html(
 									item.baby_name));
 				});
 			
@@ -244,12 +258,12 @@ ul.tabs li.current {
 	function chgBaby(){
 		var babyNo = $("#baby-name option:selected").val();
 		var babyNo2 = $("#baby-name option:selected").text();
-		console.log("아기 번호 : "+babyNo2);
+		console.log("아기 번호 : "+babyNo);
 		$.ajax({
 			url:'ajax/getBabyInfo2',
 			type:'GET',
 			data :{
-				baby_name : babyNo,
+				baby_no : babyNo,
 				parent_no : "${parent_vo.parent_no}"
 			},
 			error:function(xhr,status,msg){
@@ -277,7 +291,26 @@ ul.tabs li.current {
 				});
 			}
 		})
+		
+		$.ajax({
+			url : "ajax/reserlist",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no:babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				reserlistResult(data)
+				console.log(data);
+			}
+		//만들어야함
+		});
 	}
+	
+	
 </script>
 </head>
 <body>
@@ -286,7 +319,7 @@ ul.tabs li.current {
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="form-group">
-					<select class="form-control" name="baby_name" id="baby-name" onchange="chgBaby()">
+					<select class="form-control" name="baby_no" id="baby-name" onchange="chgBaby()">
 						<option value="" selected>==자녀선택==</option>
 					</select>
 				</div>
@@ -393,7 +426,7 @@ ul.tabs li.current {
 													<th class="text-center">결제 여부</th>
 												</tr>
 											</thead>
-											<tbody id="#"></tbody>
+											<tbody id="unpayList"></tbody>
 										</table>
 
 										<table class="table text-center">

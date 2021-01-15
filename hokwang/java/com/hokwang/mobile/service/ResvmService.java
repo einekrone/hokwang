@@ -1,6 +1,7 @@
 package com.hokwang.mobile.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
@@ -14,4 +15,5 @@ public interface ResvmService {
 	void questInsert(QuestionVO quVO);
 	int resvInsert(Reservation resvVO);
 	int alertInsert(AlertVO vo);
+	List<Map<String, Object>> getCntTimeList(Reservation vo);
 }

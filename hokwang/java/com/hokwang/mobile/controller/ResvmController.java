@@ -1,6 +1,7 @@
 package com.hokwang.mobile.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,6 @@ public class ResvmController {
 		return list;
 	}
 
-
 	// 예약 등록(+문진표, 알림)
 	@ResponseBody
 	@RequestMapping("/ajax/insertReservation")
@@ -55,5 +55,14 @@ public class ResvmController {
 		altVO.setAlert_send("호광병원");
 		resvmSvc.alertInsert(altVO);
 		return "redirect:/mobile";
+	}
+
+	// 예약된 시간 리스트
+	@ResponseBody
+	@RequestMapping(value = "/ajax/getCntTimeList")
+	public List<Map<String, Object>> getCntTimeList(Reservation vo) {
+		System.out.println("1 : "+vo.getResv_date());
+		List<Map<String, Object>> list = resvmSvc.getCntTimeList(vo);
+		return list;
 	}
 }

@@ -1,6 +1,7 @@
 package com.hokwang.mobile.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
@@ -14,4 +15,5 @@ public interface ResvmMapper {
 	public int questInsert(QuestionVO vo);
 	public int resvInsert(Reservation vo);
 	public int alertInsert(AlertVO vo);
+	public List<Map<String, Object>> getCntTimeList(Reservation vo);
 }

@@ -12,6 +12,7 @@ public class AlertVO { //알림
 	String alert_title;//제목
 	Date alert_date;//일시
 	String alert_send;//발신자
+	String baby_no;//아기번호
 	
 	
 

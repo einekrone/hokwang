@@ -261,7 +261,7 @@
 			dataType : "json",
 			data: {
 				emp_room:"${emp_vo.emp_room}"
-			}
+			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},

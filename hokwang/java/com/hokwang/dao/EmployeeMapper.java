@@ -20,6 +20,10 @@ public interface EmployeeMapper {
 	
 	public void updateImg(EmployeeVO vo); // 이미지 수정
 	
+	public Integer getCountResv(EmployeeVO vo); //각진료실 예약건수
+	
+	public Integer getDaySales(EmployeeVO vo); //각진료실매출
+	
 	public int getCountMsg(EmployeeVO emp_vo);
 
 	public int getTotalCountMsg(EmployeeVO emp_vo);
@@ -59,4 +63,5 @@ public interface EmployeeMapper {
 	
 	public EmployeeVO selectempl(EmployeeVO vo);
 	
+
 }

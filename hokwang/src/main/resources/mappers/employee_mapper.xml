@@ -38,30 +38,30 @@
 	<update id="updateInf" parameterType="employeeVO">
 		update EMPLOYEE
 		set
-			<if test="emp_pwd != null and emp_pwd != ''">
-				emp_pwd = #{emp_pwd}
-			</if>
+		<if test="emp_pwd != null and emp_pwd != ''">
+			emp_pwd = #{emp_pwd}
+		</if>
 		<where>
-		 EMP_NO=#{emp_no}
+			EMP_NO=#{emp_no}
 		</where>
 	</update>
-	
-	
+
+
 	<!-- 전화번호/주소/프로필사진 수정 -->
 	<update id="updateImg" parameterType="EmployeeVO">
 		update EMPLOYEE
 		set
-			<if test="emp_tel != null and emp_tel != ''">
-				emp_tel = #{emp_tel}
-			</if>
-			<if test="emp_addr != null and emp_addr != ''">
-				,emp_addr = #{emp_addr}
-			</if>
-			<if test="emp_profile != null and emp_profile !=''">
-				emp_profile = #{emp_profile}
-			</if>
+		<if test="emp_tel != null and emp_tel != ''">
+			emp_tel = #{emp_tel}
+		</if>
+		<if test="emp_addr != null and emp_addr != ''">
+			,emp_addr = #{emp_addr}
+		</if>
+		<if test="emp_profile != null and emp_profile !=''">
+			emp_profile = #{emp_profile}
+		</if>
 		<where>
-		 EMP_NO=#{emp_no}
+			EMP_NO=#{emp_no}
 		</where>
 	</update>
 
@@ -220,12 +220,36 @@
 		msg_no=#{msg_no}
 	</delete>
 
-	<select id="pwdselect" parameterType="employeeVO" resultType="messageVO">
+	<select id="pwdselect" parameterType="employeeVO"
+		resultType="messageVO">
 		select EMP_PWD from employeeVO where EMP_NO= #{emp_no}
 	</select>
-	
-	<select id="selectempl" parameterType="employeeVO" resultType="employeeVO">
-	select * from employee where emp_no=#{emp_no}
+
+	<select id="selectempl" parameterType="employeeVO"
+		resultType="employeeVO">
+		select * from employee where emp_no=#{emp_no}
 	</select>
-	
+	<select id="getCountResv" parameterType="employeeVO" resultType="integer">
+		select count(resv_no)
+		from
+		reservation where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
+	</select>
+
+
+	<select id="getDaySales" parameterType="employeeVO" resultType="integer">
+		<!-- 
+			select sum(pay_price) 
+			from payment 
+			where resv_no in (select resv_no 
+							  from RESERVATION 
+							  where resv_room = 1)
+			 and to_char(pay_date,'YY/MM/DD') = to_char(sysdate,'YY/MM/DD') -->
+			 
+		SELECT sum(pay_price)
+		FROM PAYMENT P , RESERVATION R
+		WHERE P.RESV_NO = R.RESV_NO
+		AND P.PAY_STATE = 'Y'
+		AND R.RESV_ROOM = #{emp_room}
+		AND TO_CHAR(R.RESV_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD')
+	</select>
 </mapper>

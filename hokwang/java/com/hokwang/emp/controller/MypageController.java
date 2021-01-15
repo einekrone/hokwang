@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hokwang.service.EmployeeService;
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.TempmessageVO;
 
 
@@ -198,7 +199,15 @@ public class MypageController {
 	}
 	
 	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/oneSales")
+	public Map<String, Object> getCountResv(Model model, EmployeeVO vo){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resv", dao.getCountResv(vo));
+		map.put("day", dao.getDaySales(vo));
+		
+		return map;
+	}
 	
 	
 	

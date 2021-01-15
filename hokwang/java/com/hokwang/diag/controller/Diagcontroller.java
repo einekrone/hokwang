@@ -19,7 +19,9 @@ import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.DiagnosisVO;
 import com.hokwang.vo.DiseaseVO;
 import com.hokwang.vo.EmployeeVO;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
+import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
@@ -164,4 +166,18 @@ public class Diagcontroller {
 	  return diagDao.getCheckHist(vo); 
 	  }
 	  
+	  //수납금액 인설트
+	  @ResponseBody  
+	  @RequestMapping("/ajax/insertPayment") 
+	  public int insertPayment(PaymentVO vo){
+		  System.out.println("+++"+vo.getPay_price());
+	  return diagDao.insertPayment(vo); 
+	  }
+	  
+	  // 진료 사진 관리(조회)
+		@ResponseBody
+		@RequestMapping("/ajax/getImages")
+		public List<Map<String, Object>> getImages(Images vo) {
+			return diagDao.getImages(vo);
+		}
 }

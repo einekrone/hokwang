@@ -1,7 +1,6 @@
 package com.hokwang.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.hokwang.vo.EmployeeVO;
 import com.hokwang.vo.MessageVO;
@@ -19,6 +18,10 @@ public interface EmployeeService {
 	public int updateInf(EmployeeVO vo); //비밀번호 수정
 	
 	public void updateImg(EmployeeVO vo); //이미지수정
+	
+	public Integer getCountResv(EmployeeVO vo); //각진료실 예약건수
+	
+	public Integer getDaySales(EmployeeVO vo); //각진료실 매출
 	
 	public int getCountMsg(EmployeeVO vo);
 

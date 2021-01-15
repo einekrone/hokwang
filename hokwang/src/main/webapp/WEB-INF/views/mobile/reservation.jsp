@@ -187,7 +187,8 @@ td {
 
 	function resvList(resvDate) {
 		$.ajax({
-			url : 'ajax/resvList',
+// 			url : 'ajax/resvList',
+			url : 'ajax/getCntTimeList',
 			type : 'GET',
 			data : {
 				resv_date : resvDate
@@ -211,20 +212,26 @@ td {
 
 			for (var i = 0; i < arrNumber.length; i++) {
 				chgti = Number(arrNumber[i].substr(0, 2));
-				if (arrNumber[i] == item.RESV_TIME) { // 현재 시간대 예약불가
-					arrNumber.splice(i, 1, "");
+				if(arrNumber[i] == item.RESV_TIME) {
+					if(item.CNT > 3) {
+						arrNumber.splice(i, 1, "");
+					}
 				}
 
 				// 현재 이전 시간대 예약 불가
 				if ('${resvType}' == 'T') { // 당일 예약
 					if (today == $("input[name='resv_date']").val()) {
+						console.log("* : "+chgti);
+						console.log("** : "+d.getHours());
 						if (chgti <= d.getHours()) {
+							console.log("-");
 							arrNumber.splice(i, 1, "");
 						}
 					}
 				} else {
 					if (today == $(".selector").val()) {
 						if (chgti <= d.getHours()) {
+							console.log("+");
 							arrNumber.splice(i, 1, "");
 						}
 					}
@@ -319,7 +326,7 @@ td {
 					</div>
 					<div class="card-body">
 						<img id="childImg"
-							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px;">
+							style="float: left; margin: 0 10%; border-radius: 50%; height: 100px; width: 100px;">
 						<div id="childInfo" style="text-align: left;"></div>
 					</div>
 				</div>

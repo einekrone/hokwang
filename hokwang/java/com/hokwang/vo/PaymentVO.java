@@ -16,5 +16,5 @@ public class PaymentVO {//결제
 	String pay_account;//계좌번호
 	String pay_bank;//은행명
 	String pay_state;//결제 상태
-	String diag_no;
+	String resv_no; //예약번호
 }

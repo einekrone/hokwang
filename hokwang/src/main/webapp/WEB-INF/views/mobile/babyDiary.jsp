@@ -43,6 +43,9 @@
 <%-- <script
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script> --%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
 .card-header-pills {
@@ -74,13 +77,18 @@ ul.tabs li.current {
 }
 </style>
 <script type="text/javascript">
+	function payment() {
+		location.href = "pay";
+	}
+
 	$(function() {
 		//checkuphist();
-		reserlist();
-		aa();
+		//reserlist();
+		question1();
+		question2();
 		//chgBaby();
 		babyList();
-		
+
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -96,36 +104,13 @@ ul.tabs li.current {
 	
 </script>
 <script type="text/javascript">
-	function reserlist() {
-		var checkuplist = [];
-		var reserlist = [];
-		console.log("예약리스트");
-		
-		//console.log("td 번호 : "+td);
-		$.ajax({
-			url : "ajax/reserlist",
-			type : "GET",
-			dataType : "JSON",
-			data : {
-				list : reserlist
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				reserlistResult(data)
-				console.log(data);
-			}
-		//만들어야함
-		});/* end of ajax */
-	}/* end of function */
-	function aa() {
+	function question1() {
 		console.log("문진표 클릭/////////////////");
-		
-		$('#reser2').on("click", "#que", function()  { 
+
+		$('#reser2').on("click", "#que1", function() {
 			var modal = $('#question');
-			var resvNo =  $(event.target).parent().siblings("#aa").text();
-			console.log(resvNo);
+			var resvNo = $(event.target).parent().siblings("#aa1").text();
+			console.log("aaaaaaaaaaa" + resvNo);
 			$.ajax({
 				url : "ajax/question",
 				type : "GET",
@@ -138,11 +123,40 @@ ul.tabs li.current {
 				},
 				success : function(data) {
 					console.log(data);
-					
-					modal.find($('input[name=Ra1]')).val([data[0].a1]);
-					modal.find($('input[name=Ra2]')).val([data[0].a2]);
-					modal.find($('input[name=Ra3]')).val([data[0].a3]);
-					modal.find($('input[name=Ra4]')).val([data[0].a4]);
+
+					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
+					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
+					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
+					modal.find($('input[name=Ra4]')).val([ data[0].a4 ]);
+					//modal.modal('show');
+				}
+			});
+		});
+
+	}
+	function question2() {
+
+		$('#unpayList').on("click", "#que2", function() {
+			var modal = $('#question');
+			var resvNo = $(event.target).parent().siblings("#aa2").text();
+			console.log("aaaaaaaaaaa" + resvNo);
+			$.ajax({
+				url : "ajax/question",
+				type : "GET",
+				dataType : "JSON",
+				data : {
+					qust_no : resvNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log(data);
+
+					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
+					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
+					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
+					modal.find($('input[name=Ra4]')).val([ data[0].a4 ]);
 					//modal.modal('show');
 				}
 			});
@@ -151,15 +165,81 @@ ul.tabs li.current {
 	}
 	function reserlistResult(data) {
 		$("#reser2").empty();
-		$.each(data,function(idx, item) {
-							$("<tr id='a2'>")	
-							.append($("<td>").attr("id",'resv_date').attr('value',item.resv_date).html(item.resv_date))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
-							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.resv_no).html(item.resv_no))
-							.appendTo('#reser2');
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$("<tr id='a2'>")
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.resv_date)
+													.html(item.resv_date))
+									.append(
+											$("<td>")
+													.attr("id", '')
+													.append(
+															$("<input type='button' id='que1' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+									.append(
+											$("<td>")
+													.attr("id", '')
+													.append(
+															$("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal'  data-target='#modifyAndCancel' data-backdrop='static'>")))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa1').attr(
+															'value',
+															item.resv_no).html(
+															item.resv_no))
+									.appendTo('#reser2');
 						})
 	}
+
+	//미결제
+	function reserlistResult2(data) {
+		$("#unpayList").empty();
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$("<tr>")
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.resv_date)
+													.html(item.resv_date))
+									.append(
+											$("<td>")
+													.attr("id",
+															'question' + idx)
+													.append(
+															$("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa2').attr(
+															'value',
+															item.resv_no).html(
+															item.resv_no))
+									.appendTo('#unpayList');
+							if (item.resv_payyn == "N") {
+								console.log(">> " + item.resv_payyn);
+								$("#question" + idx)
+										.eq(-1)
+										.after(
+												'<td id="resv_payyn">'
+														+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
+														+ '</td>');
+							} else if (item.resv_payyn == "Y") {
+								console.log(">> " + item.resv_payyn);
+								text = "결제 완료";
+								$("#question" + idx).eq(-1)
+										.after(
+												'<td id="resv_payyn">' + text
+														+ '</td>');
+							}
+
+						})
+	};
 
 	function checkuphist() {//접종 리스트
 		var checkuplist = [];
@@ -213,14 +293,13 @@ ul.tabs li.current {
 
 		})/* end of ajax  */
 	}
-	
-	
+
 	function babyList() {
 		$.ajax({
 			url : 'ajax/getBabyInfo',
 			type : 'GET',
-			data : { 
-				parent_no:"${parent_vo.parent_no}"
+			data : {
+				parent_no : "${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -232,35 +311,34 @@ ul.tabs li.current {
 				}); */
 				$.each(data, function(idx, item) {
 					$("#baby-name").append(
-							$('<option>').attr("value", item.baby_name).html(
+							$('<option>').attr("value", item.baby_no).html(
 									item.baby_name));
 				});
-			
+
 			}
 		});
 	}
-	
-	
-	function chgBaby(){
+
+	function chgBaby() {//체인지 아기
 		var babyNo = $("#baby-name option:selected").val();
 		var babyNo2 = $("#baby-name option:selected").text();
-		console.log("아기 번호 : "+babyNo2);
+		console.log("아기 번호 : " + babyNo);
 		$.ajax({
-			url:'ajax/getBabyInfo2',
-			type:'GET',
-			data :{
-				baby_name : babyNo,
+			url : 'ajax/getBabyInfo2',
+			type : 'GET',
+			data : {
+				baby_no : babyNo,
 				parent_no : "${parent_vo.parent_no}"
 			},
-			error:function(xhr,status,msg){
+			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : function(data){
+			success : function(data) {
 				console.log(data);
 				$.each(data, function(idx, item) {
 					$("#babyInfo").empty();
 
-					 $("#babyInfo").append(
+					$("#babyInfo").append(
 							$('<p>').html(
 									'이름 : ' + item.baby_name + " ("
 											+ item.baby_blood + "형, "
@@ -269,7 +347,7 @@ ul.tabs li.current {
 									'주민번호 : ' + item.baby_regno1 + '-'
 											+ item.baby_regno2)).append(
 							$('<p>').html('방문 여부 : ' + item.baby_visit));
- 
+
 					$("#babyImg").attr(
 							"src",
 							"${pageContext.request.contextPath}/resources/img/"
@@ -277,6 +355,72 @@ ul.tabs li.current {
 				});
 			}
 		})
+		$.ajax({//예약
+			url : "ajax/reserlist",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				reserlistResult(data)
+				reserlistResult2(data)
+				console.log(data);
+			}
+		//만들어야함
+		});
+		$.ajax({//전체예약
+			url : "ajax/allreser",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no : babyNo
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				allreserResult(data)
+				console.log(data);
+			}
+		//만들어야함
+		});
+	}
+
+	function allreserResult(data) {
+		$("#allreser").empty();
+		console.log(data);
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$("<tr id='allreser'>")
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.RESV_DATE)
+													.html(item.RESV_DATE))
+									.append(
+											$("<td>").attr("id", 'diagsis')
+													.attr('value',
+															item.DIS_NAME)
+													.html(item.DIS_NAME))
+									.append(
+											$("<td>")
+													.attr("id", '')
+													.append(
+															$("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa').attr(
+															'value',
+															item.RESV_NO).html(
+															item.RESV_NO))
+									.appendTo('#allreser');
+						})
 	}
 </script>
 </head>
@@ -286,13 +430,14 @@ ul.tabs li.current {
 		<div class="col-5 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="form-group">
-					<select class="form-control" name="baby_name" id="baby-name" onchange="chgBaby()">
+					<select class="form-control" name="baby_no" id="baby-name"
+						onchange="chgBaby()">
 						<option value="" selected>==자녀선택==</option>
 					</select>
 				</div>
 				<div style="align-self: center;">
-					<img id="babyImg" class="img-fluid rounded-circle mb-2"
-						width="120" height="120" />
+					<img id="babyImg" class="img-fluid rounded-circle mb-2" width="120"
+						height="120" />
 				</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
 			</div>
@@ -303,6 +448,7 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
+
 	<!-- 2 -->
 	<div class="row">
 		<div class="col-15 col-lg-8 col-xxl-7 d-flex">
@@ -332,9 +478,7 @@ ul.tabs li.current {
 										<li class="nav-item"><a class="nav-link active"
 											data-toggle="tab" href="#tab-8">전체</a></li>
 										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-9">결제완료</a></li>
-										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-10">미결제</a></li>
+											data-toggle="tab" href="#tab-10">결제</a></li>
 										<li class="nav-item"><a class="nav-link"
 											data-toggle="tab" href="#tab-11">예약</a></li>
 									</ul>
@@ -352,19 +496,19 @@ ul.tabs li.current {
 														<th class="text-center">문진표</th>
 													</tr>
 												</thead>
-												<tbody id="#"></tbody>
+												<tbody id="allreser"></tbody>
 											</table>
 										</div>
 										<br>
 										<table class="table text-center">
 											<thead>
 												<tr>
-													<th class="text-center">예약일시</th>
+													<th class="text-center">진료일시</th>
 													<th class="text-center">병명</th>
 													<th class="text-center">문진표</th>
 												</tr>
 											</thead>
-											<tbody id="#"></tbody>
+											<tbody id="allDaigno"></tbody>
 										</table>
 									</div>
 
@@ -384,27 +528,18 @@ ul.tabs li.current {
 
 									<!-- 예약/진료 => 미결제탭  -->
 									<div class="tab-pane fade" id="tab-10" role="tabpanel">
-
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">예약일시3</th>
-													<th class="text-center">문진표</th>
-													<th class="text-center">결제 여부</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
-
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">진료일시</th>
-													<th class="text-center">병명</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
+										<div style="height: 250px; overflow: auto;">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="text-center">예약일시3</th>
+														<th class="text-center">문진표</th>
+														<th class="text-center">결제 여부</th>
+													</tr>
+												</thead>
+												<tbody id="unpayList"></tbody>
+											</table>
+										</div>
 									</div>
 
 									<!-- 예약/진료 => 예약탭  -->
@@ -597,24 +732,182 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
-		<!-- 수정/취소 모달 -->
-	<div class="modal fade" id="modifyAndCancel" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 수정/취소 모달 -->
+	<div class="modal fade" id="modifyAndCancel" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">수정/취소</h5>
-				</div>
-				<div class="modal-body"><!-- 모달바디 시작 -->
-					
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">확인
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
 					</button>
 				</div>
+				<div class="modal-body">
+					<form id="frm" name="frm">
+						<div class="card">
+							<div class="card-body">
+								<div style="display: block;">
+									<label class="form-check"> <input name="chk_type"
+										type="radio" class="form-check-input" value="N"> <span
+										class="form-check-label">일반 검진</span>
+									</label> <label class="form-check"> <input name="chk_type"
+										type="radio" class="form-check-input" value="V"> <span
+										class="form-check-label">예방 접종</span>
+									</label>
+								</div>
+								<div style="display: none;" id="resvTypeDiv">
+									<select class="form-control mb-3" class="vacSel" id="vacSel"
+										name="chk_no" style="width: 250px; margin-left: 15%;">
+										<option value="">접종항목</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<!-- <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1"> -->
+						<div class="card flex-fill">
+							<div class="card-header">
+								<h5 class="card-title"
+									style="font-weight: bold; font-size: 15px;">예약 일시</h5>
+							</div>
+							<div class="card-body d-flex">
+								<input type="text" class="selector" placeholder="날짜를 선택하세요."
+									style="margin-left: 30%; text-align: center;" name="resv_date"
+									class="" /> <a class="input-button" title="toggle" data-toggle><i
+									class="icon-calendar"></i></a> ​
+
+								<script type="text/javascript">
+									$(".selector")
+											.flatpickr(
+													{
+														dateFormat : "Y-m-d",
+														minDate : "today",
+														maxDate : new Date()
+																.fp_incr(30),
+														disable : [
+																"2021-01-28",
+																function(date) {
+																	return (date
+																			.getDay() == 0);
+																} ]
+													});
+								</script>
+							</div>
+							<!-- 날짜별 예약 가능 시간 -->
+							<div class="card-body">
+								<div id="resvTime"></div>
+							</div>
+						</div>
+
+						<div class="card" style="display: none;" id="detailCard">
+							<div class="card-header">
+								상세 증상&nbsp;<span style="color: gray;">[선택] ※중복 선택 가능</span>
+							</div>
+							<div class="card-body">
+								<table align="center" border="1"
+									style="border-collapse: collapse; width: 100%;" id="chkTb">
+									<tr>
+										<td>발진</td>
+										<td>가려움증</td>
+										<td>구토</td>
+									</tr>
+									<tr>
+										<td>귀통증</td>
+										<td>기침</td>
+										<td>누런콧물</td>
+									</tr>
+									<tr>
+										<td>눈출혈</td>
+										<td>두통</td>
+										<td>맑은콧물</td>
+									</tr>
+									<tr>
+										<td>발열</td>
+										<td>발진</td>
+										<td>복통</td>
+									</tr>
+									<tr>
+										<td>설사</td>
+										<td>탈수</td>
+										<td></td>
+									</tr>
+								</table>
+								<div style="margin: 10px 0;">
+									<textarea name="resv_memo" class="form-control"
+										placeholder="기타 사항(복용 약물, 알레르기 등)" rows="3"></textarea>
+								</div>
+								<input style="display: none;" name="resv_detail"
+									id="resv_detail"> <input style="display: none;"
+									name="resv_type" id="resv_type"> <input
+									style="display: none;" name="resv_no" id="resv_no">
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+								<button type="button" id="wMediBtn" class="btn btn-outline-info"
+									style="width: 40%;">문진표 작성</button>
+								<div id="wMedi" style="display: none; padding: 5px;">
+									<table style="width: 100%;" border="1">
+										<tr>
+											<td style="width: 10%">1</td>
+											<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
+											<td style="width: 35%"><label class="form-check">
+													<input name="a1" type="radio" class="form-check-input"
+													value="Y"> <span class="form-check-label">예</span>
+											</label> <label class="form-check"> <input name="a1"
+													type="radio" class="form-check-input" value="N"> <span
+													class="form-check-label">아니오</span>
+											</label></td>
+										</tr>
+										<tr>
+											<td>2</td>
+											<td>검은 눈동자(동공)가 혼탁합니까?</td>
+											<td><label class="form-check"> <input name="a2"
+													type="radio" class="form-check-input" value="Y"> <span
+													class="form-check-label">예</span>
+											</label> <label class="form-check"> <input name="a2"
+													type="radio" class="form-check-input" value="N"> <span
+													class="form-check-label">아니오</span>
+											</label></td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편
+												입니까?</td>
+											<td><label class="form-check"> <input name="a3"
+													type="radio" class="form-check-input" value="Y"> <span
+													class="form-check-label">예</span>
+											</label> <label class="form-check"> <input name="a3"
+													type="radio" class="form-check-input" value="N"> <span
+													class="form-check-label">아니오</span>
+											</label></td>
+										</tr>
+										<tr>
+											<td>4</td>
+											<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
+											<td><label class="form-check"> <input name="a4"
+													type="radio" class="form-check-input" value="Y"> <span
+													class="form-check-label">예</span>
+											</label> <label class="form-check"> <input name="a4"
+													type="radio" class="form-check-input" value="N"> <span
+													class="form-check-label">아니오</span>
+											</label></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- </div> -->
+					</form>
+				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">취소
-					</button>
+					<button class="btn btn-primary" type="button" data-dismiss="modal">예약
+						수정</button>
+					<button class="btn btn-primary" type="button" data-dismiss="modal">예약
+						취소</button>
 				</div>
 			</div>
 		</div>

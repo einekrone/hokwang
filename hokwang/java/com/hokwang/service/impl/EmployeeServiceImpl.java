@@ -1,7 +1,6 @@
 package com.hokwang.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -177,6 +176,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeVO selectempl(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		return EmpDAO.selectempl(vo);
+	}
+
+	@Override
+	public Integer getCountResv(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.getCountResv(vo);
+	}
+
+	@Override
+	public Integer getDaySales(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return EmpDAO.getDaySales(vo);
 	}
 	
 	

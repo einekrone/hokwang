@@ -33,9 +33,40 @@
 	$(function() {
 		changeMenu();
 		alertCntAction();
+		alertInf();
 	});
-
-	function alertCntAction() {
+	
+	function alertInf() { 
+		$.ajax({
+			url : "ajax/alertInf",
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+				$.each(data,function(idx,item){
+					$('#alertLabel').append($('<a>').attr("href","#").attr("class","list-group-item")
+							.append($('<div>').attr("class","row g-0 align-items-center")
+									.append($('<div>').attr("class","col-2").append($('<img width="60px">').css("padding-right","15px").attr("src","${pageContext.request.contextPath}/resources/img/"+item.BABY_PIC)))
+							.append($('<div>').attr("class","col-10")
+									.append($('<div>').attr("class","text-dark").html(item.ALERT_TITLE))
+									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_CONT))
+									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_DATE))
+									)));
+				});
+				
+				
+				
+				
+			}
+		})
+	}
+	
+	function alertCntAction() { 
 		$.ajax({
 			url : "ajax/alertCntAction",
 			type : 'GET',
@@ -141,6 +172,7 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
+				${kemail}
 					<!-- 로그인모양 -->
 					<c:if test="${parent_vo == null }">
 
@@ -168,58 +200,9 @@
 									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
 									aria-labelledby="alertsDropdown">
 									<!-- <div class="dropdown-menu-header">4 New Notifications</div> -->
-									<div class="list-group">
-										<!-- 알림 출력부분 -->
-										<a href="#" class="list-group-item">
-											<div class="row g-0 align-items-center">
-												<div class="col-2">
-													<i class="text-danger" data-feather="alert-circle"></i>
-												</div>
-												<div class="col-10">
-													<div class="text-dark">Update completed</div>
-													<div class="text-muted small mt-1">Restart server 12
-														to complete the update.</div>
-													<div class="text-muted small mt-1">30m ago</div>
-												</div>
-											</div>
-										</a> <a href="#" class="list-group-item">
-											<div class="row g-0 align-items-center">
-												<div class="col-2">
-													<i class="text-warning" data-feather="bell"></i>
-												</div>
-												<div class="col-10">
-													<div class="text-dark">Lorem ipsum</div>
-													<div class="text-muted small mt-1">Aliquam ex eros,
-														imperdiet vulputate hendrerit et.</div>
-													<div class="text-muted small mt-1">2h ago</div>
-												</div>
-											</div>
-										</a> <a href="#" class="list-group-item">
-											<div class="row g-0 align-items-center">
-												<div class="col-2">
-													<i class="text-primary" data-feather="home"></i>
-												</div>
-												<div class="col-10">
-													<div class="text-dark">Login from 192.186.1.8</div>
-													<div class="text-muted small mt-1">5h ago</div>
-												</div>
-											</div>
-										</a> <a href="#" class="list-group-item">
-											<div class="row g-0 align-items-center">
-												<div class="col-2">
-													<i class="text-success" data-feather="user-plus"></i>
-												</div>
-												<div class="col-10">
-													<div class="text-dark">New connection</div>
-													<div class="text-muted small mt-1">Christina accepted
-														your request.</div>
-													<div class="text-muted small mt-1">14h ago</div>
-												</div>
-											</div>
-										</a>
-									</div>
-									<div class="dropdown-menu-footer">
-										<a href="#" class="text-muted">Show all notifications</a>
+									<div class="list-group" id="alertLabel"> 
+										<!-- 알림 출력부분 --> 
+							
 									</div>
 								</div></li>
 

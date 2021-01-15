@@ -59,8 +59,7 @@
 														.append($('<img>').addClass('rounded-circle')
 																						.attr(
 																								'src',
-																								"${pageContext.request.contextPath}/resources/img/"
-																										+ item.emp_profile)))
+																								"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
 														.append(
 																$('<div>')
 																		.addClass(

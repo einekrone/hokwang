@@ -70,8 +70,9 @@ function numberMaxLength(e){
 					  .append($('<td>').html(item.baby_regno1))
 					  .append($('<td>').html(item.baby_blood))
 					  .appendTo('#babyList');
-					$('div#imgInf').append($('<img>').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic).attr("width","180px").attr("height","180px")
-							);
+					$('div#imgInf').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic)
+					.attr("onclick","location.href='babyDiary'")
+					);
 				});
 			}
 		})
@@ -188,8 +189,6 @@ function numberMaxLength(e){
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnAdd"
 							name="btnAdd">등록</button>
-						<button type="button" class="btn btn-secondary" id="btnCancel"
-							name="btnCancel">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -245,10 +244,11 @@ function numberMaxLength(e){
 								<label class="col-form-label">사진등록</label><br>
 								 <div style="width:200px; height:150px; background-color:white;" class="img-print1"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile1" class="uploadFile1" style="display:none;" onchange="changeValue(event)">
-									
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
+							<button type="submit" class="btn btn-primary" id="btnCancel"
+							name="btnCancel">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">

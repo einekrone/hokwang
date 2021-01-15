@@ -1,14 +1,17 @@
 
 package com.hokwang.mobile.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.mobile.service.MainHeaderService;
 import com.hokwang.vo.ParentVO;
@@ -18,6 +21,10 @@ public class MainHeaderController {
 	@Autowired
 	MainHeaderService dao;
 
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
+	
+	
 	@ResponseBody
 	@RequestMapping("/ajax/logInAction")
 	public boolean logInAction(ParentVO vo,HttpSession session) {
@@ -31,7 +38,13 @@ public class MainHeaderController {
 	
 	@ResponseBody
 	@RequestMapping("/ajax/registerAction")
-	public boolean registerAction(ParentVO vo) {
+	public boolean registerAction(ParentVO vo){
+		String inputPass = vo.getParent_pw();
+		String pwd = pwdEncoder.encode(inputPass);
+		String inputReg2 = vo.getParent_regno2();
+		String reg2 = pwdEncoder.encode(inputReg2);
+		vo.setParent_regno2(reg2);
+		vo.setParent_pw(pwd);
 		dao.registerAction(vo);
 		return true;
 	}
@@ -65,5 +78,14 @@ public class MainHeaderController {
 		}
 		return false;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/alertInf")
+	public List<Map<String,Object>> alertInf(ParentVO vo) {
+		return dao.alertInf(vo);
+	}
+	
+	
+	
 	
 }

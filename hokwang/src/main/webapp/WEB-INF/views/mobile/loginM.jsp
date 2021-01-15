@@ -259,7 +259,6 @@ span {
 		});
 	}
 </script>
-
 <div class="wrap">
 	<div class="form-wrap">
 		<div class="button-wrap">
@@ -269,12 +268,9 @@ span {
 			<button type="button" class="togglebtn" onclick="register()">회원가입</button>
 		</div>
 		<div class="social-icons">
-			<img src="${pageContext.request.contextPath}/resources/img/kakao.png"
-				alt="kakao"> <img
-				src="${pageContext.request.contextPath}/resources/img/facebook.png"
-				alt="facebook"> <img
-				src="${pageContext.request.contextPath}/resources/img/twitter.png"
-				alt="twitter">
+			<a href="${kakao_url}"><img src="${pageContext.request.contextPath}/resources/img/kakao.png" alt="kakao"></a>
+			<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> 
+			<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter">
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"

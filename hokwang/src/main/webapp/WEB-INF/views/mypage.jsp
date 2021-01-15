@@ -995,17 +995,19 @@
 											<div class="card border-left-primary shadow h-100 py-2">
 												<div class="card-body">
 													<div class="row1 no-gutters align-items-center">
-														<div class="col mr-2">
-															<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-																일 매출
-															</div>
-															<div class="h5 mb-0 font-weight-bold text-gray-800"	id="daySales">
-															</div>
-														</div>
-														<div class="col-auto">
+												<div class="col mr-2">
+													<div
+														class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+														일 매출</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800"
+														id="daySales">
+														<div class="col-auto" style="float: right;">
 															<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 														</div>
 													</div>
+												</div>
+
+											</div>
 												</div>
 											</div>
 										</div>
@@ -1019,11 +1021,12 @@
 																당일 예약 건수
 															</div>
 															<div class="h5 mb-0 font-weight-bold text-gray-800" id="countResv">
+															<div class="col-auto" style="float: right;">
+																<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+															</div>
 															</div>
 														</div>
-														<div class="col-auto">
-															<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-														</div>
+														
 													</div>
 												</div>
 											</div>

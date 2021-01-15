@@ -1,6 +1,9 @@
 
 package com.hokwang.mobile.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +40,12 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 	@Override
 	public ParentVO checkEmail(ParentVO vo) {
 		return dao.checkEmail(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> alertInf(ParentVO vo) {
+		// TODO Auto-generated method stub
+		return dao.alertInf(vo);
 	}
 	
 }

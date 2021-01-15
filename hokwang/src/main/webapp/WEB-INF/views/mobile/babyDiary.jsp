@@ -231,7 +231,7 @@ function payment(){
 							item.HIST_COUNT + " 회" + " / " + item.CHK_TOTAL
 									+ " 회")).appendTo('#checkup');
 
-			if (item.HIST_STATE == "I") {
+			if (item.HIST_STATE == "I") {  
 				console.log(">> " + item.HIST_STATE);
 				text = "접종 중";
 				$("#hist_cnt").eq(-1).after(
@@ -356,9 +356,11 @@ function payment(){
 							$("<tr id='allreser'>")
 							.append($("<td>").attr("id",'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
 							.append($("<td>").attr("id",'diagsis').attr('value',item.DIS_NAME).html(item.DIS_NAME))
-							.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+							//.append($("<td>").attr("id",'').append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
 							.append($("<td style='display:none;'>").attr("id",'aa').attr('value',item.RESV_NO).html(item.RESV_NO))
 							.appendTo('#allreser');
+							
+							
 						})
 	}
 	

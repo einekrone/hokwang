@@ -1298,7 +1298,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			</div>
 		</div>
 	
-	
+		<!-- 사진모달 -->
 		<div class="modal fade" id="imagesModal">
 		 <div class="modal-dialog" role="document">
 			<div class="modal-content" style="width: 550px;">

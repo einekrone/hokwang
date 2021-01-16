@@ -320,7 +320,7 @@ ul.tabs li.current {
 		});
 
 	}
-	function question2() {
+	function question2() {//문진표
 
 		$('#unpayList').on("click", "#que2", function() {
 			var modal = $('#question');
@@ -428,23 +428,11 @@ ul.tabs li.current {
 	};
 
 	function checkuphist() {//접종 리스트
-		var checkuplist = [];
-
+		var babyNo = $("#baby-name option:selected").val();
 		console.log("DDD");
-		$.ajax({
-			url : "ajax/checkhist",
-			type : "GET",
-			dataType : "JSON",
-			data : {
-				list : checkuplist
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : checkuphistResult
+	
 
-		});/* end of ajax */
-
+		
 	}/* end of function */
 
 	function checkuphistResult(data) {
@@ -452,32 +440,37 @@ ul.tabs li.current {
 
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-
+			console.log("idx>>>" +idx);
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_cnt'>").html(
-							item.HIST_COUNT + " 회" + " / " + item.CHK_TOTAL
-									+ " 회")).appendTo('#checkup');
+					$("<td id='hist_date'>").html(
+							item.HIST_DATE)).appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
-				console.log(">> " + item.HIST_STATE);
+				//console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
-				$("#hist_cnt").eq(-1).after(
+				$("#hist_date"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "N") {
-				console.log(">> " + item.HIST_STATE);
+				//console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_cnt").eq(-1).after(
+				$("#hist_date"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "Y") {
-				console.log(">> " + item.HIST_STATE);
-				text = "접종 완료";
-				$("#hist_cnt").eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
+				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
+				text = "미접종";
+				$("#hist_date").eq(-1)
+				.after(
+						'<td id="hist_state">' + text
+								+ '</td>');;
 			}
 
 		})/* end of ajax  */
+		var $item = $('#hist_state').on('click', function() {
+			  var idx = $(this).index();
+			  console.log("idx >>>>>>>>>>>>>>"+idx);
+			});
 	}
 
 	function babyList() {
@@ -559,6 +552,21 @@ ul.tabs li.current {
 		//만들어야함
 		});
 
+		$.ajax({
+			url : "ajax/checkhist",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				parent_no : "${parent_vo.parent_no}",
+				baby_no : babyNo
+				
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : checkuphistResult
+
+		});/* end of ajax */	
 	}
 
 	function allreserResult(data) {
@@ -588,7 +596,7 @@ ul.tabs li.current {
 							if (item.RESV_STATUS == "N") {
 								console.log(">> 1 " + item.RESV_STATUS);
 								text = "";
-								$("#diagsis" + idx)
+								$("#diagsis")
 										.eq(-1)
 										.after(
 												'<td id="diag_yn">'
@@ -597,7 +605,7 @@ ul.tabs li.current {
 							} else if (item.RESV_STATUS == "Y") {
 								console.log(">>2 " + item.RESV_STATUS);
 								text = "진료완료";
-								$("#diagsis" + idx).eq(-1).after(
+								$("#diagsis").eq(-1).after(
 										'<td id="diag_yn">' + text + '</td>');
 							}
 						})
@@ -756,26 +764,28 @@ ul.tabs li.current {
 										<li class="nav-item"><a class="nav-link active"
 											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">전체</a></li>
 										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-2">미검진</a></li>
+											data-toggle="tab" href="#tab-2">미완료</a></li>
 										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-3">검진완료</a></li>
+											data-toggle="tab" href="#tab-3">접종완료</a></li>
 
 									</ul>
 								</div>
 								<div>
 									<div class="tab-content">
 										<div class="tab-pane fade active show" id="tab-1"
-											role="tabpanel">
+											role="tabpanel" style="height: 250px; overflow: auto;">
+											<div style="width:100%">
 											<table class="table text-center">
 												<thead>
-													<tr>
-														<th class="text-center">전체</th>
-														<th class="text-center">차수</th>
-														<th class="text-center">접종완료</th>
+													<tr >
+														<th class="text-center" >접종이름</th>
+														<th class="text-center" >일시</th>
+														<th class="text-center" >상태</th>
 													</tr>
 												</thead>
 												<tbody id="checkup"></tbody>
 											</table>
+											</div>
 										</div>
 
 
@@ -784,9 +794,9 @@ ul.tabs li.current {
 											<table class="table text-center">
 												<thead>
 													<tr>
-														<th class="text-center">전체</th>
-														<th class="text-center">차수</th>
-														<th class="text-center">접종완료</th>
+														<th class="text-center">접종이름</th>
+														<th class="text-center">일시</th>
+														<th class="text-center">접종상태</th>
 													</tr>
 												</thead>
 												<tbody id="#"></tbody>
@@ -798,16 +808,16 @@ ul.tabs li.current {
 											<table class="table text-center">
 												<thead>
 													<tr>
-														<th class="text-center">전체</th>
-														<th class="text-center">차수</th>
-														<th class="text-center">접종완료</th>
+														<th class="text-center">접종이름</th>
+														<th class="text-center">일시</th>
+														<th class="text-center">접종상태</th>
 													</tr>
 												</thead>
 												<tbody id="#"></tbody>
 											</table>
 										</div>
 									</div>
-								</div>
+								
 							</div>
 							<!-- 3 -->
 							<div class="tab-pane fade" id="tab-6" role="tabpanel">

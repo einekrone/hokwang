@@ -122,7 +122,30 @@ ul.tabs li.current {
 		});
 
 		$(".selector").on("change", function() {
+			console.log("날짜 선택");
 			resvList($(".selector").val());
+		});
+
+		$("#wMediBtn").on("click", function() {
+			if ($("#wMedi").css("display") == "none") {
+				$("#wMedi").css("display", "block");
+			} else {
+				$("#wMedi").css("display", "none");
+			}
+		});
+
+		chkTbArr = [];
+		$("body").on("click", "#chkTb td", function() {
+			var val = $(this).text();
+			if (!$(this).hasClass("chkTbSel") && $(this).text() != "") {
+				$(this).css("background", "#f6d578");
+				$(this).attr("class", "chkTbSel");
+				chkTbArr.push(val);
+			} else {
+				$(this).removeAttr("class");
+				$(this).css("background", "white");
+				chkTbArr.splice(chkTbArr.indexOf(val), 1);
+			}
 		});
 		// 예약 취소/수정 모달 E
 	});
@@ -155,7 +178,6 @@ ul.tabs li.current {
 	// 예약일에 따라 예약시간 출력
 	function resvList(resvDate) {
 		$.ajax({
-			//	 			url : 'ajax/resvList',
 			url : 'ajax/getCntTimeList',
 			type : 'GET',
 			data : {
@@ -169,35 +191,33 @@ ul.tabs li.current {
 	}
 
 	function resvListResult(data) {
+		console.log("result : " + data);
+		var chgti;
 		var arrNumber = [ '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
 				'13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
 				'17:00', '17:30' ];
 		$("#resvTime").empty();
 
+		for (var i = 0; i < arrNumber.length; i++) {
+			chgti = Number(arrNumber[i].substr(0, 2));
+
+			// 현재 이전 시간대 예약 불가
+			if (today == $(".selector").val()) {
+				console.log("오늘");
+				if (chgti <= d.getHours()) {
+					arrNumber.splice(i, 1, "");
+				}
+			}
+		}
+
+		// 예약된 시간이 있을경우
 		$.each(data, function(idx, item) {
 			var time = item.RESV_TIME;
-			var chgti;
 
 			for (var i = 0; i < arrNumber.length; i++) {
-				chgti = Number(arrNumber[i].substr(0, 2));
 				if (arrNumber[i] == item.RESV_TIME) {
 					if (item.CNT > 3) {
 						arrNumber.splice(i, 1, "");
-					}
-				}
-
-				// 현재 이전 시간대 예약 불가
-				if ('${resvType}' == 'T') { // 당일 예약
-					if (today == $("input[name='resv_date']").val()) {
-						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1, "");
-						}
-					}
-				} else {
-					if (today == $(".selector").val()) {
-						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1, "");
-						}
 					}
 				}
 			}
@@ -217,7 +237,7 @@ ul.tabs li.current {
 			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
 		}
 	}
-	
+
 	// 등록된 예약 정보
 	function resvInfo() {
 		$("body").on("click", "#modi", function() {
@@ -321,12 +341,29 @@ ul.tabs li.current {
 	//미결제
 	function reserlistResult2(data) {
 		$("#unpayList").empty();
-		$.each(data,function(idx, item) {
-				$("<tr>")
-					.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-					.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-					.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
-					.appendTo('#unpayList');
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$("<tr>")
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.resv_date)
+													.html(item.resv_date))
+									.append(
+											$("<td>")
+													.attr("id",
+															'question' + idx)
+													.append(
+															$("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa2').attr(
+															'value',
+															item.resv_no).html(
+															item.resv_no))
+									.appendTo('#unpayList');
 							if (item.resv_payyn == "N") {
 								console.log(">> " + item.resv_payyn);
 								$("#question" + idx)
@@ -478,7 +515,7 @@ ul.tabs li.current {
 			}
 		//만들어야함
 		});
-		
+
 	}
 
 	function allreserResult(data) {
@@ -486,28 +523,41 @@ ul.tabs li.current {
 
 		$("#allreser").empty();
 		console.log(data);
-		$.each(data,function(idx, item) {
-			$("<tr id='allreser'>")
-				.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
-				.append($("<td>").attr("id", 'diagsis'+idx).attr('value',item.DIS_NAME).html(item.DIS_NAME))
-				//.append($("<td>").attr("id", 'status'))
-				//.append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-				.append($("<td style='display:none;'>").attr("id", 'aa').attr('value',item.RESV_NO).html(item.RESV_NO))
-				.appendTo('#allreser');
-						
-			if (item.RESV_STATUS == "N") {
-				console.log(">> 1 " + item.RESV_STATUS);
-				text = "";
-				$("#diagsis"+idx).eq(-1).after('<td id="diag_yn">'
-						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" >'
-						+ '</td>');
-			} else if (item.RESV_STATUS == "Y") {
-				console.log(">>2 " + item.RESV_STATUS);
-				text = "진료완료";
-				$("#diagsis"+idx).eq(-1).after(
-						'<td id="diag_yn">' + text + '</td>');
-			} 
-		})
+		$
+				.each(
+						data,
+						function(idx, item) {
+							$("<tr id='allreser'>").append(
+									$("<td>").attr("id", 'resv_date').attr(
+											'value', item.RESV_DATE).html(
+											item.RESV_DATE)).append(
+									$("<td>").attr("id", 'diagsis' + idx).attr(
+											'value', item.DIS_NAME).html(
+											item.DIS_NAME))
+							//.append($("<td>").attr("id", 'status'))
+							//.append($("<input type='button' id='que' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+							.append(
+									$("<td style='display:none;'>").attr("id",
+											'aa').attr('value', item.RESV_NO)
+											.html(item.RESV_NO)).appendTo(
+									'#allreser');
+
+							if (item.RESV_STATUS == "N") {
+								console.log(">> 1 " + item.RESV_STATUS);
+								text = "";
+								$("#diagsis" + idx)
+										.eq(-1)
+										.after(
+												'<td id="diag_yn">'
+														+ '<input type="button" class="btn btn-primary btn-sm" value="결제" >'
+														+ '</td>');
+							} else if (item.RESV_STATUS == "Y") {
+								console.log(">>2 " + item.RESV_STATUS);
+								text = "진료완료";
+								$("#diagsis" + idx).eq(-1).after(
+										'<td id="diag_yn">' + text + '</td>');
+							}
+						})
 		/* $("#question" + idx).eq(-1).after('<td id="resv_payyn">'
 						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
 						+ '</td>'); */
@@ -590,7 +640,7 @@ ul.tabs li.current {
 											</table>
 										</div>
 										<br>
-										
+
 									</div>
 
 									<!-- 예약/진료 => 결제완료탭  -->

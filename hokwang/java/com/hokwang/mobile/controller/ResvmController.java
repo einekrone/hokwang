@@ -61,7 +61,6 @@ public class ResvmController {
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getCntTimeList")
 	public List<Map<String, Object>> getCntTimeList(Reservation vo) {
-		System.out.println("1 : "+vo.getResv_date());
 		List<Map<String, Object>> list = resvmSvc.getCntTimeList(vo);
 		return list;
 	}

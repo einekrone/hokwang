@@ -236,9 +236,12 @@
 	</select>
 
 	<select id="getMonthSales" parameterType="employeeVO" resultType="integer">
-		select sum(pay_price)
-		from reservation 
-		where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
+		SELECT SUM(PAY_PRICE)
+		FROM PAYMENT P, RESERVATION R
+		WHERE  P.resv_no = r.resv_no
+		AND P.PAY_STATE = 'Y'
+		AND R.RESV_ROOM = #{emp_room}
+		AND TO_CHAR(r.resv_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
 	</select>
 
 	<select id="getDaySales" parameterType="employeeVO" resultType="integer">

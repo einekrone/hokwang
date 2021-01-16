@@ -43,8 +43,7 @@ public class HomeController {
 	@RequestMapping(value = "/mobile")
 	public String mobile(Model model) throws IOException {
 		List<Map<String, Object>> list = corSvc.getCorona();
-		model.addAttribute("corona", list);
-		
+		model.addAttribute("corona", list);	
 		return "mobile/main";
 	}
 

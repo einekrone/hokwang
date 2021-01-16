@@ -25,11 +25,11 @@ public class KakaoLoginController {
 		String kakaoUrl = KakaoAPI.getAuthorizationUrl(); /* 생성한 인증 URL을 View로 전달 */
 		mav.setViewName("mobile/loginM"); 
 		// mav.addObject("naver_url", naverAuthUrl); // 카카오 로그인
-		mav.addObject("kakao_url", kakaoUrl);
+		mav.addObject("kakao_url",kakaoUrl);
 		return mav;
 	}
 
-	@RequestMapping(value = "/mobile", produces = "application/json")
+	@RequestMapping(value = "/kakao", produces = "application/json")
 	public ModelAndView kakaoLogin(@RequestParam("code") String code, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView(); // 결과값을 node에 담아줌
@@ -37,7 +37,6 @@ public class KakaoLoginController {
 		JsonNode accessToken = node.get("access_token"); // 사용자의 정보
 		JsonNode userInfo = KakaoAPI.getKakaoUserInfo(accessToken);
 	
-		
 		String kemail = null;
 		String kname = null;
 		String kgender = null;
@@ -59,7 +58,12 @@ public class KakaoLoginController {
 		session.setAttribute("kbirthday", kbirthday);
 		session.setAttribute("kage", kage);
 		System.out.println("aaaaaaaaaaaa"+kemail);
-		mav.setViewName("mobile/main");
+		System.out.println("aaaaaaaaaaaa"+kname);
+		System.out.println("aaaaaaaaaaaa"+kimage);
+		System.out.println("aaaaaaaaaaaa"+kage);
+		System.out.println("aaaaaaaaaaaa"+accessToken);
+		
+		mav.setViewName("mobile/registerKakao");
 		return mav;
 	}
 }

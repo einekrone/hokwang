@@ -94,7 +94,23 @@ ul.tabs li.current {
 		question2();
 		//chgBaby();
 		babyList();
-
+		
+		$("#cancelBtn").on("click", function() {
+			console.log("dddd");
+			var resvNo = $(this).data("resv");
+			console.log("cancelBtn : "+resvNo);
+// 			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
+			// 예약취소 함수 실행
+		});
+		
+		$("#modiBtn").on("click", function() {
+			console.log("bbbb");
+			var resvNo = $(this).data("resv");
+			console.log("modiBtn : "+resvNo);
+// 			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
+			// 예약수정 함수 실행
+		});
+		
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -139,8 +155,15 @@ ul.tabs li.current {
 		});
 		// 예약 취소/수정 모달 E
 	});
-</script>
-<script type="text/javascript">
+	
+	function close_pop() {
+		$("#modifyAndCancel").hide();
+	}
+
+	function cancle_pop() {
+		$("#modifyAndCancel").show();
+	}
+
 	// 검진 상태별 항목
 	function chkType() {
 		var chkVal = $('input[name="chk_type"]:checked').val();
@@ -249,8 +272,7 @@ ul.tabs li.current {
 				"#modi",
 				function() {
 					$("#baby_no").val($(this).data("baby"));
-					var resvNo = $(event.target).parent().siblings("#aa1")
-							.text();
+					var resvNo = $(event.target).parent().siblings("#aa1").text();
 					console.log("resvNo : " + resvNo);
 					$.ajax({
 						url : "ajax/resvInfo",
@@ -274,16 +296,23 @@ ul.tabs li.current {
 							}
 							$(".selector").val(data.RESV_DATE);
 							resvList($(".selector").val());
-							$("#chkResvTime").val(data.RESV_DATE + " " + data.RESV_TIME);
+							$("#chkResvTime").val(
+									data.RESV_DATE + " " + data.RESV_TIME);
 							if (typeof data.RESV_DETAIL != 'undefined') {
-								console.log("detail : "+data.RESV_DETAIL);
+								console.log("detail : " + data.RESV_DETAIL);
 								var test = data.RESV_DETAIL;
 								test = test.split(",");
-								console.log("detail3 : "+test.length);
+								console.log("detail3 : " + test.length);
 							}
 							if (typeof data.RESV_MEMO != 'undefined') {
-								$("textarea[name=resv_memo]").val(data.RESV_MEMO);
+								$("textarea[name=resv_memo]").val(
+										data.RESV_MEMO);
 							}
+							
+							$("#resv_no").val(data.RESV_NO);
+							console.log("dddddwerw : "+data.RESV_NO);
+				 			document.getElementById('cancelBtn').setAttribute("data-resv", data.RESV_NO);
+				 			document.getElementById('modiBtn').setAttribute("data-resv", data.RESV_NO);
 						}
 					});
 				});
@@ -916,7 +945,7 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
-	<!-- 수정/취소 모달 -->
+	<!-- 수정/취소 모달 S -->
 	<div class="modal fade" id="modifyAndCancel" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -928,7 +957,7 @@ ul.tabs li.current {
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="height: 500px; overflow: auto;">
 					<input id="baby_no" type="hidden" value="">
 					<form id="frm" name="frm">
 						<div class="card">
@@ -951,7 +980,6 @@ ul.tabs li.current {
 							</div>
 						</div>
 
-						<!-- <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1"> -->
 						<div class="card flex-fill">
 							<div class="card-header">
 								<h5 class="card-title"
@@ -993,7 +1021,8 @@ ul.tabs li.current {
 							</div>
 							<div class="card-body">
 								<table align="center" border="1"
-									style="border-collapse: collapse; text-align:center; width: 100%;" id="chkTb">
+									style="border-collapse: collapse; text-align: center; width: 100%;"
+									id="chkTb">
 									<tr>
 										<td>발진</td>
 										<td>가려움증</td>
@@ -1086,17 +1115,37 @@ ul.tabs li.current {
 								</div>
 							</div>
 						</div>
-						<!-- </div> -->
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">예약
-						수정</button>
-					<button class="btn btn-primary" type="button" data-dismiss="modal">예약
-						취소</button>
+					<button class="btn btn-primary" type="button" data-dismiss="modal" id="modiBtn">예약수정</button>
+					<button class="btn btn-primary" type="button" data-toggle="modal" id="cancelBtn"
+						data-target="#chkPop" onclick="close_pop()">예약취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 수정/취소 모달 E -->
+	<!-- 예약취소 확인 모달 S -->
+	<div class="modal fade" id="chkPop" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">예약 취소 확인</h5>
+				</div>
+				<div class="modal-body">
+					<p>예약을 취소하시겠습니까?</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" style="margin: 0 25px;"
+						id="cRBtn" data-dismiss="modal">예약취소</button>
+					<button class="btn btn-primary" type="button" style="margin: 0 25px;"
+						data-dismiss="modal" onclick="cancle_pop()">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 예약취소 확인 모달 E -->
 </body>
 </html>

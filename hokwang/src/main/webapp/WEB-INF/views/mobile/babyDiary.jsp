@@ -108,17 +108,7 @@ ul.tabs li.current {
 		// 예약 취소/수정 모달 S
 		resvInfo();
 		$("input[name=chk_type]").on("click", function() {
-			var chkVal = $('input[name="chk_type"]:checked').val();
-
-			if (chkVal == "V") {
-				$("#resvTypeDiv").css("display", "block");
-				$("#detailCard").css("display", "none");
-				vacList();
-
-			} else {
-				$("#resvTypeDiv").css("display", "none");
-				$("#detailCard").css("display", "block");
-			}
+			chkType();
 		});
 
 		$(".selector").on("change", function() {
@@ -151,6 +141,20 @@ ul.tabs li.current {
 	});
 </script>
 <script type="text/javascript">
+	// 검진 상태별 항목
+	function chkType() {
+		var chkVal = $('input[name="chk_type"]:checked').val();
+
+		if (chkVal == "V") {
+			$("#resvTypeDiv").css("display", "block");
+			$("#detailCard").css("display", "none");
+			vacList();
+
+		} else {
+			$("#resvTypeDiv").css("display", "none");
+			$("#detailCard").css("display", "block");
+		}
+	}
 	// 접종명 목록
 	function vacList() {
 		$("#vacSel").empty();
@@ -159,9 +163,9 @@ ul.tabs li.current {
 		$.ajax({
 			url : 'ajax/vacList',
 			type : 'GET',
-			data : {
-				baby_no : babyNo
-			},
+			// 			data : {
+			// 				baby_no : babyNo
+			// 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
@@ -240,10 +244,49 @@ ul.tabs li.current {
 
 	// 등록된 예약 정보
 	function resvInfo() {
-		$("body").on("click", "#modi", function() {
-			var babyNo = $(this).data("baby");
-			$("#baby_no").val(babyNo);
-		});
+		$("body").on(
+				"click",
+				"#modi",
+				function() {
+					$("#baby_no").val($(this).data("baby"));
+					var resvNo = $(event.target).parent().siblings("#aa1")
+							.text();
+					console.log("resvNo : " + resvNo);
+					$.ajax({
+						url : "ajax/resvInfo",
+						type : "GET",
+						data : {
+							resv_no : resvNo
+						},
+						error : function(xhr, status, msg) {
+							alert("상태값 :" + status + " Http에러메시지 :" + msg);
+						},
+						success : function(data) {
+							console.log("chk_type : " + data.CHK_TYPE);
+							$(
+									'input:radio[name="chk_type"][value="'
+											+ data.CHK_TYPE + '"]').prop(
+									'checked', true);
+							chkType();
+							if (data.CHK_TYPE == "V") {
+								$("#vacSel option:eq(" + data.CHK_NO + ")")
+										.attr("selected", "selected");
+							}
+							$(".selector").val(data.RESV_DATE);
+							resvList($(".selector").val());
+							$("#chkResvTime").val(data.RESV_DATE + " " + data.RESV_TIME);
+							if (typeof data.RESV_DETAIL != 'undefined') {
+								console.log("detail : "+data.RESV_DETAIL);
+								var test = data.RESV_DETAIL;
+								test = test.split(",");
+								console.log("detail3 : "+test.length);
+							}
+							if (typeof data.RESV_MEMO != 'undefined') {
+								$("textarea[name=resv_memo]").val(data.RESV_MEMO);
+							}
+						}
+					});
+				});
 	}
 </script>
 <script type="text/javascript">
@@ -908,8 +951,7 @@ ul.tabs li.current {
 								<input type="text" class="selector" placeholder="날짜를 선택하세요."
 									style="margin-left: 20%; text-align: center;" name="resv_date"
 									class="" /> <a class="input-button" title="toggle" data-toggle><i
-									class="icon-calendar"></i></a> ​
-
+									class="icon-calendar"></i></a>
 								<script type="text/javascript">
 									$(".selector")
 											.flatpickr(
@@ -928,7 +970,9 @@ ul.tabs li.current {
 								</script>
 							</div>
 							<!-- 날짜별 예약 가능 시간 -->
-							<div class="card-body">
+							<div class="card-body" style="margin-top: 10px;">
+								​ 현재 예약 : <input type="text" id="chkResvTime"
+									style="width: 150px; text-align: center;" readonly />
 								<div id="resvTime"></div>
 							</div>
 						</div>
@@ -939,7 +983,7 @@ ul.tabs li.current {
 							</div>
 							<div class="card-body">
 								<table align="center" border="1"
-									style="border-collapse: collapse; width: 100%;" id="chkTb">
+									style="border-collapse: collapse; text-align:center; width: 100%;" id="chkTb">
 									<tr>
 										<td>발진</td>
 										<td>가려움증</td>

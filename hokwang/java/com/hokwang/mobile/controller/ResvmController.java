@@ -64,4 +64,11 @@ public class ResvmController {
 		List<Map<String, Object>> list = resvmSvc.getCntTimeList(vo);
 		return list;
 	}
+	
+	// 예약 정보(+문진표)
+	@ResponseBody
+	@RequestMapping("/ajax/resvInfo")
+	public Map<String, Object> getResvInfo(Reservation vo) {
+		return resvmSvc.getResvInfo(vo);
+	}
 }

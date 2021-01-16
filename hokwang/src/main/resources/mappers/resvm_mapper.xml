@@ -15,7 +15,7 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="getVacList" resultType="checkupVO">
 		SELECT * FROM CHECKUP
 		<where>
@@ -29,12 +29,14 @@
 		ORDER BY CHK_NO
 	</select>
 
-	<select id="getCntTimeList" resultType="map" parameterType="reservation">
+	<select id="getCntTimeList" resultType="map"
+		parameterType="reservation">
 		SELECT COUNT(RESV_TIME) CNT,
 		RESV_TIME
 		FROM RESERVATION
 		WHERE TO_CHAR(RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
-		GROUP BY RESV_TIME
+		GROUP BY
+		RESV_TIME
 		ORDER BY 2
 	</select>
 
@@ -139,4 +141,19 @@
 		DELETE FROM RESERVATION
 		WHERE RESV_NO = #{resv_no}
 	</delete>
+
+	<select id="getResvInfo" resultType="map"
+		parameterType="reservation">
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') RESV_DATE,
+		R.RESV_TIME, R.RESV_STATUS, R.RESV_DETAIL, R.RESV_MEMO, R.RESV_TYPE,
+		R.CHK_TYPE, R.CHK_NO, Q.*
+		FROM RESERVATION R
+		LEFT JOIN QUESTION Q ON
+		R.RESV_NO = Q.QUST_NO
+		<where>
+			<if test="resv_no != null and resv_no != ''">
+				R.RESV_NO = #{resv_no}
+			</if>
+		</where>
+	</select>
 </mapper>

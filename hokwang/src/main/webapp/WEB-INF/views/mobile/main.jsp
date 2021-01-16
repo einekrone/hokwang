@@ -114,7 +114,7 @@
 	</script>
 <body>
 
-	<h1>${kemail}</h1>
+	
 	<c:if test="${parent_vo != null }">
 		<div class="row mb-2 mb-xl-3">
 			<div class="col-auto ml-auto text-right mt-n1">
@@ -183,7 +183,7 @@
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-				${kemail}
+				
 					<h5 class="card-title mb-0">코로나 현황</h5>
 				</div>
 				<div style="height: 200px; overflow: auto;">

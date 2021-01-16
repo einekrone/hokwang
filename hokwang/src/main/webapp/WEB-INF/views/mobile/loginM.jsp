@@ -138,6 +138,8 @@ span {
 		checkEmail();
 	});
 	
+
+
 	function checkEmail(){
 		$('#overLapEmail').on("click",function(){
 			if($('#email').val() == ''){

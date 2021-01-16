@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KakaoAPI {
    private final static String K_CLIENT_ID = "dfc27a931352b4dd4190cccdf60a57d0"; // "REST API키 "
-   private final static String K_REDIRECT_URI = "http://localhost:808/hokwang/mobile"; // redirect uri
+   private final static String K_REDIRECT_URI = "http://localhost:808/hokwang/kakao"; // redirect uri
 
    public static String getAuthorizationUrl() {
       String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + K_CLIENT_ID + "&redirect_uri="

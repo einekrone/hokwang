@@ -28,6 +28,7 @@ public class MainHeaderController {
 	@ResponseBody
 	@RequestMapping("/ajax/logInAction")
 	public boolean logInAction(ParentVO vo,HttpSession session) {
+		System.out.println("ccccccccccc");
 		vo = dao.logInAction(vo);
 		if (vo != null) {
 			session.setAttribute("parent_vo", vo);

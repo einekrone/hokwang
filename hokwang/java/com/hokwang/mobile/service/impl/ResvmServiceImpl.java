@@ -53,4 +53,9 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.getResvInfo(vo);
 	}
 
+	@Override
+	public int resvDelete(Reservation vo) {
+		return resvmDao.resvDelete(vo);
+	}
+
 }

@@ -99,8 +99,26 @@ ul.tabs li.current {
 			console.log("dddd");
 			var resvNo = $(this).data("resv");
 			console.log("cancelBtn : "+resvNo);
-// 			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
-			// 예약취소 함수 실행
+			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
+		});
+
+		$("#cRBtn").on("click", function() {
+			var resvNo = $(this).data("resv");
+			console.log("cRBtn : "+resvNo);
+			$.ajax({
+				url: 'ajax/resvDelete',
+				method:'post',
+				data: {
+					resv_no: resvNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alert("예약이 취소되었습니다.");
+					location.href = "babyDiary";
+				}
+			});
 		});
 		
 		$("#modiBtn").on("click", function() {
@@ -284,11 +302,7 @@ ul.tabs li.current {
 							alert("상태값 :" + status + " Http에러메시지 :" + msg);
 						},
 						success : function(data) {
-							console.log("chk_type : " + data.CHK_TYPE);
-							$(
-									'input:radio[name="chk_type"][value="'
-											+ data.CHK_TYPE + '"]').prop(
-									'checked', true);
+							$('input:radio[name="chk_type"][value="'+ data.CHK_TYPE + '"]').prop('checked', true);
 							chkType();
 							if (data.CHK_TYPE == "V") {
 								$("#vacSel option:eq(" + data.CHK_NO + ")")
@@ -313,6 +327,12 @@ ul.tabs li.current {
 							console.log("dddddwerw : "+data.RESV_NO);
 				 			document.getElementById('cancelBtn').setAttribute("data-resv", data.RESV_NO);
 				 			document.getElementById('modiBtn').setAttribute("data-resv", data.RESV_NO);
+				 			
+				 			// 문진표
+							$('input:radio[name="a1"][value="'+ data.A1 + '"]').prop('checked', true);
+							$('input:radio[name="a2"][value="'+ data.A2 + '"]').prop('checked', true);
+							$('input:radio[name="a3"][value="'+ data.A3 + '"]').prop('checked', true);
+							$('input:radio[name="a4"][value="'+ data.A4 + '"]').prop('checked', true);
 						}
 					});
 				});

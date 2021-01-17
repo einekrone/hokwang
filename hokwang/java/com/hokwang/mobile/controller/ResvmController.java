@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
+import com.hokwang.vo.Images;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -70,5 +72,13 @@ public class ResvmController {
 	@RequestMapping("/ajax/resvInfo")
 	public Map<String, Object> getResvInfo(Reservation vo) {
 		return resvmSvc.getResvInfo(vo);
+	}
+	
+	// 예약 삭제
+	@ResponseBody
+	@RequestMapping("/ajax/resvDelete")
+	public int resvDelete(Reservation vo) {
+		System.out.println("삭제할 예약 : "+vo.getResv_no());
+		return resvmSvc.resvDelete(vo);
 	}
 }

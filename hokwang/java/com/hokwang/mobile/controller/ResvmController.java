@@ -81,4 +81,12 @@ public class ResvmController {
 		System.out.println("삭제할 예약 : "+vo.getResv_no());
 		return resvmSvc.resvDelete(vo);
 	}
+	
+	// 예약 수정
+	@ResponseBody
+	@RequestMapping("/ajax/resvUpdate")
+	public int resvUpdate(Reservation vo) {
+		System.out.println("수정할 예약 : "+vo.getResv_no());
+		return resvmSvc.resvUpdate(vo);
+	}
 }

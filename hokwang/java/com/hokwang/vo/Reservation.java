@@ -27,4 +27,6 @@ public class Reservation {//예약
 	String baby_no;		// 아기번호
 	String chk_no;//검진 번호
 	String emp_no;
+	
+	String nresv_no;	// 변경된 예약번호
 }

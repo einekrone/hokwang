@@ -177,21 +177,66 @@ ul.tabs li.current {
 	// 예약 수정
 	function resvUpdate() {
 		// 유효성 검사
+		var chkVal = $('input[name="resv_time"]:checked').val();
+			if ($('input[name="chk_type"]:checked').val() == "V") {
+				if ($("#vacSel option:selected").val() == "") {
+					alert("접종할 병명을 선택해 주세요.");
+					return;
+				}
+			}
+
+			if ($(".selector").val() == "") {
+				alert("예약 날짜를 선택해 주세요.");
+				return;
+			} else {
+				if (chkVal == undefined) {
+					alert("예약 시간을 선택해 주세요.");
+					return;
+				}
+			}
+
+			if ($(':radio[name="a1"]:checked').length < 1) {
+				alert("문진표의 응답1을 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="a2"]:checked').length < 1) {
+				alert("문진표의 응답2를 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="a3"]:checked').length < 1) {
+				alert("문진표의 응답3을 선택해 주세요.");
+				return;
+			}
+			if ($(':radio[name="a4"]:checked').length < 1) {
+				alert("문진표의 응답4를 선택해 주세요.");
+				return;
+			}
+			var eee = $("input[name=resv_date]").val();
+			eee = eee.replaceAll('-', '').substr(2);
+			var aaa = $('input[name="resv_time"]:checked').val();
+			aaa = aaa.replaceAll(':', '');
+			var bbb = $('#childSel option:selected').val();
+
+			var resvNo = "${resvType}" + eee + aaa + bbb;
+			$("#resv_detail").val(chkTbArr);
+			var resvTy = "${resvType}";
+			$("#resv_type").val(resvTy);
+			$("#nresv_no").val(resvNo);
 		
 		// 수정
-// 		$.ajax({
-// 			url : "ajax/resvUpdate",
-// 			method : "post",
-// 			data : $("#frm").serialize(),
-// 			// 				data : data,
-// 			success : function(response) {
-// 				alert("예약 수정 성공");
-// 				location.href = "babyDiary";
-// 			},
-// 			error : function(xhr, status, message) {
-// 				alert("status : " + status + " error : " + message);
-// 			}
-// 		});
+		$.ajax({
+			url : "ajax/resvUpdate",
+			method : "post",
+			data : $("#frm").serialize(),
+			// 				data : data,
+			success : function(response) {
+				alert("예약 수정 성공");
+				location.href = "babyDiary";
+			},
+			error : function(xhr, status, message) {
+				alert("status : " + status + " error : " + message);
+			}
+		});
 	}
 	
 	function close_pop() {
@@ -1107,7 +1152,8 @@ ul.tabs li.current {
 								<input style="display: none;" name="resv_detail"
 									id="resv_detail"> <input style="display: none;"
 									name="resv_type" id="resv_type"> <input
-									style="display: none;" name="resv_no" id="resv_no">
+									style="display: none;" name="resv_no" id="resv_no"><input
+									style="display: none;" name="nresv_no" id="nresv_no">
 							</div>
 						</div>
 
@@ -1169,7 +1215,7 @@ ul.tabs li.current {
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal" id="modiBtn">예약수정</button>
+					<button class="btn btn-primary" type="button" id="modiBtn">예약수정</button>
 					<button class="btn btn-primary" type="button" data-toggle="modal" id="cancelBtn"
 						data-target="#chkPop" onclick="close_pop()">예약취소</button>
 				</div>

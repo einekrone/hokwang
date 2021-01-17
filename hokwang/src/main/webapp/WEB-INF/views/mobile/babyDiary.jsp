@@ -125,8 +125,8 @@ ul.tabs li.current {
 			console.log("bbbb");
 			var resvNo = $(this).data("resv");
 			console.log("modiBtn : "+resvNo);
-// 			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
 			// 예약수정 함수 실행
+			resvUpdate();
 		});
 		
 		$('ul.tabs li').click(function() {
@@ -173,6 +173,26 @@ ul.tabs li.current {
 		});
 		// 예약 취소/수정 모달 E
 	});
+	
+	// 예약 수정
+	function resvUpdate() {
+		// 유효성 검사
+		
+		// 수정
+// 		$.ajax({
+// 			url : "ajax/resvUpdate",
+// 			method : "post",
+// 			data : $("#frm").serialize(),
+// 			// 				data : data,
+// 			success : function(response) {
+// 				alert("예약 수정 성공");
+// 				location.href = "babyDiary";
+// 			},
+// 			error : function(xhr, status, message) {
+// 				alert("status : " + status + " error : " + message);
+// 			}
+// 		});
+	}
 	
 	function close_pop() {
 		$("#modifyAndCancel").hide();
@@ -312,19 +332,29 @@ ul.tabs li.current {
 							resvList($(".selector").val());
 							$("#chkResvTime").val(
 									data.RESV_DATE + " " + data.RESV_TIME);
+							
+							var detailArr = [];
 							if (typeof data.RESV_DETAIL != 'undefined') {
-								console.log("detail : " + data.RESV_DETAIL);
 								var test = data.RESV_DETAIL;
-								test = test.split(",");
-								console.log("detail3 : " + test.length);
+								detailArr = test.split(",");
 							}
+							
+							for(var i=0; i<detailArr.length; i++) {
+								var tdcnt = $("#chkTb").children().find("td").length;
+								
+								for(var j=0; j<tdcnt; j++) {
+									var tdcont = $("#chkTb").children().find("td").eq(j).text();
+									if(tdcont == detailArr[i]) {
+										$("#chkTb").children().find("td").eq(j).css('background', '#f6d578');
+									}
+								}
+							}
+							
 							if (typeof data.RESV_MEMO != 'undefined') {
-								$("textarea[name=resv_memo]").val(
-										data.RESV_MEMO);
+								$("textarea[name=resv_memo]").val(data.RESV_MEMO);
 							}
 							
 							$("#resv_no").val(data.RESV_NO);
-							console.log("dddddwerw : "+data.RESV_NO);
 				 			document.getElementById('cancelBtn').setAttribute("data-resv", data.RESV_NO);
 				 			document.getElementById('modiBtn').setAttribute("data-resv", data.RESV_NO);
 				 			

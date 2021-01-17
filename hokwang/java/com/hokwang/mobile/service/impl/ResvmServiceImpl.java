@@ -48,4 +48,19 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.getCntTimeList(vo);
 	}
 
+	@Override
+	public Map<String, Object> getResvInfo(Reservation vo) {
+		return resvmDao.getResvInfo(vo);
+	}
+
+	@Override
+	public int resvDelete(Reservation vo) {
+		return resvmDao.resvDelete(vo);
+	}
+
+	@Override
+	public int resvUpdate(Reservation vo) {
+		return resvmDao.resvUpdate(vo);
+	}
+
 }

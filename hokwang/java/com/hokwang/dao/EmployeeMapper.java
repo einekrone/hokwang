@@ -20,9 +20,11 @@ public interface EmployeeMapper {
 	
 	public void updateImg(EmployeeVO vo); // 이미지 수정
 	
-	public Integer getCountResv(EmployeeVO vo); //각진료실 예약건수
+	public Integer getCountResv(EmployeeVO vo); //각 진료실 예약건수
 	
-	public Integer getDaySales(EmployeeVO vo); //각진료실매출
+	public Integer getDaySales(EmployeeVO vo); //각 진료실 일매출
+	
+	public Integer getMonthSales(EmployeeVO vo); //각 진료실 월매출
 	
 	public int getCountMsg(EmployeeVO emp_vo);
 

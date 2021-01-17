@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.BabyDiaryService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.DiagnosisVO;
+import com.hokwang.vo.PrescriptionVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -23,10 +25,12 @@ public class BabyDiaryController {
 
 	@ResponseBody
 	@RequestMapping("/ajax/reserlist")
-	public List<Reservation> reserlist(Reservation vo,HttpSession session) {
+	public Map<String,Object> reserlist(Reservation vo) {
 		//vo.setResv_no(((ParentVO) session.getAttribute("parent_vo")).getEmp_no());
-		System.out.println(vo);
-		return service.reserlist(vo);//예약리스트
+		Map<String,Object> map = new HashMap<String,Object>(); //상세진료기록
+		map.put("reserlist",service.reserlist(vo));
+		map.put("allreser",service.allreser(vo));
+		return map;//예약리스트
 	}
 	@ResponseBody
 	@RequestMapping("/ajax/question")

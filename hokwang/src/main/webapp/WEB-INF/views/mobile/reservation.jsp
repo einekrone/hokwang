@@ -28,7 +28,6 @@ td {
 	var today;
 	var chkTbArr;
 	$(function() {
-		console.log("start");
 		d = new Date();
 
 		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)
@@ -221,17 +220,13 @@ td {
 				// 현재 이전 시간대 예약 불가
 				if ('${resvType}' == 'T') { // 당일 예약
 					if (today == $("input[name='resv_date']").val()) {
-						console.log("* : "+chgti);
-						console.log("** : "+d.getHours());
 						if (chgti <= d.getHours()) {
-							console.log("-");
 							arrNumber.splice(i, 1, "");
 						}
 					}
 				} else {
 					if (today == $(".selector").val()) {
 						if (chgti <= d.getHours()) {
-							console.log("+");
 							arrNumber.splice(i, 1, "");
 						}
 					}
@@ -239,13 +234,18 @@ td {
 			}
 		});
 
+		var chk = false;
 		for (var i = 0; i < arrNumber.length; i++) {
-			if (arrNumber[i] != "") {
+			if (arrNumber[i] != "" && arrNumber[i] != null) {
 				$("#resvTime")
 						.append(
 								'<label class="form-check" style="margin:2px;"><input name="resv_time" type="radio" class="form-check-input" value="'+arrNumber[i]+'"><span class="form-check-label">'
 										+ arrNumber[i] + '</span></label>');
+				chk = true;
 			}
+		}
+		if(!chk) {
+			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
 		}
 	}
 

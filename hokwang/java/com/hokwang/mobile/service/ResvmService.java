@@ -16,4 +16,7 @@ public interface ResvmService {
 	int resvInsert(Reservation resvVO);
 	int alertInsert(AlertVO vo);
 	List<Map<String, Object>> getCntTimeList(Reservation vo);
+	Map<String, Object> getResvInfo(Reservation vo);
+	int resvDelete(Reservation vo);
+	int resvUpdate(Reservation vo);
 }

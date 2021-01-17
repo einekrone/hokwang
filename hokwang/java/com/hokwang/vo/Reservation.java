@@ -10,7 +10,7 @@ import lombok.Data;
 public class Reservation {//예약
 
 	String resv_no;//예약 번호
-	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "YYYY-MM-DD")
 	Date resv_date;//예약 날짜
 	String resv_time;//예약 시간
 	String resv_status;//진료 상태
@@ -27,4 +27,6 @@ public class Reservation {//예약
 	String baby_no;		// 아기번호
 	String chk_no;//검진 번호
 	String emp_no;
+	
+	String nresv_no;	// 변경된 예약번호
 }

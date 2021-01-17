@@ -3,12 +3,21 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.CheckHistMapper">
+	
 	<select id="checkHistlist" resultType="map">
-		select b.chk_name ,b.chk_total,a.hist_count,a.hist_state from
-		CHECKHIST a,CHECKUP b
+		select b.chk_name as chk_name,a.hist_date,a.hist_state
+		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
+		CHECKHIST
+		a, CHECKUP b,reservation c,baby d
 		<where>
-			a.chk_no=b.chk_no and a.baby_no=1
+			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no}
 		</where>
 	</select>
 
+
 </mapper>
+<!-- select b.chk_name as chk_name,a.hist_date as hist_date,a.hist_state 
+	as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from checkhist 
+	a, checkup b,reservation c,baby d where a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO 
+	and c.baby_no=d.baby_no and d.baby_no=1; -->

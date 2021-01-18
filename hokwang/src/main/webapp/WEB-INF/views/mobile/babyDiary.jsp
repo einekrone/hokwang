@@ -518,7 +518,7 @@ ul.tabs li.current {
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
 				console.log("idx>>>" + idx);
-					$("<tr>").append(
+						$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
 					$("<td id='hist_date" + idx+"'>").html(
@@ -923,6 +923,7 @@ ul.tabs li.current {
 
 										<div class="tab-pane fade text-center" id="tab-2"
 											role="tabpanel">
+											<div style="height: 250px; overflow: auto;">
 											<table class="table text-center">
 												<thead>
 													<tr>
@@ -933,10 +934,12 @@ ul.tabs li.current {
 												</thead>
 												<tbody id="checkupIncom"></tbody>
 											</table>
+											</div>
 										</div>
 
 										<div class="tab-pane fade text-center" id="tab-3"
 											role="tabpanel">
+											<div style="height: 250px; overflow: auto;">
 											<table class="table text-center">
 												<thead>
 													<tr>
@@ -947,6 +950,7 @@ ul.tabs li.current {
 												</thead>
 												<tbody id="checkupCom"></tbody>
 											</table>
+											</div>
 										</div>
 									</div>
 								</div>

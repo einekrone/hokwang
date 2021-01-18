@@ -448,7 +448,7 @@ ul.tabs li.current {
 				.each(data,function(idx, item) {
 							$("<tr id='a2'>")
 									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='que1' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='question_reser' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
 									.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
 									.appendTo('#reser2');
@@ -476,31 +476,15 @@ ul.tabs li.current {
 						data,
 						function(idx, item) {
 							$("<tr>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.resv_date)
-													.html(item.resv_date))
-									.append(
-											$("<td>")
-													.attr("id",
-															'question' + idx)
-													.append(
-															$("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa2').attr(
-															'value',
-															item.resv_no).html(
-															item.resv_no))
+									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+									.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
 									.appendTo('#unpayList');
 							if (item.resv_payyn == "N") {
 								console.log(">> " + item.resv_payyn);
 								$("#question" + idx)
 										.eq(-1)
-										.after(
-												'<td id="resv_payyn">'
-														+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
+										.after('<td id="resv_payyn">'+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
 														+ '</td>');
 							} else if (item.resv_payyn == "Y") {
 								console.log(">> " + item.resv_payyn);
@@ -761,7 +745,7 @@ ul.tabs li.current {
 								<div class="tab-content">
 									<div class="tab-pane fade active show" id="tab-8"
 										role="tabpanel">
-										<div style="height: 100px; overflow: auto;">
+										<div style="height: 250px; overflow: auto;">
 											<table class="table text-center">
 												<thead>
 													<tr>

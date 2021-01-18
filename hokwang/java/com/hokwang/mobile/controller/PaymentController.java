@@ -24,13 +24,13 @@ public class PaymentController {
 	
 	@Autowired PaymentService payservice;
 	
-	// 예약 정보(+문진표)
-	@ResponseBody
-	@RequestMapping("/ajax/resvInfo")
-	public List<Map<String, Object>> getUnPaidList(PaymentVO vo) {
-		
-		return payservice.getUnPaidList(vo);
-	}
+//	// 예약 정보(+문진표)
+//	@ResponseBody
+//	@RequestMapping("/ajax/resvInfo")
+//	public List<Map<String, Object>> getUnPaidList(PaymentVO vo) {
+//		
+//		return payservice.getUnPaidList(vo);
+//	}
 	
 	
 	

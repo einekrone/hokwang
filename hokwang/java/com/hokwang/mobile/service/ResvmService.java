@@ -20,4 +20,5 @@ public interface ResvmService {
 	int resvDelete(Reservation vo);
 	int resvUpdate(Reservation vo);
 	int questUpdate(QuestionVO vo);
+	Object checkResvNo(Reservation vo);
 }

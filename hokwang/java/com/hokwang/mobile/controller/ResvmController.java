@@ -15,6 +15,7 @@ import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.Images;
+import com.hokwang.vo.ParentVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -39,6 +40,16 @@ public class ResvmController {
 		List<CheckupVO> list = resvmSvc.getVacList(vo);
 		model.addAttribute("vacList", list);
 		return list;
+	}
+	
+	// 예약 중복 체크
+	@ResponseBody
+	@RequestMapping("/ajax/checkResvNo")
+	public boolean checkResvNo(Reservation vo) {
+		if(resvmSvc.checkResvNo(vo) == null) {
+			return true;
+		}
+		return false;
 	}
 
 	// 예약 등록(+문진표, 알림)

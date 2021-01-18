@@ -20,8 +20,7 @@ public class CoronaService {
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map;
 		Document doc = Jsoup.connect(CORONA_URL).userAgent(
-				"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
-				.get();
+				"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36").get();
 		Elements contents = doc.select("table tbody tr");
 		for (Element content : contents) {
 			map = new HashMap<>();

@@ -70,6 +70,8 @@ public class KakaoLoginController {
 		if(vo != null) { //정보 이미 있다
 			session.setAttribute("parent_vo", vo);
 			mav.setViewName("mobile/main");
+			List<Map<String, Object>> list = corSvc.getCorona();
+			session.setAttribute("corona", list);	
 		}
 		else {
 			JsonNode properties = userInfo.path("properties");
@@ -85,14 +87,13 @@ public class KakaoLoginController {
 			mav.setViewName("mobile/registerKakao");
 		}
 
-		List<Map<String, Object>> list = corSvc.getCorona();
-		session.setAttribute("corona", list);	
+		
 		return mav;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/ajax/KakaoRegisterAction")
-	public boolean registerAction(ParentVO vo){
+	public boolean KakaoRegisterAction(ParentVO vo){
 		System.out.println("암호화전 : "+vo);
 		String inputPass = vo.getParent_pw();
 		String pwd = pwdEncoder.encode(inputPass);

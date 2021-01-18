@@ -5,20 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>HOHO</title>
-
 </head>
 <body>
-	<h1 class="h3 mb-3">Profile</h1>
+
+
+	<h1 class="h3 mb-3">회원정보</h1>
 
 	<div class="row">
 		<div class="col-md-4 col-xl-3">
 			<div class="card mb-3">
 				<div class="card-header"></div>
 				<div class="card-body text-center">
-					<img src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" alt="Christina Mason"
-						class="img-fluid rounded-circle mb-2" width="128" height="128" />
-					<h5 class="card-title mb-0">Christina Mason</h5>
-					<div class="text-muted mb-2">Lead Developer</div>
+					<img src="${pageContext.request.contextPath}/resources/img/emptyimg.png" alt="Christina Mason"
+						class="img-fluid rounded-circle mb-2" width="150" height="130" />
+					<h5 class="card-title mb-0">부모이름</h5>
+					<div class="text-muted mb-2">연락처</div>
 
 					<div>
 						<a class="btn btn-primary btn-sm" href="#">Follow</a> <a
@@ -148,50 +149,6 @@
 						</div>
 					</div>
 
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-2.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="William Harris">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>William
-								Harris</strong> started following <strong>Christina Mason</strong><br />
-							<small class="text-muted">Yesterday 3:12 pm</small>
-
-							<div class="d-flex align-items-start mt-1">
-								<a class="pr-3" href="#"> <img
-									src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" width="36" height="36"
-									class="rounded-circle mr-2" alt="Christina Mason">
-								</a>
-								<div class="flex-grow-1">
-									<div class="border text-sm text-muted p-2 mt-1">Nam quam
-										nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.
-										Maecenas nec odio et ante tincidunt tempus.</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Christina Mason">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>Christina
-								Mason</strong> posted a new blog<br /> <small class="text-muted">Yesterday
-								2:43 pm</small>
-						</div>
-					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Charles Hall">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>Charles
-								Hall</strong> started following <strong>Christina Mason</strong><br /> <small
-								class="text-muted">Yesterdag 1:51 pm</small>
-						</div>
-					</div>
 
 					<hr />
 					<a href="#" class="btn btn-primary btn-block">Load more</a>

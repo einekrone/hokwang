@@ -147,7 +147,7 @@ span {
 								$
 										.ajax({
 											url : "ajax/kakaoRegisterAction",
-											type : 'GET',
+											type : 'POST',
 											data : {
 												parent_id : $('#id').val(),
 												parent_pw : $('#pw').val(),
@@ -171,7 +171,7 @@ span {
 												parent_post : $(
 														'#sample3_postcode')
 														.val(),
-												parent_img : ${kimage}
+												parent_img : "${kimage}"
 											},
 											dataType : 'json',
 											error : function(xhr, status, msg) {
@@ -180,7 +180,7 @@ span {
 											},
 											success : function(data) {
 												alert("회원가입에 성공하였습니다");
-												location.href("loginM");
+												location.href="loginM";
 											}
 										})
 							}

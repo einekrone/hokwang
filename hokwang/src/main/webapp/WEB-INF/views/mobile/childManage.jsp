@@ -39,7 +39,7 @@ function numberMaxLength(e){
 		getBabyInf();
 	
 		
-		//파일 클릭 div클릭시
+		//파일 div클릭시
 		$(".img-print").on("click",function(){
 		    $(".uploadFile").click();            
 		       
@@ -55,7 +55,6 @@ function numberMaxLength(e){
 			type : 'GET',
 			dataType : 'json',
 			data:{
-				
 				parent_no:"${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
@@ -71,7 +70,7 @@ function numberMaxLength(e){
 					  .append($('<td>').html(item.baby_blood))
 					  .appendTo('#babyList');
 					$('div#imgInf').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic)
-					.attr("onclick","location.href='babyDiary'")
+					.attr("onclick","location.href='babyDiary?baby_no='"+item.baby_no)
 					);
 				});
 			}

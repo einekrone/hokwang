@@ -53,39 +53,39 @@ ul.tabs li.current {
 	border-bottom-width: 1px
 }
 
-
 .notification {
-    color: #000;
-    bottom: 0;
-    width: auto;
-    text-align: right;
-    font-size: inherit;
-    font-weight: inherit;
-    font-style: inherit;
-    margin: 0;
-    padding: 15px;
-    font-family: "Malgun Gothic",dotum,gulim,sans-serif;
-    border: 0;
-    line-height: normal;
-    position: absolute;
-    /* height: 60px; */
-    border-radius: 50%;
-    background: #e3e3e3;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
-    display: block;
-    right: 0;
-    z-index: 1;
-    animation: sticky_bounce 0.5s 2 ease-out 0.2s;
-    opacity: 1;
-    background-color: #ffd55d;
-    margin-bottom: 20px;
-    margin-right: 20px;
+	color: #000;
+	bottom: 0;
+	width: auto;
+	text-align: right;
+	font-size: inherit;
+	font-weight: inherit;
+	font-style: inherit;
+	margin: 0;
+	padding: 15px;
+	font-family: "Malgun Gothic", dotum, gulim, sans-serif;
+	border: 0;
+	line-height: normal;
+	position: absolute;
+	/* height: 60px; */
+	border-radius: 50%;
+	background: #e3e3e3;
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+	display: block;
+	right: 0;
+	z-index: 1;
+	animation: sticky_bounce 0.5s 2 ease-out 0.2s;
+	opacity: 1;
+	background-color: #ffd55d;
+	margin-bottom: 20px;
+	margin-right: 20px;
 }
 </style>
 <script type="text/javascript">
 	var d;
 	var today;
 	var oldtime;
+	var detailArr = [];
 	function payment() {
 		location.href = "pay";
 	}
@@ -101,22 +101,22 @@ ul.tabs li.current {
 		question2();
 		//chgBaby();
 		babyList();
-		
+
 		$("#cancelBtn").on("click", function() {
 			console.log("dddd");
 			var resvNo = $(this).data("resv");
-			console.log("cancelBtn : "+resvNo);
+			console.log("cancelBtn : " + resvNo);
 			document.getElementById('cRBtn').setAttribute("data-resv", resvNo);
 		});
 
 		$("#cRBtn").on("click", function() {
 			var resvNo = $(this).data("resv");
-			console.log("cRBtn : "+resvNo);
+			console.log("cRBtn : " + resvNo);
 			$.ajax({
-				url: 'ajax/resvDelete',
-				method:'post',
-				data: {
-					resv_no: resvNo
+				url : 'ajax/resvDelete',
+				method : 'post',
+				data : {
+					resv_no : resvNo
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -127,15 +127,15 @@ ul.tabs li.current {
 				}
 			});
 		});
-		
+
 		$("#modiBtn").on("click", function() {
 			console.log("bbbb");
 			var resvNo = $(this).data("resv");
-			console.log("modiBtn : "+resvNo);
+			console.log("modiBtn : " + resvNo);
 			// 예약수정 함수 실행
 			resvUpdate();
 		});
-		
+
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -179,57 +179,54 @@ ul.tabs li.current {
 		});
 		// 예약 취소/수정 모달 E
 	});
-	
+
 	// 예약 수정
 	function resvUpdate() {
 		// 유효성 검사
 		var chkVal = $('input[name="resv_time"]:checked').val();
-			if ($('input[name="chk_type"]:checked').val() == "V") {
-				if ($("#vacSel option:selected").val() == "") {
-					alert("접종할 병명을 선택해 주세요.");
-					return;
-				}
+		if ($('input[name="chk_type"]:checked').val() == "V") {
+			if ($("#vacSel option:selected").val() == "") {
+				alert("접종할 병명을 선택해 주세요.");
+				return;
 			}
+		}
+		// 			if ($(".selector").val() == "") {
+		// 				alert("예약 날짜를 선택해 주세요.");
+		// 				return;
+		// 			} else {
+		// 				if (chkVal == undefined) {
+		// 					alert("예약 시간을 선택해 주세요.");
+		// 					return;
+		// 				}
+		// 			}
+		if ($(':radio[name="a1"]:checked').length < 1) {
+			alert("문진표의 응답1을 선택해 주세요.");
+			return;
+		}
+		if ($(':radio[name="a2"]:checked').length < 1) {
+			alert("문진표의 응답2를 선택해 주세요.");
+			return;
+		}
+		if ($(':radio[name="a3"]:checked').length < 1) {
+			alert("문진표의 응답3을 선택해 주세요.");
+			return;
+		}
+		if ($(':radio[name="a4"]:checked').length < 1) {
+			alert("문진표의 응답4를 선택해 주세요.");
+			return;
+		}
+		var eee = $("input[name=resv_date]").val();
+		eee = eee.replaceAll('-', '').substr(2);
+		var aaa = $('input[name="resv_time"]:checked').val();
+		aaa = aaa.replaceAll(':', '');
+		var bbb = $("#baby_no").val();
+		console.log("bbb : " + bbb);
+		var resvNo = "R" + eee + aaa + bbb;
+		$("#resv_detail").val(detailArr);
+		$("#resv_type").val("R");
+		$("#nresv_no").val(resvNo);
+		console.log("nresv_no : " + resvNo);
 
-// 			if ($(".selector").val() == "") {
-// 				alert("예약 날짜를 선택해 주세요.");
-// 				return;
-// 			} else {
-// 				if (chkVal == undefined) {
-// 					alert("예약 시간을 선택해 주세요.");
-// 					return;
-// 				}
-// 			}
-
-			if ($(':radio[name="a1"]:checked').length < 1) {
-				alert("문진표의 응답1을 선택해 주세요.");
-				return;
-			}
-			if ($(':radio[name="a2"]:checked').length < 1) {
-				alert("문진표의 응답2를 선택해 주세요.");
-				return;
-			}
-			if ($(':radio[name="a3"]:checked').length < 1) {
-				alert("문진표의 응답3을 선택해 주세요.");
-				return;
-			}
-			if ($(':radio[name="a4"]:checked').length < 1) {
-				alert("문진표의 응답4를 선택해 주세요.");
-				return;
-			}
-			var eee = $("input[name=resv_date]").val();
-			eee = eee.replaceAll('-', '').substr(2);
-			var aaa = $('input[name="resv_time"]:checked').val();
-			aaa = aaa.replaceAll(':', '');
-			var bbb = $('#childSel option:selected').val();
-
-			var resvNo = "${resvType}" + eee + aaa + bbb;
-			$("#resv_detail").val(detailArr);
-			var resvTy = "${resvType}";
-			$("#resv_type").val(resvTy);
-			$("#nresv_no").val(resvNo);
-			console.log("nresv_no : "+resvNo);
-		
 		// 수정
 		$.ajax({
 			url : "ajax/resvUpdate",
@@ -245,7 +242,7 @@ ul.tabs li.current {
 			}
 		});
 	}
-	
+
 	function close_pop() {
 		$("#modifyAndCancel").hide();
 	}
@@ -352,79 +349,113 @@ ul.tabs li.current {
 		if (!chk) {
 			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
 		}
-		if($('input:radio[name="resv_time"][value="'+ oldtime + '"]').length==0) {
+		if ($('input:radio[name="resv_time"][value="' + oldtime + '"]').length == 0) {
 			$("#resvTime")
-			.append(
-					'<label class="form-check" style="margin:2px; display:none;"><input name="resv_time" type="radio" class="form-check-input" value="'+oldtime+'"><span class="form-check-label">'
-							+ oldtime + '</span></label>');
+					.append(
+							'<label class="form-check" style="margin:2px; display:none;"><input name="resv_time" type="radio" class="form-check-input" value="'+oldtime+'"><span class="form-check-label">'
+									+ oldtime + '</span></label>');
 		}
-		$('input:radio[name="resv_time"][value="'+ oldtime + '"]').prop('checked', true);
+		$('input:radio[name="resv_time"][value="' + oldtime + '"]').prop(
+				'checked', true);
 	}
-
 	// 등록된 예약 정보
 	function resvInfo() {
-		$("body").on(
-				"click",
-				"#modi",
-				function() {
-					$("#baby_no").val($(this).data("baby"));
-					var resvNo = $(event.target).parent().siblings("#aa1").text();
-					console.log("resvNo : " + resvNo);
-					$.ajax({
-						url : "ajax/resvInfo",
-						type : "GET",
-						data : {
-							resv_no : resvNo
-						},
-						error : function(xhr, status, msg) {
-							alert("상태값 :" + status + " Http에러메시지 :" + msg);
-						},
-						success : function(data) {
-							$('input:radio[name="chk_type"][value="'+ data.CHK_TYPE + '"]').prop('checked', true);
-							oldtime = data.RESV_TIME;
-							chkType();
-							if (data.CHK_TYPE == "V") {
-								$("#vacSel option:eq(" + data.CHK_NO + ")")
-										.attr("selected", "selected");
-							}
-							$(".selector").val(data.RESV_DATE);
-							resvList($(".selector").val());
-							$("#chkResvTime").val(
-									data.RESV_DATE + " " + data.RESV_TIME);
-							
-							var detailArr = [];
-							if (typeof data.RESV_DETAIL != 'undefined') {
-								var test = data.RESV_DETAIL;
-								detailArr = test.split(",");
-							}
-							
-							for(var i=0; i<detailArr.length; i++) {
-								var tdcnt = $("#chkTb").children().find("td").length;
-								
-								for(var j=0; j<tdcnt; j++) {
-									var tdcont = $("#chkTb").children().find("td").eq(j).text();
-									if(tdcont == detailArr[i]) {
-										$("#chkTb").children().find("td").eq(j).css('background', '#f6d578');
-									}
-								}
-							}
-							
-							if (typeof data.RESV_MEMO != 'undefined') {
-								$("textarea[name=resv_memo]").val(data.RESV_MEMO);
-							}
-							
-							$("#resv_no").val(data.RESV_NO);
-				 			document.getElementById('cancelBtn').setAttribute("data-resv", data.RESV_NO);
-				 			document.getElementById('modiBtn').setAttribute("data-resv", data.RESV_NO);
-				 			
-				 			// 문진표
-							$('input:radio[name="a1"][value="'+ data.A1 + '"]').prop('checked', true);
-							$('input:radio[name="a2"][value="'+ data.A2 + '"]').prop('checked', true);
-							$('input:radio[name="a3"][value="'+ data.A3 + '"]').prop('checked', true);
-							$('input:radio[name="a4"][value="'+ data.A4 + '"]').prop('checked', true);
-						}
-					});
-				});
+		$("body")
+				.on(
+						"click",
+						"#modi",
+						function() {
+							console.log("baby!!!!!!!! " + $(this).data("baby"));
+							$("#baby_no").val($(this).data("baby"));
+							var resvNo = $(event.target).parent().siblings(
+									"#aa1").text();
+							console.log("resvNo : " + resvNo);
+							$
+									.ajax({
+										url : "ajax/resvInfo",
+										type : "GET",
+										data : {
+											resv_no : resvNo
+										},
+										error : function(xhr, status, msg) {
+											alert("상태값 :" + status
+													+ " Http에러메시지 :" + msg);
+										},
+										success : function(data) {
+											$(
+													'input:radio[name="chk_type"][value="'
+															+ data.CHK_TYPE
+															+ '"]').prop(
+													'checked', true);
+											oldtime = data.RESV_TIME;
+											chkType();
+											if (data.CHK_TYPE == "V") {
+												$(
+														"#vacSel option:eq("
+																+ data.CHK_NO
+																+ ")").attr(
+														"selected", "selected");
+											}
+											$(".selector").val(data.RESV_DATE);
+											resvList($(".selector").val());
+											$("#chkResvTime").val(
+													data.RESV_DATE + " "
+															+ data.RESV_TIME);
+											if (typeof data.RESV_DETAIL != 'undefined') {
+												var test = data.RESV_DETAIL;
+												detailArr = test.split(",");
+											}
+											for (var i = 0; i < detailArr.length; i++) {
+												var tdcnt = $("#chkTb")
+														.children().find("td").length;
+												for (var j = 0; j < tdcnt; j++) {
+													var tdcont = $("#chkTb")
+															.children().find(
+																	"td").eq(j)
+															.text();
+													if (tdcont == detailArr[i]) {
+														$("#chkTb")
+																.children()
+																.find("td")
+																.eq(j)
+																.css(
+																		'background',
+																		'#f6d578');
+													}
+												}
+											}
+											if (typeof data.RESV_MEMO != 'undefined') {
+												$("textarea[name=resv_memo]")
+														.val(data.RESV_MEMO);
+											}
+											$("#resv_no").val(data.RESV_NO);
+											document
+													.getElementById('cancelBtn')
+													.setAttribute("data-resv",
+															data.RESV_NO);
+											document.getElementById('modiBtn')
+													.setAttribute("data-resv",
+															data.RESV_NO);
+											// 문진표
+											$(
+													'input:radio[name="a1"][value="'
+															+ data.A1 + '"]')
+													.prop('checked', true);
+											$(
+													'input:radio[name="a2"][value="'
+															+ data.A2 + '"]')
+													.prop('checked', true);
+											$(
+													'input:radio[name="a3"][value="'
+															+ data.A3 + '"]')
+													.prop('checked', true);
+											$(
+													'input:radio[name="a4"][value="'
+															+ data.A4 + '"]')
+													.prop('checked', true);
+										}
+									});
+						});
 	}
 </script>
 <script type="text/javascript">
@@ -490,44 +521,78 @@ ul.tabs li.current {
 	function reserlistResult(data) {
 		$("#reser2").empty();
 		$
-				.each(data,function(idx, item) {
+				.each(
+						data,
+						function(idx, item) {
 							$("<tr id='a2'>")
-									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='question_reser' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.resv_date)
+													.html(item.resv_date))
+									.append(
+											$("<td>")
+													.attr("id", 'que' + idx)
+													.append(
+															$("<input type='button' id='question_reser' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
-									.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa1').attr(
+															'value',
+															item.resv_no).html(
+															item.resv_no))
 									.appendTo('#reser2');
-							
+
 							if (item.resv_status == "Y") {
 								console.log(">>2 " + item.resv_status);
 								text = "진료완료";
 								$("#que" + idx).eq(-1).after(
 										'<td id="diag_yn">' + text + '</td>');
-							}
-							else if (item.resv_status == "N") {
+							} else if (item.resv_status == "N") {
 								console.log(">>2 " + item.resv_status);
 								text = "";
-								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+"/></td>");
+								$("#que" + idx)
+										.eq(-1)
+										.after(
+												"<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
 							}
 						})
 	}
-	
-	
+
 	//미결제
 	function reserlistResult2(data) {
 		$("#unpayList").empty();
 		$
-				.each(data,function(idx, item) {
+				.each(
+						data,
+						function(idx, item) {
 							$("<tr>")
-									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-									.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-									.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
+									.append(
+											$("<td>").attr("id", 'resv_date')
+													.attr('value',
+															item.resv_date)
+													.html(item.resv_date))
+									.append(
+											$("<td>")
+													.attr("id",
+															'question' + idx)
+													.append(
+															$("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append(
+											$("<td style='display:none;'>")
+													.attr("id", 'aa2').attr(
+															'value',
+															item.resv_no).html(
+															item.resv_no))
 									.appendTo('#unpayList');
 							if (item.resv_payyn == "N") {
 								console.log(">> " + item.resv_payyn);
 								$("#question" + idx)
 										.eq(-1)
-										.after('<td id="resv_payyn">'+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
+										.after(
+												'<td id="resv_payyn">'
+														+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
 														+ '</td>');
 							} else if (item.resv_payyn == "Y") {
 								console.log(">> " + item.resv_payyn);
@@ -544,9 +609,7 @@ ul.tabs li.current {
 	function checkuphist() {//접종 리스트
 		var babyNo = $("#baby-name option:selected").val();
 		console.log("DDD");
-	
 
-		
 	}/* end of function */
 
 	function checkuphistResult(data) {
@@ -554,74 +617,72 @@ ul.tabs li.current {
 
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
+			console.log("idx>>>" + idx);
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
+					$("<td id='hist_date" + idx+"'>").html(item.HIST_DATE))
+					.appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
 				//console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "N") {
 				//console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "Y") {
 				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1)
-				.after(
-						'<td id="hist_state">' + text
-								+ '</td>');;
+				$("#hist_date" + idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+				;
 			}
 
 		})/* end of ajax  */
 		var $item = $('#hist_state').on('click', function() {
-			  var idx = $(this).index();
-			  console.log("idx >>>>>>>>>>>>>>"+idx);
-			});
+			var idx = $(this).index();
+			console.log("idx >>>>>>>>>>>>>>" + idx);
+		});
 	}
 	function checkuphistIncompleteResult(data) {
 		var text = "";
 
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
+			console.log("idx>>>" + idx);
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
+					$("<td id='hist_date" + idx+"'>").html(item.HIST_DATE))
+					.appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
 				//console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "N") {
 				//console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "Y") {
 				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1)
-				.after(
-						'<td id="hist_state">' + text
-								+ '</td>');;
+				$("#hist_date" + idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+				;
 			}
 
 		})/* end of ajax  */
 		var $item = $('#hist_state').on('click', function() {
-			  var idx = $(this).index();
-			  console.log("idx >>>>>>>>>>>>>>"+idx);
-			});
+			var idx = $(this).index();
+			console.log("idx >>>>>>>>>>>>>>" + idx);
+		});
 	}
 
 	function checkuphistCompleteResult(data) {
@@ -629,30 +690,31 @@ ul.tabs li.current {
 
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
+			console.log("idx>>>" + idx);
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
+					$("<td id='hist_date" + idx+"'>").html(item.HIST_DATE))
+					.appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
 				//console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
-			} if (item.HIST_STATE == "N") {
+			}
+			if (item.HIST_STATE == "N") {
 				//console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date" + idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
-			} 
+			}
 
 		})/* end of ajax  */
 		var $item = $('#hist_state').on('click', function() {
-			  var idx = $(this).index();
-			  console.log("idx >>>>>>>>>>>>>>"+idx);
-			});
+			var idx = $(this).index();
+			console.log("idx >>>>>>>>>>>>>>" + idx);
+		});
 	}
 
 	function babyList() {
@@ -741,14 +803,14 @@ ul.tabs li.current {
 			data : {
 				parent_no : "${parent_vo.parent_no}",
 				baby_no : babyNo
-				
+
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : checkuphistResult
 
-		});/* end of ajax */	
+		});/* end of ajax */
 	}
 
 	function allreserResult(data) {
@@ -756,14 +818,12 @@ ul.tabs li.current {
 
 		$("#allreser").empty();
 		console.log(data);
-		$
-				.each(
-						data,
-						function(idx, item) {
-							$("<tr id='allreser'>").append(
-									$("<td>").attr("id", 'resv_date').attr(
-											'value', item.RESV_DATE).html(
-											item.RESV_DATE)).append(
+		$.each(data,
+				function(idx, item) {
+					$("<tr id='allreser'>").append(
+							$("<td>").attr("id", 'resv_date').attr('value',
+									item.RESV_DATE).html(item.RESV_DATE))
+							.append(
 									$("<td>").attr("id", 'diagsis' + idx).attr(
 											'value', item.DIS_NAME).html(
 											item.DIS_NAME))
@@ -775,18 +835,18 @@ ul.tabs li.current {
 											.html(item.RESV_NO)).appendTo(
 									'#allreser');
 
-							if (item.RESV_STATUS == "N") {
-								console.log(">> 1 " + item.RESV_STATUS);
-								text = "";
-								$("#diagsis"+ idx).eq(-1)
-										.after('<td id="diag_yn">'+ '</td>');
-							} else if (item.RESV_STATUS == "Y") {
-								console.log(">>2 " + item.RESV_STATUS);
-								text = "진료완료";
-								$("#diagsis" + idx).eq(-1).after(
-										'<td id="diag_yn">' + text + '</td>');
-							}
-						})
+					if (item.RESV_STATUS == "N") {
+						console.log(">> 1 " + item.RESV_STATUS);
+						text = "";
+						$("#diagsis" + idx).eq(-1).after(
+								'<td id="diag_yn">' + '</td>');
+					} else if (item.RESV_STATUS == "Y") {
+						console.log(">>2 " + item.RESV_STATUS);
+						text = "진료완료";
+						$("#diagsis" + idx).eq(-1).after(
+								'<td id="diag_yn">' + text + '</td>');
+					}
+				})
 		/* $("#question" + idx).eq(-1).after('<td id="resv_payyn">'
 						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
 						+ '</td>'); */
@@ -805,7 +865,8 @@ ul.tabs li.current {
 					</select>
 				</div>
 				<div style="align-self: center;">
-					<img id="babyImg" class="img-fluid rounded-circle mb-2" style="height:120px; width:120px;" />
+					<img id="babyImg" class="img-fluid rounded-circle mb-2"
+						style="height: 120px; width: 120px;" />
 				</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
 			</div>
@@ -951,17 +1012,17 @@ ul.tabs li.current {
 									<div class="tab-content">
 										<div class="tab-pane fade active show" id="tab-1"
 											role="tabpanel" style="height: 250px; overflow: auto;">
-											<div style="width:100%">
-											<table class="table text-center">
-												<thead>
-													<tr >
-														<th class="text-center" >접종이름</th>
-														<th class="text-center" >일시</th>
-														<th class="text-center" >상태</th>
-													</tr>
-												</thead>
-												<tbody id="checkup"></tbody>
-											</table>
+											<div style="width: 100%">
+												<table class="table text-center">
+													<thead>
+														<tr>
+															<th class="text-center">접종이름</th>
+															<th class="text-center">일시</th>
+															<th class="text-center">상태</th>
+														</tr>
+													</thead>
+													<tbody id="checkup"></tbody>
+												</table>
 											</div>
 										</div>
 
@@ -1005,31 +1066,30 @@ ul.tabs li.current {
 											<th class="text-center">등록일시</th>
 											<th class="text-center">키</th>
 											<th class="text-center">몸무게</th>
-											<th class="text-center">    </th>
+											<th class="text-center"></th>
 										</tr>
 										<tr>
 											<th class="text-center">21-01-18</th>
 											<th class="text-center">170.4</th>
 											<th class="text-center">50.8</th>
-											<th class="text-center">
-											   <span class="txt_find" style="">
-							                        <button type="button" class="btn btn-primary btn-sm "
-							                           data-toggle="modal" data-target="#bupModal"
-							                           data-backdrop="static">수정</button>
-							                        <button type="button" class="btn btn-primary btn-sm"
-							                           data-toggle="modal" data-target="#bdelModal"
-							                           data-backdrop="static">삭제</button>
-							                    </span>
-							               </th>
+											<th class="text-center"><span class="txt_find" style="">
+													<button type="button" class="btn btn-primary btn-sm "
+														data-toggle="modal" data-target="#bupModal"
+														data-backdrop="static">수정</button>
+													<button type="button" class="btn btn-primary btn-sm"
+														data-toggle="modal" data-target="#bdelModal"
+														data-backdrop="static">삭제</button>
+											</span></th>
 										</tr>
 									</thead>
 									<tbody id="#"></tbody>
 								</table>
 								<div class="wrap_btns">
-								    <button type="button" class="btn_assist notification ons" data-cate="notification" 
-								     data-toggle="modal" data-target="#bupModal" data-backdrop="static">
-								   	<span class="blind"><i class="fas fa-plus"></i></span>
-								    </button>
+									<button type="button" class="btn_assist notification ons"
+										data-cate="notification" data-toggle="modal"
+										data-target="#bupModal" data-backdrop="static">
+										<span class="blind"><i class="fas fa-plus"></i></span>
+									</button>
 								</div>
 							</div>
 							<!-- 4 -->
@@ -1128,8 +1188,8 @@ ul.tabs li.current {
 					</button>
 				</div>
 				<div class="modal-body" style="height: 500px; overflow: auto;">
-					<input id="baby_no" type="hidden" value="">
 					<form id="frm" name="frm">
+					<input id="baby_no" name="baby_no" type="hidden" value="">
 						<div class="card">
 							<div class="card-body">
 								<div style="display: block;">
@@ -1290,8 +1350,8 @@ ul.tabs li.current {
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="button" id="modiBtn">예약수정</button>
-					<button class="btn btn-primary" type="button" data-toggle="modal" id="cancelBtn"
-						data-target="#chkPop" onclick="close_pop()">예약취소</button>
+					<button class="btn btn-primary" type="button" data-toggle="modal"
+						id="cancelBtn" data-target="#chkPop" onclick="close_pop()">예약취소</button>
 				</div>
 			</div>
 		</div>
@@ -1309,35 +1369,36 @@ ul.tabs li.current {
 					<p>예약을 취소하시겠습니까?</p>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" style="margin: 0 25px;"
-						id="cRBtn" data-dismiss="modal">예약취소</button>
-					<button class="btn btn-primary" type="button" style="margin: 0 25px;"
-						data-dismiss="modal" onclick="cancle_pop()">취소</button>
+					<button class="btn btn-primary" type="button"
+						style="margin: 0 25px;" id="cRBtn" data-dismiss="modal">예약취소</button>
+					<button class="btn btn-primary" type="button"
+						style="margin: 0 25px;" data-dismiss="modal"
+						onclick="cancle_pop()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 예약취소 확인 모달 E -->
-	
-	
-	   <!-- bupModal 등록/수정 모달-->
-   <div class="modal fade" id="bupModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
 
-            <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
-               <button class="close" type="button" data-dismiss="modal"
-                  aria-label="Close" id="btnX">
-                  <span aria-hidden="true">×</span>
-               </button>
-            </div>
 
-            <div class="modal-body">
-               <div class="card-body">
-                  <div id="searchI">
-                    <div class="card-header">
+	<!-- bupModal 등록/수정 모달-->
+	<div class="modal fade" id="bupModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close" id="btnX">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="card-body">
+						<div id="searchI">
+							<div class="card-header">
 								<h5 class="card-title"
 									style="font-weight: bold; font-size: 15px;">예약 일시</h5>
 							</div>
@@ -1364,20 +1425,20 @@ ul.tabs li.current {
 								</script>
 							</div>
 
-                     <h1 id="resultId"></h1>
-                  </div>
-               </div>
-            </div>
+							<h1 id="resultId"></h1>
+						</div>
+					</div>
+				</div>
 
-            <div class="modal-footer">
-               <input type="button" class="btn btn-primary" id="btnId"
-                  name="btnId" value="찾기">
-               <button class="btn btn-secondary" type="button" id="Cancel"
-                  data-dismiss="modal">Cancel</button>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- 등록/수정 modal end -->
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" id="btnId"
+						name="btnId" value="찾기">
+					<button class="btn btn-secondary" type="button" id="Cancel"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 등록/수정 modal end -->
 </body>
 </html>

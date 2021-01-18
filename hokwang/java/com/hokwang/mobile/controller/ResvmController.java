@@ -89,9 +89,14 @@ public class ResvmController {
 	public int resvUpdate(Reservation resvVO, AlertVO altVO, QuestionVO quVO) {
 		System.out.println("수정할 예약 : "+resvVO.getResv_no());
 		System.out.println("예약 시간 : "+resvVO.getResv_time());
+		System.out.println("예약 아기 : "+resvVO.getBaby_no());
+		quVO.setNresv_no(resvVO.getNresv_no());
+		quVO.setQust_no(resvVO.getResv_no());
 		resvmSvc.resvUpdate(resvVO);
 		
-		quVO.setNresv_no(resvVO.getNresv_no());
+		System.out.println("문진표 번호 : "+quVO.getQust_no());
+		System.out.println("문진표 새번호 : "+quVO.getNresv_no());
+		
 		resvmSvc.questUpdate(quVO);
 		
 		altVO.setBaby_no(resvVO.getBaby_no());

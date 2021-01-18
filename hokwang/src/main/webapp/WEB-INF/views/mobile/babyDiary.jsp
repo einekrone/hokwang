@@ -517,8 +517,8 @@ ul.tabs li.current {
 		
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-			console.log("item>>>>>>>>>>>>>>>>>>>>>>" +data);
-			$("<tr>").append(
+				console.log("idx>>>" + idx);
+					$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
 					$("<td id='hist_date" + idx+"'>").html(

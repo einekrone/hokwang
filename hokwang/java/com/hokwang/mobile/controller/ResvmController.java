@@ -71,6 +71,7 @@ public class ResvmController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvInfo")
 	public Map<String, Object> getResvInfo(Reservation vo) {
+		System.out.println("조회할 예약 : "+vo.getResv_no());
 		return resvmSvc.getResvInfo(vo);
 	}
 	

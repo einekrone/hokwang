@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- sale_mapper.xml -->
+<mapper namespace="com.hokwang.mobile.dao.MypageMapper">
+	<select id="getParentInf" resultType="ParentVO">
+		select *
+		from parent 
+		where parent_no = #{parent_no}
+	</select>
+
+	<update id="updateparentInfo" parameterType="ParentVO">
+		update parent set parent_name=#{parent_name},
+						parent_pw=#{parent_pw},
+						parent_tel=#{parent_tel},
+						parent_addr=#{parent_addr},
+						parent_addrdetail=#{parent_addrdetail},
+						parent_addrextra=#{parent_addextra},
+						parent_post=#{parent_post},
+						parent_email=#{parent_email}
+						
+		where parent_no = #{parent_no}
+	</update>
+	<update id="imgUpdate" parameterType="ParentVO">
+		update parent set parent_img=#{parent_img}
+		where parent_no=#{parent_no}
+	</update>
+	
+	
+	
+	
+
+</mapper>

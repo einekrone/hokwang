@@ -70,7 +70,7 @@ function numberMaxLength(e){
 					  .append($('<td>').html(item.baby_blood))
 					  .appendTo('#babyList');
 					$('div#imgInf').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic)
-					.attr("onclick","location.href='babyDiary?baby_no='"+item.baby_no)
+					.attr("onclick","location.href='babyDiary'")
 					);
 				});
 			}
@@ -182,7 +182,7 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label>
-								 <div style="width:200px; height:150px; background-color:white;" class="img-print"><img class="gc-img"></div>
+								 <div style="width:200px; height:250px; background-color:white;" class="img-print"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile" class="uploadFile" style="display:none;" onchange="changeValue(event)">
 									
 							</div>
@@ -241,7 +241,7 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label><br>
-								 <div style="width:200px; height:150px; background-color:white;" class="img-print1"><img class="gc-img"></div>
+								 <div style="width:200px; height:250px; background-color:white;" class="img-print1"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile1" class="uploadFile1" style="display:none;" onchange="changeValue(event)">
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"

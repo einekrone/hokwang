@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hokwang.mobile.dao.BabyDiaryMapper;
 import com.hokwang.mobile.service.BabyDiaryService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -44,6 +45,13 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public List<Map<String, Object>> allreser(Reservation vo) {
 		// TODO Auto-generated method stub
 		return dao.allreser(vo);
+	}
+
+	@Override
+	public int insertbodyinfo(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.insertbodyinfo(vo);
+				
 	}
 	
 	

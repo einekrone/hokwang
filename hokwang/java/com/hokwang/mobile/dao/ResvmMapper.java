@@ -20,4 +20,5 @@ public interface ResvmMapper {
 	public int resvDelete(Reservation vo);
 	public int resvUpdate(Reservation vo);
 	public int questUpdate(QuestionVO vo);
+	public Object checkResvNo(Reservation vo);
 }

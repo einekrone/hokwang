@@ -68,4 +68,9 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.questUpdate(vo);
 	}
 
+	@Override
+	public Object checkResvNo(Reservation vo) {
+		return resvmDao.checkResvNo(vo);
+	}
+
 }

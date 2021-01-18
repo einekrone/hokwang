@@ -6,12 +6,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
+<!-- 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" -->
+<!-- 	crossorigin="anonymous"> -->
 <!-- 차트 링크 -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
 
 <title>Insert title here</title>
 
@@ -23,9 +23,13 @@
 	});
 
 	function Month1() {
+		console.log($('#selectYear').val());
 		$.ajax({
 			url : "ajax/getMonth1",
 			Type : "POST",
+			data : {
+				Year : $('#selectYear').val()
+			},
 			dataType : "json",
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + "Http에러메시지 : " + msg);
@@ -33,6 +37,27 @@
 			success : createChart
 
 		});
+		
+		$('#selectYear').change(function(){
+			console.log($('#selectYear').val());
+			$.ajax({
+				url : "ajax/getMonth1",
+				Type : "POST",
+				data : {
+					Year : $('#selectYear').val()
+				},
+				dataType : "json",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + "Http에러메시지 : " + msg);
+				},
+				success : createChart
+
+			});
+			
+		});
+		
+		
+
 	}
 
 	/* allSales() */
@@ -211,15 +236,14 @@
 					<div class="col-md-6" style="flex: 0 0 100%; max-width: 100%;">
 						<div class="card">
 							<div class="card-body">
-								<div class="btn-group">
-									<button type="button" class="btn btn-secondary dropdown-toggle"
-										data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false">선택</button>
-									<div class="dropdown-menu dropdown-menu-right">
-										<button class="dropdown-item" type="button">2021</button>
-										<button class="dropdown-item" type="button">2020</button>
-										<button class="dropdown-item" type="button">2019</button>
-									</div>
+								<div class="btn-group" id ="changeYear" name ="changeYear">
+									<select class="btn btn-secondary dropdown-toggle"
+										aria-haspopup="true" aria-expanded="false" id="selectYear" name="selectYear">
+										<option value = "21" selected>2021</option>
+										<option value = "20">2020</option>	
+										<option value = "19">2019</option>
+									</select>
+
 								</div>
 								<canvas class="myChart"></canvas>
 

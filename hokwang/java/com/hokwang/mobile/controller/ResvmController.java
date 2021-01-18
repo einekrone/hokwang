@@ -15,6 +15,7 @@ import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.CheckupVO;
 import com.hokwang.vo.Images;
+import com.hokwang.vo.ParentVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
@@ -39,6 +40,16 @@ public class ResvmController {
 		List<CheckupVO> list = resvmSvc.getVacList(vo);
 		model.addAttribute("vacList", list);
 		return list;
+	}
+	
+	// 예약 중복 체크
+	@ResponseBody
+	@RequestMapping("/ajax/checkResvNo")
+	public boolean checkResvNo(Reservation vo) {
+		if(resvmSvc.checkResvNo(vo) == null) {
+			return true;
+		}
+		return false;
 	}
 
 	// 예약 등록(+문진표, 알림)
@@ -71,32 +82,29 @@ public class ResvmController {
 	@ResponseBody
 	@RequestMapping("/ajax/resvInfo")
 	public Map<String, Object> getResvInfo(Reservation vo) {
-		System.out.println("조회할 예약 : "+vo.getResv_no());
 		return resvmSvc.getResvInfo(vo);
 	}
 	
 	// 예약 삭제
 	@ResponseBody
 	@RequestMapping("/ajax/resvDelete")
-	public int resvDelete(Reservation vo) {
-		System.out.println("삭제할 예약 : "+vo.getResv_no());
-		return resvmSvc.resvDelete(vo);
+	public int resvDelete(Reservation vo, AlertVO altVO) {
+		resvmSvc.resvDelete(vo);
+		altVO.setBaby_no(vo.getBaby_no());
+		altVO.setAlert_title(vo.getResv_no()+" 예약 취소");
+		String alertCont = vo.getResv_no() +"예약 취소되었습니다.";
+		altVO.setAlert_cont(alertCont);
+		altVO.setAlert_send("호광병원");
+		return resvmSvc.alertInsert(altVO);
 	}
 	
 	// 예약 수정
 	@ResponseBody
 	@RequestMapping("/ajax/resvUpdate")
 	public int resvUpdate(Reservation resvVO, AlertVO altVO, QuestionVO quVO) {
-		System.out.println("수정할 예약 : "+resvVO.getResv_no());
-		System.out.println("예약 시간 : "+resvVO.getResv_time());
-		System.out.println("예약 아기 : "+resvVO.getBaby_no());
 		quVO.setNresv_no(resvVO.getNresv_no());
 		quVO.setQust_no(resvVO.getResv_no());
 		resvmSvc.resvUpdate(resvVO);
-		
-		System.out.println("문진표 번호 : "+quVO.getQust_no());
-		System.out.println("문진표 새번호 : "+quVO.getNresv_no());
-		
 		resvmSvc.questUpdate(quVO);
 		
 		altVO.setBaby_no(resvVO.getBaby_no());

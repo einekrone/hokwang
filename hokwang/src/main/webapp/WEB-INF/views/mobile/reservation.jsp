@@ -165,19 +165,34 @@ td {
 			$("#resv_type").val(resvTy);
 			$("#resv_no").val(resvNo);
 
+			// 예약 번호 중복 체크 후 중복 아닐 경우에 예약 완료
 			$.ajax({
-				url : "ajax/insertReservation",
-				method : "post",
-				data : $("#frm").serialize(),
-				// 				data : data,
-				success : function(response) {
-					alert("예약 성공");
-					location.href = "mobile";
-				},
-				error : function(xhr, status, message) {
-					alert("status : " + status + " error : " + message);
-				}
-			});
+					url : "ajax/checkResvNo",
+					type : 'GET',
+					data : $("#frm").serialize(),
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						console.log("data : "+data);
+						if (data == true) {
+							$.ajax({
+								url : "ajax/insertReservation",
+								method : "post",
+								data : $("#frm").serialize(),
+								success : function(response) {
+									alert("예약 성공");
+									location.href = "mobile";
+								},
+								error : function(xhr, status, message) {
+									alert("status : " + status + " error : " + message);
+								}
+							});
+						}
+						else
+							alert("중복된 예약정보입니다.");
+					}
+				});
 		});
 	}
 

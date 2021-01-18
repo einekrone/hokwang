@@ -55,7 +55,6 @@ public class ResvmServiceImpl implements ResvmService {
 
 	@Override
 	public int resvDelete(Reservation vo) {
-		System.out.println("삭제할 예약2 : "+vo.getResv_no());
 		return resvmDao.resvDelete(vo);
 	}
 

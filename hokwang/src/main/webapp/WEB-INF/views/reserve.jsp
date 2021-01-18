@@ -8,10 +8,7 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/resvcss.css"
 	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 .table td, .table th {
 	padding: .5rem !important;

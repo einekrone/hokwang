@@ -114,7 +114,7 @@
 		select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO = #{emp_no}
+		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO =#{emp_no}
 	</select>
 
 	<!-- asd -->
@@ -123,9 +123,7 @@
 		select
 		m.emp_resvno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO in(
-		select
-		EMP_resvNO from message where emp_sendno=#{emp_no})
+		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_sendNO = #{emp_no}
 
 	</select>
 
@@ -137,7 +135,8 @@
 		select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_resvNO and m.MSG_YN ='N' and m.EMP_resvNO = #{emp_no}
+		e,message m where e.EMP_NO=m.EMP_resvNO and m.MSG_YN ='N' and
+		m.EMP_resvNO = #{emp_no}
 	</select>
 
 	<select id="sendTotalMsg" parameterType="employeeVO"
@@ -224,36 +223,39 @@
 		resultType="employeeVO">
 		select * from employee where emp_no=#{emp_no}
 	</select>
-	<select id="getCountResv" parameterType="employeeVO" resultType="integer">
+	<select id="getCountResv" parameterType="employeeVO"
+		resultType="integer">
 		select count(resv_no)
-		from reservation 
+		from reservation
 		where resv_date = TO_CHAR(SYSDATE, 'YY/MM/DD') and resv_room = #{emp_room}
 	</select>
 
-	<select id="getMonthSales" parameterType="employeeVO" resultType="integer">
+	<select id="getMonthSales" parameterType="employeeVO"
+		resultType="integer">
 		SELECT SUM(PAY_PRICE)
 		FROM PAYMENT P, RESERVATION R
-		WHERE  P.resv_no = r.resv_no
+		WHERE
+		P.resv_no = r.resv_no
 		AND P.PAY_STATE = 'Y'
-		AND R.RESV_ROOM = #{emp_room}
+		AND R.RESV_ROOM =
+		#{emp_room}
 		AND TO_CHAR(r.resv_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
 	</select>
 
-	<select id="getDaySales" parameterType="employeeVO" resultType="integer">
-		<!-- 
-			select sum(pay_price) 
-			from payment 
-			where resv_no in (select resv_no 
-							  from RESERVATION 
-							  where resv_room = 1)
-			 and to_char(pay_date,'YY/MM/DD') = to_char(sysdate,'YY/MM/DD') -->
-			 
+	<select id="getDaySales" parameterType="employeeVO"
+		resultType="integer">
+		<!-- select sum(pay_price) from payment where resv_no in (select resv_no 
+			from RESERVATION where resv_room = 1) and to_char(pay_date,'YY/MM/DD') = 
+			to_char(sysdate,'YY/MM/DD') -->
+
 		SELECT sum(pay_price)
 		FROM PAYMENT P , RESERVATION R
-		WHERE P.RESV_NO = R.RESV_NO
+		WHERE P.RESV_NO =
+		R.RESV_NO
 		AND P.PAY_STATE = 'Y'
 		AND R.RESV_ROOM = #{emp_room}
-		AND TO_CHAR(R.RESV_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD')
+		AND
+		TO_CHAR(R.RESV_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE,'YY/MM/DD')
 	</select>
-	
+
 </mapper>

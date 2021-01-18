@@ -29,6 +29,13 @@ public class MediServiceImpl implements MediService {
 	public MedicineVO selectMedi(MedicineVO vo) {
 		return mediDao.selectMedi(vo);
 	}
+
+	@Override
+	public boolean deleteMedi(MedicineVO vo) {
+		mediDao.deleteMedi(vo);
+		return true;
+	}
+	
 	
 	
 }

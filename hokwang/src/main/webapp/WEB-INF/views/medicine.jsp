@@ -6,17 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-
 </style>
-
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script
-	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
 	$(function() {
@@ -25,11 +15,10 @@
 		check();
 		modalCheck();
 		saveMedi();
-		delMedi();
 	});
-	
-	function saveMedi(){
-		$('#btnSave').on("click",function(){
+
+	function saveMedi() {
+		$('#btnSave').on("click", function() {
 			console.log($('.card-com').text());
 			$.ajax({
 				url : "ajax/saveMedi",
@@ -44,21 +33,21 @@
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
-				success : function(data){
-					if(data==0){
+				success : function(data) {
+					if (data == 0) {
 						alert("이미 저장된 값입니다.");
-					}
-					else
+					} else
 						alert("저장완료되었습니다.");
-						totalMediList();
+					$('#use_table').DataTable().ajax.reload();
 				}
 			});
-		
+
 		});
+
 	}
-	
+
 	//모달띄우기
-	function modalCheck(){
+	function modalCheck() {
 		$('#exampleModal').on('show.bs.modal', function(event) {
 			var tds = $(event.relatedTarget).find('td');
 			var modal = $(this);
@@ -66,9 +55,9 @@
 			modal.find('.card-name').val(tds.eq(1).text())
 			modal.find('.card-composition').text(tds.eq(2).text())
 			modal.find('.card-no').text(tds.eq(3).text())
-			
+
 		});
-		
+
 	}
 	//검색
 	function check() {
@@ -81,31 +70,52 @@
 	}
 	//DB에서 저장된 약 정보 값가져오기
 	function totalMediList() {
-		$.ajax({
-			url : "ajax/getMediList",
-			type : 'GET',
-			dataType : 'json',
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+
+		var datatable = $('#use_table').DataTable({
+			/* responsive : true,
+			autoWidth : false, */
+			ajax : {
+				url : 'ajax/getMediList',
+				dataSrc : ''
 			},
-			success : mediResultList
-		})
-	}
-	//dataTable사용
-	function mediResultList(data) {
-		console.log(data);
-		$("#mediTotalList").empty();
-		$.each(data, function(idx, item) {
-			$('<tr>').append($('<td>').html(item.medi_no))
-			         .append($('<td>').html(item.medi_com))
-			         .append($('<td>').html(item.medi_name))
-			         .append($('<td>').html(item.medi_composition))
-			         .appendTo('#mediTotalList');
+			columns : [ {
+				data : 'medi_com'
+			}, {
+				data : 'medi_name'
+			}, {
+				data : 'medi_composition'
+			}, {
+				data : 'medi_no'
+			} ]
 		});
-		$('#use_table').DataTable();
-		
-		
-		
+
+		//삭제
+		$('#use_table tbody').on('click', 'td', function() {
+			var delno = datatable.row($(this).parents('tr')).data().medi_no;
+			console.log(delno);
+
+			var delInf = confirm("제품코드 " + delno + " 를 삭제 하시겠습니까?");
+			if (delInf) {
+				$.ajax({
+					url : 'ajax/deleteMedi',
+					type : 'POST',
+					data : {
+						medi_no : delno
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						alert("삭제됨");
+						$('#use_table').DataTable().ajax.reload();
+
+					}
+				});
+
+			}
+
+		})
+
 	}
 
 	//api에서 약 api가져오기
@@ -150,7 +160,7 @@
 															'form-control')
 															.find("MTRAL_CODE")
 															.text() + '</td>';
-		
+
 											info += '</tr>';
 											$('#factory_tbody').append(info);
 										});
@@ -173,7 +183,7 @@
 							<col width="40%" />
 							<col width="40%" />
 							<col width="30%" />
-							
+
 						</colgroup>
 
 						<thead align="center">
@@ -182,7 +192,7 @@
 								<th width="40%">제품명</th>
 								<th width="40%">성분</th>
 								<th width="30%">제품코드</th>
-								
+
 								<!-- <th width="15%"><input type="button" value="추가"></th> -->
 							</tr>
 						</thead>
@@ -219,7 +229,7 @@
 								<th>제품코드</th>
 							</tr>
 						</thead>
-						<tbody id="mediTotalList">
+						<tbody>
 						</tbody>
 					</table>
 
@@ -227,7 +237,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="exampleModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -241,22 +251,27 @@
 				</div>
 				<div class="modal-body">
 					<div class="card" style="width: 30rem;">
-						<div class="card-body" >
-							회사 명 : <h5 class="card-com">회사명</h5>
-							약 이름 : <br><input type= "text" class="card-name"><br>
-							약 성분 : <h5 class="card-composition">약성분</h5>
-							약 번호:<h5 class="card-no">약번호</h5>
+						<div class="card-body">
+							회사 명 :
+							<h5 class="card-com">회사명</h5>
+							약 이름 : <br> <input type="text" class="card-name"><br>
+							약 성분 :
+							<h5 class="card-composition">약성분</h5>
+							약 번호:
+							<h5 class="card-no">약번호</h5>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="btnSave" name="btnSave">Save</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="btnSave"
+						name="btnSave">Save</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>

@@ -4,19 +4,29 @@
 <!-- medi_mapper.xml -->
 <mapper namespace="com.hokwang.dao.MediMapper">
 	<select id="getMediList" resultType="medicineVO">
-		select medi_no, medi_com, medi_name, medi_composition
+		select medi_no, medi_com,
+		medi_name, medi_composition
 		from medicine
 	</select>
-	
+
 	<insert id="saveMedi" parameterType="medicineVO">
-	    insert into medicine(medi_no,medi_com,medi_name,medi_composition) values(#{medi_no},#{medi_com},#{medi_name},#{medi_composition}) 
+		insert into
+		medicine(medi_no,medi_com,medi_name,medi_composition)
+		values(#{medi_no},#{medi_com},#{medi_name},#{medi_composition})
 	</insert>
-	
-	<select id="selectMedi" parameterType="medicineVO" resultType="medicineVO">
+
+	<select id="selectMedi" parameterType="medicineVO"
+		resultType="medicineVO">
 		select medi_no, medi_com, medi_name, medi_composition
-		from medicine
+		from
+		medicine
 		where medi_no=#{medi_no}
 	</select>
-	
-	
+
+	<delete id="deleteMedi" parameterType="medicineVO">
+		DELETE FROM medicine
+		WHERE medi_no = #{medi_no}
+
+	</delete>
+
 </mapper>

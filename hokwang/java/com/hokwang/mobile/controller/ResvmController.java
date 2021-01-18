@@ -88,6 +88,7 @@ public class ResvmController {
 	@RequestMapping("/ajax/resvUpdate")
 	public int resvUpdate(Reservation vo) {
 		System.out.println("수정할 예약 : "+vo.getResv_no());
+		System.out.println("예약 시간 : "+vo.getResv_time());
 		return resvmSvc.resvUpdate(vo);
 	}
 }

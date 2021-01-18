@@ -40,21 +40,19 @@ td {
 			resvList(today);
 		}
 
-		$("input[name=chk_type]").on(
-				"click",
-				function() {
-					var chkVal = $('input[name="chk_type"]:checked').val();
+		$("input[name=chk_type]").on("click", function() {
+			var chkVal = $('input[name="chk_type"]:checked').val();
 
-					if (chkVal == "V") {
-						$("#resvTypeDiv").css("display", "block");
-						$("#detailCard").css("display", "none");
-						vacList();
+			if (chkVal == "V") {
+				$("#resvTypeDiv").css("display", "block");
+				$("#detailCard").css("display", "none");
+				vacList();
 
-					} else {
-						$("#resvTypeDiv").css("display", "none");
-						$("#detailCard").css("display", "block");
-					}
-				});
+			} else {
+				$("#resvTypeDiv").css("display", "none");
+				$("#detailCard").css("display", "block");
+			}
+		});
 
 		$(".selector").on("change", function() {
 			resvList($(".selector").val());
@@ -82,11 +80,11 @@ td {
 			}
 		});
 	});
-	
+
 	function vacList() {
 		$("#vacSel").empty();
 		var babyNo = $('#childSel option:selected').val();
-		console.log("babyNo : "+babyNo);
+		console.log("babyNo : " + babyNo);
 		$.ajax({
 			url : 'ajax/vacList',
 			type : 'GET',
@@ -99,8 +97,7 @@ td {
 			success : function(data) {
 				$.each(data, function(idx, item) {
 					$("#vacSel").append(
-							$('<option>').attr("value",
-									item.chk_no).html(
+							$('<option>').attr("value", item.chk_no).html(
 									item.chk_name));
 				});
 			}
@@ -186,7 +183,6 @@ td {
 
 	function resvList(resvDate) {
 		$.ajax({
-// 			url : 'ajax/resvList',
 			url : 'ajax/getCntTimeList',
 			type : 'GET',
 			data : {
@@ -205,34 +201,66 @@ td {
 				'17:00', '17:30' ];
 		$("#resvTime").empty();
 
-		$.each(data, function(idx, item) {
-			var time = item.RESV_TIME;
-			var chgti;
+		var chgti;
+		for (var i = 0; i < arrNumber.length; i++) {
+			chgti = Number(arrNumber[i].substr(0, 2));
 
-			for (var i = 0; i < arrNumber.length; i++) {
-				chgti = Number(arrNumber[i].substr(0, 2));
-				if(arrNumber[i] == item.RESV_TIME) {
-					if(item.CNT > 3) {
+			if ('${resvType}' == 'T') { // 당일 예약
+				if (today == $("input[name='resv_date']").val()) {
+					if (chgti <= d.getHours()) {
 						arrNumber.splice(i, 1, "");
 					}
 				}
-
-				// 현재 이전 시간대 예약 불가
-				if ('${resvType}' == 'T') { // 당일 예약
-					if (today == $("input[name='resv_date']").val()) {
-						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1, "");
-						}
+			} else {
+				if (today == $(".selector").val()) {
+					if (chgti <= d.getHours()) {
+						arrNumber.splice(i, 1, "");
 					}
-				} else {
-					if (today == $(".selector").val()) {
-						if (chgti <= d.getHours()) {
-							arrNumber.splice(i, 1, "");
-						}
+				}
+			}
+		}
+
+		// 예약된 시간이 있을경우
+		$.each(data, function(idx, item) {
+			var time = item.RESV_TIME;
+
+			for (var i = 0; i < arrNumber.length; i++) {
+				if (arrNumber[i] == item.RESV_TIME) {
+					if (item.CNT > 3) {
+						arrNumber.splice(i, 1, "");
 					}
 				}
 			}
 		});
+
+		// 		$.each(data, function(idx, item) {
+		// 			var time = item.RESV_TIME;
+		// 			var chgti;
+
+		// 			for (var i = 0; i < arrNumber.length; i++) {
+		// 				chgti = Number(arrNumber[i].substr(0, 2));
+		// 				if(arrNumber[i] == item.RESV_TIME) {
+		// 					if(item.CNT > 3) {
+		// 						arrNumber.splice(i, 1, "");
+		// 					}
+		// 				}
+
+		// 				// 현재 이전 시간대 예약 불가
+		// 				if ('${resvType}' == 'T') { // 당일 예약
+		// 					if (today == $("input[name='resv_date']").val()) {
+		// 						if (chgti <= d.getHours()) {
+		// 							arrNumber.splice(i, 1, "");
+		// 						}
+		// 					}
+		// 				} else {
+		// 					if (today == $(".selector").val()) {
+		// 						if (chgti <= d.getHours()) {
+		// 							arrNumber.splice(i, 1, "");
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		});
 
 		var chk = false;
 		for (var i = 0; i < arrNumber.length; i++) {
@@ -244,7 +272,7 @@ td {
 				chk = true;
 			}
 		}
-		if(!chk) {
+		if (!chk) {
 			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
 		}
 	}
@@ -253,8 +281,8 @@ td {
 		$.ajax({
 			url : 'ajax/childList',
 			type : 'GET',
-			data : { 
-				parent_no:"${parent_vo.parent_no}"
+			data : {
+				parent_no : "${parent_vo.parent_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -300,13 +328,13 @@ td {
 				});
 			}
 		});
-		
+
 		var chkVal = $('input[name="chk_type"]:checked').val();
 
-// 		if (chkVal == "V") {
-// 			console.log("아기 변경시");
-// 			vacList();
-// 		}
+		// 		if (chkVal == "V") {
+		// 			console.log("아기 변경시");
+		// 			vacList();
+		// 		}
 	}
 </script>
 </head>

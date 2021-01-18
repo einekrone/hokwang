@@ -117,11 +117,13 @@
 
 	<update id="resvUpdate" parameterType="reservation">
 		update reservation
-		set RESV_NO = #{nresv_no}
+		set RESV_TYPE = #{resv_type}
+		, CHK_TYPE = #{chk_type}
 		, RESV_DATE = #{resv_date}
 		, RESV_TIME = #{resv_time}
-		, CHK_TYPE = #{chk_type}
-		, RESV_TYPE = #{resv_type}
+		<if test="resv_detail != null and resv_detail != ''">
+		, RESV_NO = #{nresv_no}
+		</if>
 		<if test="resv_detail != null and resv_detail != ''">
 			, RESV_DETAIL = #{resv_detail}
 		</if>

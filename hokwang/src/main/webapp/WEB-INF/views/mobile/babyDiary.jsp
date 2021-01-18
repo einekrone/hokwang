@@ -337,6 +337,7 @@ ul.tabs li.current {
 						},
 						success : function(data) {
 							$('input:radio[name="chk_type"][value="'+ data.CHK_TYPE + '"]').prop('checked', true);
+							$('input:radio[name="resv_time"][value="'+ data.RESV_TIME + '"]').prop('checked', true);
 							chkType();
 							if (data.CHK_TYPE == "V") {
 								$("#vacSel option:eq(" + data.CHK_NO + ")")

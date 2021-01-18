@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결제 진행 중</title>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
 ul.tabs{
 	margin: 0px;
@@ -39,24 +40,70 @@ ul.tabs li.current{
 </style>
 </head>
 <script>
-$(document).ready(function(){
-	
-	$('ul.tabs li').click(function(){							//선택자를 통해 tabs 메뉴를 클릭 이벤트를 지정해줍니다.
-		var tab_id = $(this).attr('data-tab');
+var IMP = window.IMP; // 생략가능
+IMP.init('imp59405263');
 
-		$('ul.tabs li').removeClass('current');			//선택 되있던 탭의 current css를 제거하고 
-		$('.tab-content').removeClass('current');		
+imp_uid = extract_POST_value_from_url('imp_uid') //post ajax request로부터 imp_uid확인
+//merchant_uid = extract_GET_value_from_url('merchant_uid') //또는, GET query string으로부터 merchant_uid확인
 
-		$(this).addClass('current');								////선택된 탭에 current class를 삽입해줍니다.
-		$("#" + tab_id).addClass('current');
-	})
+payment_result = rest_api_to_find_payment(imp_uid) //imp_uid로 아임포트로부터 결제정보 조회
+amount_to_be_paid = query_amount_to_be_paid(payment_result.merchant_uid) //결제되었어야 하는 금액 조회. 가맹점에서는 merchant_uid기준으로 관리
 
+if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid){
+	success_post_process(payment_result) //결제까지 성공적으로 완료
+}else if(payment_result.status == 'ready' && payment.pay_method == 'vbank'){
+	vbank_number_assigned(payment_result) //가상계좌 발급성공
+}else{
+	fail_post_process(payment_result) //결제실패 처리
+}
+
+IMP.request_pay({
+    pg : 'html5_inicis',
+    pay_method : 'card',
+    merchant_uid : 'merchant_' + new Date().getTime(),
+    name : '주문명:결제테스트',
+    amount : 100,
+    buyer_email : 'iamport@siot.do',
+    buyer_name : '구매자이름',
+    buyer_tel : '010-1234-5678',
+    m_redirect_url : 'http://localhost:808/hokwang/mobile'
+}, function(rsp) {
+    if ( rsp.success ) {
+    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+    	$.ajax({
+    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {
+	    		imp_uid : rsp.imp_uid
+	    		//기타 필요한 데이터가 있으면 추가 전달
+    		}
+    	}).done(function(data) {
+    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+    		if ( everythings_fine ) {
+    			var msg = '결제가 완료되었습니다.';
+    			msg += '\n고유ID : ' + rsp.imp_uid;
+    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+    			msg += '\결제 금액 : ' + rsp.paid_amount;
+    			msg += '카드 승인번호 : ' + rsp.apply_num;
+
+    			alert(msg);
+    		} else {
+    			//[3] 아직 제대로 결제가 되지 않았습니다.
+    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+    		}
+    	});
+    } else {
+        var msg = '결제에 실패하였습니다.';
+        msg += '에러내용 : ' + rsp.error_msg;
+
+        alert(msg);
+    }
 });
+
 </script>
 <body>
-	<h1 class="h3 mb-3">결제 관리</h1>
-
-	<div class="row">
+	<div class="row"> 
 		<div class="col-4">
 			<div class="card">
 				<div class="card-header">
@@ -117,29 +164,5 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
-	
-<div class="container">
-<!-- 탭 메뉴 상단 시작 -->
-	<ul class="tabs">
-		<li class="tab-link current" data-tab="tab-1">메뉴_하나</li>
-		<li class="tab-link" data-tab="tab-2">메뉴_둘</li>
-		<li class="tab-link" data-tab="tab-3">메뉴_셋</li>
-	</ul>
-<!-- 탭 메뉴 상단 끝 -->
-<!-- 탭 메뉴 내용 시작 -->
-	<div id="tab-1" class="tab-content current">
-    <h1>탭 메뉴 1 내용입니다.</h1>
-   
-	</div>
-	<div id="tab-2" class="tab-content">
-  <h1>  탭 메뉴 2 내용입니다.  </h1>
-  
-	</div>
-	<div id="tab-3" class="tab-content">
-  <h1>  탭 메뉴 3 내용입니다.  </h1>
-  
-	</div>
-<!-- 탭 메뉴 내용 끝 -->
-</div>
 </body>
 </html>

@@ -569,7 +569,7 @@ ul.tabs li.current {
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date'>").html(
+					$("<td id='hist_date" + idx+"'>").html(
 							item.HIST_DATE)).appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
@@ -585,7 +585,7 @@ ul.tabs li.current {
 			} else if (item.HIST_STATE == "Y") {
 				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date").eq(-1)
+				$("#hist_date"+idx).eq(-1)
 				.after(
 						'<td id="hist_state">' + text
 								+ '</td>');;

@@ -128,110 +128,134 @@ span {
 </style>
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <script type="text/javascript">
-var e = false;
-var i = false;
+	var e = false;
+	var i = false;
 	$(function() {
-		
+
 		login();
 		logInAction();
 		registerAction();
 		checkId();
 		checkEmail();
 	});
-	
 
-
-	function checkEmail(){
-		$('#overLapEmail').on("click",function(){
-			if($('#email').val() == ''){
+	function checkEmail() {
+		$('#overLapEmail').on("click", function() {
+			if ($('#email').val() == '') {
 				alert("이메일을 입력하시오")
-			}
-			else{
+			} else {
 				$.ajax({
-					url:"ajax/checkEmail",
-					type:'GET',
+					url : "ajax/checkEmail",
+					type : 'GET',
 					data : {
 						parent_email : $('#email').val(),
 					},
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
-					success: function(data){
-						alert("사용가능합니다");
-						$('#email').attr("readonly",true);
-						e=true;
+					success : function(data) {
+						if (data == true) {
+							alert("사용가능합니다");
+							$('#email').attr("readonly", true);
+							e = true;
+						}
+						else
+							alert("E-mail이 중복됩니다");	
 					}
-				})	
+				})
 			}
 		})
-				
+
 	}
 
-	function checkId(){
-		$('#overLapId').on("click",function(){
-			if($('#id').val() == ''){
+	function checkId() {
+		$('#overLapId').on("click", function() {
+			if ($('#id').val() == '') {
 				alert("id를 입력하시오")
-			}
-			else{
+			} else {
 				$.ajax({
-					url:"ajax/checkId",
-					type:'GET',
+					url : "ajax/checkId",
+					type : 'GET',
 					data : {
 						parent_id : $('#id').val(),
 					},
 					error : function(xhr, status, msg) {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
-					success: function(data){
-						alert("사용가능합니다");
-						$('#id').attr("readonly",true);
-						i=true;
+					success : function(data) {
+						if (data == true) {
+							alert("사용가능합니다");
+							$('#id').attr("readonly", true);
+							i = true;
+						}
+						else
+							alert("ID가 중복됩니다");
+						
 					}
-				})	
+				})
 			}
 		})
-				
+
 	}
-	
+
 	function registerAction() {
-		$('#btnRegister').on("click",function() {
-			console.log(e);
-			if(e==false || i==false){
-				alert("아이디와 이메일의 중복검사를 해야합니다.");
-			}						
-			else if($('#pw').val() == '' || $('#name').val() == '' || $('#reg1').val() == '' || $('#reg2').val() == '' || $('#sample3_detailAddress').val() == ''){
-				alert('필수 입력을 해야합니다');
-			}
-			else{	
-									$.ajax({
-										url : "ajax/registerAction",
-										type : 'POST',
-										data : {
-											parent_id : $('#id').val(),
-											parent_pw : $('#pw').val(),
-											parent_name : $('#name').val(),
-											parent_email : $('#email').val(),
-											parent_tel : $('#tel').val(),
-											parent_regno1 : $('#reg1').val(),
-											parent_regno2 : $('#reg2').val(),
-											parent_addr : $('#sample3_address').val(),
-											parent_addrdetail : $('#sample3_detailAddress').val(),
-											parent_addrextra : $('#sample3_extraAddress').val(),
-											parent_post : $('#sample3_postcode').val()
-										},
-										dataType : 'json',
-										error : function(xhr, status, msg) {
-											alert("상태값 :" + status
-													+ " Http에러메시지 :" + msg);
-										},
-										success : function(data) {
-											alert("회원가입에 성공하였습니다");
-											$("#register input:not([id=btnRegister]):not([id=postBtn])").val('');
-											login();
-										}
-									})
-								}
-			
+		$('#btnRegister')
+				.on(
+						"click",
+						function() {
+							console.log(e);
+							if (e == false || i == false) {
+								alert("아이디와 이메일의 중복검사를 해야합니다.");
+							} else if ($('#pw').val() == ''
+									|| $('#name').val() == ''
+									|| $('#reg1').val() == ''
+									|| $('#reg2').val() == ''
+									|| $('#sample3_detailAddress').val() == '') {
+								alert('필수 입력을 해야합니다');
+							} else {
+								$
+										.ajax({
+											url : "ajax/registerAction",
+											type : 'POST',
+											data : {
+												parent_id : $('#id').val(),
+												parent_pw : $('#pw').val(),
+												parent_name : $('#name').val(),
+												parent_email : $('#email')
+														.val(),
+												parent_tel : $('#tel').val(),
+												parent_regno1 : $('#reg1')
+														.val(),
+												parent_regno2 : $('#reg2')
+														.val(),
+												parent_addr : $(
+														'#sample3_address')
+														.val(),
+												parent_addrdetail : $(
+														'#sample3_detailAddress')
+														.val(),
+												parent_addrextra : $(
+														'#sample3_extraAddress')
+														.val(),
+												parent_post : $(
+														'#sample3_postcode')
+														.val()
+											},
+											dataType : 'json',
+											error : function(xhr, status, msg) {
+												alert("상태값 :" + status
+														+ " Http에러메시지 :" + msg);
+											},
+											success : function(data) {
+												alert("회원가입에 성공하였습니다");
+												$(
+														"#register input:not([id=btnRegister]):not([id=postBtn])")
+														.val('');
+												login();
+											}
+										})
+							}
+
 						});
 	}
 
@@ -251,7 +275,7 @@ var i = false;
 				success : function(data) {
 					if (data == true) {
 						location.href = "mobile";
-					}else{
+					} else {
 						alert("아이디와 비밀번호를 확인하시오.")
 					}
 
@@ -269,9 +293,13 @@ var i = false;
 			<button type="button" class="togglebtn" onclick="register()">회원가입</button>
 		</div>
 		<div class="social-icons">
-			<a href="${kakao_url}"><img src="${pageContext.request.contextPath}/resources/img/kakao.png" alt="kakao"></a>
-			<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> 
-			<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter">
+			<a href="${kakao_url}"><img
+				src="${pageContext.request.contextPath}/resources/img/kakao.png"
+				alt="kakao"></a> <img
+				src="${pageContext.request.contextPath}/resources/img/facebook.png"
+				alt="facebook"> <img
+				src="${pageContext.request.contextPath}/resources/img/twitter.png"
+				alt="twitter">
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"
@@ -353,100 +381,99 @@ var i = false;
 <script
 	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-		var x = document.getElementById("login");
-		var y = document.getElementById("register");
-		var z = document.getElementById("btn");
+	var x = document.getElementById("login");
+	var y = document.getElementById("register");
+	var z = document.getElementById("btn");
 
-		function login() {
-			x.style.left = "50px";
-			y.style.left = "450px";
-			z.style.left = "0";
+	function login() {
+		x.style.left = "50px";
+		y.style.left = "450px";
+		z.style.left = "0";
 
-		}
+	}
 
-		function register() {
-			x.style.left = "-400px";
-			y.style.left = "50px";
-			z.style.left = "110px";
-		}
+	function register() {
+		x.style.left = "-400px";
+		y.style.left = "50px";
+		z.style.left = "110px";
+	}
 
-		var element_wrap = document.getElementById('wrap');
+	var element_wrap = document.getElementById('wrap');
 
-		function foldDaumPostcode() {
-			// iframe을 넣은 element를 안보이게 한다.
-			element_wrap.style.display = 'none';
-		}
+	function foldDaumPostcode() {
+		// iframe을 넣은 element를 안보이게 한다.
+		element_wrap.style.display = 'none';
+	}
 
-		function sample3_execDaumPostcode() {
-			// 현재 scroll 위치를 저장해놓는다.
-			var currentScroll = Math.max(document.body.scrollTop,
-					document.documentElement.scrollTop);
-			new daum.Postcode(
-					{
-						oncomplete : function(data) {
-							// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	function sample3_execDaumPostcode() {
+		// 현재 scroll 위치를 저장해놓는다.
+		var currentScroll = Math.max(document.body.scrollTop,
+				document.documentElement.scrollTop);
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
-							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-							var addr = ''; // 주소 변수
-							var extraAddr = ''; // 참고항목 변수
+						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+						var addr = ''; // 주소 변수
+						var extraAddr = ''; // 참고항목 변수
 
-							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-								addr = data.roadAddress;
-							} else { // 사용자가 지번 주소를 선택했을 경우(J)
-								addr = data.jibunAddress;
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+
+						// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+						if (data.userSelectedType === 'R') {
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraAddr += data.bname;
 							}
-
-							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-							if (data.userSelectedType === 'R') {
-								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-								if (data.bname !== ''
-										&& /[동|로|가]$/g.test(data.bname)) {
-									extraAddr += data.bname;
-								}
-								// 건물명이 있고, 공동주택일 경우 추가한다.
-								if (data.buildingName !== ''
-										&& data.apartment === 'Y') {
-									extraAddr += (extraAddr !== '' ? ', '
-											+ data.buildingName
-											: data.buildingName);
-								}
-								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-								if (extraAddr !== '') {
-									extraAddr = ' (' + extraAddr + ')';
-								}
-								// 조합된 참고항목을 해당 필드에 넣는다.
-								document.getElementById("sample3_extraAddress").value = extraAddr;
-
-							} else {
-								document.getElementById("sample3_extraAddress").value = '';
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraAddr += (extraAddr !== '' ? ', '
+										+ data.buildingName : data.buildingName);
 							}
+							// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+							if (extraAddr !== '') {
+								extraAddr = ' (' + extraAddr + ')';
+							}
+							// 조합된 참고항목을 해당 필드에 넣는다.
+							document.getElementById("sample3_extraAddress").value = extraAddr;
 
-							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById('sample3_postcode').value = data.zonecode;
-							document.getElementById("sample3_address").value = addr;
-							// 커서를 상세주소 필드로 이동한다.
-							document.getElementById("sample3_detailAddress")
-									.focus();
+						} else {
+							document.getElementById("sample3_extraAddress").value = '';
+						}
 
-							// iframe을 넣은 element를 안보이게 한다.
-							// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-							element_wrap.style.display = 'none';
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('sample3_postcode').value = data.zonecode;
+						document.getElementById("sample3_address").value = addr;
+						// 커서를 상세주소 필드로 이동한다.
+						document.getElementById("sample3_detailAddress")
+								.focus();
 
-							// 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-							document.body.scrollTop = currentScroll;
-						},
-						// 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-						onresize : function(size) {
-							element_wrap.style.height = size.height + 'px';
-						},
-						width : '100%',
-						height : '100%'
-					}).embed(element_wrap);
+						// iframe을 넣은 element를 안보이게 한다.
+						// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+						element_wrap.style.display = 'none';
 
-			// iframe을 넣은 element를 보이게 한다.
-			element_wrap.style.display = 'block';
-		}
-	</script>
+						// 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+						document.body.scrollTop = currentScroll;
+					},
+					// 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+					onresize : function(size) {
+						element_wrap.style.height = size.height + 'px';
+					},
+					width : '100%',
+					height : '100%'
+				}).embed(element_wrap);
+
+		// iframe을 넣은 element를 보이게 한다.
+		element_wrap.style.display = 'block';
+	}
+</script>

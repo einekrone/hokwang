@@ -44,9 +44,9 @@ public class SalesServiceImpl implements SalesService {
 
 
 	@Override
-	public int[] getMonth1(){
+	public int[] getMonth1(String Year){
 		// TODO Auto-generated method stub
-		return salesDao.getMonth1();
+		return salesDao.getMonth1(Year);
 	}
 	
 	

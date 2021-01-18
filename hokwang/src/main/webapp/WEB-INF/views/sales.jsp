@@ -23,9 +23,13 @@
 	});
 
 	function Month1() {
+		console.log($('#selectYear').val());
 		$.ajax({
 			url : "ajax/getMonth1",
 			Type : "POST",
+			data : {
+				Year : $('#selectYear').val()
+			},
 			dataType : "json",
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + "Http에러메시지 : " + msg);
@@ -33,6 +37,27 @@
 			success : createChart
 
 		});
+		
+		$('#selectYear').change(function(){
+			console.log($('#selectYear').val());
+			$.ajax({
+				url : "ajax/getMonth1",
+				Type : "POST",
+				data : {
+					Year : $('#selectYear').val()
+				},
+				dataType : "json",
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + "Http에러메시지 : " + msg);
+				},
+				success : createChart
+
+			});
+			
+		});
+		
+		
+
 	}
 
 	/* allSales() */
@@ -211,15 +236,14 @@
 					<div class="col-md-6" style="flex: 0 0 100%; max-width: 100%;">
 						<div class="card">
 							<div class="card-body">
-								<div class="btn-group">
-									<button type="button" class="btn btn-secondary dropdown-toggle"
-										data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false">선택</button>
-									<div class="dropdown-menu dropdown-menu-right">
-										<button class="dropdown-item" type="button">2021</button>
-										<button class="dropdown-item" type="button">2020</button>
-										<button class="dropdown-item" type="button">2019</button>
-									</div>
+								<div class="btn-group" id ="changeYear" name ="changeYear">
+									<select class="btn btn-secondary dropdown-toggle"
+										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="selectYear" name="selectYear">
+										<option value = "21" selected>2021</option>
+										<option value = "20">2020</option>	
+										<option value = "19">2019</option>
+									</select>
+
 								</div>
 								<canvas class="myChart"></canvas>
 

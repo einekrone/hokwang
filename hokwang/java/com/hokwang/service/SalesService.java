@@ -7,5 +7,5 @@ public interface SalesService {
 	public Integer getMonthSales();
 	public Integer getYearSales();
 	public Integer getCountResv();
-	public int[] getMonth1();
+	public int[] getMonth1(String Year);
 }

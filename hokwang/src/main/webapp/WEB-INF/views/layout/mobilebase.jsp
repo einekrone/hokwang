@@ -29,52 +29,132 @@
 <!-- JavaScript Bundle with Popper -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<style type="text/css">
+#topBtn {
+	position: fixed;
+	float: right;
+	bottom: 50px;
+	display: none;
+	z-index: 999;
+	height: 40px;
+	margin-left: 85%;
+}
+</style>
 <script type="text/javascript">
 	$(function() {
 		changeMenu();
 		alertCntAction();
 		alertInf();
-		
+
+		$(window).scroll(function() {
+			if ($(this).scrollTop() > 200) {
+				$("#topBtn").fadeIn();
+			} else {
+				$("#topBtn").fadeOut();
+			}
+		});
+
+		$("#topBtn").click(function() {
+			$('html, body').animate({
+				scrollTop : 0
+			}, 400);
+			return false;
+		});
+
 		$(".resvT, .resvR").on("click", function() {
 			var parentinfo = '${parent_vo}';
-			if(parentinfo == '') {
+			if (parentinfo == '') {
 				event.preventDefault();
 				alert("로그인 후 사용 가능합니다.");
 			}
 		});
 	});
-	
-	function alertInf() { 
-		$.ajax({
-			url : "ajax/alertInf",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				parent_no : "${parent_vo.parent_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$.each(data,function(idx,item){
-					$('#alertLabel').append($('<a>').attr("href","#").attr("class","list-group-item")
-							.append($('<div>').attr("class","row g-0 align-items-center")
-									.append($('<div>').attr("class","col-2").append($('<img width="60px">').css("padding-right","15px").attr("src","${pageContext.request.contextPath}/resources/img/"+item.BABY_PIC)))
-							.append($('<div>').attr("class","col-10")
-									.append($('<div>').attr("class","text-dark").html(item.ALERT_TITLE))
-									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_CONT))
-									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_DATE))
-									)));
-				});
-				
-				
-				
-				
-			}
-		})
+
+	function alertInf() {
+		$
+				.ajax({
+					url : "ajax/alertInf",
+					type : 'GET',
+					dataType : 'json',
+					data : {
+						parent_no : "${parent_vo.parent_no}"
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						$
+								.each(
+										data,
+										function(idx, item) {
+											$('#alertLabel')
+													.append(
+															$('<a>')
+																	.attr(
+																			"href",
+																			"#")
+																	.attr(
+																			"class",
+																			"list-group-item")
+																	.append(
+																			$(
+																					'<div>')
+																					.attr(
+																							"class",
+																							"row g-0 align-items-center")
+																					.append(
+																							$(
+																									'<div>')
+																									.attr(
+																											"class",
+																											"col-2")
+																									.append(
+																											$(
+																													'<img width="60px">')
+																													.css(
+																															"padding-right",
+																															"15px")
+																													.attr(
+																															"src",
+																															"${pageContext.request.contextPath}/resources/img/"
+																																	+ item.BABY_PIC)))
+																					.append(
+																							$(
+																									'<div>')
+																									.attr(
+																											"class",
+																											"col-10")
+																									.append(
+																											$(
+																													'<div>')
+																													.attr(
+																															"class",
+																															"text-dark")
+																													.html(
+																															item.ALERT_TITLE))
+																									.append(
+																											$(
+																													'<div>')
+																													.attr(
+																															"class",
+																															"text-muted small mt-1")
+																													.html(
+																															item.ALERT_CONT))
+																									.append(
+																											$(
+																													'<div>')
+																													.attr(
+																															"class",
+																															"text-muted small mt-1")
+																													.html(
+																															item.ALERT_DATE)))));
+										});
+
+					}
+				})
 	}
-	
-	function alertCntAction() { 
+
+	function alertCntAction() {
 		$.ajax({
 			url : "ajax/alertCntAction",
 			type : 'GET',
@@ -92,7 +172,7 @@
 	}
 
 	function changeMenu() {
-// 		console.log("changeMenu");
+		// 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
 		/* $(".sidebar-nav").on("click", "li", function(event) {
 			console.log("click");
@@ -180,7 +260,7 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
-				${kemail}
+					${kemail}
 					<!-- 로그인모양 -->
 					<c:if test="${parent_vo == null }">
 
@@ -208,9 +288,9 @@
 									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
 									aria-labelledby="alertsDropdown">
 									<!-- <div class="dropdown-menu-header">4 New Notifications</div> -->
-									<div class="list-group" id="alertLabel"> 
-										<!-- 알림 출력부분 --> 
-							
+									<div class="list-group" id="alertLabel">
+										<!-- 알림 출력부분 -->
+
 									</div>
 								</div></li>
 
@@ -271,6 +351,7 @@
 			</footer>
 		</div>
 	</div>
-
+	<img alt="TOP" id="topBtn"
+		src="${pageContext.request.contextPath}/resources/img/top.png">
 </body>
 </html>

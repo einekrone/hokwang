@@ -470,7 +470,7 @@ ul.tabs li.current {
 	
 	//미결제
 	function reserlistResult2(data) {
-		$("#unpayList").emp	ty();
+		$("#unpayList").empty();
 		$
 				.each(data,function(idx, item) {
 							$("<tr>")

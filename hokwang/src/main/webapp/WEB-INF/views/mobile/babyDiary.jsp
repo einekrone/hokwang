@@ -942,7 +942,7 @@ ul.tabs li.current {
 											</table>
 										</div>
 									</div>
-								
+								</div>
 							</div>
 							<!-- 3 -->
 							<div class="tab-pane fade" id="tab-6" role="tabpanel">

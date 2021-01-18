@@ -549,6 +549,74 @@ ul.tabs li.current {
 			  console.log("idx >>>>>>>>>>>>>>"+idx);
 			});
 	}
+	function checkuphistIncompleteResult(data) {
+		var text = "";
+
+		$("#checkup").empty();
+		$.each(data, function(idx, item) {
+			console.log("idx>>>" +idx);
+			$("<tr>").append(
+					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
+							item.CHK_NAME)).append(
+					$("<td id='hist_date" + idx+"'>").html(
+							item.HIST_DATE)).appendTo('#checkup');
+
+			if (item.HIST_STATE == "I") {
+				//console.log(">> I " + idx + item.HIST_STATE);
+				text = "접종 중";
+				$("#hist_date"+idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} else if (item.HIST_STATE == "N") {
+				//console.log(">> N" + idx + item.HIST_STATE);
+				text = "미접종";
+				$("#hist_date"+idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} else if (item.HIST_STATE == "Y") {
+				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
+				text = "미접종";
+				$("#hist_date"+idx).eq(-1)
+				.after(
+						'<td id="hist_state">' + text
+								+ '</td>');;
+			}
+
+		})/* end of ajax  */
+		var $item = $('#hist_state').on('click', function() {
+			  var idx = $(this).index();
+			  console.log("idx >>>>>>>>>>>>>>"+idx);
+			});
+	}
+
+	function checkuphistCompleteResult(data) {
+		var text = "";
+
+		$("#checkup").empty();
+		$.each(data, function(idx, item) {
+			console.log("idx>>>" +idx);
+			$("<tr>").append(
+					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
+							item.CHK_NAME)).append(
+					$("<td id='hist_date" + idx+"'>").html(
+							item.HIST_DATE)).appendTo('#checkup');
+
+			if (item.HIST_STATE == "I") {
+				//console.log(">> I " + idx + item.HIST_STATE);
+				text = "접종 중";
+				$("#hist_date"+idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} if (item.HIST_STATE == "N") {
+				//console.log(">> N" + idx + item.HIST_STATE);
+				text = "미접종";
+				$("#hist_date"+idx).eq(-1).after(
+						'<td id="hist_state">' + text + '</td>');
+			} 
+
+		})/* end of ajax  */
+		var $item = $('#hist_state').on('click', function() {
+			  var idx = $(this).index();
+			  console.log("idx >>>>>>>>>>>>>>"+idx);
+			});
+	}
 
 	function babyList() {
 		$.ajax({

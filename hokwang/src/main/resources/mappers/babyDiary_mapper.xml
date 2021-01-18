@@ -62,7 +62,14 @@
 		from BODYINFO
 		where
 		baby_no=#{baby_no}
+		ORDER BY BODY_DATE DESC
 	</select>
 
-
+	<select id="checkTemporature" resultType="TemporatureVO" parameterType="TemporatureVO">
+		select *
+		from TEMPORATURE
+		where
+		baby_no=#{baby_no}
+		ORDER BY TEMP_DATE DESC
+	</select>
 </mapper>

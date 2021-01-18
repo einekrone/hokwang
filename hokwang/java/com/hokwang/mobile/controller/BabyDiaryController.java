@@ -16,6 +16,7 @@ import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
+import com.hokwang.vo.TemporatureVO;
 
 @Controller
 public class BabyDiaryController {
@@ -81,6 +82,11 @@ public class BabyDiaryController {
 
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/ajax/checkTemporature")
+	public List<TemporatureVO> checkTemporature(TemporatureVO vo) {
+		return service.checkTemporature(vo);
+
+	}
 	
 }

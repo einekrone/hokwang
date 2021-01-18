@@ -12,6 +12,7 @@ import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
+import com.hokwang.vo.TemporatureVO;
 
 @Service
 public class BabyDiaryServiceImpl implements BabyDiaryService {
@@ -58,6 +59,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public List<BodyVO> checkBody(BodyVO vo) {
 		// TODO Auto-generated method stub
 		return dao.checkBody(vo);
+	}
+
+	@Override
+	public List<TemporatureVO> checkTemporature(TemporatureVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkTemporature(vo);
 	}
 	
 	

@@ -65,7 +65,6 @@ ul.tabs li.current {
 	padding: 15px;
 	font-family: "Malgun Gothic", dotum, gulim, sans-serif;
 	border: 0;
-	line-height: normal;
 	position: absolute;
 	/* height: 60px; */
 	border-radius: 50%;
@@ -741,7 +740,7 @@ ul.tabs li.current {
 
 		});/* end of ajax */
 		
-		//정우ㅡㄴ
+		//정우ㅡㄴ 키,몸무게 등록
 		$.ajax({
 			url : "ajax/checkBody",
 			type : "GET",
@@ -754,19 +753,39 @@ ul.tabs li.current {
 			},
 			success : function(data){
 				$.each(data, function(idx, item) {
-					console.log("ddddd"+item.body_no);
+					//console.log("ddddd"+item.body_no);
 					$('#bodyTable').append($('<tr>')
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-										
 						)
-					
-					
 				});
 			}
 
-		});
+		}); /* end checkBody */
+		
+		
+		// 체온등록
+		$.ajax({
+			url : "ajax/checkTemporature",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no : babyNo	
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data){
+				$.each(data, function(idx, item) {
+					$('#tempTable').append($('<tr>')
+										.append($('<td>').html(item.temp_date))
+										.append($('<td>').html(item.temp_temp))									
+						)
+				});
+			}
+		}); /* end checkTemporature */
+		
 		
 		
 		
@@ -1082,17 +1101,24 @@ ul.tabs li.current {
 							</div>
 
 							<!-- 4 -->
-							<div class="tab-pane fade" id="tab-7" role="tabpanel">
+							<div class="tab-pane fade" id="tab-7" role="tabpanel" style="height:300px ; overflow: auto;">
 								<table class="table text-center">
 									<thead>
 										<tr>
 											<th class="text-center">등록일시</th>
 											<th class="text-center">체온</th>
-											<th class="text-center">상태</th>
 										</tr>
 									</thead>
-									<tbody id="#"></tbody>
+									<tbody id="tempTable">
+									</tbody>
 								</table>
+								<div class="wrap_btns">
+									<button type="button" class="btn_assist notification ons"
+										data-cate="notification" data-toggle="modal"
+										data-target="#temporatureModal" data-backdrop="static">
+										<span class="blind"><i class="fas fa-plus"></i></span>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -1384,7 +1410,7 @@ ul.tabs li.current {
 
 				<div class="modal-body">
 					<div class="card-body">
-						<div id="searchI">
+						<div id="bodyUpdate">
  
 						</div>
 					</div>
@@ -1399,6 +1425,40 @@ ul.tabs li.current {
 			</div>
 		</div>
 	</div>
-	<!-- 등록/수정 modal end -->
+	<!-- 등록/수정 bupModal end -->
+	
+	
+	<!-- temporatureModal 등록/수정 모달-->
+	<div class="modal fade" id="temporatureModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">등록</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close" id="btnX">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="card-body">
+						<div id="temporatureUpdate">
+ 
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" id="btnId"
+						name="btnId" value="찾기">
+					<button class="btn btn-secondary" type="button" id="Cancel"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 등록/수정 temporatureModal end -->
 </body>
 </html>

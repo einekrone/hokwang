@@ -476,32 +476,25 @@ ul.tabs li.current {
 	function reserlistResult(data) {
 		$("#reser2").empty();
 		$
-				.each(
-						data,
-						function(idx, item) {
+				.each(data,function(idx, item) {
 							$("<tr id='a2'>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.resv_date)
-													.html(item.resv_date))
-									.append(
-											$("<td>")
-													.attr("id", '')
-													.append(
-															$("<input type='button' id='que1' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
-									.append(
-											$("<td>")
-													.attr("id", '')
-													.append(
-															$("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa1').attr(
-															'value',
-															item.resv_no).html(
-															item.resv_no))
+									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='que1' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
+									.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
 									.appendTo('#reser2');
+							
+							if (item.resv_status == "Y") {
+								console.log(">>2 " + item.resv_status);
+								text = "진료완료";
+								$("#que" + idx).eq(-1).after(
+										'<td id="diag_yn">' + text + '</td>');
+							}
+							else if (item.resv_status == "N") {
+								console.log(">>2 " + item.resv_status);
+								text = "";
+								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+"/></td>");
+							}
 						})
 	}
 	
@@ -721,16 +714,12 @@ ul.tabs li.current {
 							if (item.RESV_STATUS == "N") {
 								console.log(">> 1 " + item.RESV_STATUS);
 								text = "";
-								$("#diagsis")
-										.eq(-1)
-										.after(
-												'<td id="diag_yn">'
-														+ '<input type="button" class="btn btn-primary btn-sm" value="결제" >'
-														+ '</td>');
+								$("#diagsis"+ idx).eq(-1)
+										.after('<td id="diag_yn">'+ '</td>');
 							} else if (item.RESV_STATUS == "Y") {
 								console.log(">>2 " + item.RESV_STATUS);
 								text = "진료완료";
-								$("#diagsis").eq(-1).after(
+								$("#diagsis" + idx).eq(-1).after(
 										'<td id="diag_yn">' + text + '</td>');
 							}
 						})

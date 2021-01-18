@@ -16,7 +16,7 @@
 			SELECT NVL(MAX(PARENT_NO),0)+1 FROM PARENT
 		</selectKey>
 		insert into
-		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw,parent_img)
+		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw,parent_img,parent_sns)
 		values(#{parent_no}
 		,#{parent_name}
 		,#{parent_tel}
@@ -30,6 +30,7 @@
 		,#{parent_id}
 		,#{parent_pw}
 		,#{parent_img}
+		,'social'
 		)
 	</insert>
 

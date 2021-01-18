@@ -5,44 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>HOHO</title>
-<meta name="description"
-	content="Responsive Admin &amp; 홈 Template based on Bootstrap 5">
-<meta name="author" content="호광 병원">
-<meta name="keywords"
-	content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
-
-<link rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/icons/icon-48x48.png" />
-
-<title>호광 병원 Demo - Bootstrap 5 Admin Template</title>
-
-<link href="${pageContext.request.contextPath}/resources/css/mobile.css"
-	rel="stylesheet">
-
-<script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link
-	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
-	rel="stylesheet">
-
 <script src="./resources/json.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-<%-- <script
-	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script> --%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- 예약 날짜 달력 -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

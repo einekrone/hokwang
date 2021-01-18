@@ -34,6 +34,14 @@
 		changeMenu();
 		alertCntAction();
 		alertInf();
+		
+		$(".resvT, .resvR").on("click", function() {
+			var parentinfo = '${parent_vo}';
+			if(parentinfo == '') {
+				event.preventDefault();
+				alert("로그인 후 사용 가능합니다.");
+			}
+		});
 	});
 	
 	function alertInf() { 
@@ -84,7 +92,7 @@
 	}
 
 	function changeMenu() {
-		console.log("changeMenu");
+// 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
 		/* $(".sidebar-nav").on("click", "li", function(event) {
 			console.log("click");
@@ -111,7 +119,7 @@
 							<span class="align-middle">홈</span>
 					</a></li>
 
-					<c:if test="${parent_vo != null }">
+					<c:if test="${parent_vo != null}">
 						<li class="sidebar-item"><a class="sidebar-link"
 							href="mmypage"> <i class="align-middle" data-feather="user"></i>
 								<span class="align-middle">마이페이지</span>
@@ -138,9 +146,9 @@
 					</a>
 						<ul id="resv" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link"
+							<li class="sidebar-item"><a class="sidebar-link resvT"
 								href="resv?type=T">당일 예약</a></li>
-							<li class="sidebar-item"><a class="sidebar-link"
+							<li class="sidebar-item"><a class="sidebar-link resvR"
 								href="resv?type=R">우선 예약</a></li>
 						</ul></li>
 				</ul>

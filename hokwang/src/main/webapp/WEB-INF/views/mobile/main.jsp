@@ -48,24 +48,17 @@
 	height: 80px;
 }
 
-.btnt {
-	height: 100%;
-	width: 45%;
-	background-color: #96bb7c;
+.resvBtn {
 	color: white;
-}
-
-.btnv {
-	height: 100%;
-	width: 45%;
-	background-color: #ffc764;
-	color: white;
+	padding: 30px 15px;
 }
 </style>
 
 </head>
 <body onload="initialize()">
 	<script>
+		$(function() {
+		});
 		//지도
 		function initialize() {
 			var myLatlng = new google.maps.LatLng(35.870704, 128.589424);
@@ -114,7 +107,6 @@
 	</script>
 <body>
 
-	
 	<c:if test="${parent_vo != null }">
 		<div class="row mb-2 mb-xl-3">
 			<div class="col-auto ml-auto text-right mt-n1">
@@ -161,19 +153,17 @@
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<div>
-							<div style="height: 80px; text-align: center;">
-								<button class="btn btnt" onclick="location.href='resv?type=T'">당일예약</button>
-								<!-- 								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5> -->
-								<button class="btn btnv" onclick="location.href='resv?type=R'">우선예약</button>
-							</div>
+						<div
+							style="display: table-cell; vertical-align: middle; height: 80px; text-align: center;">
+							<a style="background-color: #96bb7c;" class="btnt resvBtn resvT"
+								href="resv?type=T">당일예약</a> <a
+								style="background-color: #ffc764;" class="btnv resvBtn resvR"
+								href="resv?type=R">우선예약</a>
 						</div>
 					</div>
 					<div id="card2" class="card">
-						<div>
-							<input type="button" class="btn btn-info active" value="증명서 발급"
-								id="issue">
-						</div>
+						<input type="button" class="btn btn-info active" value="증명서 발급"
+							id="issue">
 					</div>
 				</div>
 			</div>
@@ -183,7 +173,7 @@
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-				
+
 					<h5 class="card-title mb-0">코로나 현황</h5>
 				</div>
 				<div style="height: 200px; overflow: auto;">

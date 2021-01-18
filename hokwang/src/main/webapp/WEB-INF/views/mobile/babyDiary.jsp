@@ -154,15 +154,15 @@ ul.tabs li.current {
 				}
 			}
 
-			if ($(".selector").val() == "") {
-				alert("예약 날짜를 선택해 주세요.");
-				return;
-			} else {
-				if (chkVal == undefined) {
-					alert("예약 시간을 선택해 주세요.");
-					return;
-				}
-			}
+// 			if ($(".selector").val() == "") {
+// 				alert("예약 날짜를 선택해 주세요.");
+// 				return;
+// 			} else {
+// 				if (chkVal == undefined) {
+// 					alert("예약 시간을 선택해 주세요.");
+// 					return;
+// 				}
+// 			}
 
 			if ($(':radio[name="a1"]:checked').length < 1) {
 				alert("문진표의 응답1을 선택해 주세요.");
@@ -694,8 +694,7 @@ ul.tabs li.current {
 					</select>
 				</div>
 				<div style="align-self: center;">
-					<img id="babyImg" class="img-fluid rounded-circle mb-2" width="120"
-						height="120" />
+					<img id="babyImg" class="img-fluid rounded-circle mb-2" style="height:120px; width:120px;" />
 				</div>
 				<input type="button" class="card-title mb-0" value="예약하기">
 			</div>

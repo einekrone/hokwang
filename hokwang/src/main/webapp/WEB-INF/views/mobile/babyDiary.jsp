@@ -514,10 +514,10 @@ ul.tabs li.current {
 
 	function checkuphistResult(data) {
 		var text = "";
-
+		
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
+			console.log("item>>>>>>>>>>>>>>>>>>>>>>" +data);
 			$("<tr>").append(
 					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
@@ -525,18 +525,18 @@ ul.tabs li.current {
 							item.HIST_DATE)).appendTo('#checkup');
 
 			if (item.HIST_STATE == "I") {
-				//console.log(">> I " + idx + item.HIST_STATE);
+				console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
 				$("#hist_date"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "N") {
-				//console.log(">> N" + idx + item.HIST_STATE);
+				console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
 				$("#hist_date"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "Y") {
-				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
-				text = "미접종";
+				console.log(">> 접종완료 " + idx + item.HIST_STATE);
+				text = "접종완료";
 				$("#hist_date"+idx).eq(-1)
 				.after(
 						'<td id="hist_state">' + text
@@ -552,32 +552,25 @@ ul.tabs li.current {
 	function checkuphistIncompleteResult(data) {
 		var text = "";
 
-		$("#checkup").empty();
+		$("#checkupIncom").empty();
 		$.each(data, function(idx, item) {
 			console.log("idx>>>" +idx);
 			$("<tr>").append(
-					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
+					$("<td id='chk_name2' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
+					$("<td id='hist_date2" + idx+"'>").html(
+							item.HIST_DATE)).appendTo('#checkupIncom');
 
 			if (item.HIST_STATE == "I") {
 				//console.log(">> I " + idx + item.HIST_STATE);
 				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date2"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} else if (item.HIST_STATE == "N") {
 				//console.log(">> N" + idx + item.HIST_STATE);
 				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
+				$("#hist_date2"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "Y") {
-				//console.log(">> 접종완료 " + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date"+idx).eq(-1)
-				.after(
-						'<td id="hist_state">' + text
-								+ '</td>');;
 			}
 
 		})/* end of ajax  */
@@ -590,24 +583,19 @@ ul.tabs li.current {
 	function checkuphistCompleteResult(data) {
 		var text = "";
 
-		$("#checkup").empty();
+		$("#checkupCom").empty();
 		$.each(data, function(idx, item) {
 			console.log("idx>>>" +idx);
 			$("<tr>").append(
-					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
+					$("<td id='chk_name3' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
+					$("<td id='hist_date3" + idx+"'>").html(
+							item.HIST_DATE)).appendTo('#checkupCom');
 
-			if (item.HIST_STATE == "I") {
-				//console.log(">> I " + idx + item.HIST_STATE);
-				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} if (item.HIST_STATE == "N") {
+			 if (item.HIST_STATE == "Y") {
 				//console.log(">> N" + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
+				text = "접종완료";
+				$("#hist_date3"+idx).eq(-1).after(
 						'<td id="hist_state">' + text + '</td>');
 			} 
 
@@ -709,7 +697,11 @@ ul.tabs li.current {
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
-			success : checkuphistResult
+			success : function(data){
+				checkuphistResult(data.checkhistlist)
+				checkuphistIncompleteResult(data.checkhistIncom)
+				checkuphistCompleteResult(data.checkCom)
+			}
 
 		});/* end of ajax */	
 	}
@@ -939,7 +931,7 @@ ul.tabs li.current {
 														<th class="text-center">접종상태</th>
 													</tr>
 												</thead>
-												<tbody id="#"></tbody>
+												<tbody id="checkupIncom"></tbody>
 											</table>
 										</div>
 
@@ -953,7 +945,7 @@ ul.tabs li.current {
 														<th class="text-center">접종상태</th>
 													</tr>
 												</thead>
-												<tbody id="#"></tbody>
+												<tbody id="checkupCom"></tbody>
 											</table>
 										</div>
 									</div>

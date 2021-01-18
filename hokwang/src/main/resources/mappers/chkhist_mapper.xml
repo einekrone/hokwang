@@ -15,7 +15,29 @@
 		</where>
 	</select>
 
-
+	<select id="checkHistlistIncomplete" resultType="map">
+		select b.chk_name as chk_name,TO_CHAR(a.HIST_DATE,'YYYY-MM-DD') AS HIST_DATE,a.hist_state
+		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
+		CHECKHIST
+		a, CHECKUP b,reservation c,baby d
+		<where>
+			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='N' and a.hist_state='I'
+			 ORDER BY a.hist_date
+		</where>
+	</select>
+	
+	<select id="checkHistlistComplete" resultType="map">
+		select b.chk_name as chk_name,TO_CHAR(a.HIST_DATE,'YYYY-MM-DD') AS HIST_DATE,a.hist_state
+		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
+		CHECKHIST
+		a, CHECKUP b,reservation c,baby d
+		<where>
+			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='Y'
+			 ORDER BY a.hist_date
+		</where>
+	</select>
 </mapper>
 <!-- select b.chk_name as chk_name,a.hist_date as hist_date,a.hist_state 
 	as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from checkhist 

@@ -729,7 +729,6 @@ ul.tabs li.current {
 			data : {
 				parent_no : "${parent_vo.parent_no}",
 				baby_no : babyNo
-				
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -740,7 +739,37 @@ ul.tabs li.current {
 				checkuphistCompleteResult(data.checkCom)
 			}
 
-		});/* end of ajax */	
+		});/* end of ajax */
+		
+		//정우ㅡㄴ
+		$.ajax({
+			url : "ajax/checkBody",
+			type : "GET",
+			dataType : "JSON",
+			data : {
+				baby_no : babyNo	
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data){
+				$.each(data, function(idx, item) {
+					console.log("ddddd"+item.body_no);
+					$('#bodyTable').append($('<tr>')
+										.append($('<td>').html(item.body_date))
+										.append($('<td>').html(item.body_height))
+										.append($('<td>').html(item.body_weight))
+										
+						)
+					
+					
+				});
+			}
+
+		});
+		
+		
+		
 	}
 
 	function allreserResult(data) {
@@ -783,6 +812,28 @@ ul.tabs li.current {
 						+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
 						+ '</td>'); */
 	}
+	
+	function insertbodyinfo() {
+		$.ajax({
+			url : 'ajax/insertbodyinfo',
+			type : 'POST',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			error : function(xhr, status, msg) {
+				alert("상태값 :" + status + " Http에러메시지 :" + msg);
+			},
+			success : function(data) {
+			console.log( "떳니?"+data)
+			/* 	$.each(data, function(idx, item) {
+					$("#baby-name").append(
+							$('<option>').attr("value", item.baby_no).html(
+									item.baby_name));
+				}); */
+			}
+		});
+	}
+	
 </script>
 </head>
 <body>
@@ -993,7 +1044,7 @@ ul.tabs li.current {
 								</div>
 							</div>
 							<!-- 3 -->
-							<div class="tab-pane fade" id="tab-6" role="tabpanel">
+							<div class="tab-pane fade" id="tab-6" role="tabpanel" style="height:300px ; overflow: auto;">
 
 								<table class="table text-center">
 									<thead>
@@ -1003,7 +1054,7 @@ ul.tabs li.current {
 											<th class="text-center">몸무게</th>
 											<th class="text-center">    </th>
 										</tr>
-										<tr>
+<!-- 										<tr>
 											<th class="text-center">21-01-18</th>
 											<th class="text-center">170.4</th>
 											<th class="text-center">56.8</th>
@@ -1016,9 +1067,10 @@ ul.tabs li.current {
 														data-toggle="modal" data-target="#bdelModal"
 														data-backdrop="static">삭제</button>
 											</span></th>
-										</tr>
+										</tr> -->
 									</thead>
-									<tbody id="#"></tbody>
+									<tbody id="bodyTable">
+									</tbody>
 								</table>
 								<div class="wrap_btns">
 									<button type="button" class="btn_assist notification ons"
@@ -1323,7 +1375,7 @@ ul.tabs li.current {
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
+					<h5 class="modal-title" id="exampleModalLabel">등록</h5>
 					<button class="close" type="button" data-dismiss="modal"
 						aria-label="Close" id="btnX">
 						<span aria-hidden="true">×</span>
@@ -1333,34 +1385,7 @@ ul.tabs li.current {
 				<div class="modal-body">
 					<div class="card-body">
 						<div id="searchI">
-							<div class="card-header">
-								<h5 class="card-title"
-									style="font-weight: bold; font-size: 15px;">예약 일시</h5>
-							</div>
-							<div class="card-body d-flex">
-								<input type="text" class="selector" placeholder="날짜를 선택하세요."
-									style="margin-left: 20%; text-align: center;" name="resv_date"
-									class="" /> <a class="input-button" title="toggle" data-toggle><i
-									class="icon-calendar"></i></a>
-								<script type="text/javascript">
-									$(".selector")
-											.flatpickr(
-													{
-														dateFormat : "Y-m-d",
-														minDate : "today",
-														maxDate : new Date()
-																.fp_incr(30),
-														disable : [
-																"2021-01-28",
-																function(date) {
-																	return (date
-																			.getDay() == 0);
-																} ]
-													});
-								</script>
-							</div>
-
-							<h1 id="resultId"></h1>
+ 
 						</div>
 					</div>
 				</div>

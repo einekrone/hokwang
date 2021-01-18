@@ -72,4 +72,15 @@ public class BabyDiaryController {
 			return false;
 		}
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/checkBody")
+	public List<BodyVO> checkBody(BodyVO vo) {
+		return service.checkBody(vo);
+
+	}
+	
+	
+	
 }

@@ -53,6 +53,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 		return dao.insertbodyinfo(vo);
 				
 	}
+
+	@Override
+	public List<BodyVO> checkBody(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkBody(vo);
+	}
 	
 	
 }

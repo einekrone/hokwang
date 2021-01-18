@@ -52,8 +52,24 @@ public class ExcelView extends AbstractXlsView {
 					Object field = map.get(header);
 					if (field == null) {
 						field = "";
-						System.out.println(header);
 					}
+					
+					if (field instanceof String) {
+						cell.setCellValue((String) field);
+					} else if (field instanceof BigDecimal) {
+						cell.setCellValue(((BigDecimal) field).doubleValue());
+					} else if (field instanceof Date) {
+						cell.setCellValue((Date) field);
+					} else {
+						cell.setCellValue(field.toString());
+					}
+				}
+				
+				colNum = 0;
+				Iterator<String> iter = map.keySet().iterator();
+				while (iter.hasNext()) {
+					cell = row.createCell(colNum++);
+					Object field = map.get(iter.next());
 					if (field instanceof String) {
 						cell.setCellValue((String) field);
 					} else if (field instanceof BigDecimal) {

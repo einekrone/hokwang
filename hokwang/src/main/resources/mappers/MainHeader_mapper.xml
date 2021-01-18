@@ -10,6 +10,31 @@
 		parent_pw = #{parent_pw}
 	</select>
 
+	<insert id="kakaoRegisterAction" parameterType="parentVO">
+		<selectKey order="BEFORE" keyProperty="parent_no"
+			resultType="string">
+			SELECT NVL(MAX(PARENT_NO),0)+1 FROM PARENT
+		</selectKey>
+		insert into
+		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw,parent_img)
+		values(#{parent_no}
+		,#{parent_name}
+		,#{parent_tel}
+		,#{parent_addr}
+		,#{parent_addrdetail}
+		,#{parent_addrextra}
+		,#{parent_post}
+		,#{parent_email}
+		,#{parent_regno1}
+		,#{parent_regno2}
+		,#{parent_id}
+		,#{parent_pw}
+		,#{parent_img}
+		)
+	</insert>
+
+
+
 	<insert id="registerAction" parameterType="parentVO">
 		<selectKey order="BEFORE" keyProperty="parent_no"
 			resultType="string">
@@ -49,9 +74,13 @@
 	</select>
 
 	<select id="alertInf" parameterType="parentVO" resultType="map">
-		select a.alert_no,to_char(a.ALERT_DATE,'YY/MM/DD') as ALERT_DATE ,a.ALERT_TITLE,a.ALERT_CONT,b.BABY_PIC
-		from alert a,baby b ,parent p where a.BABY_NO = b.BABY_NO and
-		p.PARENT_NO = b.PARENT_NO and p.parent_no = #{parent_no} and to_char(a.ALERT_DATE,'YY/MM/DD')=to_char(SYSDATE,'YY/MM/DD')
+		select a.alert_no,to_char(a.ALERT_DATE,'YY/MM/DD') as ALERT_DATE
+		,a.ALERT_TITLE,a.ALERT_CONT,b.BABY_PIC
+		from alert a,baby b ,parent p
+		where a.BABY_NO = b.BABY_NO and
+		p.PARENT_NO = b.PARENT_NO and
+		p.parent_no = #{parent_no} and
+		to_char(a.ALERT_DATE,'YY/MM/DD')=to_char(SYSDATE,'YY/MM/DD')
 	</select>
 
 

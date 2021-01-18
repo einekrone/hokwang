@@ -40,12 +40,14 @@ public class MainHeaderController {
 	@ResponseBody
 	@RequestMapping("/ajax/registerAction")
 	public boolean registerAction(ParentVO vo){
+		System.out.println("암호화전 : "+vo);
 		String inputPass = vo.getParent_pw();
 		String pwd = pwdEncoder.encode(inputPass);
 		String inputReg2 = vo.getParent_regno2();
 		String reg2 = pwdEncoder.encode(inputReg2);
 		vo.setParent_regno2(reg2);
 		vo.setParent_pw(pwd);
+		System.out.println("암호화후 : "+vo);
 		dao.registerAction(vo);
 		return true;
 	}

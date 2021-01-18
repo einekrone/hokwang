@@ -25,7 +25,11 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 	public void registerAction(ParentVO vo) {
 		dao.registerAction(vo);
 	}
-
+	@Override
+	public void kakaoRegisterAction(ParentVO vo) {
+		dao.kakaoRegisterAction(vo);
+	}
+	
 	@Override
 	public int alertCntAction(ParentVO vo) {
 		// TODO Auto-generated method stub

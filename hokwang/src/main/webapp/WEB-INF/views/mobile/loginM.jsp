@@ -204,7 +204,7 @@ span {
 			else{	
 									$.ajax({
 										url : "ajax/registerAction",
-										type : 'GET',
+										type : 'POST',
 										data : {
 											parent_id : $('#id').val(),
 											parent_pw : $('#pw').val(),
@@ -225,9 +225,7 @@ span {
 										},
 										success : function(data) {
 											alert("회원가입에 성공하였습니다");
-											$(
-													"#register input:not([id=btnRegister]):not([id=postBtn])")
-													.val('');
+											$("#register input:not([id=btnRegister]):not([id=postBtn])").val('');
 											login();
 										}
 									})

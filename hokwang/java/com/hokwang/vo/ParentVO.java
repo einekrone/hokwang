@@ -19,5 +19,6 @@ public class ParentVO {//보호자
 	String parent_sns;//소셜타입
 	String parent_id;
 	String parent_pw;
+	String parent_img;
 
 }

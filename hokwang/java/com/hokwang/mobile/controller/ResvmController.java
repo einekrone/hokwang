@@ -46,6 +46,7 @@ public class ResvmController {
 	@ResponseBody
 	@RequestMapping("/ajax/checkResvNo")
 	public boolean checkResvNo(Reservation vo) {
+		System.out.println("중복 체크 : "+vo.getResv_no());
 		if(resvmSvc.checkResvNo(vo) == null) {
 			return true;
 		}

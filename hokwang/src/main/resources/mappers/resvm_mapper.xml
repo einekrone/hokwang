@@ -85,7 +85,7 @@
 		WHERE QUST_NO = #{qust_no}
 	</delete>
 
-	<select id="checkResvNo" parameterType="reservation">
+	<select id="checkResvNo" parameterType="reservation" resultType="map">
 		SELECT RESV_NO FROM RESERVATION WHERE RESV_NO = #{resv_no}
 	</select>
 

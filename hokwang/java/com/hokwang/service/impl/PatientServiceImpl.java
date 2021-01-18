@@ -59,6 +59,12 @@ public class PatientServiceImpl implements PatientService {
 		return patientDAO.bodyInfo(vo);
 	}
 
+	@Override
+	public List<Map<String, Object>> paymentPatient(BabyVO vo) {
+		// TODO Auto-generated method stub
+		return patientDAO.paymentPatient(vo);
+	}
+
 
 
 }

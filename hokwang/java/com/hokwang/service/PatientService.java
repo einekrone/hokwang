@@ -17,4 +17,5 @@ public interface PatientService {
 	public Map<String,Object> diagDetail2(DiagnosisVO vo);//상세진료2
 	
 	public List<BodyVO> bodyInfo(BodyVO vo);//체중신장차트
+	public List<Map<String,Object>> paymentPatient(BabyVO vo);//페이먼트
 }

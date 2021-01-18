@@ -44,6 +44,43 @@ ul.tabs li.current {
 .tab-content.current {
 	display: inherit;
 }
+
+.table>:not(caption)>*>* {
+	padding: .70rem;
+	background-color: var(- -bs-table-bg);
+	background-image: linear-gradient(var(- -bs-table-accent-bg),
+		var(- -bs-table-accent-bg));
+	border-bottom-width: 1px
+}
+
+.notification {
+	color: #000;
+	bottom: 0;
+	width: auto;
+	text-align: right;
+	font-size: inherit;
+	font-weight: inherit;
+	font-style: inherit;
+	margin: 0;
+	padding: 15px;
+	font-family: "Malgun Gothic", dotum, gulim, sans-serif;
+	border: 0;
+	line-height: normal;
+	position: absolute;
+	/* height: 60px; */
+	border-radius: 50%;
+	background: #e3e3e3;
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+	display: block;
+	right: 0;
+	z-index: 1;
+	animation: sticky_bounce 0.5s 2 ease-out 0.2s;
+	opacity: 1;
+	background-color: #ffd55d;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
 </style>
 <script type="text/javascript">
 	var d;
@@ -964,11 +1001,34 @@ ul.tabs li.current {
 											<th class="text-center">등록일시</th>
 											<th class="text-center">키</th>
 											<th class="text-center">몸무게</th>
+											<th class="text-center">    </th>
+										</tr>
+										<tr>
+											<th class="text-center">21-01-18</th>
+											<th class="text-center">170.4</th>
+											<th class="text-center">56.8</th>
+											<th class="text-center">
+											<span class="txt_find" style="">
+													<button type="button" class="btn btn-primary btn-sm "
+														data-toggle="modal" data-target="#bupModal"
+														data-backdrop="static">수정</button>
+													<button type="button" class="btn btn-primary btn-sm"
+														data-toggle="modal" data-target="#bdelModal"
+														data-backdrop="static">삭제</button>
+											</span></th>
 										</tr>
 									</thead>
 									<tbody id="#"></tbody>
 								</table>
+								<div class="wrap_btns">
+									<button type="button" class="btn_assist notification ons"
+										data-cate="notification" data-toggle="modal"
+										data-target="#bupModal" data-backdrop="static">
+										<span class="blind"><i class="fas fa-plus"></i></span>
+									</button>
+								</div>
 							</div>
+
 							<!-- 4 -->
 							<div class="tab-pane fade" id="tab-7" role="tabpanel">
 								<table class="table text-center">
@@ -1255,5 +1315,65 @@ ul.tabs li.current {
 		</div>
 	</div>
 	<!-- 예약취소 확인 모달 E -->
+	
+		<!-- bupModal 등록/수정 모달-->
+	<div class="modal fade" id="bupModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">사원번호 찾기</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close" id="btnX">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="card-body">
+						<div id="searchI">
+							<div class="card-header">
+								<h5 class="card-title"
+									style="font-weight: bold; font-size: 15px;">예약 일시</h5>
+							</div>
+							<div class="card-body d-flex">
+								<input type="text" class="selector" placeholder="날짜를 선택하세요."
+									style="margin-left: 20%; text-align: center;" name="resv_date"
+									class="" /> <a class="input-button" title="toggle" data-toggle><i
+									class="icon-calendar"></i></a>
+								<script type="text/javascript">
+									$(".selector")
+											.flatpickr(
+													{
+														dateFormat : "Y-m-d",
+														minDate : "today",
+														maxDate : new Date()
+																.fp_incr(30),
+														disable : [
+																"2021-01-28",
+																function(date) {
+																	return (date
+																			.getDay() == 0);
+																} ]
+													});
+								</script>
+							</div>
+
+							<h1 id="resultId"></h1>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" id="btnId"
+						name="btnId" value="찾기">
+					<button class="btn btn-secondary" type="button" id="Cancel"
+						data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 등록/수정 modal end -->
 </body>
 </html>

@@ -472,9 +472,7 @@ ul.tabs li.current {
 	function reserlistResult2(data) {
 		$("#unpayList").empty();
 		$
-				.each(
-						data,
-						function(idx, item) {
+				.each(data,function(idx, item) {
 							$("<tr>")
 									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
 									.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))

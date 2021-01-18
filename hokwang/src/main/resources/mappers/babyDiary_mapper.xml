@@ -11,7 +11,7 @@
 	</select>
 
 	<select id="reserlist" resultType="reservation">
-		select TO_CHAR(RESV_DATE,'YYYY-MM-DD') AS RESV_DATE,baby_no,resv_status,resv_no from reservation
+		select TO_CHAR(RESV_DATE,'YYYY-MM-DD') AS RESV_DATE,baby_no,resv_status,resv_no,resv_payyn from reservation
 		where baby_no=(select baby_no from baby where baby_no=#{baby_no})
 		order by resv_date
 	</select>

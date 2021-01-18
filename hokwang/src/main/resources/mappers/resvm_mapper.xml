@@ -120,7 +120,9 @@
 		set RESV_TYPE = #{resv_type}
 		, CHK_TYPE = #{chk_type}
 		, RESV_DATE = #{resv_date}
+		<if test="resv_time != null and resv_time != '' and resv_time != 'undefined'">
 		, RESV_TIME = #{resv_time}
+		</if>
 		<if test="resv_detail != null and resv_detail != ''">
 		, RESV_NO = #{nresv_no}
 		</if>

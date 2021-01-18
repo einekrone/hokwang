@@ -92,7 +92,7 @@ public class KakaoLoginController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/ajax/KakaoRegisterAction")
+	@RequestMapping("/ajax/kakaoRegisterAction")
 	public boolean KakaoRegisterAction(ParentVO vo){
 		System.out.println("암호화전 : "+vo);
 		String inputPass = vo.getParent_pw();

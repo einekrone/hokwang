@@ -48,7 +48,6 @@ ul.tabs li.current {
 <script type="text/javascript">
 	var d;
 	var today;
-	var oldtime;
 	function payment() {
 		location.href = "pay";
 	}
@@ -128,16 +127,17 @@ ul.tabs li.current {
 			}
 		});
 
+		chkTbArr = [];
 		$("body").on("click", "#chkTb td", function() {
 			var val = $(this).text();
 			if (!$(this).hasClass("chkTbSel") && $(this).text() != "") {
 				$(this).css("background", "#f6d578");
 				$(this).attr("class", "chkTbSel");
-				detailArr.push(val);
+				chkTbArr.push(val);
 			} else {
 				$(this).removeAttr("class");
 				$(this).css("background", "white");
-				detailArr.splice(chkTbArr.indexOf(val), 1);
+				chkTbArr.splice(chkTbArr.indexOf(val), 1);
 			}
 		});
 		// 예약 취소/수정 모달 E
@@ -187,7 +187,7 @@ ul.tabs li.current {
 			var bbb = $('#childSel option:selected').val();
 
 			var resvNo = "${resvType}" + eee + aaa + bbb;
-			$("#resv_detail").val(detailArr);
+			$("#resv_detail").val(chkTbArr);
 			var resvTy = "${resvType}";
 			$("#resv_type").val(resvTy);
 			$("#nresv_no").val(resvNo);
@@ -282,6 +282,7 @@ ul.tabs li.current {
 
 			// 현재 이전 시간대 예약 불가
 			if (today == $(".selector").val()) {
+				console.log("오늘");
 				if (chgti <= d.getHours()) {
 					arrNumber.splice(i, 1, "");
 				}
@@ -314,15 +315,6 @@ ul.tabs li.current {
 		if (!chk) {
 			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
 		}
-		
-		if($('input:radio[name="resv_time"][value="'+ oldtime + '"]').length==0) {
-			$("#resvTime")
-			.append(
-					'<label class="form-check" style="margin:2px; display:none;"><input name="resv_time" type="radio" class="form-check-input" value="'+oldtime+'"><span class="form-check-label">'
-							+ oldtime + '</span></label>');
-		}
-		$('input:radio[name="resv_time"][value="'+ oldtime + '"]').prop('checked', true);
-		
 	}
 
 	// 등록된 예약 정보
@@ -345,7 +337,6 @@ ul.tabs li.current {
 						},
 						success : function(data) {
 							$('input:radio[name="chk_type"][value="'+ data.CHK_TYPE + '"]').prop('checked', true);
-							oldtime = data.RESV_TIME;
 							chkType();
 							if (data.CHK_TYPE == "V") {
 								$("#vacSel option:eq(" + data.CHK_NO + ")")
@@ -479,7 +470,7 @@ ul.tabs li.current {
 	
 	//미결제
 	function reserlistResult2(data) {
-		$("#unpayList").empty();
+		$("#unpayList").emp	ty();
 		$
 				.each(data,function(idx, item) {
 							$("<tr>")

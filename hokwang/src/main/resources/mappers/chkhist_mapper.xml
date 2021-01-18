@@ -5,13 +5,13 @@
 <mapper namespace="com.hokwang.mobile.dao.CheckHistMapper">
 	
 	<select id="checkHistlist" resultType="map">
-		select b.chk_name as chk_name,a.hist_date,a.hist_state
+		select b.chk_name as chk_name,TO_CHAR(a.HIST_DATE,'YYYY-MM-DD') AS HIST_DATE,a.hist_state
 		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
 		CHECKHIST
 		a, CHECKUP b,reservation c,baby d
 		<where>
 			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
-			and c.baby_no=d.baby_no and d.baby_no=#{baby_no}
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} ORDER BY a.hist_date
 		</where>
 	</select>
 

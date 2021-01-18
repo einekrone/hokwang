@@ -67,12 +67,14 @@
 
 	<update id="questUpdate" parameterType="questionVO">
 		UPDATE QUESTION
-		SET QUST_NO = #{qust_no},
-		A1 = #{a1},
+		SET A1 = #{a1},
 		A2 = #{a2},
-		A3 =
-		#{a3},
+		A3 = #{a3},
 		A4 = #{a4}
+		
+		<if test="nresv_no != null and nresv_no != ''">
+		, QUST_NO = #{nresv_no}
+		</if>
 		<where>
 			QUST_NO = #{qust_no}
 		</where>
@@ -123,7 +125,7 @@
 		<if test="resv_time != null and resv_time != '' and resv_time != 'undefined'">
 		, RESV_TIME = #{resv_time}
 		</if>
-		<if test="resv_detail != null and resv_detail != ''">
+		<if test="nresv_no != null and nresv_no != ''">
 		, RESV_NO = #{nresv_no}
 		</if>
 		<if test="resv_detail != null and resv_detail != ''">

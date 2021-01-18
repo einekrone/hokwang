@@ -63,4 +63,9 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.resvUpdate(vo);
 	}
 
+	@Override
+	public int questUpdate(QuestionVO vo) {
+		return resvmDao.questUpdate(vo);
+	}
+
 }

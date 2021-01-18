@@ -19,4 +19,5 @@ public interface ResvmService {
 	Map<String, Object> getResvInfo(Reservation vo);
 	int resvDelete(Reservation vo);
 	int resvUpdate(Reservation vo);
+	int questUpdate(QuestionVO vo);
 }

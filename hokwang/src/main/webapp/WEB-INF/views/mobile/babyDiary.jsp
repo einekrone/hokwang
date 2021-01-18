@@ -128,17 +128,16 @@ ul.tabs li.current {
 			}
 		});
 
-		chkTbArr = [];
 		$("body").on("click", "#chkTb td", function() {
 			var val = $(this).text();
 			if (!$(this).hasClass("chkTbSel") && $(this).text() != "") {
 				$(this).css("background", "#f6d578");
 				$(this).attr("class", "chkTbSel");
-				chkTbArr.push(val);
+				detailArr.push(val);
 			} else {
 				$(this).removeAttr("class");
 				$(this).css("background", "white");
-				chkTbArr.splice(chkTbArr.indexOf(val), 1);
+				detailArr.splice(chkTbArr.indexOf(val), 1);
 			}
 		});
 		// 예약 취소/수정 모달 E
@@ -188,7 +187,7 @@ ul.tabs li.current {
 			var bbb = $('#childSel option:selected').val();
 
 			var resvNo = "${resvType}" + eee + aaa + bbb;
-			$("#resv_detail").val(chkTbArr);
+			$("#resv_detail").val(detailArr);
 			var resvTy = "${resvType}";
 			$("#resv_type").val(resvTy);
 			$("#nresv_no").val(resvNo);

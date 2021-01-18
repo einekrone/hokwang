@@ -19,4 +19,5 @@ public interface ResvmMapper {
 	public Map<String, Object> getResvInfo(Reservation vo);
 	public int resvDelete(Reservation vo);
 	public int resvUpdate(Reservation vo);
+	public int questUpdate(QuestionVO vo);
 }

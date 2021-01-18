@@ -86,9 +86,20 @@ public class ResvmController {
 	// 예약 수정
 	@ResponseBody
 	@RequestMapping("/ajax/resvUpdate")
-	public int resvUpdate(Reservation vo) {
-		System.out.println("수정할 예약 : "+vo.getResv_no());
-		System.out.println("예약 시간 : "+vo.getResv_time());
-		return resvmSvc.resvUpdate(vo);
+	public int resvUpdate(Reservation resvVO, AlertVO altVO, QuestionVO quVO) {
+		System.out.println("수정할 예약 : "+resvVO.getResv_no());
+		System.out.println("예약 시간 : "+resvVO.getResv_time());
+		resvmSvc.resvUpdate(resvVO);
+		
+		quVO.setNresv_no(resvVO.getNresv_no());
+		resvmSvc.questUpdate(quVO);
+		
+		altVO.setBaby_no(resvVO.getBaby_no());
+		altVO.setAlert_title(resvVO.getResv_no()+" 예약 수정 완료");
+		String alertCont = resvVO.getResv_date() + " " + resvVO.getResv_time() +"로 수정되었습니다.";
+		altVO.setAlert_cont(alertCont);
+		altVO.setAlert_send("호광병원");
+		
+		return resvmSvc.alertInsert(altVO);
 	}
 }

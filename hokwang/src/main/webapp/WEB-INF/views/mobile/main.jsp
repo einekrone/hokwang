@@ -57,8 +57,6 @@
 </head>
 <body onload="initialize()">
 	<script>
-		$(function() {
-		});
 		//지도
 		function initialize() {
 			var myLatlng = new google.maps.LatLng(35.870704, 128.589424);

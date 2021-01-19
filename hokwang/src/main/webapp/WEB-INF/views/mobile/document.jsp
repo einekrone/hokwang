@@ -5,13 +5,64 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.container {
+    margin-top: 10px;
+}
+
+.nav-tabs > li {
+    position:relative;    
+}
+
+.nav-tabs > li > a {
+    display:inline-block;
+}
+
+.nav-tabs > li > span {
+    display:none;
+    cursor:pointer;
+    position:absolute;
+    right: 6px;
+    top: 8px;
+    color: red;
+}
+
+.nav-tabs > li:hover > span {
+    display: inline-block;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 	babyList()
-	
+	tabclick()
 })
 </script>
 <script type="text/javascript">
+
+function tabclick(){
+	$(".nav-tabs").on("click", "a", function(e) {
+	    e.preventDefault();
+	    $(this).tab('show');
+	  })
+	  .on("click", "span", function() {
+	    var anchor = $(this).siblings('a');
+	    $(anchor.attr('href')).remove();
+	    $(this).parent().remove();
+	    $(".nav-tabs li").children('a').first().click();
+	  });
+
+	$('.add-contact').click(function(e) {
+	  e.preventDefault();
+	  var id = $(".nav-tabs").children().length; //think about it ;)
+	  $(this).closest('li').before('<li><a href="#contact_' + id + '" data-toggle="tab">New Tab</a><span>x</span></li>');
+	  $('.tab-content').append('<div class="tab-pane" id="contact_' + id + '">Contact Form: New Contact ' + id + '</div>');
+	});
+
+	$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
+	  var target = $(e.target).attr("href");
+	  alert('clicked on tab' + target);
+	})
+}
 
 function chgBaby() {//체인지 아기
 	var babyNo = $("#baby-names option:selected").val();
@@ -75,18 +126,25 @@ function selectBabyResult(data){
 </head>
 <body>
 	<h1 class="h3 mb-3">증명서 페이지</h1>
+	
 	<div>
 	<select class="form-control" name="baby_no" id="baby-names"
 			onchange="chgBaby()">
 			<option value="" selected>==자녀선택==</option>
 		</select>
 	</div>
-	<div class="row" id="docBody">
-	<!-- 	<div class="col-12">
-			<div class="card">
-				
-			</div>
-		</div> -->
-	</div>
+	<div class="row" id="docBody"></div>
+	
+	<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#contact_01" data-toggle="tab">Joe Smith</a><span>x</span></li>
+        <li><a href="#contact_02" data-toggle="tab">Molly Lewis</a><span>x</span> </li>
+        <li><a href="#" class="add-contact" data-toggle="tab">+ Add Contact</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="contact_01">Contact Form: Joe Smith</div>
+        <div class="tab-pane" id="contact_02">Contact Form: Molly Lewis</div>
+    </div>
+</div>
 </body>
 </html>

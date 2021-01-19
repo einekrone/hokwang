@@ -12763,7 +12763,7 @@ body {
 .sidebar-link:hover, .sidebar-link:hover i, .sidebar-link:hover svg {
 	/* color: rgb(233, 236, 239, .75); */	/* todo: 메뉴 마우스 오버 색 */
 	color: white;
-	background: #eab29f;
+/* 	background: #eab29f; */
 }
 
 .sidebar-item.active .sidebar-link:hover, .sidebar-item.active>.sidebar-link

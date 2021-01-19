@@ -17,6 +17,6 @@ public interface BabyDiaryService {
 	public List<BodyVO> checkBody(BodyVO vo);//아기 키,몸무게 정보
 	public List<TemporatureVO> checkTemporature(TemporatureVO vo); //아기 체온 정보
 	public List<Map<String,Object>> allreser(Reservation vo);
-
 	public int insertbodyinfo(BodyVO vo); // 키/체중등록
+	public int bodyDel(BodyVO vo); // 아기 키,몸무게 삭제
 }

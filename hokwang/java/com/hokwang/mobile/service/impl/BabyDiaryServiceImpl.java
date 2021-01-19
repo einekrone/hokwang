@@ -66,6 +66,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 		// TODO Auto-generated method stub
 		return dao.checkTemporature(vo);
 	}
+
+	@Override
+	public int bodyDel(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.bodyDel(vo);
+	}
 	
 	
 }

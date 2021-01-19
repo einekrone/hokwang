@@ -72,4 +72,8 @@
 		baby_no=#{baby_no}
 		ORDER BY TEMP_DATE DESC
 	</select>
+	<delete id="bodyDel" parameterType="BodyVO">
+		DELETE FROM BodyInfo
+		WHERE Body_NO = #{Body_no}
+	</delete>
 </mapper>

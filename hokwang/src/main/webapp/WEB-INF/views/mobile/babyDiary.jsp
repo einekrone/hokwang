@@ -750,7 +750,7 @@ ul.tabs li.current {
 			type : "GET",
 			dataType : "JSON",
 			data : {
-				baby_no : babyNo	
+				baby_no : babyNo
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -758,16 +758,17 @@ ul.tabs li.current {
 			success : function(data){
 				$.each(data, function(idx, item) {
 					//console.log("ddddd"+item.body_no);
-					$('#bodyTable').append($('<tr>')
-										.append($('<td style="display:none">').html(item.body_no))
+					$('<tr id="body_no">')
+										.append($('<td id="body_no2" style="display:none">').html(item.body_no))
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-										.append($("<button class='btn btn-primary btn-sm' id='bodyDelModal' data-toggle='modal' data-target='#bodyDelModal' data-backdrop='static'>"))
-										
-					)
+										.append($('<button class="btn btn-primary btn-sm" id="bodyDel">	<i class="fas fa-times"></i></button>'))
+										.appendTo('#bodyTable');
+					
 				});
-			}
+			}//end of function
+			
 		}); /* end checkBody */
 		
 		
@@ -806,9 +807,27 @@ ul.tabs li.current {
 			})
 		} */
 		
+function bodyDel(data){
+			
+			$('#body_no').on("click", "#bodyDel", function() {
+			console.log("NO???" + aa);
+			$.ajax({
+				url : "ajax/bodyDel",
+				type : "GET",
+				dataType : "JSON",
+				data : {
+					body_no : babyNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log("클릭하면 삭제버튼 실행");
 
-
-
+				}
+			});
+			})//end of click funtion
+		}//end
 
 	function allreserResult(data) {
 		var text = "";

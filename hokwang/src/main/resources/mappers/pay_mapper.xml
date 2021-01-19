@@ -4,13 +4,21 @@
 
 <mapper namespace="com.hokwang.mobile.dao.PaymentMapper">
 	
-	<select id="getUnPaidList" resultType="map">
-		SELECT P.*, B.*, R.*, T.*
-		FROM PAYMENT P , BABY B, RESERVATION R ,PARENT T
+	<select id="getUnPaidList" resultType="map" parameterType="parentVO">
+		 SELECT TO_CHAR(P.PAY_DATE,'YYYY-MM-DD HH24:MI:SS') PAY_DATE, 
+				B.BABY_NO, 
+				B.BABY_NAME, 
+				R.RESV_NO, 
+				T.PARENT_NO, 
+				D.DIAG_NO, 
+				P.PAY_PRICE, 
+				S.DIS_NAME
+		FROM PAYMENT P , BABY B, RESERVATION R ,PARENT T, DIAGNOSIS D, DISEASE S
 		WHERE P.RESV_NO = R.RESV_NO
 		AND B.BABY_NO = R.BABY_NO
 		AND T.PARENT_NO = B.BABY_NO
-		AND P.PAY_STATE = 'N'
-		AND T.PARENT_NO = #{parent_no};
+    	AND R.RESV_NO = D.RESV_NO
+    	AND D.DIS_CODE = S.DIS_CODE
+		AND T.PARENT_NO = #{parent_no}
 	</select>
 </mapper>

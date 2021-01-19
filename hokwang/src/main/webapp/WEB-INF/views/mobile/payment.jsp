@@ -37,131 +37,55 @@ ul.tabs li.current{
 .tab-content.current{
 	display: inherit;
 }
+
 </style>
 </head>
 <script>
-var IMP = window.IMP; // 생략가능
-IMP.init('imp59405263');
 
-imp_uid = extract_POST_value_from_url('imp_uid') //post ajax request로부터 imp_uid확인
-//merchant_uid = extract_GET_value_from_url('merchant_uid') //또는, GET query string으로부터 merchant_uid확인
-
-payment_result = rest_api_to_find_payment(imp_uid) //imp_uid로 아임포트로부터 결제정보 조회
-amount_to_be_paid = query_amount_to_be_paid(payment_result.merchant_uid) //결제되었어야 하는 금액 조회. 가맹점에서는 merchant_uid기준으로 관리
-
-if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid){
-	success_post_process(payment_result) //결제까지 성공적으로 완료
-}else if(payment_result.status == 'ready' && payment.pay_method == 'vbank'){
-	vbank_number_assigned(payment_result) //가상계좌 발급성공
-}else{
-	fail_post_process(payment_result) //결제실패 처리
-}
-
-IMP.request_pay({
-    pg : 'html5_inicis',
-    pay_method : 'card',
-    merchant_uid : 'merchant_' + new Date().getTime(),
-    name : '주문명:결제테스트',
-    amount : 100,
-    buyer_email : 'iamport@siot.do',
-    buyer_name : '구매자이름',
-    buyer_tel : '010-1234-5678',
-    m_redirect_url : 'http://localhost:808/hokwang/mobile'
-}, function(rsp) {
-    if ( rsp.success ) {
-    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-    	$.ajax({
-    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-    		type: 'POST',
-    		dataType: 'json',
-    		data: {
-	    		imp_uid : rsp.imp_uid
-	    		//기타 필요한 데이터가 있으면 추가 전달
-    		}
-    	}).done(function(data) {
-    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-    		if ( everythings_fine ) {
-    			var msg = '결제가 완료되었습니다.';
-    			msg += '\n고유ID : ' + rsp.imp_uid;
-    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-    			msg += '\결제 금액 : ' + rsp.paid_amount;
-    			msg += '카드 승인번호 : ' + rsp.apply_num;
-
-    			alert(msg);
-    		} else {
-    			//[3] 아직 제대로 결제가 되지 않았습니다.
-    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-    		}
-    	});
-    } else {
-        var msg = '결제에 실패하였습니다.';
-        msg += '에러내용 : ' + rsp.error_msg;
-
-        alert(msg);
-    }
+$(function() {
+	getUnPaidList();
 });
 
+function getUnPaidList() {
+	$.ajax({
+		url : 'ajax/getUnPaidList',
+		type : 'GET',
+		data : {
+			parent_no : "${parent_vo.parent_no}"
+		},
+		error : function(xhr, status, msg) {
+			alert("상태값 :" + status + " Http에러메시지 :" + msg);
+		},
+		success : unPaidListResult
+	});
+}
+
+
+function unPaidListResult(data){
+	$("#unPaidList").empty();
+	console.log(data);
+	$.each(data,function(idx, item){
+		$("#unPaidList").append($('<div>').attr('class','col-12')
+				     .append($('<div>').attr('class','card'))
+				     .append($('<span>').html('결제일시 : ' + item.PAY_DATE))
+				     .append($('<hr style="padding:0; margin-top:5px;">'))
+				     .append($('<p>').html('아기이름 : ' + item.BABY_NAME))
+				     .append($('<p>').html('진단병명 : ' + item.DIS_NAME))
+				  	 .append($('<p>').html('결제금액 : ' + item.PAY_PRICE))
+				     
+		 )		     
+	});
+}
 </script>
 <body>
-	<div class="row"> 
-		<div class="col-4">
-			<div class="card">
-				<div class="card-header">
-					<h5 class="card-title mb-0">
-						<a href="${pageContext.request.contextPath}/views/mobile/records.jsp">
-            				<image src="${pageContext.request.contextPath}/resources/icons/verify.png" id="logo" width="50px" width="50px">
-            				</image>
-        				</a>
-         			</h5>
-				</div>
-				<div class="card-body">전체 내역</div>
-			</div>
-		</div>
-		
-		<div class="col-4">
-			<div class="card">
-				<div class="card-header">
-					<h5 class="card-title mb-0">
-						<a href="${pageContext.request.contextPath}/views/mobile/records.jsp">
-            				<image src="${pageContext.request.contextPath}/resources/icons/verify.png" id="logo" width="50px" width="50px">
-            				</image>
-        				</a>
-         			</h5>
-				</div>
-				<div class="card-body">미 결제</div>
-			</div>
-		</div>
-		
-		<div class="col-4">
-			<div class="card">
-				<div class="card-header">
-					<h5 class="card-title mb-0">
-						<a href="${pageContext.request.contextPath}/views/mobile/records.jsp">
-            				<image src="${pageContext.request.contextPath}/resources/icons/verify.png" id="logo" width="50px" width="50px">
-            				</image>
-        				</a>
-         			</h5>
-				</div>
-				<div class="card-body">예약 내역</div>
-			</div>
-		</div>
-	</div>
-	
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
-				<div class="card-header">
-					<h5 class="card-title mb-0">
-						결제 내역
-         			</h5>
+				<h1>결제 내역</h1>
+				<div class="row" id="unPaidList">
+
 				</div>
-				
-				<div class="card-body">
-					<c:forEach var="item" items="{items}">
-						<span></span>
-					</c:forEach>
-				</div>
-			</div>
+			</div>	
 		</div>
 	</div>
 </body>

@@ -234,11 +234,9 @@
 				</ul>
 
 				<div class="sidebar-cta">
-					<div class="sidebar-cta-content">
-						<strong class="d-inline-block mb-2">광고 제목</strong>
-						<div class="mb-3 text-sm">광고 내용</div>
-
-					</div>
+					<img id='img'
+						src="${pageContext.request.contextPath}/resources/img/papang.png"
+						style="width: 240px; height: 160px; margin: 0 0 30px 10px; border-radius: 10px;">
 				</div>
 			</div>
 		</nav>

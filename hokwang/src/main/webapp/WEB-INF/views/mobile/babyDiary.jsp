@@ -9,7 +9,7 @@
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
 <script src="./resources/json.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <!-- 예약 날짜 달력 -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -85,6 +85,7 @@ ul.tabs li.current {
 	var d;
 	var today;
 	var oldtime;
+	var detailArr = [];
 	function payment() {
 		location.href = "pay";
 	}
@@ -220,12 +221,11 @@ ul.tabs li.current {
 			eee = eee.replaceAll('-', '').substr(2);
 			var aaa = $('input[name="resv_time"]:checked').val();
 			aaa = aaa.replaceAll(':', '');
-			var bbb = $('#childSel option:selected').val();
-
-			var resvNo = "${resvType}" + eee + aaa + bbb;
+			var bbb = $("#baby_no").val();
+			console.log("bbb : " + bbb);
+			var resvNo = "R" + eee + aaa + bbb;
 			$("#resv_detail").val(detailArr);
-			var resvTy = "${resvType}";
-			$("#resv_type").val(resvTy);
+			$("#resv_type").val("R");
 			$("#nresv_no").val(resvNo);
 			console.log("nresv_no : "+resvNo);
 		
@@ -391,7 +391,6 @@ ul.tabs li.current {
 							$("#chkResvTime").val(
 									data.RESV_DATE + " " + data.RESV_TIME);
 							
-							var detailArr = [];
 							if (typeof data.RESV_DETAIL != 'undefined') {
 								var test = data.RESV_DETAIL;
 								detailArr = test.split(",");
@@ -506,7 +505,7 @@ ul.tabs li.current {
 							else if (item.resv_status == "N") {
 								console.log(">>2 " + item.resv_status);
 								text = "";
-								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+"/></td>");
+								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
 							}
 						})
 	}
@@ -658,14 +657,9 @@ ul.tabs li.current {
 									item.baby_name);
 				}); */
 				$.each(data, function(idx, item) {
-					let child_no_sel;
-					if(item.baby_no == ${param.baby_no} ){
-						child_no_sel=$('<option>').attr("value", item.baby_no).prop('selected', true).html(item.baby_name);
-					}else{
-						child_no_sel=$('<option>').attr("value", item.baby_no).html(item.baby_name);
-					}
-					$("#baby-name").append(child_no_sel);
-					chgBaby();
+					$("#baby-name").append(
+							$('<option>').attr("value", item.baby_no).html(
+									item.baby_name));
 				});
 			}
 		});
@@ -760,13 +754,15 @@ ul.tabs li.current {
 				$.each(data, function(idx, item) {
 					//console.log("ddddd"+item.body_no);
 					$('#bodyTable').append($('<tr>')
+										.append($('<td style="display:none">').html(item.body_no))
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-						)
+										.append($("<button class='btn btn-primary btn-sm' id='bodyDelModal' data-toggle='modal' data-target='#bodyDelModal' data-backdrop='static'>"))
+										
+					)
 				});
 			}
-
 		}); /* end checkBody */
 		
 		
@@ -784,17 +780,30 @@ ul.tabs li.current {
 			success : function(data){
 				$.each(data, function(idx, item) {
 					$('#tempTable').append($('<tr>')
+										.append($('<td style="display:none">').html(item.temp_no))
 										.append($('<td>').html(item.temp_date))
-										.append($('<td>').html(item.temp_temp))									
+										.append($('<td>').html(item.temp_temp))				
 						)
 				});
 			}
 		}); /* end checkTemporature */
 		
 		
-		
-		
 	}
+/* 	function tempTableDelete(){
+			$('#temptable').on('show.bs.modal', function(event){
+				var tbs = $(event.relatedTarget).find('td');
+				var modal = $(this);
+				
+				modal.find('#temp_no').val(tbs.eq(0).text())
+				modal.find('#temp_date').val(tbs.eq(1).text())
+				modal.find('#temp_temp').val(tbs.eq(2).text())
+			})
+		} */
+		
+
+
+
 
 	function allreserResult(data) {
 		var text = "";
@@ -1208,8 +1217,8 @@ ul.tabs li.current {
 					</button>
 				</div>
 				<div class="modal-body" style="height: 500px; overflow: auto;">
-					<input id="baby_no" type="hidden" value="">
 					<form id="frm" name="frm">
+					<input id="baby_no" name="baby_no" type="hidden" value="">
 						<div class="card">
 							<div class="card-body">
 								<div style="display: block;">

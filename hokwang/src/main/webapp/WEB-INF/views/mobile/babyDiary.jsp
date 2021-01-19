@@ -888,7 +888,7 @@ ul.tabs li.current {
 				<div style="align-self: center;">
 					<img id="babyImg" class="img-fluid rounded-circle mb-2" style="height:120px; width:120px;" />
 				</div>
-				<input type="button" class="card-title mb-0" value="예약하기">
+				<input type="button" class="card-title mb-0" value="예약하기" onClick="location.href='resv?type=R&resvBaby=1'">
 			</div>
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">

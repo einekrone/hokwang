@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.service.DiagService;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
@@ -30,7 +31,7 @@ import com.hokwang.vo.ResvSearch;
 public class Diagcontroller {
 	@Autowired
 	DiagService diagDao;
-	
+	@Autowired ResvmService resvmSvc;
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {

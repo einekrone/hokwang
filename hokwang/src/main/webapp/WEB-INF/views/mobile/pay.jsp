@@ -8,36 +8,6 @@
 <meta charset="UTF-8">
 <title>결제 진행 중</title>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<style>
-ul.tabs{
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-}
-
-ul.tabs li{
-  display: inline-block;
-	background: #898989;
-	color: white;
-	padding: 10px 15px;
-	cursor: pointer;
-}
-
-ul.tabs li.current{
-	background: #e0e0e0;
-	color: #222;
-}
-
-.tab-content{
-  display: none;
-	background: #e0e0e0;
-	padding: 12px;
-}
-
-.tab-content.current{
-	display: inherit;
-}
-</style>
 </head>
 <script>
 var IMP = window.IMP; // 생략가능
@@ -103,38 +73,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 }else{
 	fail_post_process(payment_result) //결제실패 처리
 }
-
-function getUnPaidList() {
-	$.ajax({
-		url : 'ajax/getUnPaidList',
-		type : 'GET',
-		data : {
-			parent_no : "${parent_vo.parent_no}"
-		},
-		error : function(xhr, status, msg) {
-			alert("상태값 :" + status + " Http에러메시지 :" + msg);
-		},
-		success : unPaidListResult
-	});
-}
-
-
-function unPaidListResult(){
-	$("#unPaidList").empty();
-	console.log(data);
-	$.each(data,function(idx, item){
-		$("#unPaidList").append($('<div>').attr('class','col-12')
-				     .append($('<div>').attr('class','card'))
-				     .append($('<span>').html(item.PAY_DATE))
-				     .append($('<hr>'))
-				     .append($('<span>').html(item.BABY_NAME))
-				     .append($('<ui>')
-				     .append($('<li>').append($('<span>').html(item.DIS_NAME))) //endof li
-				     .append($('<li>').append($('<span>').html(item.PAY_PRICE)) 		 )
-			) //END OF UI			    		 
-		 ) //end of div
-	});
-}
 </script>
 <body>
 	<div class="row">
@@ -142,20 +80,6 @@ function unPaidListResult(){
 			<div class="card">
 				<div class="card-header">
 					<h5 class="card-title mb-0">결제 내역</h5>
-				</div>
-				<div class="row" id="unPaidList">
-					<span>결제일시</span>
-					<HR>
-					<span>아기이름</span>
-					<ui>
-						<li>
-						<span>병명</span>
-						</li>
-						<li>
-						<span>금액</span>
-						</li>
-					</ui>
-					
 				</div>
 			</div>	
 		</div>

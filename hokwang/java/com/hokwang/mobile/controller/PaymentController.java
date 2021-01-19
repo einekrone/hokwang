@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.PaymentService;
+import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.vo.ParentVO;
+
 
 @Controller
 public class PaymentController {
 	
 	@Autowired PaymentService payservice;
-	
+
 	// 미수납 리스트
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getUnPaidList")
@@ -27,7 +29,5 @@ public class PaymentController {
 		session.getAttribute("parent_vo");
 		return payservice.getUnPaidList(vo);
 	}
-	
-	
 	
 }

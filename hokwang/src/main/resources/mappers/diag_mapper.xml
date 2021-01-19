@@ -241,4 +241,16 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
+	
+	<select id="getUnCheckList" resultType="map">
+		SELECT C.CHK_NO, C.CHK_NAME, C.CHK_FIRST,  TRUNC(SYSDATE- TO_DATE('20'||B.BABY_REGNO1,'YYYYMMDD')) AS BABY_REGNO, B.* 
+		FROM PARENT P, BABY B, CHECKUP C
+		WHERE 1=1
+		AND P.PARENT_NO = B.PARENT_NO
+		AND C.CHK_FIRST - TRUNC(SYSDATE- TO_DATE('20'||B.BABY_REGNO1,'YYYYMMDD'))  BETWEEN 0 AND 7 
+		AND P.PARENT_NO = #{parent_no}
+		ORDER BY B.BABY_NO
+	</select>
+	
+	
 </mapper>

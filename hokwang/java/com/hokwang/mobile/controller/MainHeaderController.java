@@ -98,6 +98,7 @@ public class MainHeaderController {
 	@ResponseBody
 	@RequestMapping("/ajax/alertInf")
 	public List<Map<String,Object>> alertInf(ParentVO vo) {
+		System.out.println("점검"+dao.alertInf(vo));
 		return dao.alertInf(vo);
 	}
 	

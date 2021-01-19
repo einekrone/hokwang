@@ -73,21 +73,24 @@
 	
 	
 	function deleteAlert(){	
-		$('#alertLabel').on('click', function(event) {
+		$('#alertLabel').on('click',function(event) {
 			console.log($(event.target));
-			console.log($(event.target).find('#checkHide').val());
+			console.log("삭제할 거",$(event.target).parentsUntil('.bbb').find('#checkHide').val());
 			$.ajax({
 				url : "ajax/deleteAlert",
 				type : 'GET',
 				dataType : 'json',
 				data : {
-					alert_no : $(event.target).find('#checkHide').val()
+					alert_no : $(event.target).parentsUntil('.bbb').find('#checkHide').val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
+					alertCntAction();
 					alert("읽었다");
+					$('#alertLabel').empty();
+					alertInf();
 				}
 			})
 
@@ -97,84 +100,33 @@
 	
 
 	function alertInf() {
-		console.log("daasaaaaaaaaaad");
-		$
-				.ajax({
+		
+		$.ajax({
 					url : "ajax/alertInf",
 					type : 'GET',
 					dataType : 'json',
 					data : {
 						parent_no : "${parent_vo.parent_no}"
 					},
-					error : function(xhr, status, msg) {
+					error : function(xhr, status, msg) { 
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						$
-								.each(
-										data,
-										function(idx, item) {
-											$('#alertLabel')
-													.append(
-															$('<a>')
-																	.attr(
-																			"href",
-																			"#")
-																	.attr(
-																			"class",
-																			"list-group-item")
-																	.append(
-																			$(
-																					'<div>')
-																					.attr(
-																							"class",
-																							"row g-0 align-items-center")
-																					.append(
-																							$(
-																									'<div>')
-																									.attr(
-																											"class",
-																											"col-2")
-																									.append(
-																											$(
-																													'<img width="60px">')
-																													.css(
-																															"padding-right",
-																															"15px")
-																													.attr(
-																															"src",
-																															"${pageContext.request.contextPath}/resources/img/"
-																																	+ item.BABY_PIC)))
-																					.append(
-																							$(
-																									'<div>')
-																									.attr(
-																											"class",
-																											"col-10")
-																									.append(
-																											$(
-																													'<div>')
-																													.attr(
-																															"class",
-																															"text-dark")
-																													.html(
-																															item.ALERT_TITLE))
-																									.append(
-																											$(
-																													'<div>')
-																													.attr(
-																															"class",
-																															"text-muted small mt-1")
-																													.html(
-																															item.ALERT_CONT))
-																									.append(
-																											$(
-																													'<div>')
-																													.attr(
-																															"class",
-																															"text-muted small mt-1")
-																													.html(
-																															item.ALERT_DATE)))));
+						console.log("xxxxxxx"+data);
+								$.each(data,function(idx,item){
+												console.log(item.ALERT_NO);
+												$('#alertLabel').append(
+														$('<div class="bbbb" />').append(
+														$('<a>').attr("href","#").attr("class","list-group-item")
+														        .append($('<div>').attr("class","row g-0 align-items-center")
+																.append($('<input>').attr("type","hidden").attr("id","checkHide").val(item.ALERT_NO))
+																.append($('<div>').attr("class","col-2").append($('<img width="60px">').css("padding-right","15px").attr("src","${pageContext.request.contextPath}/resources/img/"+item.BABY_PIC)))
+														        .append($('<div>').attr("class","col-10")
+																.append($('<div>').attr("class","text-dark").html(item.ALERT_TITLE))
+																.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_CONT))
+																.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_DATE))
+																
+														))));
 										});
 
 					}
@@ -313,7 +265,7 @@
 								data-toggle="dropdown">
 									<div class="position-relative">
 										<i class="align-middle" data-feather="bell"></i> <span
-											class="indicator" id="alertCnt">4</span>
+											class="indicator" id="alertCnt"></span>
 									</div>
 							</a>
 								<div

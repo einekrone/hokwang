@@ -85,6 +85,7 @@ ul.tabs li.current {
 	var d;
 	var today;
 	var oldtime;
+	var detailArr = [];
 	function payment() {
 		location.href = "pay";
 	}
@@ -220,12 +221,11 @@ ul.tabs li.current {
 			eee = eee.replaceAll('-', '').substr(2);
 			var aaa = $('input[name="resv_time"]:checked').val();
 			aaa = aaa.replaceAll(':', '');
-			var bbb = $('#childSel option:selected').val();
-
-			var resvNo = "${resvType}" + eee + aaa + bbb;
+			var bbb = $("#baby_no").val();
+			console.log("bbb : " + bbb);
+			var resvNo = "R" + eee + aaa + bbb;
 			$("#resv_detail").val(detailArr);
-			var resvTy = "${resvType}";
-			$("#resv_type").val(resvTy);
+			$("#resv_type").val("R");
 			$("#nresv_no").val(resvNo);
 			console.log("nresv_no : "+resvNo);
 		
@@ -391,7 +391,6 @@ ul.tabs li.current {
 							$("#chkResvTime").val(
 									data.RESV_DATE + " " + data.RESV_TIME);
 							
-							var detailArr = [];
 							if (typeof data.RESV_DETAIL != 'undefined') {
 								var test = data.RESV_DETAIL;
 								detailArr = test.split(",");
@@ -506,7 +505,7 @@ ul.tabs li.current {
 							else if (item.resv_status == "N") {
 								console.log(">>2 " + item.resv_status);
 								text = "";
-								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+"/></td>");
+								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
 							}
 						})
 	}
@@ -1218,8 +1217,8 @@ ul.tabs li.current {
 					</button>
 				</div>
 				<div class="modal-body" style="height: 500px; overflow: auto;">
-					<input id="baby_no" type="hidden" value="">
 					<form id="frm" name="frm">
+					<input id="baby_no" name="baby_no" type="hidden" value="">
 						<div class="card">
 							<div class="card-body">
 								<div style="display: block;">

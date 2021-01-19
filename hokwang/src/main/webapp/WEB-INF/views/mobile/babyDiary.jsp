@@ -755,13 +755,15 @@ ul.tabs li.current {
 				$.each(data, function(idx, item) {
 					//console.log("ddddd"+item.body_no);
 					$('#bodyTable').append($('<tr>')
+										.append($('<td style="display:none">').html(item.body_no))
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-						)
+										.append($("<button class='btn btn-primary btn-sm' id='bodyDelModal' data-toggle='modal' data-target='#bodyDelModal' data-backdrop='static'>"))
+										
+					)
 				});
 			}
-
 		}); /* end checkBody */
 		
 		
@@ -779,17 +781,30 @@ ul.tabs li.current {
 			success : function(data){
 				$.each(data, function(idx, item) {
 					$('#tempTable').append($('<tr>')
+										.append($('<td style="display:none">').html(item.temp_no))
 										.append($('<td>').html(item.temp_date))
-										.append($('<td>').html(item.temp_temp))									
+										.append($('<td>').html(item.temp_temp))				
 						)
 				});
 			}
 		}); /* end checkTemporature */
 		
 		
-		
-		
 	}
+/* 	function tempTableDelete(){
+			$('#temptable').on('show.bs.modal', function(event){
+				var tbs = $(event.relatedTarget).find('td');
+				var modal = $(this);
+				
+				modal.find('#temp_no').val(tbs.eq(0).text())
+				modal.find('#temp_date').val(tbs.eq(1).text())
+				modal.find('#temp_temp').val(tbs.eq(2).text())
+			})
+		} */
+		
+
+
+
 
 	function allreserResult(data) {
 		var text = "";

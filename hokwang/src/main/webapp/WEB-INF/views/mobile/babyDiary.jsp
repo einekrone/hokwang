@@ -9,7 +9,7 @@
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
 <script src="./resources/json.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <!-- 예약 날짜 달력 -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

@@ -22,7 +22,7 @@
 		a, CHECKUP b,reservation c,baby d
 		<where>
 			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
-			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='N' and a.hist_state='I'
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='N'
 			 ORDER BY a.hist_date
 		</where>
 	</select>

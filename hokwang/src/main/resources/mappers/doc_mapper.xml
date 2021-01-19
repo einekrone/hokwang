@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hokwang.mobile.dao.DocMapper">
+
+	<select id="selectBaby" resultType="map">
+	select a.baby_name,b.diag_time ,d.dis_code,d.dis_name,d.dis_price from baby a,diagnosis b,reservation c ,DISEASE d
+		<where> a.baby_no=c.baby_no and b.resv_no=c.resv_no and b.dis_code=d.dis_code
+			and a.baby_no=#{baby_no} order by b.diag_time DESC
+		</where>
+	</select>
+	
+	<select id="babyLists" resultType="BabyVO">
+		select *
+		from baby
+		where
+		parent_no=#{parent_no}
+	</select>
+</mapper>

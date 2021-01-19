@@ -25,6 +25,17 @@ public class MainHeaderController {
 	BCryptPasswordEncoder pwdEncoder;
 	
 	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteAlert")
+	public boolean deleteAlert(ParentVO vo) {
+		return true;
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping("/ajax/logInAction")
 	public boolean logInAction(ParentVO vo,HttpSession session) {

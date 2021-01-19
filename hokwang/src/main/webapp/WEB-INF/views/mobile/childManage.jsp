@@ -9,12 +9,14 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
 	crossorigin="anonymous"></script>
 <script>
+
+
+
 //사진 미리보기 변경
 function changeValue(event){
     console.log(event);//해당 이벤트 target즉 onchange이벤트가 일어난 주체의 value값      
@@ -63,15 +65,19 @@ function numberMaxLength(e){
 			success : function(data) {
 				$('#babyList').empty();
 				$.each(data, function(idx,item) {
+					//console.log(item.baby_no);
 					 $('<tr>')
 					  .append($('<td>').html(item.baby_name))
 					  .append($('<td>').html(item.baby_gender))
 					  .append($('<td>').html(item.baby_regno1))
 					  .append($('<td>').html(item.baby_blood))
 					  .appendTo('#babyList');
-					$('div#imgInf').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic)
-					.attr("onclick","location.href='babyDiary'")
-					);
+					$('div#imgInf').append(
+							$('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">')
+					        .attr("src","${pageContext.request.contextPath}/resources/img/"+item.baby_pic)
+					        .attr("onclick","location.href='babyDiary?baby_no="+item.baby_no+"'")
+					        );
+					
 				});
 			}
 		})
@@ -137,7 +143,7 @@ function numberMaxLength(e){
 				<div class="card-header">아기정보</div>
 			</div>
 		</div>
-
+<!-- 아기등록 -->
 	<div class="modal fade" id="babyModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -246,8 +252,7 @@ function numberMaxLength(e){
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
-							<button type="button" class="btn btn-primary" id="btnCancel"
-							name="btnCancel" data-dismiss="modal">취소</button>
+						<button class="btn btn-primary" type="button">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">

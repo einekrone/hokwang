@@ -18,7 +18,7 @@
 	
 <style>
 .form-control{
-width:auto;
+width:50%;
 display: inline-block;
 }
 #postBtn{
@@ -33,6 +33,7 @@ $(function() {
 	changeImg();
 	getImage();
 	updateInf();
+	getparentinf();
 	
 	var fileTarget = $('.file-upload .upload-hidden');
 
@@ -207,7 +208,41 @@ function updateInf() {
 			alert("새 비밀번호가 일치하지않습니다. ");
 		}
 	});
-}//end of function (updateInf)
+}
+
+
+function getparentinf(){
+	$('#updateModal').on('click',function(){
+		var modal = $('#updateModal');
+		$.ajax({
+			url:'ajax/getParentInf',
+			type:'GET',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			dataType:'json',
+			success: function(data){
+				$.each(data,function(idx,item){
+					console.log(item.parent_name);
+					$('#parent-name').val(item.parent_name);
+					$('#parent-tel').val(item.parent_tel);
+					$('#parent-email').val(item.parent_email);
+				})
+				
+				
+				
+			},
+			error:function(){
+				alert("error");
+			}
+			
+			
+		});
+		
+	})
+}
+
+
 
 
 </script>
@@ -238,7 +273,7 @@ function updateInf() {
 				<hr class="my-0" />
 				<div class="card-body">
 					<h5 class="h6 card-title">프로필 수정</h5>
-					<input type="button" class="btn btn-primary btn-sm" value="정보변경" data-toggle="modal" data-target="#parentModal">
+					<input id="updateModal" type="button" class="btn btn-primary btn-sm" value="정보변경" data-toggle="modal" data-target="#parentModal">
 					<c:if test="${parent_vo.parent_sns != 'social'}">
 					<input id="pwbtn" type="button" class="btn btn-primary btn-sm" value="비밀번호변경" data-toggle="modal" data-target="#pwModal">
 					</c:if>
@@ -263,15 +298,6 @@ function updateInf() {
 				</div>
 			</div>
 		</div>
-
-		<div class="col-md-8 col-xl-9">
-			<div class="card">
-				<div class="card-body h-100">
-					<a href="#" class="btn btn-primary btn-block">Load more</a>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- 부모정보수정 -->
 	<div class="modal fade" id="parentModal" tabindex="-1" role="dialog"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -291,9 +317,17 @@ function updateInf() {
 								id="parent-name" name="parent_name">
 						</div>
 						<div class="form-group">
-							<label>아이디:&nbsp;</label><input type="number"
+							<label>아이디:&nbsp;</label><input type="text"
 								class="form-control" id="parent-id"
 								value="${parent_vo.parent_id}" readonly>
+						</div>
+						<div class="form-group">
+							<label>전화번호:&nbsp;</label><input type="text" class="form-control"
+								id="parent-tel" name="parent_tel">
+						</div>
+						<div class="form-group">
+							<label>이메일:&nbsp;</label><input type="text" class="form-control"
+								id="parent-email" name="parent_email">
 						</div>
 						<div class="form-group">
 						<label>우편번호:&nbsp;</label><input type="text" id="sample3_postcode" placeholder="우편번호">
@@ -314,7 +348,7 @@ function updateInf() {
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
 						<button type="submit" class="btn btn-primary" id="btnCancel"
-							name="btnCancel">취소</button>
+							name="btnCancel" data-dismiss="modal">취소</button>
 							</div>
 					</form>
 				</div>

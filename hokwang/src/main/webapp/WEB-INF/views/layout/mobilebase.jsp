@@ -74,8 +74,6 @@
 	
 	function deleteAlert(){	
 		$('#alertLabel').on('click',function(event) {
-			console.log($(event.target));
-			console.log("삭제할 거",$(event.target).parentsUntil('.bbb').find('#checkHide').val());
 			$.ajax({
 				url : "ajax/deleteAlert",
 				type : 'GET',
@@ -88,7 +86,6 @@
 				},
 				success : function(data) {
 					alertCntAction();
-					alert("읽었다");
 					$('#alertLabel').empty();
 					alertInf();
 				}

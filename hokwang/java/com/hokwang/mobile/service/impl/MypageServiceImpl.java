@@ -29,6 +29,11 @@ public class MypageServiceImpl implements MypageService {
 	public int imgUpdate(ParentVO vo) {
 		return dao.imgUpdate(vo);
 	}
+
+	@Override
+	public int updatePw(ParentVO vo) {
+		return dao.updatePw(vo);
+	}
 	
 	
 

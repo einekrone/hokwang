@@ -246,8 +246,8 @@ function numberMaxLength(e){
 							</div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
-							<button type="submit" class="btn btn-primary" id="btnCancel"
-							name="btnCancel">취소</button>
+							<button type="button" class="btn btn-primary" id="btnCancel"
+							name="btnCancel" data-dismiss="modal">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">

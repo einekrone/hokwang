@@ -657,9 +657,14 @@ ul.tabs li.current {
 									item.baby_name);
 				}); */
 				$.each(data, function(idx, item) {
-					$("#baby-name").append(
-							$('<option>').attr("value", item.baby_no).html(
-									item.baby_name));
+					let child_no_sel;
+					if(item.baby_no == "${param.baby_no}" ){
+						child_no_sel=$('<option>').attr("value", item.baby_no).prop('selected', true).html(item.baby_name);
+					}else{
+						child_no_sel=$('<option>').attr("value", item.baby_no).html(item.baby_name);
+					}
+					$("#baby-name").append(child_no_sel);
+					chgBaby();
 				});
 			}
 		});

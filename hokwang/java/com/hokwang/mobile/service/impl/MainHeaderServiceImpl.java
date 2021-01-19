@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hokwang.mobile.dao.MainHeaderMapper;
 import com.hokwang.mobile.service.MainHeaderService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.ParentVO;
 
 @Service
@@ -50,6 +51,11 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 	public List<Map<String, Object>> alertInf(ParentVO vo) {
 		// TODO Auto-generated method stub
 		return dao.alertInf(vo);
+	}
+
+	@Override
+	public void deleteAlert(AlertVO vo) {
+		dao.deleteAlert(vo);
 	}
 	
 }

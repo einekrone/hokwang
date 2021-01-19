@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.MainHeaderService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.ParentVO;
 
 @Controller
@@ -23,6 +24,18 @@ public class MainHeaderController {
 
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
+	
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteAlert")
+	public boolean deleteAlert(AlertVO vo) {
+		dao.deleteAlert(vo);
+		return true;
+	}
+	
 	
 	
 	@ResponseBody

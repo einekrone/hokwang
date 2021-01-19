@@ -23,7 +23,7 @@
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 <!-- CSS only -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
  -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
@@ -45,7 +45,8 @@
 		changeMenu();
 		alertCntAction();
 		alertInf();
-
+		deleteAlert();
+		
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > 200) {
 				$("#topBtn").fadeIn();
@@ -69,8 +70,34 @@
 			}
 		});
 	});
+	
+	
+	function deleteAlert(){	
+		$('#alertLabel').on('click', function(event) {
+			console.log($(event.target));
+			console.log($(event.target).find('#checkHide').val());
+			$.ajax({
+				url : "ajax/deleteAlert",
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					alert_no : $(event.target).find('#checkHide').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alert("읽었다");
+				}
+			})
+
+		});
+	}
+	
+	
 
 	function alertInf() {
+		console.log("daasaaaaaaaaaad");
 		$
 				.ajax({
 					url : "ajax/alertInf",
@@ -172,6 +199,13 @@
 	}
 
 	function changeMenu() {
+// 		var sBtn = $("ul.sidebar-nav > li"); //  ul > li 이를 sBtn으로 칭한다. (클릭이벤트는 li에 적용 된다.)
+// 		sBtn.find("a").click(function() { // sBtn에 속해 있는  a 찾아 클릭 하면.
+// 			sBtn.removeClass("active"); // sBtn 속에 (active) 클래스를 삭제 한다.
+// 			$(this).parent().addClass("active"); // 클릭한 a에 (active)클래스를 넣는다.
+// 			event.preventDefault();
+// 		});
+
 		// 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
 		/* $(".sidebar-nav").on("click", "li", function(event) {
@@ -234,11 +268,9 @@
 				</ul>
 
 				<div class="sidebar-cta">
-					<div class="sidebar-cta-content">
-						<strong class="d-inline-block mb-2">광고 제목</strong>
-						<div class="mb-3 text-sm">광고 내용</div>
-
-					</div>
+					<img id='img'
+						src="${pageContext.request.contextPath}/resources/img/papang.png"
+						style="width: 240px; height: 160px; margin: 0 0 30px 10px; border-radius: 10px;">
 				</div>
 			</div>
 		</nav>

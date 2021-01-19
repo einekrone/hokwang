@@ -11,7 +11,6 @@
 
 	<update id="updateparentInfo" parameterType="ParentVO">
 		update parent set parent_name=#{parent_name},
-						parent_pw=#{parent_pw},
 						parent_tel=#{parent_tel},
 						parent_addr=#{parent_addr},
 						parent_addrdetail=#{parent_addrdetail},
@@ -26,6 +25,16 @@
 		where parent_no=#{parent_no}
 	</update>
 	
+	<!-- 비밀번호 수정 -->
+	<update id="updatePw" parameterType="ParentVO">
+		update parent
+		set
+		<if test="parent_pw != null and parent_pw != ''">
+			parent_pw = #{parent_pw}
+		</if>
+			where parent_no=#{parent_no}
+		
+	</update>
 	
 	
 	

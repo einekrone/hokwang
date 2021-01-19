@@ -57,16 +57,8 @@
 								$('#showMessage').append($('<a>').addClass("dropdown-item d-flex align-items-center")
 														.append($('<div>').addClass("dropdown-list-image mr-3")
 														.append($('<img>').addClass('rounded-circle')
-																						.attr(
-																								'src',
-																								"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
-														.append(
-																$('<div>')
-																		.addClass(
-																				"font-weight-bold")
-																		.append(
-																				$(
-																						'<div>')
+																.attr('src',"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
+														.append($('<div>').addClass("font-weight-bold").append($('<div>')
 																						.addClass(
 																								"text-truncate")
 																						.text(

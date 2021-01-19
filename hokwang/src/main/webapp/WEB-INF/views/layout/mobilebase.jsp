@@ -23,7 +23,7 @@
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 <!-- CSS only -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
  -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
@@ -45,7 +45,8 @@
 		changeMenu();
 		alertCntAction();
 		alertInf();
-
+		deleteAlert();
+		
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > 200) {
 				$("#topBtn").fadeIn();
@@ -69,8 +70,34 @@
 			}
 		});
 	});
+	
+	
+	function deleteAlert(){	
+		$('#alertLabel').on('click', function(event) {
+			console.log($(event.target));
+			console.log($(event.target).find('#checkHide').val());
+			$.ajax({
+				url : "ajax/deleteAlert",
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					alert_no : $(event.target).find('#checkHide').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alert("읽었다");
+				}
+			})
+
+		});
+	}
+	
+	
 
 	function alertInf() {
+		console.log("daasaaaaaaaaaad");
 		$
 				.ajax({
 					url : "ajax/alertInf",

@@ -31,6 +31,8 @@ display: inline-table;
 $(function() {
 	checkImg();
 	changeImg();
+	getImage();
+	updateInf();
 	
 	var fileTarget = $('.file-upload .upload-hidden');
 
@@ -110,6 +112,7 @@ $(function() {
 	}
 	
 });
+
 function checkImg(){
 	
 	$('#chkImg').on('click',function(){
@@ -142,27 +145,90 @@ function changeImg(){
 				alert("실패");
 			}
 			
-		})
+		});
+		
+		
 	})
 }
+
+function getImage(){
+	$.ajax({
+		url:'ajax/getParentInf',
+		type:'GET',
+		data:{
+			parent_no:"${parent_vo.parent_no}"
+		},
+		dataType:'json',
+		success:function(data){
+			$.each(data,function(idx,item){
+				console.log(item);
+				if(item.parent_sns == 'social'){
+					$('#divimg').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${parent_vo.parent_img}"));
+				}else{
+					$('#divimg').append($('<img id="img" class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.parent_img));
+				}
+				
+			});
+		},
+		error:function(){
+			alert("error");
+		}
+	})
+}
+
+
+function updateInf() {
+	$('#pwUpdate').on("click", function() {
+		var oldpw = $('#oldpw').val();
+		console.log(oldpw);
+		if ($('#pw').val() == $('#pw2').val()) {
+			$.ajax({
+				url : 'ajax/updatePw',
+				type : 'POST',
+				/* dataType : 'json', */
+				data : {
+					parent_pw1 : $('#oldpw').val(),
+					parent_pw : $('#pw').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					console.log(data);
+					if (data == true) {
+						alert("변경되었습니다.");
+						location.href="mmypage";
+					} else {
+						alert("비밀번호가 일치하지않습니다. ")
+					}
+				}
+			});
+		} else {
+			alert("새 비밀번호가 일치하지않습니다. ");
+		}
+	});
+}//end of function (updateInf)
+
+
 </script>
 	<h1 class="h3 mb-3">회원정보</h1>
 
 	<div class="row">
 		<div class="col-md-4 col-xl-3">
 			<div class="card mb-3">
-				<div class="card-header"></div>
-				<div class="card-body text-center">
-				<c:if test="${parent_vo.parent_sns == 'social' }">
-					<img src="${parent_vo.parent_img}"class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" />
-				</c:if>
+				<div  class="card-body text-center">
 				<form id='form1' method="post">
+				<div id="divimg"class="card-body">
+				<!--   <c:if test="${parent_vo.parent_sns == 'social' }">
+					<img src="${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" />
+				</c:if> 
 				<c:if test="${parent_vo.parent_sns != 'social' }">
 					<img src="${pageContext.request.contextPath}/resources/img/${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" id="img"/>
-				</c:if>
+				</c:if> -->
+				</div>
 					<h5 class="card-title mb-0">${parent_vo.parent_name}</h5>
 					<div class="text-muted mb-2">${parent_vo.parent_tel}</div>
-				<c:if test="${parent_vo.parent_sns != 'social' }">
+				<c:if test="${parent_vo.parent_sns != 'social'}">
 					<input type="hidden" id="parent-no" name="parent_no">
 					<input type="file" name="file" id="uf"/>
 						<button id="chkImg" type="submit" class="btn-secondary btn-sm">사진변경</button>
@@ -173,19 +239,18 @@ function changeImg(){
 				<div class="card-body">
 					<h5 class="h6 card-title">프로필 수정</h5>
 					<input type="button" class="btn btn-primary btn-sm" value="정보변경" data-toggle="modal" data-target="#parentModal">
+					<c:if test="${parent_vo.parent_sns != 'social'}">
+					<input id="pwbtn" type="button" class="btn btn-primary btn-sm" value="비밀번호변경" data-toggle="modal" data-target="#pwModal">
+					</c:if>
 				</div>
 				<hr class="my-0" />
 				<div class="card-body">
-					<h5 class="h6 card-title">About</h5>
+					<h5 class="h6 card-title">상세정보</h5>
 					<ul class="list-unstyled mb-0">
-						<li class="mb-1"><span data-feather="home"
-							class="feather-sm mr-1"></span> Lives in <a href="#">San
-								Francisco, SA</a></li>
-
-						<li class="mb-1"><span data-feather="briefcase"
-							class="feather-sm mr-1"></span> Works at <a href="#">GitHub</a></li>
-						<li class="mb-1"><span data-feather="map-pin"
-							class="feather-sm mr-1"></span> From <a href="#">Boston</a></li>
+						<li class="mb-1"><span data-feather="at-sign" class="feather-sm mr-1"></span> 이메일: <a style="color:blue;">${parent_vo.parent_email}</a></li>
+						<li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> 주소 : <a style="color:blue;">${parent_vo.parent_addr}</a></li>
+						<li class="mb-1"><span data-feather="briefcase" class="feather-sm mr-1"></span> 상세주소: <a style="color:blue;">${parent_vo.parent_addrdetail}</a></li>
+						<li class="mb-1"><span data-feather="map-pin" class="feather-sm mr-1"></span> 우편번호: <a style="color:blue;">${parent_vo.parent_post}</a></li>
 					</ul>
 				</div>
 				<hr class="my-0" />
@@ -194,14 +259,6 @@ function changeImg(){
 					<ul class="list-unstyled mb-0">
 						<li class="mb-1"><span class="fas fa-globe fa-fw mr-1"></span>
 							<a href="#">staciehall.co</a></li>
-						<li class="mb-1"><span class="fab fa-twitter fa-fw mr-1"></span>
-							<a href="#">Twitter</a></li>
-						<li class="mb-1"><span class="fab fa-facebook fa-fw mr-1"></span>
-							<a href="#">Facebook</a></li>
-						<li class="mb-1"><span class="fab fa-instagram fa-fw mr-1"></span>
-							<a href="#">Instagram</a></li>
-						<li class="mb-1"><span class="fab fa-linkedin fa-fw mr-1"></span>
-							<a href="#">LinkedIn</a></li>
 					</ul>
 				</div>
 			</div>
@@ -215,7 +272,7 @@ function changeImg(){
 			</div>
 		</div>
 	</div>
-	
+	<!-- 부모정보수정 -->
 	<div class="modal fade" id="parentModal" tabindex="-1" role="dialog"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -239,13 +296,6 @@ function changeImg(){
 								value="${parent_vo.parent_id}" readonly>
 						</div>
 						<div class="form-group">
-							<label>비밀번호:&nbsp;</label><input type="password"
-								class="form-control" id="parent-password1" name="parent_pw">
-						</div>
-						<div class="form-group">
-							<label>비밀번호 확인:&nbsp;</label><input type="password" class="form-control" id="parent-password2" name="parent-password2">
-						</div>
-						<div class="form-group">
 						<label>우편번호:&nbsp;</label><input type="text" id="sample3_postcode" placeholder="우편번호">
 						<input type="button" onclick="sample3_execDaumPostcode()"
 							value="우편번호 찾기" id="postBtn"> 
@@ -259,27 +309,58 @@ function changeImg(){
 						</div>	
 							<label>참고항목:&nbsp;</label><input type="text" class="input-field" id="sample3_extraAddress" placeholder="참고항목"><br>
 						<input type="button" class="submit" id="btnRegister"
-							name="btnRegister" value="등록" />
-
-
-						<div class="form-group">
-							<label class="col-form-label">사진등록</label><br>
-							<div
-								style="width: 200px; height: 150px; background-color: white;"
-								class="img-print1">
-								<img class="gc-img">
-							</div>
-							<input id="baby-pic" type="file" name="uploadFile1"
-								class="uploadFile1" style="display: none;"
-								onchange="changeValue(event)">
-						</div>
+							name="btnRegister" value="등록" /><br>
+							<div>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
 						<button type="submit" class="btn btn-primary" id="btnCancel"
 							name="btnCancel">취소</button>
+							</div>
 					</form>
 				</div>
 				<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 비밀번호 변경-->
+		<div class="modal fade" id="pwModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">비밀번호 재확인</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">x</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td><span class="point">&nbsp;*</span>비밀번호</td>
+								<td><input type="password" id="oldpw" name="oldpw"
+									placeholder="기존 비밀번호를 입력하시오"></td>
+
+							</tr>
+							<tr>
+								<td><span class="point">&nbsp;*</span>새비밀번호</td>
+								<td><input type="password" id="pw" name="pw"
+									placeholder="변경할 비밀번호를 입력하시오"></td>
+							</tr>
+							<tr>
+								<td><span class="point">&nbsp;*</span>새비밀번호 확인</td>
+								<td><input type="password" id="pw2" name="pw2"
+									placeholder="비밀번호를 재입력하시오"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="pwUpdate"
+							data-dismiss="modal" name="pwUpdate">변경</button>
+						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>
 			</div>

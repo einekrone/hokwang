@@ -9,8 +9,7 @@
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style type="text/css">
 .card-header, .card-body, .card-footer {

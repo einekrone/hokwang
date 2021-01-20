@@ -143,7 +143,7 @@
 
 	<update id="payUpdate" parameterType="paymentVO">
 		UPDATE PAYMENT
-		SET PAY_STATE = 'Y'
+		SET PAY_STATE = 'Y', PAY_DATE = sysdate
 		<where>
 			<if test="pay_no != null and pay_no != ''">
 				PAY_NO = #{pay_no}

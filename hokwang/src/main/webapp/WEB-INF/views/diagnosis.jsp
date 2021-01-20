@@ -198,7 +198,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		             type: 'POST',  
 		             data : {
 		            	resv_no : resv_no,
-		            	emp_no : ${emp_vo.emp_no},
+		            	emp_no : "${emp_vo.emp_no}",
 		            	diaglist_memo : $("#insertDiagList").find('#patient_records').val(),
 		            	dis_code : $("#insertDiagLast").children().children().eq(0).text()
 		             },

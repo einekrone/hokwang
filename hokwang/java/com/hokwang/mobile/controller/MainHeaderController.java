@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.MainHeaderService;
+import com.hokwang.mobile.service.PaymentService;
 import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.ParentVO;
 
@@ -21,14 +22,11 @@ import com.hokwang.vo.ParentVO;
 public class MainHeaderController {
 	@Autowired
 	MainHeaderService dao;
-
+	@Autowired PaymentService paydao;
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
 	
-	
-	
-	
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/deleteAlert")
 	public boolean deleteAlert(AlertVO vo) {
@@ -45,6 +43,7 @@ public class MainHeaderController {
 		vo = dao.logInAction(vo);
 		if (vo != null) {
 			session.setAttribute("parent_vo", vo);
+			paydao.CheckProcedure(vo);
 			return true;
 		}
 		return false;

@@ -21,4 +21,10 @@ public class PaymentServiceImpl implements PaymentService {
 		return paydao.getUnPaidList(vo);
 	}
 
+	@Override
+	public void CheckProcedure(ParentVO vo) {
+		paydao.CheckProcedure(vo);
+		
+	}
+
 }

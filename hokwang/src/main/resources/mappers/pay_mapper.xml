@@ -21,4 +21,14 @@
     	AND D.DIS_CODE = S.DIS_CODE
 		AND T.PARENT_NO = #{parent_no}
 	</select>
+	<!-- 프로시저 예방접종 알림 -->
+    <select id="CheckProcedure" parameterType="ParentVO" statementType="CALLABLE">
+        CALL MAKE_RESERVATION_PROC(
+        #{parent_no, mode=IN, jdbcType=VARCHAR, javaType=String}
+        )
+    </select>
+
+
+	
+	
 </mapper>

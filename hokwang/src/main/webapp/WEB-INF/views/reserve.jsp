@@ -934,7 +934,7 @@ button {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" style="width: 520px;">
 				<div class="modal-header">
-					<button class="close" type="button" data-dismiss="modal"
+					<button class="close" type="button" data-dismiss="modal" onclick="cancle_pop()"
 						aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>

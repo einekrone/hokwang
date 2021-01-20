@@ -120,17 +120,16 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">수고하셨습니다</h5>
 					<button class="close" type="button" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">${emp_vo.emp_name}님 정말로 로그아웃 하시겠습니까?</div>
+				<div class="modal-body">${emp_vo.emp_name}님 로그아웃 하시겠습니까?</div>
 				<div class="modal-footer">
+					<a class="btn btn-primary" href="logout">로그아웃</a>
 					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="logout">Logout</a>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

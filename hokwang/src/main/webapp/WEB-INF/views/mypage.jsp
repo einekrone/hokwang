@@ -937,7 +937,7 @@
 
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body" style="padding-top: 2.5rem;">
-								<div style="float: left;">
+								<div>
 									<form id='form1' method="post">
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
@@ -951,9 +951,8 @@
 												<td class="content" style="margin: 10px;">
 											</tr>
 										</table>
-										<div class="btn-group file-upload btn-group-toggle">
-											<input type="text" class="upload-name" value="파일선택"
-												disabled="disabled" /> <label for="uf">업로드</label> <input
+										<div class="btn-group file-upload btn-group-toggle" style="float: right;">
+											<input type="hidden" class="upload-name" value="파일선택" /> <label for="uf">프로필사진 업로드</label> <input
 												type="file" class="upload-hidden" id='uf' name="uf">
 										</div>
 									</form>
@@ -1007,14 +1006,7 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
-							
-
-
-
-							<!-- Earnings (Monthly) Card Example -->
-
 							<div class="row1" style="margin-top: 40px;">
-															<!-- Pending Requests Card Example -->
 								<div class="col-xl-6 col-md-6 mb-4">
 									<div class="card border-left-warning shadow h-100 py-2">
 										<div class="card-body">

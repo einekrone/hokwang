@@ -252,7 +252,7 @@
                                        </span>
                                     </div>
                                     <div class="form-group">
-                                       <input type="text" class="form-control" placeholder="ID..."
+                                       <input type="text" class="form-control" placeholder="사원번호"
                                           id="emp_no" name="emp_no" required="required"> <span
                                           class="bmd-help" id="id-warning"></span>
                                     </div>
@@ -266,7 +266,7 @@
                                     </div>
                                     <div class="form-group">
                                        <input type="password" class="form-control"
-                                          placeholder="Password..." id="emp_pwd" name="emp_pwd"
+                                          placeholder="패스워드" id="emp_pwd" name="emp_pwd"
                                           required="required"> <span class="bmd-help"
                                           id="pw-warning"></span>
                                     </div>
@@ -285,13 +285,13 @@
 
                      <c:if test="${msg == false }">
                         <%
-                        out.println("<script>alert('로그인 실패 ! 아이디나 비밀번호를 확인해 주세요.')</script>");
+                        out.println("<script>alert('로그인 실패! 사원번호와 비밀번호를 확인해 주세요.')</script>");
                         %>
                      </c:if>
                   </div>
                   <!-- 로그인 끝 -->
-                  <div class="card-footer">
-                     <span class="txt_find" style="">
+                  <div class="card-footer" style="text-align: center;">
+                     <span class="txt_find">
                         <button type="button" class="btn btn-primary btn-sm "
                            data-toggle="modal" data-target="#idModal"
                            data-backdrop="static">사원번호 찾기</button>
@@ -348,7 +348,7 @@
                <input type="button" class="btn btn-primary" id="btnId"
                   name="btnId" value="찾기">
                <button class="btn btn-secondary" type="button" id="Cancel"
-                  data-dismiss="modal">Cancel</button>
+                  data-dismiss="modal">취소</button>
             </div>
          </div>
       </div>
@@ -392,7 +392,7 @@
                   <div class="modal-footer">
                      <button class="btn btn-primary" id="btnPw" name="btnPw">찾기</button>
                      <button class="btn btn-secondary" type="button" id="Cancel"
-                        data-dismiss="modal">Cancel</button>
+                        data-dismiss="modal">취소</button>
                   </div>
                </div>
             </div>

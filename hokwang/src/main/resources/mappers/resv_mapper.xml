@@ -68,7 +68,7 @@
 
 	<select id="getNonPayList" resultType="map"
 		parameterType="resvSearch">
-		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYYYMMDD') AS PAY_DATE,
+		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYMMDD') AS PAY_DATE,
 		P.PAY_PRICE,
 		P.PAY_STATE, B.*, P.RESV_NO
 		FROM PAYMENT P,

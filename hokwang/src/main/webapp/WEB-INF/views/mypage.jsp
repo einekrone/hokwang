@@ -954,7 +954,7 @@
 										</table>
 										<div class="btn-group file-upload btn-group-toggle" style="float: right;">
 											<input type="hidden" class="upload-name" value="파일선택" /> <label for="uf">프로필사진 업로드</label> <input
-												type="file" class="upload-hidden" id='uf' name="uf">
+												type="file" class="upload-hidden upload-name" id='uf' name="uf">
 										</div>
 									</form>
 								</div>

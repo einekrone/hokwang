@@ -126,7 +126,7 @@
 						console.log(">>미수납 " + item.PAY_STATE);
 						text = "미수납";
 						$("#price2" + idx).eq(-1).after(
-								'<td id="payStatus" style="background:#ba3045;color:white;">' + text + '</td>');
+								'<td id="payStatus" style="background:#a0c49d;color:white;">' + text + '</td>');
 					}
 				});//endonf each function
 	}
@@ -330,7 +330,7 @@
 
 		<!-- 1 -->
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow py-2" style="height: 400px;">
+			<div class="card shadow py-2" style="height: 400px; margin:10px 0;">
 				<div class="card-body">
 					<p class="text-s font-weight-bold text-success">환자정보</p>
 					<div style="width: 100%; height: 300px; overflow: auto;"
@@ -349,7 +349,7 @@
 
 		<!-- 2-->
 		<div class="col-xl-6 col-md-6 mb-4">
-			<div class="card shadow py-2" style="height: 400px;">
+			<div class="card shadow py-2" style="height: 400px; margin:10px 0; padding:5px;">
 				<div class="text-s font-weight-bold"
 					style="margin-bottom: 20px; width: 100%; height: 400px; overflow: auto;">
 
@@ -385,9 +385,9 @@
 				<!--전체환자 리스트  -->
 			</div>
 			<div class="card shadow py-2"
-				style="height: 400px; float: left; width: 50%; overflow: auto;">
+				style="height: 400px; float: left; width: 49%; overflow: auto; padding:5px; margin-right: 15px;">
 				<p class="text-s font-weight-bold text-success">환자 진료 내역</p>
-				<table border="1">
+				<table class="table text-center">
 					<thead>
 						<tr align=center>
 							<th>진료 번호</th>
@@ -400,7 +400,7 @@
 			</div>
 			<!-- 상세 진료 기록 -->
 			<div class="card shadow py-2"
-				style="height: 400px; float: left; width: 50%">
+				style="height: 400px; float: left; width: 49%; padding:5px;">
 				<p class="text-s font-weight-bold text-danger"
 					style="margin-bottom: 3px !important;">환자 상세 진료 내역</p>
 				<div class="card-body">
@@ -419,16 +419,14 @@
 
 		<!-- Pending Requests Card Example -->
 		<div class="col-xl-3 col-md-6 mb-4">
-			<div class="card shadow py-2" style="height: 800px;">
+			<div class="card shadow py-2" style="height: 800px; margin:10px 0;">
 				<div class="card-body">
 					<div class="row no-gutters align-items-center">
 						<div class="col mr-2">
-							<div
-								class="text-s font-weight-bold text-warning text-uppercase mb-1">
-								수납</div>
-							<div class="h5 mb-0 font-weight text-black-800"
+							<div class="font-weight-bold text-warning text-uppercase mb-1"> 수납</div>
+							<div class="mb-0 font-weight text-black-800"
 								style="float: left">
-								<table border="1" style="width:400px">
+								<table class="table text-center" style="width:400px">
 									<thead>
 										<tr align=center>
 											<th>결제 일자</th>

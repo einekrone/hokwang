@@ -27,7 +27,7 @@ td {
 	var today;
 	var chkTbArr;
 	$(function() {
-		console.log("param ::: "+${param.resvBaby});
+		console.log("param ::: "+'${param.resvBaby}');
 		d = new Date();
 
 		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)

@@ -211,14 +211,15 @@
 #wri_m_bt {
 	margin-left: 30px;
 	padding: 10px 20px 10px 20px;
-	background: #013ADF;
+	background: #007bff;
 	border: 0;
 	color: white;
 	font-size: 12px;
+	border-radius: 10px;
 }
 
 #wri_m_bt:hover {
-	background: #08298A;
+	background: #369ec7;
 	color: white;
 }
 
@@ -997,7 +998,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer" style="height: 50px; float: right;">
+							<div class="card-footer" style="height: 50px; text-align: right;">
 								<a class="text-primary" href="#" data-toggle="modal"
 									data-target="#UpdateModal" data-backdrop="static"
 									style="font-size: 15px"> 비밀번호 변경 </a> / <a class="text-primary"
@@ -1068,7 +1069,7 @@
 						</div>
 
 						<div class="card shadow py-2 main_in"
-							style="height: 480px; width: 100%;">
+							style="height: 480px; width: 100%; padding: 5px 10px;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
 									<div class="card-body">
@@ -1114,7 +1115,7 @@
 								</ul>
 							</div> -->
 
-							<div class="note_bt" style="display: block" id="cont1">
+							<div class="note_bt" style="display: block; top: 70px;" id="cont1">
 								<table id="dataTab1">
 									<thead>
 										<tr>
@@ -1349,7 +1350,7 @@
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
 								<textarea class="form-control" id="message-text1"
-									name="message-text1"></textarea>
+									name="message-text1" readonly></textarea>
 							</div>
 						</form>
 					</div>

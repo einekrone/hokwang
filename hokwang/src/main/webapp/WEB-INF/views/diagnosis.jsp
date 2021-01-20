@@ -19,7 +19,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">	
+	crossorigin="anonymous">
 <style>
 div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
@@ -829,20 +829,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 				</div>
 
 				<!-- 특이사항 -->
-				<div class="card shadow py-2" style="height: 150px;">
+				<div class="card shadow py-2" style="height: 150px; margin: 5px 0">
 					<div class="card-body">
-
-						<!-- Title -->
 						<div>
 							<!-- logo -->
 							<div class="title_logo">
-								<i class="fas fa-check"></i>
-
-								<!-- content -->
-								<span class="tit" id="baby_unusual_title"
-									style="font-weight: 600;">특이사항</span>
+								<i class="fas fa-check"></i> <span class="tit"
+									id="baby_unusual_title" style="font-weight: 600;">특이사항</span>
 							</div>
-							<div style="width: 100%; height: 160px; overflow: auto;"
+							<div style="width: 100%; height: 96px; overflow: auto;"
 								id="baby_unusual"></div>
 						</div>
 
@@ -875,10 +870,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<tbody id="waitList"></tbody>
 							</table>
 						</div>
-						<div id="specValue" style="display:none;">
-							<input type="number" id="NN" value="N" style="display:none;">
-							<input type="text" id="Ing" value="I" style="display:none;">
-							<input type="text" id="End" value="Y" style="display:none;">
+						<div id="specValue" style="display: none;">
+							<input type="number" id="NN" value="N" style="display: none;">
+							<input type="text" id="Ing" value="I" style="display: none;">
+							<input type="text" id="End" value="Y" style="display: none;">
 						</div>
 					</div>
 				</div>
@@ -886,15 +881,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 
 			<!-- 진료 2 -->
-			
+
 			<div class="col-xl-3 col-md-6 mb-4">
 
 				<!-- 환자 기록 -->
-				<div class="card shadow py-2" style="height: 340px;">
+				<div class="card shadow py-2" style="height: 340px; margin-bottom: 10px;">
 					<div class="card-body">
-
 						<!-- 진료 기록 -->
-						<div style="height: 340px; overflow: auto;">
+						<div style="height: 310px; overflow: auto;">
 							<!-- logo -->
 							<div class="title_logo">
 								<i class="fas fa-file-medical"></i>
@@ -902,11 +896,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">진료/접종 기록</span>
 							</div>
-							<table id="noborder_table" class="table">
+							<table id="noborder_table" class="table" style="margin-top: 5px;">
 								<thead>
 									<tr id="nbab">
-										<br />
-										<th style="width:100px;">일시</th>
+										<th>일시</th>
 										<th>담당의</th>
 									</tr>
 								</thead>
@@ -915,79 +908,81 @@ div.dataTables_wrapper div.dataTables_paginate {
 						</div>
 					</div>
 				</div>
-					
-					
-						<!-- 진료 기록 상세 -->
-						
-				<div class="card shadow py-2" style="height: 500px; overflow: auto;" id="diag6">
+
+
+				<!-- 진료 기록 상세 -->
+
+				<div class="card shadow py-2" style="height: 500px; overflow: auto;"
+					id="diag6">
 					<div class="card-body">
-							
-							<!-- logo -->
-							<div class="title_logo">
-								<i class="far fa-clipboard"></i>
 
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">진료 기록 상세</span>
+						<!-- logo -->
+						<div class="title_logo">
+							<i class="far fa-clipboard"></i>
+
+							<!-- content -->
+							<span class="tit" style="font-weight: 600;">진료 기록 상세</span>
+						</div>
+
+						<div class="card-body">
+
+							<div style="height: 70px;">
+								<table id="noborder_table">
+									<thead>
+										<tr id="nbab">
+											<th>진료일</th>
+										</tr>
+									</thead>
+									<tbody id="diagDetail" style="overflow: auto; width: 100%;"></tbody>
+								</table>
 							</div>
 
-							<div class="card-body">
-
-								<div style="height: 70px;">
-									<table id="noborder_table">
-										<thead>
-											<tr id="nbab">
-												<th>진료일</th>
-											</tr>
-										</thead>
-										<tbody id="diagDetail" style="overflow: auto; width: 100%;"></tbody>
-									</table>
-								</div>
-
-								<div style="height: 70px;">
-									<table id="noborder_table">
-										<thead>
-											<tr id="nbab">
-												<th>의사 소견</th>
-											</tr>
-										</thead>
-										<tbody id="diagDetail3" style="overflow: auto; width: 100%;"></tbody>
-									</table>
-								</div>
-
-								<div style="height: 70px;">
-									<table id="noborder_table">
-										<thead>
-											<tr id="nbab">
-												<th>상병</th>
-											</tr>
-										</thead>
-										<tbody id="diagDetail2" style="overflow: auto; width: 100%;"></tbody>
-									</table>
-								</div>
-
-								<div style="height: 70px;">
-									<table id="noborder_table">
-										<thead>
-											<tr id="nbab">
-												<th>처방</th>
-											</tr>
-											<tr>
-												<th class="text-center">처방명</th>
-												<th class="text-center">용량</th>
-												<th class="text-center">일투</th>
-												<th class="text-center">일수</th>
-											</tr>
-										</thead>
-										<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
-									</table>
-								</div>
+							<div style="height: 70px;">
+								<table id="noborder_table">
+									<thead>
+										<tr id="nbab">
+											<th>의사 소견</th>
+										</tr>
+									</thead>
+									<tbody id="diagDetail3" style="overflow: auto; width: 100%;"></tbody>
+								</table>
 							</div>
+
+							<div style="height: 70px;">
+								<table id="noborder_table">
+									<thead>
+										<tr id="nbab">
+											<th>상병</th>
+										</tr>
+									</thead>
+									<tbody id="diagDetail2" style="overflow: auto; width: 100%;"></tbody>
+								</table>
+							</div>
+
+							<div style="height: 70px;">
+								<table id="noborder_table">
+									<thead>
+										<tr id="nbab">
+											<th>처방</th>
+										</tr>
+										<tr>
+											<th class="text-center">처방명</th>
+											<th class="text-center">용량</th>
+											<th class="text-center">일투</th>
+											<th class="text-center">일수</th>
+										</tr>
+									</thead>
+									<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
+								</table>
+							</div>
+						</div>
 					</div>
-				</div>	
+				</div>
 				<!-- 접종 맞을 것-->
 				<div class="card shadow py-2" style="height: 500px;" id="diag5">
 
-					<div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
+					<div
+						style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
 						<!-- Title -->
 						<div class="title_logo">
 							<!-- logo -->
@@ -996,47 +991,48 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<span class="tit" style="font-weight: 600;">예방접종</span>
 						</div>
 					</div>
-				
+
 					<div class="card-body"
 						style="width: 100%; height: 400px; padding-top: 5px;">
 						<form id="injectInsert">
 							<div>
-								<div style="width: 100%;"
-									id="injection"></div>
+								<div style="width: 100%;" id="injection"></div>
 							</div>
 							<div>
-								<button type="button" class="btn_injectInsert" onclick="injectInsert();">예방접종 등록</button>
+								<button type="button" class="btn_injectInsert"
+									onclick="injectInsert();">예방접종 등록</button>
 							</div>
 						</form>
 					</div>
 				</div>
-						
+
 			</div>
 
 			<!-- 진료 3 -->
 			<div class="col-xl-3 col-md-6 mb-4" id="diag3">
 				<form id="insertDiagList">
-				<!-- 외래기록 -->
-				<div class="card shadow py-2" style="height: 840px;">
+					<!-- 외래기록 -->
+					<div class="card shadow py-2" style="height: 840px;">
 
-					<div class="card-body" style="height: 200px;">
-						<!-- Title -->
-						<div>
-							<!-- logo -->
-							<div class="title_logo">
-								<i class="fas fa-stethoscope"></i>
+						<div class="card-body" style="height: 200px;">
+							<!-- Title -->
+							<div>
+								<!-- logo -->
+								<div class="title_logo">
+									<i class="fas fa-stethoscope"></i>
 
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">상병</span>
+									<!-- content -->
+									<span class="tit" style="font-weight: 600;">상병</span>
 
-								<div>
-									<div
-										style="margin: 0 0 10px 0 !important; width: 90%; float: left;">
-						
+									<div>
+										<div
+											style="margin: 0 0 10px 0 !important; width: 90%; float: left;">
+
 											<div class="input-group">
 												<input type="text" class="form-control border-0 small"
 													name="keyword3" id="keyword3" placeholder="질병명"
-													aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schd();}">
+													aria-label="Search" aria-describedby="basic-addon2"
+													onkeypress="if(event.keyCode=='13'){event.preventDefault(); schd();}">
 												<div class="input-group-append">
 													<button class="btn btn-primary" type="button"
 														id="schdisease" onclick="schd()">
@@ -1046,152 +1042,154 @@ div.dataTables_wrapper div.dataTables_paginate {
 											</div>
 										</div>
 									</div>
-							</div>
-						</div>
-						<div style="overflow: auto; width: 100%; height: 200px;">
-							<table class="table">
-								<thead>
-									<tr>
-										<th style="width: 200px;">코드</th>
-										<th style="width: 400px;">상병명</th>
-										<th style="width: 500px;">상병상세</th>
-									</tr>
-								</thead>
-								<tbody id="InsertDisease" style="overflow: auto; width: 100%;"></tbody>
-							</table>
-						</div>
-					</div>
-
-					<div class="card-body" style="height: 200px;">
-						<!-- Title -->
-						<div style= "margin-top: 10px;">
-							<!-- logo -->
-							<div class="title_logo">
-								<i class="fas fa-pencil-alt"></i>
-
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">진단서</span>
-							</div>
-				     <!-- 진단서작성 -->
-						<div style="overflow: auto; height: 350px;">
-							<table>
-								<thead>
-									<tr>
-										<th style="width: 300px;">상병명</th>
-										<th style="width: 400px;">상병상세</th>
-										<th style="width: 200px;">삭제</th>
-									</tr>
-								</thead>
-								<tbody id="insertDiagLast"></tbody>
-							</table>
-						</div>	
-					</div>
-				</div>
-
-					<div class="card-body" style="height: 200px;">
-						<!-- Title -->
-						<div>
-							<!-- logo -->
-							<div class="title_logo">
-								<i class="fas fa-pencil-alt"></i>
-
-								<!-- content -->
-								<span class="tit" style="font-weight: 600;">의사 소견</span>
-							</div>
-						</div>
-
-						<!--소견내용  -->
-						<div>
-							<textarea class="cont" id="patient_records" name="records"
-								style="width: 100%; height: 200px;">
-							</textarea>
-						</div>
-					</div>
-
-				</div>
-				</form>
-			</div>
-		
-		<!-- 진료 4 -->
-			<div class="col-xl-3 col-md-6 mb-4" id="diag4">
-			<form id="insertMediList">
-			<!-- 처방 -->
-				<div class="card shadow py-2" style="height: 840px;">
-					
-				<div style="height: 100px; padding: 20px;">
-					
-					<!-- Title -->
-					<div class="title_logo">
-						<!-- logo -->
-						<i class="fas fa-capsules"></i>
-						<!-- content -->
-						<span class="tit" style="font-weight: 600;">약품</span>
-					</div>
-
-					<!-- 검색버튼 -->
-					<div style="margin: 0 0 10px 0 !important; width: 90%;">
-	
-							<div class="input-group">
-								<input type="text" class="form-control border-0 small"
-									name=keyword4 id="keyword4" placeholder="약품검색"
-									aria-label="Search" aria-describedby="basic-addon2" onkeypress="if(event.keyCode=='13'){event.preventDefault(); schm();}">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="button" id="schmedicine" onclick="schm()">
-										<i class="fas fa-search fa-sm"></i>
-									</button>
 								</div>
 							</div>
-					</div>
-					
-				</div>
-				
-				
-					<!-- 약품리스트 -->
-					<div class="card-body"
-						style="overflow: auto; width: 100%; height: 200px; visi">
-						<div>
-							<table>
-								<thead>
-									<tr>
-										<th style="width: 400px;">약품코드</th>
-										<th style="width: 400px;">약품명</th>
-									</tr>
-								</thead>
-								<tbody id="schMedicineTd"></tbody>
-							</table>
+							<div style="overflow: auto; width: 100%; height: 200px;">
+								<table class="table">
+									<thead>
+										<tr>
+											<th style="width: 200px;">코드</th>
+											<th style="width: 400px;">상병명</th>
+											<th style="width: 500px;">상병상세</th>
+										</tr>
+									</thead>
+									<tbody id="InsertDisease" style="overflow: auto; width: 100%;"></tbody>
+								</table>
+							</div>
 						</div>
-					</div>
-				
-					
-					<!-- 처방내용  -->
-					<div class="card-body" style="height: 400px;">
-						<div>
-						<!-- logo -->
-							<i class="fas fa-capsules"></i>
-							<!-- content -->
-							<span class="tit" style="font-weight: 600;">처방전</span>
+
+						<div class="card-body" style="height: 200px;">
+							<!-- Title -->
+							<div style="margin-top: 10px;">
+								<!-- logo -->
+								<div class="title_logo">
+									<i class="fas fa-pencil-alt"></i>
+
+									<!-- content -->
+									<span class="tit" style="font-weight: 600;">진단서</span>
+								</div>
+								<!-- 진단서작성 -->
+								<div style="overflow: auto; height: 350px;">
+									<table>
+										<thead>
+											<tr>
+												<th style="width: 300px;">상병명</th>
+												<th style="width: 400px;">상병상세</th>
+												<th style="width: 200px;">삭제</th>
+											</tr>
+										</thead>
+										<tbody id="insertDiagLast"></tbody>
+									</table>
+								</div>
+							</div>
 						</div>
-						
-						<!-- 처방전작성 -->
-						<div style="overflow: auto; height: 350px;">
-							<table style="table">
-								<thead>
-									<tr>
-										<th style="width: 400px;">약품명</th>
-										<th style="width: 200px;">용량</th>
-										<th style="width: 200px;">일수</th>
-										<th style="width: 200px;">일투</th>
-									</tr>
-								</thead>
-								<tbody id="insertMedicine"></tbody>
-							</table>
+
+						<div class="card-body" style="height: 200px;">
+							<!-- Title -->
+							<div>
+								<!-- logo -->
+								<div class="title_logo">
+									<i class="fas fa-pencil-alt"></i>
+
+									<!-- content -->
+									<span class="tit" style="font-weight: 600;">의사 소견</span>
+								</div>
+							</div>
+
+							<!--소견내용  -->
+							<div>
+								<textarea class="cont" id="patient_records" name="records"
+									style="width: 100%; height: 200px;">
+							</textarea>
+							</div>
 						</div>
-						
+
 					</div>
-				</div>
 				</form>
 			</div>
-			
+
+			<!-- 진료 4 -->
+			<div class="col-xl-3 col-md-6 mb-4" id="diag4">
+				<form id="insertMediList">
+					<!-- 처방 -->
+					<div class="card shadow py-2" style="height: 840px;">
+
+						<div style="height: 100px; padding: 20px;">
+
+							<!-- Title -->
+							<div class="title_logo">
+								<!-- logo -->
+								<i class="fas fa-capsules"></i>
+								<!-- content -->
+								<span class="tit" style="font-weight: 600;">약품</span>
+							</div>
+
+							<!-- 검색버튼 -->
+							<div style="margin: 0 0 10px 0 !important; width: 90%;">
+
+								<div class="input-group">
+									<input type="text" class="form-control border-0 small"
+										name=keyword4 id="keyword4" placeholder="약품검색"
+										aria-label="Search" aria-describedby="basic-addon2"
+										onkeypress="if(event.keyCode=='13'){event.preventDefault(); schm();}">
+									<div class="input-group-append">
+										<button class="btn btn-primary" type="button" id="schmedicine"
+											onclick="schm()">
+											<i class="fas fa-search fa-sm"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+						<!-- 약품리스트 -->
+						<div class="card-body"
+							style="overflow: auto; width: 100%; height: 200px;">
+							<div>
+								<table style="text-align: center;">
+									<thead>
+										<tr>
+											<th style="width: 100px;">약품코드</th>
+											<th>약품명</th>
+										</tr>
+									</thead>
+									<tbody id="schMedicineTd"></tbody>
+								</table>
+							</div>
+						</div>
+
+
+						<!-- 처방내용  -->
+						<div class="card-body" style="height: 400px;">
+							<div>
+								<!-- logo -->
+								<i class="fas fa-capsules"></i>
+								<!-- content -->
+								<span class="tit" style="font-weight: 600;">처방전</span>
+							</div>
+
+							<!-- 처방전작성 -->
+							<div style="overflow: auto; height: 350px;">
+								<table style="">
+									<thead>
+										<tr>
+											<th style="width: 400px;">약품명</th>
+											<th style="width: 200px;">용량</th>
+											<th style="width: 200px;">일수</th>
+											<th style="width: 200px;">일투</th>
+										</tr>
+									</thead>
+									<tbody id="insertMedicine"></tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</form>
+			</div>
+
 			<!-- 진료 5 -->
 			<div class="col-xl-5 col-md-6 mb-4" id="diag7">
 
@@ -1208,21 +1206,21 @@ div.dataTables_wrapper div.dataTables_paginate {
 						</div>
 					</div>
 					<!-- 예방접종기록 -->
-					<div class="card-body" style="height: 800px; overflow: auto;" >
+					<div class="card-body" style="height: 800px; overflow: auto;">
 						<table class="table">
-						 <thead>						
-							<tr>
-								<th style="width: 200px;">질병명</th>
-								<th style="width: 200px;">접종 백신명</th>
-								<th style="width: 200px;">백신 제품명</th>
-								<th style="width: 200px;">접종 일</th>
-							</tr>	
-						 </thead>
-						 <tbody id="getCheckHist"></tbody>
+							<thead>
+								<tr>
+									<th style="width: 200px;">질병명</th>
+									<th style="width: 200px;">접종 백신명</th>
+									<th style="width: 200px;">백신 제품명</th>
+									<th style="width: 200px;">접종 일</th>
+								</tr>
+							</thead>
+							<tbody id="getCheckHist"></tbody>
 						</table>
 					</div>
 				</div>
-				
+
 			</div>
 
 
@@ -1232,75 +1230,90 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 		</div>
 	</div>
-		<!-- 약품 insert Modal -->
-		<div class="modal fade" id="mediModal" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">처방전 약품 등록</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
+	<!-- 약품 insert Modal -->
+	<div class="modal fade" id="mediModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">처방전 약품 등록</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 					<div class="card" style="width: 30rem;">
 						<div class="card-body">
-							<span style="font-weight: 600;">약품 코드 :</span><input id="medi_no" style="padding: 5px; margin: 5px;" readonly/><br>
-							<span style="font-weight: 600;"> 약품 명 : </span><input type= "text" id="medi_name" style="padding: 5px; margin: 5px;" readonly/><br>
-							<span style="font-weight: 600;"> 약 갯수 :</span><input type= "text" id="pres_account" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">일 투여 횟수  :</span><input type= "text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">총 투여 일수  :</span><input type= "text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
-							<input type= "text" id="resv_no" style="display:none;">
+							<span style="font-weight: 600;">약품 코드 :</span><input id="medi_no"
+								style="padding: 5px; margin: 5px;" readonly /><br> <span
+								style="font-weight: 600;"> 약품 명 : </span><input type="text"
+								id="medi_name" style="padding: 5px; margin: 5px;" readonly /><br>
+							<span style="font-weight: 600;"> 약 갯수 :</span><input type="text"
+								id="pres_account" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">일 투여 횟수 :</span><input
+								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">총 투여 일수 :</span><input
+								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
+							<input type="text" id="resv_no" style="display: none;">
 						</div>
 					</div>
 				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="mediSave" name="mediSave" data-dismiss="modal">Save</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="mediSave"
+						name="mediSave" data-dismiss="modal">Save</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
-	
-		<!-- 약품 update delete Modal -->
-		<div class="modal fade" id="updatemediModal" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">처방전 약품 등록</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
+	</div>
+
+	<!-- 약품 update delete Modal -->
+	<div class="modal fade" id="updatemediModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">처방전 약품 등록</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 					<div class="card" style="width: 30rem;">
 						<div class="card-body">
-							<span style="font-weight: 600;">약품 코드 :</span><input id="medi_no" style="padding: 5px; margin: 5px;" readonly/><br>
-							<span style="font-weight: 600;"> 약품 명 : </span><input type= "text" id="medi_name" style="padding: 5px; margin: 5px;" readonly/><br>
-							<span style="font-weight: 600;"> 약 갯수 :</span><input type= "text" id="pres_account" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">일 투여 횟수  :</span><input type= "text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">총 투여 일수  :</span><input type= "text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
-							<input type="text" id="resv_no" style="display:none;">
-							<input type="text" id="pres_no" style="display:none;">
+							<span style="font-weight: 600;">약품 코드 :</span><input id="medi_no"
+								style="padding: 5px; margin: 5px;" readonly /><br> <span
+								style="font-weight: 600;"> 약품 명 : </span><input type="text"
+								id="medi_name" style="padding: 5px; margin: 5px;" readonly /><br>
+							<span style="font-weight: 600;"> 약 갯수 :</span><input type="text"
+								id="pres_account" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">일 투여 횟수 :</span><input
+								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
+							<span style="font-weight: 600;">총 투여 일수 :</span><input
+								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
+							<input type="text" id="resv_no" style="display: none;"> <input
+								type="text" id="pres_no" style="display: none;">
 						</div>
 					</div>
 				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="mediUpdate" name="mediUpdate" data-dismiss="modal">update</button>
-						<button type="button" class="btn btn-primary" id="mediDelete" name="mediDelete" data-dismiss="modal">delete</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="mediUpdate"
+						name="mediUpdate" data-dismiss="modal">update</button>
+					<button type="button" class="btn btn-primary" id="mediDelete"
+						name="mediDelete" data-dismiss="modal">delete</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
-	
-		<!-- 사진모달 -->
-		<div class="modal fade" id="imagesModal">
-		 <div class="modal-dialog" role="document">
+	</div>
+
+	<!-- 사진모달 -->
+	<div class="modal fade" id="imagesModal">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content" style="width: 550px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">환자 사진</h5>
@@ -1309,22 +1322,22 @@ div.dataTables_wrapper div.dataTables_paginate {
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>
-				
+
 				<div class="modal-body" style="min-height: 100px;">
-						<div id="lastImagesList"
-							style="max-height: 640px; overflow-y: auto; width: 100%;"></div>
-						<div class="modal-footer text-center"
-							style="justify-content: center !important;">
-							<!-- disabled -->
-							<button type="button" style="margin: 0 25px;" id="imgCBtn"
-								data-dismiss="modal">취소</button>
-						</div>
+					<div id="lastImagesList"
+						style="max-height: 640px; overflow-y: auto; width: 100%;"></div>
+					<div class="modal-footer text-center"
+						style="justify-content: center !important;">
+						<!-- disabled -->
+						<button type="button" style="margin: 0 25px;" id="imgCBtn"
+							data-dismiss="modal">취소</button>
+					</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>

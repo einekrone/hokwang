@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.service.DiagService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.CheckHistVO;
@@ -32,6 +33,7 @@ public class Diagcontroller {
 	@Autowired
 	DiagService diagDao;
 	@Autowired ResvmService resvmSvc;
+
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {
@@ -102,7 +104,7 @@ public class Diagcontroller {
 	//처방전 인설트
 	@ResponseBody
 	@RequestMapping("/ajax/insertPres")
-	public int insertPres(PrescriptionVO vo) {
+	public int insertPres(PrescriptionVO vo,AlertVO altVO) {
 	return diagDao.insertPres(vo);
 	}
 	

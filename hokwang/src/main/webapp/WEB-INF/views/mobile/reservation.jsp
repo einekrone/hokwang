@@ -27,7 +27,6 @@ td {
 	var today;
 	var chkTbArr;
 	$(function() {
-		console.log("param ::: "+'${param.resvBaby}');
 		d = new Date();
 
 		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)
@@ -304,9 +303,13 @@ td {
 			},
 			success : function(data) {
 				$.each(data, function(idx, item) {
-					$("#childSel").append(
-							$('<option>').attr("value", item.baby_no).html(
-									item.baby_name));
+					if(item.baby_no == "${param.resvBaby}") {
+						$("#childSel").append($('<option>').attr("value", item.baby_no).prop('selected', true).html(item.baby_name));
+						chgChild();
+						vacList();
+					} else {
+						$("#childSel").append($('<option>').attr("value", item.baby_no).html(item.baby_name));
+					}
 				});
 			}
 		});

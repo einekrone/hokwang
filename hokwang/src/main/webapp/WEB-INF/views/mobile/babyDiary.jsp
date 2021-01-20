@@ -86,6 +86,7 @@ ul.tabs li.current {
 	var today;
 	var oldtime;
 	var detailArr = [];
+	var babyNo;
 	function payment() {
 		location.href = "pay";
 	}
@@ -671,7 +672,7 @@ ul.tabs li.current {
 	}
 
 	function chgBaby() {//체인지 아기
-		var babyNo = $("#baby-name option:selected").val();
+		babyNo = $("#baby-name option:selected").val();
 		var babyNo2 = $("#baby-name option:selected").text();
 		console.log("아기 번호 : " + babyNo);
 		$.ajax({
@@ -907,7 +908,7 @@ function bodyDel(data){
 				<div style="align-self: center;">
 					<img id="babyImg" class="img-fluid rounded-circle mb-2" style="height:120px; width:120px;" />
 				</div>
-				<input type="button" class="card-title mb-0" value="예약하기" onClick="location.href='resv?type=R&resvBaby=1'">
+				<input type="button" class="card-title mb-0" value="예약하기" onClick="location.href='resv?type=R&resvBaby='+babyNo+''" />
 			</div>
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">

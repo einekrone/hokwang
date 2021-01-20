@@ -70,18 +70,16 @@ button {
 		var keyword = "";
 		var keyword2 = "";
 
-		resvList(searchType, keyword); // 전체 예약 환자
+		resvList("chkType", "today"); // 전체 예약 환자
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
 		imgSave(); // 이미지 등록
 		imgDelete(); // 이미지 삭제
 		roomList(); // 진료실 대기환자 목록
-
 		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
 
 		$("#imgChk").change(function() {
 			if ($(this).is(':checked')) {
-				console.log(">>checked");
 				$("input[id='imgChk']").prop("checked", true);
 			} else {
 				$("input[id='imgChk']").prop("checked", false);
@@ -92,9 +90,9 @@ button {
 			searchType = "chkType";
 			// 전체 예약 환자
 			if ($('.rsvTg').is(":checked")) {
-				keyword = "today";
-			} else {
 				keyword = "all";
+			} else {
+				keyword = "today";
 			}
 
 			// 수납 대기
@@ -127,7 +125,6 @@ button {
 		// 수납 대기 승인 -> 수납 완료
 		$("body").on("click", "#stRBtn2", function() {
 			var payNo = $(this).data("no");
-			console.log("수납 승인 버튼 : " + payNo);
 			// 1. 수납 상태를 완료로 수정
 			$.ajax({
 				url : 'ajax/payUpdate',
@@ -139,7 +136,6 @@ button {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log("payUpdate 성공");
 					// 2. 수납대기, 수납완료 목록 조회
 					nonPayList(searchType, keyword);
 					$(".modal-backdrop").hide();
@@ -157,17 +153,13 @@ button {
 	// 진료실 이동
 	function roomMove(resvNo) {
 		var offSel = $("#officeSel" + resvNo + " option:selected").val();
-		console.log("roomMove : " + resvNo);
-		console.log("change : " + offSel);
 		if (offSel != "-") {
-			console.log("진료실로 이동");
 			var tdArr = new Array();
 			var td = $(this).parent().siblings();
 
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-			console.log("resvNo : " + resvNo);
 			/* $('<tr>').append(
 					$(
 							'<td id="resvNo" value="'
@@ -187,7 +179,6 @@ button {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log("roomUpdate 성공");
 					// 2. 진료실 목록 조회
 					$("#room1").empty();
 					$("#room2").empty();
@@ -214,7 +205,6 @@ button {
 	}
 
 	function payInfoResult(data) {
-		console.log("payInfoResult : " + data.BABY_NAME);
 		$("#payInfo").empty();
 		$("#payInfo")
 				.append($('<p>').html('보호자 : ' + data.PARENT_NAME))
@@ -245,10 +235,8 @@ button {
 	}
 
 	function imgListResult(data) {
-		console.log("imgListResult");
 		$("#imgShow").empty();
 		$.each(data, function(idx, item) {
-			console.log("?? " + item.IMG_ADDR);
 			var img = document.createElement("img");
 			img.setAttribute("src",
 					"${pageContext.request.contextPath}/resources/img/"
@@ -270,7 +258,6 @@ button {
 			var formData = new FormData();
 			var inputFile = $('input[name="imgInput"]');
 			var files = inputFile[0].files;
-			console.log("files : " + files.length);
 			if (files.length > 0) {
 				for (var i = 0; i < files.length; i++) {
 					formData.append('imgInput', files[i]);
@@ -287,7 +274,6 @@ button {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("imgSave 성공");
 						$("#imgShow").empty();
 						imgList();
 						imgForm.reset();
@@ -302,16 +288,12 @@ button {
 			var chk = $('#imgForm input:checkbox').is(':checked');
 			var chk2 = $('input:checkbox[id="imgChk"]').length;
 			var chk3 = $('input:checkbox[id="imgChk"] :checked').length;
-			console.log("chk2 : " + chk2);
 
 			var delArr = new Array();
 
 			$('input[type="checkbox"]:checked').each(function(index) {
 				delArr.push($(this).val());
 			});
-			console.log("select : " + delArr);
-
-			console.log("chk3 : " + chk3);
 			//$('input:checkbox[id="imgChk"] :checked').each(function() { });
 			if (chk) { // true
 				$.ajax({
@@ -324,7 +306,6 @@ button {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("result : " + data);
 						if (data != 0) {
 							var chk = $("[id='imgChk']:checked");
 							for (var i = 0; i < chk.length; i++) {
@@ -417,7 +398,6 @@ button {
 
 	function roomListResult(data) {
 		// item.진료실번호 해서 각각 알맞은 곳에 출력
-		console.log("roomListResult");
 		$.each(data, function(idx, item) {
 
 			if (item.RESV_ROOM == 1) {
@@ -460,7 +440,6 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log(">>>> " + item.CHK_TYPE);
 							var date = item.RESV_DATETIME.substring(0, 10);
 							var d = new Date();
 							var today = d.getFullYear() + '-'
@@ -518,8 +497,6 @@ button {
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-
-			//console.log("예약번호 : " + td.eq(0).text());
 
 			$.ajax({
 				url : 'ajax/uniqInfo',
@@ -580,12 +557,10 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log("CHK_TYPE : " + item.CHK_TYPE);
 							var resvNo = "";
 							if (typeof item.RESV_NO != 'undefined') {
 								resvNo = item.RESV_NO;
 							}
-							//console.log("ph> " + item.IMG_ADDR);
 							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
 							$('<tr>').append($('<td>').html(item.RESV_NO))
 									.append($('<td>').html(item.RESV_DATE))
@@ -627,7 +602,6 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: " + regno2 + ", 이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(
@@ -649,7 +623,6 @@ button {
 		var files = event.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		filesArr.forEach(function(f) {
-			console.log(f.type);
 			if (f.type.match('image/JPEG') || f.type.match('image/PNG')
 					|| f.type.match('image/jpg')) {
 				alert("파일확장자를 바꿔주세요.");
@@ -673,7 +646,6 @@ button {
 	}
 
 	function cancle_pop() {
-		console.log("cancel_pop");
 		$("#stPopup").show();
 	}
 </script>
@@ -747,7 +719,7 @@ button {
 								class="font-weight-bold"
 								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span>
 								사전예약(R) | 방문예약(T)</span><span class="mb-0 font-weight-bold"
-								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
+								style="float: right; margin: 4px 0 0 5px;">전체</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>

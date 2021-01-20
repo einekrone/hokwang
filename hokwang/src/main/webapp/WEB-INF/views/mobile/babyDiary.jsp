@@ -1255,9 +1255,9 @@ function bodyDel(data){
 										class="form-check-label">예방 접종</span>
 									</label>
 								</div>
-								<div style="display: none;" id="resvTypeDiv">
+								<div style="display: none; margin:0 auto;" id="resvTypeDiv">
 									<select class="form-control mb-3" class="vacSel" id="vacSel"
-										name="chk_no" style="width: 250px; margin-left: 15%;">
+										name="chk_no" style="width: 250px;">
 										<option value="">접종항목</option>
 									</select>
 								</div>
@@ -1269,9 +1269,9 @@ function bodyDel(data){
 								<h5 class="card-title"
 									style="font-weight: bold; font-size: 15px;">예약 일시</h5>
 							</div>
-							<div class="card-body d-flex">
+							<div class="card-body d-flex" style="margin:0 auto;">
 								<input type="text" class="selector" placeholder="날짜를 선택하세요."
-									style="margin-left: 20%; text-align: center;" name="resv_date"
+									style="text-align: center;" name="resv_date"
 									class="" /> <a class="input-button" title="toggle" data-toggle><i
 									class="icon-calendar"></i></a>
 								<script type="text/javascript">

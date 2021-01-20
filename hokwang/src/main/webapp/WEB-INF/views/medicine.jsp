@@ -177,7 +177,16 @@
 			<!-- 왼쪽 칸 -->
 			<div class="col-xl-5.5 col-md-6 mb-4">
 				<div class="card shadow py-2" style="height: 800px;">
-					<table id="factory_table" class="table" style="margin-top: 5px;">
+					<div>
+						<select name='Key' id='Key' style="width: 150px; float: left; height: 30px; text-align: center; margin: 0 10px;">
+							<option value='선택' selected>--선택--</option>
+							<option value='company'>회사명</option>
+							<option value='product'>제품명</option>
+							<option value='page'>페이지 번호</option>
+						</select><input style="width: 300px; float: left;" type="text"
+							placeholder="검색어를 입력하시오" id='Val' name='Val'>
+					</div>
+					<table id="factory_table" class="table" style="margin-top: 10px;">
 						<colgroup>
 							<col width="30%" />
 							<col width="40%" />
@@ -202,23 +211,11 @@
 
 					</table>
 				</div>
-				<table>
-					<tr>
-						<td><select name='Key' id='Key'>
-								<option value='선택' selected>--선택--</option>
-								<option value='company'>회사명</option>
-								<option value='product'>제품명</option>
-								<option value='page'>페이지 번호</option>
-						</select><input style="width: 300px;" type="text" placeholder="검색어를 입력하시오"
-							id='Val' name='Val'></td>
-					</tr>
-				</table>
 			</div>
 			<!-- 오른쪽 칸 -->
 			<div class="col-xl-6.5 col-md-6 mb-4">
-				<div class="card shadow py-2" style="height: 800px;">
-					<p class="text-s font-weight-bold text-info" align="center">현재
-						사용중인 약품</p>
+				<div class="card shadow py-2" style="height: 800px; padding: 10px;">
+					<p class="text-s font-weight-bold text-info" align="center">현재 사용중인 약품</p>
 					<table id="use_table" class="table table-striped table-bordered"
 						style="width: 100%">
 						<thead align="center">

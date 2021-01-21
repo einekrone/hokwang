@@ -152,8 +152,8 @@
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;">
-						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;">
+						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;" onclick="location.href='resv?type=T'" >
+						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;" onclick="location.href='resv?type=R'" >
 					</div>
 					<div id="card2" class="card">
 						<input type="button" class="btn active" value="증명서 발급"

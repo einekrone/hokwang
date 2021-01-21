@@ -175,7 +175,8 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				url: 'ajax/resvDelete',
 				method:'post',
 				data: {
-					resv_no: resvNo
+					resv_no: resvNo,
+					baby_no: $("#baby_no").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);

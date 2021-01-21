@@ -52,7 +52,7 @@
 	position: absolute;
 	width: 110px;
 	height: 100%;
-	background: linear-gradient(to right, #ff105f, #ffad06);
+	background: #d6e9aa;
 	border-radius: 30px;
 	transition: .5s;
 }

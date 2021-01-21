@@ -31,12 +31,11 @@
 		parent_no=#{parent_no} and baby_no=#{baby_no}
 	</select>
 
-	<select id="unpayList" parameterType="resvervation" resultType="map">
-	  SELECT R.*, D.DIS_PRICE
-	  FROM RESERVATION R, DIAGNOSIS G , DISEASE D
-	  WHERE R.RESV_NO = G.RESV_NO
-	  AND G.DIS_CODE = D.DIS_CODE
-	  AND  R.RESV_NO = #{resv_no}
+	<select id="unpayList" resultType="map">
+	 	select *
+		from reservation
+		where
+		resv_no=#{resv_no}
 	</select>
 
 	<select id="allreser" resultType="map">

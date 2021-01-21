@@ -104,7 +104,7 @@ public class Diagcontroller {
 	//처방전 인설트
 	@ResponseBody
 	@RequestMapping("/ajax/insertPres")
-	public int insertPres(PrescriptionVO vo,AlertVO altVO) {
+	public int insertPres(PrescriptionVO vo) {
 	return diagDao.insertPres(vo);
 	}
 	

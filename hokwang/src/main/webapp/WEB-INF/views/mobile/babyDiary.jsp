@@ -504,8 +504,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log(data);
-
 					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
 					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
 					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
@@ -533,8 +531,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log(data);
-
 					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
 					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
 					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
@@ -609,71 +605,53 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 
 	function checkuphistResult(data) {
 		var text = "";
-		
+
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-				console.log("idx>>>" + idx);
-						$("<tr>").append(
-					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
-							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
-
-			if (item.HIST_STATE == "I") {
-				console.log(">> I " + idx + item.HIST_STATE);
-				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "N") {
-				console.log(">> N" + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "Y") {
-				console.log(">> 접종완료 " + idx + item.HIST_STATE);
-				text = "접종완료";
-				$("#hist_date"+idx).eq(-1)
-				.after(
-						'<td id="hist_state">' + text
-								+ '</td>');;
-			}
-
-		})/* end of ajax  */
-		var $item = $('#hist_state').on('click', function() {
-			  var idx = $(this).index();
-			  console.log("idx >>>>>>>>>>>>>>"+idx);
-			});
-	}
-	function checkuphistIncompleteResult(data) {
-		var text = "";
-
-		$("#checkupIncom").empty();
-		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
 			$("<tr>").append(
 					$("<td id='chk_name2' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
 					$("<td id='hist_date2" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkupIncom');
-
-			if (item.HIST_STATE == "I") {
-				//console.log(">> I " + idx + item.HIST_STATE);
-				text = "접종 중";
-				$("#hist_date2"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "N") {
-				//console.log(">> N" + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date2"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			}
-
+							item.CHK_FIRST)).append(
+									$("<td>").html(
+											item.CHK_DIS)).appendTo('#checkup');
 		})/* end of ajax  */
 		var $item = $('#hist_state').on('click', function() {
 			  var idx = $(this).index();
 			  console.log("idx >>>>>>>>>>>>>>"+idx);
 			});
 	}
+// 	function checkuphistIncompleteResult(data) {
+// 		var text = "";
+
+// 		$("#checkupIncom").empty();
+// 		$.each(data, function(idx, item) {
+// 			$("<tr>").append(
+// 					$("<td id='chk_name2' value= '"+item.CHK_NAME+"'>").html(
+// 							item.CHK_NAME)).append(
+// 					$("<td id='hist_date2" + idx+"'>").html(
+// 							item.CHK_FIRST)).append(
+// 									$("<td>").html(
+// 											item.CHK_DIS)).appendTo('#checkupIncom');
+
+// 			if (item.HIST_STATE == "I") {
+// 				//console.log(">> I " + idx + item.HIST_STATE);
+// 				text = "접종 중";
+// 				$("#hist_date2"+idx).eq(-1).after(
+// 						'<td id="hist_state">' + text + '</td>');
+// 			} else if (item.HIST_STATE == "N") {
+// 				//console.log(">> N" + idx + item.HIST_STATE);
+// 				text = "미접종";
+// 				$("#hist_date2"+idx).eq(-1).after(
+// 						'<td id="hist_state">' + text + '</td>');
+// 			}
+
+// 		})/* end of ajax  */
+// 		var $item = $('#hist_state').on('click', function() {
+// 			  var idx = $(this).index();
+// 			  console.log("idx >>>>>>>>>>>>>>"+idx);
+// 			});
+// 	}
 
 	function checkuphistCompleteResult(data) {
 		var text = "";
@@ -745,7 +723,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				console.log(data);
 				$.each(data, function(idx, item) {
 					$("#babyInfo").empty();
 
@@ -780,7 +757,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				reserlistResult(data.reserlist)
 				reserlistResult2(data.reserlist)
 				allreserResult(data.allreser)
-				console.log(data);
 			}
 		//만들어야함
 		});
@@ -797,8 +773,8 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data){
-				checkuphistResult(data.checkhistlist)
-				checkuphistIncompleteResult(data.checkhistIncom)
+				checkuphistResult(data.checkhistIncom)
+// 				checkuphistIncompleteResult(data.checkhistIncom)
 				checkuphistCompleteResult(data.checkCom)
 			}
 
@@ -893,7 +869,6 @@ function bodyDel(data){
 		var text = "";
 
 		$("#allreser").empty();
-		console.log(data);
 		$
 				.each(
 						data,
@@ -1099,9 +1074,9 @@ function bodyDel(data){
 									<ul class="nav nav-pills card-header-pills pull-right"
 										role="tablist">
 										<li class="nav-item"><a class="nav-link active"
-											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">전체</a></li>
-										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-2">미완료</a></li>
+											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">미완료</a></li>
+<!-- 										<li class="nav-item"><a class="nav-link active" -->
+<!-- 											data-toggle="tab" href="#tab-2">미완료</a></li> -->
 										<li class="nav-item"><a class="nav-link"
 											data-toggle="tab" href="#tab-3">접종완료</a></li>
 
@@ -1126,21 +1101,21 @@ function bodyDel(data){
 										</div>
 
 
-										<div class="tab-pane fade text-center" id="tab-2"
-											role="tabpanel">
-											<div style="height: 250px; overflow: auto;">
-											<table class="table text-center">
-												<thead>
-													<tr>
-														<th class="text-center">접종이름</th>
-														<th class="text-center">일시</th>
-														<th class="text-center">접종상태</th>
-													</tr>
-												</thead>
-												<tbody id="checkupIncom"></tbody>
-											</table>
-											</div>
-										</div>
+<!-- 										<div class="tab-pane fade text-center" id="tab-2" -->
+<!-- 											role="tabpanel"> -->
+<!-- 											<div style="height: 250px; overflow: auto;"> -->
+<!-- 											<table class="table text-center"> -->
+<!-- 												<thead> -->
+<!-- 													<tr> -->
+<!-- 														<th class="text-center">접종이름</th> -->
+<!-- 														<th class="text-center">최초접종시기</th> -->
+<!-- 														<th class="text-center">설명</th> -->
+<!-- 													</tr> -->
+<!-- 												</thead> -->
+<!-- 												<tbody id="checkupIncom"></tbody> -->
+<!-- 											</table> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
 
 										<div class="tab-pane fade text-center" id="tab-3"
 											role="tabpanel">

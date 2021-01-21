@@ -19,7 +19,7 @@ public class CheckHistListController {
 	@RequestMapping("/ajax/checkhist")
 	public Map<String,Object> checkHistlist(BabyVO vo){// 전체 접종 리스트
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("checkhistlist",service.checkHistlist(vo));
+//		map.put("checkhistlist",service.checkHistlist(vo));
 		map.put("checkhistIncom",service.checkHistlistIncomplete(vo));
 		map.put("checkCom",service.checkHistlistComplete(vo));
 		return map;//접종 

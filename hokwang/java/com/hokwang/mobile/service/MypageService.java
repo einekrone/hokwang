@@ -9,4 +9,5 @@ public interface MypageService {
 	public int updateparentinfo(ParentVO vo);
 	public int imgUpdate(ParentVO vo);
 	public int updatePw(ParentVO vo);
+	public ParentVO chkEmail(ParentVO vo);
 }

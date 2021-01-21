@@ -34,6 +34,11 @@ public class MypageServiceImpl implements MypageService {
 	public int updatePw(ParentVO vo) {
 		return dao.updatePw(vo);
 	}
+
+	@Override
+	public ParentVO chkEmail(ParentVO vo) {
+		return dao.chkEmail(vo);
+	}
 	
 	
 

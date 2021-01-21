@@ -35,6 +35,11 @@
 			where parent_no=#{parent_no}
 		
 	</update>
+	<!-- 이메일중복체크 -->
+	<select id="chkEmail" parameterType="parentVO"
+		resultType="parentVO">
+		select * from parent where parent_email = #{parent_email}
+	</select>
 	
 	
 	

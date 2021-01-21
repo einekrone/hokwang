@@ -21,7 +21,6 @@
 	<update id="updatebabyinfo" parameterType="babyVO">
 		update baby set baby_name=#{baby_name},
 						baby_regno1=#{baby_regno1},
-						baby_regno2=#{baby_regno2},
 						baby_gender=#{baby_gender},
 						baby_blood=#{baby_blood},
 						baby_pic=#{baby_pic}

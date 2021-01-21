@@ -75,6 +75,15 @@ public class MypagemController {
 		return false;
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/chkEmail")
+	public boolean chkEmail(ParentVO vo) {
+		if(dao.chkEmail(vo) == null) {
+			return true;
+		}
+		return false;
+	}
+	
 
 	
 	

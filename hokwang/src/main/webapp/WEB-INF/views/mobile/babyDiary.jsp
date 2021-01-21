@@ -158,8 +158,9 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 		//reserlist();
 		question1();
 		question2();
-		//chgBaby();
+		chgBaby();
 		babyList();
+		deleteInf();
 		
 		$("#cancelBtn").on("click", function() {
 			console.log("dddd");
@@ -175,7 +176,8 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				url: 'ajax/resvDelete',
 				method:'post',
 				data: {
-					resv_no: resvNo
+					resv_no: resvNo,
+					baby_no: $("#baby_no").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -418,6 +420,35 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 		}
 		$('input:radio[name="resv_time"][value="'+ oldtime + '"]').prop('checked', true);
 	}
+	
+	
+	function deleteInf(){
+	 	$('#bodyTable').on("click",'tr',function(){
+			console.log($(this).children().eq(0).val());
+			$.ajax({
+				url : 'ajax/deleteInf',
+				type : 'GET',
+				data : {
+					body_no : $(this).children().eq(0).val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data){
+					alert("삭제되었습니다");
+					chgBaby();
+					//location.href = "#tab-6";
+					
+					
+				}
+			});	
+			
+			
+				
+		}) 
+			
+	}
+	
 
 	// 등록된 예약 정보
 	function resvInfo() {
@@ -606,73 +637,55 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 		
 	}/* end of function */
 
-	function checkuphistResult(data) {
+function checkuphistResult(data) {
 		var text = "";
-		
+
 		$("#checkup").empty();
 		$.each(data, function(idx, item) {
-				console.log("idx>>>" + idx);
-						$("<tr>").append(
-					$("<td id='chk_name' value= '"+item.CHK_NAME+"'>").html(
-							item.CHK_NAME)).append(
-					$("<td id='hist_date" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkup');
-
-			if (item.HIST_STATE == "I") {
-				console.log(">> I " + idx + item.HIST_STATE);
-				text = "접종 중";
-				$("#hist_date"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "N") {
-				console.log(">> N" + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "Y") {
-				console.log(">> 접종완료 " + idx + item.HIST_STATE);
-				text = "접종완료";
-				$("#hist_date"+idx).eq(-1)
-				.after(
-						'<td id="hist_state">' + text
-								+ '</td>');;
-			}
-
-		})/* end of ajax  */
-		var $item = $('#hist_state').on('click', function() {
-			  var idx = $(this).index();
-			  console.log("idx >>>>>>>>>>>>>>"+idx);
-			});
-	}
-	function checkuphistIncompleteResult(data) {
-		var text = "";
-
-		$("#checkupIncom").empty();
-		$.each(data, function(idx, item) {
-			console.log("idx>>>" +idx);
 			$("<tr>").append(
 					$("<td id='chk_name2' value= '"+item.CHK_NAME+"'>").html(
 							item.CHK_NAME)).append(
 					$("<td id='hist_date2" + idx+"'>").html(
-							item.HIST_DATE)).appendTo('#checkupIncom');
-
-			if (item.HIST_STATE == "I") {
-				//console.log(">> I " + idx + item.HIST_STATE);
-				text = "접종 중";
-				$("#hist_date2"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			} else if (item.HIST_STATE == "N") {
-				//console.log(">> N" + idx + item.HIST_STATE);
-				text = "미접종";
-				$("#hist_date2"+idx).eq(-1).after(
-						'<td id="hist_state">' + text + '</td>');
-			}
-
+							item.CHK_FIRST)).append(
+									$("<td>").html(
+											item.CHK_DIS)).appendTo('#checkup');
 		})/* end of ajax  */
 		var $item = $('#hist_state').on('click', function() {
 			  var idx = $(this).index();
 			  console.log("idx >>>>>>>>>>>>>>"+idx);
 			});
 	}
+// 	function checkuphistIncompleteResult(data) {
+// 		var text = "";
+
+// 		$("#checkupIncom").empty();
+// 		$.each(data, function(idx, item) {
+// 			$("<tr>").append(
+// 					$("<td id='chk_name2' value= '"+item.CHK_NAME+"'>").html(
+// 							item.CHK_NAME)).append(
+// 					$("<td id='hist_date2" + idx+"'>").html(
+// 							item.CHK_FIRST)).append(
+// 									$("<td>").html(
+// 											item.CHK_DIS)).appendTo('#checkupIncom');
+
+// 			if (item.HIST_STATE == "I") {
+// 				//console.log(">> I " + idx + item.HIST_STATE);
+// 				text = "접종 중";
+// 				$("#hist_date2"+idx).eq(-1).after(
+// 						'<td id="hist_state">' + text + '</td>');
+// 			} else if (item.HIST_STATE == "N") {
+// 				//console.log(">> N" + idx + item.HIST_STATE);
+// 				text = "미접종";
+// 				$("#hist_date2"+idx).eq(-1).after(
+// 						'<td id="hist_state">' + text + '</td>');
+// 			}
+
+// 		})/* end of ajax  */
+// 		var $item = $('#hist_state').on('click', function() {
+// 			  var idx = $(this).index();
+// 			  console.log("idx >>>>>>>>>>>>>>"+idx);
+// 			});
+// 	}
 
 	function checkuphistCompleteResult(data) {
 		var text = "";
@@ -796,8 +809,8 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data){
-				checkuphistResult(data.checkhistlist)
-				checkuphistIncompleteResult(data.checkhistIncom)
+				checkuphistResult(data.checkhistIncom)
+// 				checkuphistIncompleteResult(data.checkhistIncom)
 				checkuphistCompleteResult(data.checkCom)
 			}
 
@@ -816,13 +829,12 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 			},
 			success : function(data){
 				$.each(data, function(idx, item) {
-					//console.log("ddddd"+item.body_no);
-					$('<tr id="body_no">')
-										.append($('<td id="body_no2" style="display:none">').html(item.body_no))
+										$('<tr>')
+										.append($('<input style="display:none">').val(item.body_no))
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-										.append($('<button class="btn btn-primary btn-sm" id="bodyDel">	<i class="fas fa-times"></i></button>'))
+										/* .append($('<button class="btn btn-primary btn-sm" id="bodyDel">	<i class="fas fa-times"></i></button>')) */
 										.appendTo('#bodyTable');
 					
 				});
@@ -1125,21 +1137,21 @@ function bodyDel(data){
 										</div>
 
 
-										<div class="tab-pane fade text-center" id="tab-2"
-											role="tabpanel">
-											<div style="height: 250px; overflow: auto;">
-											<table class="table text-center">
-												<thead>
-													<tr>
-														<th class="text-center">접종이름</th>
-														<th class="text-center">일시</th>
-														<th class="text-center">접종상태</th>
-													</tr>
-												</thead>
-												<tbody id="checkupIncom"></tbody>
-											</table>
-											</div>
-										</div>
+<!-- 										<div class="tab-pane fade text-center" id="tab-2" -->
+<!-- 											role="tabpanel"> -->
+<!-- 											<div style="height: 250px; overflow: auto;"> -->
+<!-- 											<table class="table text-center"> -->
+<!-- 												<thead> -->
+<!-- 													<tr> -->
+<!-- 														<th class="text-center">접종이름</th> -->
+<!-- 														<th class="text-center">최초접종시기</th> -->
+<!-- 														<th class="text-center">설명</th> -->
+<!-- 													</tr> -->
+<!-- 												</thead> -->
+<!-- 												<tbody id="checkupIncom"></tbody> -->
+<!-- 											</table> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
 
 										<div class="tab-pane fade text-center" id="tab-3"
 											role="tabpanel">
@@ -1168,7 +1180,7 @@ function bodyDel(data){
 											<th class="text-center">등록일시</th>
 											<th class="text-center">키</th>
 											<th class="text-center">몸무게</th>
-											<th class="text-center">    </th>
+											<!-- <th class="text-center">    </th> -->
 										</tr>
 <!-- 										<tr>
 											<th class="text-center">21-01-18</th>

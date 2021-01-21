@@ -31,7 +31,7 @@
 		parent_no=#{parent_no} and baby_no=#{baby_no}
 	</select>
 
-	<select id="unpayList" resultType="map">
+	<select id="unpayList" resultType="reservation">
 	 	select *
 		from reservation
 		where
@@ -72,8 +72,8 @@
 		baby_no=#{baby_no}
 		ORDER BY TEMP_DATE DESC
 	</select>
-	<delete id="bodyDel" parameterType="BodyVO">
-		DELETE FROM BodyInfo
-		WHERE Body_NO = #{Body_no}
+	<delete id="bodyDel" parameterType="bodyVO">
+		DELETE FROM BODYINFO
+		WHERE body_no = #{body_no}
 	</delete>
 </mapper>

@@ -90,8 +90,11 @@ public class BabyDiaryController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/ajax/bodyDel")
+	@RequestMapping("/ajax/deleteInf")
 	public int bodyDel(BodyVO vo) {
 		return service.bodyDel(vo);
 	}
+	
+
+	
 }

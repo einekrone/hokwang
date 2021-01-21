@@ -6,30 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.container {
-    margin-top: 10px;
-}
 
-.nav-tabs > li {
-    position:relative;    
-}
-
-.nav-tabs > li > a {
-    display:inline-block;
-}
-
-.nav-tabs > li > span {
-    display:none;
-    cursor:pointer;
-    position:absolute;
-    right: 6px;
-    top: 8px;
-    color: red;
-}
-
-.nav-tabs > li:hover > span {
-    display: inline-block;
-}
 </style>
 <script type="text/javascript">
 $(function() {
@@ -114,14 +91,15 @@ function selectBabyResult(data){
 					.append($('<div>').attr('class','card')
 						.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 						.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
-						.append($("<p>").attr("id",'doc_price').html("질병 : " +item.DIS_NAME))
+						.append($("<p>").attr("id",'doc_price').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
 						.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
-						.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px"))
+						.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px").attr("onclick","location.href='doc2'"))
 						.append($('<input min=1 max=5>').attr("type",'number').attr("id","doc_print").attr("style","width:80px")))
 	
 	)
 	});
 }
+function bs(){}
 </script>
 </head>
 <body>
@@ -135,16 +113,5 @@ function selectBabyResult(data){
 	</div>
 	<div class="row" id="docBody"></div>
 	
-	<div class="container">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#contact_01" data-toggle="tab">Joe Smith</a><span>x</span></li>
-        <li><a href="#contact_02" data-toggle="tab">Molly Lewis</a><span>x</span> </li>
-        <li><a href="#" class="add-contact" data-toggle="tab">+ Add Contact</a></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="contact_01">Contact Form: Joe Smith</div>
-        <div class="tab-pane" id="contact_02">Contact Form: Molly Lewis</div>
-    </div>
-</div>
 </body>
 </html>

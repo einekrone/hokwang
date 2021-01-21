@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.mobile.service.DocService;
 import com.hokwang.vo.BabyVO;
@@ -16,17 +18,24 @@ public class DocController {
 	@Autowired
 	DocService service;
 
+	@RequestMapping(value = "/doc2")
+	public ModelAndView createForm(Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("mobile/doc");
+		return mav;
+	}
+
 	@ResponseBody
 	@RequestMapping("/ajax/babyLists")
-	public List<BabyVO> babyLists(BabyVO vo){
-		
-		return service.babyLists(vo);//셀렉트박스 리스트
+	public List<BabyVO> babyLists(BabyVO vo) {
+
+		return service.babyLists(vo);// 셀렉트박스 리스트
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/ajax/selectBaby")
-	public List<Map<String,Object>> selectBaby(BabyVO vo){
-		
-		return service.selectBaby(vo);//체인지아기
+	public List<Map<String, Object>> selectBaby(BabyVO vo) {
+
+		return service.selectBaby(vo);// 체인지아기
 	}
 }

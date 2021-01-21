@@ -130,7 +130,8 @@ button {
 				url : 'ajax/payUpdate',
 				type : 'POST',
 				data : {
-					pay_no : payNo
+					pay_no : payNo,
+					baby_no : $("#nonBabyNo").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -168,12 +169,16 @@ button {
 					$('<td>').html(td.eq(2).text())).appendTo(
 					'#room' + offSel); */// todo 올바르게 됐는지 확인
 			// 진료실 변경사항 db
+			console.log("resvNo : "+resvNo);
+			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1).text();
+			console.log("!!!!!!!!! "+roomBabyNo);
 			$.ajax({
 				url : 'ajax/roomUpdate',
 				type : 'POST',
 				data : {
 					resv_no : resvNo,
-					resv_room : offSel
+					resv_room : offSel,
+					baby_no : roomBabyNo
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -368,7 +373,7 @@ button {
 												$('<td id="price'+idx+'">')
 														.html(item.PAY_PRICE))
 										.append(
-												$('<td style="display:none;">')
+												$('<td style="display:none;" id="nonBabyNo">')
 														.html(item.BABY_NO))
 										.appendTo('#nonPayList');
 
@@ -402,19 +407,22 @@ button {
 
 			if (item.RESV_ROOM == 1) {
 				$('<tr>').append(
-						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
-								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
+								.append($('<td>').html(item.BABY_NAME))
+								.append($('<td style="display:none;">').html(item.BABY_NO))
+								.appendTo('#room1');
 			} else if (item.RESV_ROOM == 2) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
+						$('<td>').html(item.BABY_NAME))
+						.append($('<td style="display:none;">').html(item.BABY_NO)).appendTo('#room2');
 			} else if (item.RESV_ROOM == 3) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room3');
+						$('<td>').html(item.BABY_NAME))
+						.append($('<td style="display:none;">').html(item.BABY_NO)).appendTo('#room3');
 			}
 		});
 	}
@@ -451,13 +459,10 @@ button {
 											$(
 													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
+									.append($('<td style="display:none;">').html(item.BABY_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
-									.append(
-											$('<td id="regno'+idx+'">').html(
-													item.BABY_REGNO1)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
+									.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
 									.appendTo('#resvList');
 
 							if (item.CHK_TYPE == "V") { // 예방접종

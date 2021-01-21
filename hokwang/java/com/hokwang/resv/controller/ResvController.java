@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.service.ResvService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.Images;
 import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.QuestionVO;
@@ -27,6 +29,8 @@ import com.hokwang.vo.ResvSearch;
 public class ResvController {
 	@Autowired
 	ResvService resvSvc;
+	@Autowired
+	ResvmService resvmSvc;
 
 	// 페이지 이동
 	@RequestMapping("/resve")
@@ -128,10 +132,16 @@ public class ResvController {
 		return resvSvc.payUpdate(vo);
 	}
 
-	// 진료실 수정
+	// 진료실 배치
 	@ResponseBody
 	@RequestMapping("/ajax/roomUpdate")
-	public int roomUpdate(Reservation vo) {
-		return resvSvc.roomUpdate(vo);
+	public int roomUpdate(Reservation vo, AlertVO altVO) {
+		resvSvc.roomUpdate(vo);
+		altVO.setBaby_no(vo.getBaby_no());
+		altVO.setAlert_title("진료실"+vo.getResv_room()+" 배정");
+		String alertCont = vo.getResv_room() +" 진료실 배정되었습니다.";
+		altVO.setAlert_cont(alertCont);
+		altVO.setAlert_send("호광병원");
+		return resvmSvc.alertInsert(altVO);
 	}
 }

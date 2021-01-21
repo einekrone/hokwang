@@ -43,6 +43,12 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -190,7 +196,7 @@
 			<version>5.0.8.RELEASE</version>
 		</dependency>
 
-        	
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>

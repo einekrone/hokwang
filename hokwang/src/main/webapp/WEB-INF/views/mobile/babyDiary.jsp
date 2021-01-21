@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>HOHO</title>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script><!-- 청일 -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -534,8 +534,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log(data);
-
 					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
 					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
 					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
@@ -563,8 +561,6 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log(data);
-
 					modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
 					modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
 					modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
@@ -757,7 +753,6 @@ function checkuphistResult(data) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(data) {
-				console.log(data);
 				$.each(data, function(idx, item) {
 					$("#babyInfo").empty();
 
@@ -792,7 +787,6 @@ function checkuphistResult(data) {
 				reserlistResult(data.reserlist)
 				reserlistResult2(data.reserlist)
 				allreserResult(data.allreser)
-				console.log(data);
 			}
 		//만들어야함
 		});
@@ -904,7 +898,6 @@ function bodyDel(data){
 		var text = "";
 
 		$("#allreser").empty();
-		console.log(data);
 		$
 				.each(
 						data,
@@ -1110,9 +1103,9 @@ function bodyDel(data){
 									<ul class="nav nav-pills card-header-pills pull-right"
 										role="tablist">
 										<li class="nav-item"><a class="nav-link active"
-											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">전체</a></li>
-										<li class="nav-item"><a class="nav-link"
-											data-toggle="tab" href="#tab-2">미완료</a></li>
+											data-toggle="tab" href="#tab-1" style="margin-left: -4rem">미완료</a></li>
+<!-- 										<li class="nav-item"><a class="nav-link active" -->
+<!-- 											data-toggle="tab" href="#tab-2">미완료</a></li> -->
 										<li class="nav-item"><a class="nav-link"
 											data-toggle="tab" href="#tab-3">접종완료</a></li>
 

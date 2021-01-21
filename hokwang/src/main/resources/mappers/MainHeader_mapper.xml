@@ -82,6 +82,7 @@
 		p.PARENT_NO = b.PARENT_NO and
 		p.parent_no = #{parent_no} and
 		to_char(a.ALERT_DATE,'YY/MM/DD')=to_char(SYSDATE,'YY/MM/DD')
+		order by a.alert_no
 	</select>
 
 	<delete id="deleteAlert" parameterType="alertVO">

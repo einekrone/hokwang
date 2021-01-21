@@ -21,10 +21,10 @@ public class DocController {
 	@RequestMapping(value = "/doc2")
 	public ModelAndView createForm(Model model) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mobile/doc");
+		mav.setViewName("mobile/doc");//여기선 결제로 넘어거야함
 		return mav;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping("/ajax/babyLists")
 	public List<BabyVO> babyLists(BabyVO vo) {

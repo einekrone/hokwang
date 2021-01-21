@@ -298,9 +298,9 @@
 				}
 			});
 			dialog.dialog("close");
-
+			location.reload(true);
 		});
-		calendar.refetch();
+		
 	</script>
 </body>
 </html>

@@ -9,15 +9,11 @@
 		where parent_no = #{parent_no}
 	</select>
 
-	<update id="updateparentInfo" parameterType="ParentVO">
+	<update id="updateparentinfo" parameterType="ParentVO">
 		update parent set parent_name=#{parent_name},
 						parent_tel=#{parent_tel},
 						parent_addr=#{parent_addr},
-						parent_addrdetail=#{parent_addrdetail},
-						parent_addrextra=#{parent_addextra},
-						parent_post=#{parent_post},
 						parent_email=#{parent_email}
-						
 		where parent_no = #{parent_no}
 	</update>
 	<update id="imgUpdate" parameterType="ParentVO">

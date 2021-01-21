@@ -24,6 +24,9 @@
 div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
 }
+.diagActive{
+background-color: red;
+}
 </style>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -38,7 +41,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 		var dis_name =""; //질병이름
 		var dis_comm = ""; //질병상세
 		var pay_price = ""; //질병 가격
-		
+		var curresv_no ="";
 		var resv_no = ""; //예약번호
 		var chk_type = ""; //진료타입
 		var chk_no = "";
@@ -254,11 +257,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
 			},
 			success : function(){
-				$("#diag3").attr("disable", true);
-				$("#diag4").attr("disable", true);
-				$("#diag5").attr("disable", true);
-				$("#diag6").attr("disable", true);
-				$("#diag7").attr("disable", true);
+				$("#diag3").css("display", "none");
+				$("#diag4").css("display", "none");
+				$("#diag5").css("display", "none");
+				$("#diag7").css("display", "none");
 				$(".diagMenu").hide();
 			}
 		});
@@ -695,8 +697,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 	// 환자목록 클릭 시 진료기록 목록 출력
 	function resvHstList() {
+		$("body").off("click")
 		$("body").on("click", "#waitList tr", function() {
-
+			
+			
+			curresv_no = $(".diagActive").html();
+			console.log("현재 예약번호 입니다"+ curresv_no);
 			var tdArr = new Array();
 			var td = $(this).children();
 
@@ -707,6 +713,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 			resv_no = td.eq(0).text();
 			chk_type = td.eq(3).text();
 			baby_no = td.eq(4).text();
+			
+			
 			console.log("변수 예약번호 콘솔 :" +resv_no);
 			console.log("변수 아기번호 콘솔 :" +baby_no);
 			console.log("진료타입 : " + td.eq(3).text());
@@ -735,7 +743,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 				},
 				success : InfoResult
 			});
-			if (confirm('진료를 시작하시겠습니까?')) {
+			if (curresv_no == null){ 
+				if(confirm('진료를 시작하시겠습니까?')){
+				$(".diagActive").removeClass("diagActive");
+				$(event.target).parent().find("td").eq(0).addClass("diagActive");
 			$.ajax({
 				url : 'ajax/UpdateDiagStatus',
 				data : {
@@ -758,13 +769,20 @@ div.dataTables_wrapper div.dataTables_paginate {
 						getInjection();
 						getCheckHist();
 					}
-
 				}
 			});
 			alert('진료를 시작합니다.')
 		}else{
 			alert('진료를 시작을 취소합니다.')
 		}
+			}else if(curresv_no != resv_no){
+				if(confirm('진료를 종료하시겠습니까?')){
+					diagEndInsert();
+					alert('진료를 종료합니다.')
+				}else{
+					alert('진료를 종료를 취소합니다.')
+				}
+			}
 		});
 	}
 
@@ -1040,7 +1058,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			</div>
 
 			<!-- 진료 3 -->
-			<div class="col-xl-3 col-md-6 mb-4" id="diag3">
+			<div class="col-xl-3 col-md-6 mb-4" id="diag3" >
 				<form id="insertDiagList">
 					<!-- 외래기록 -->
 					<div class="card shadow py-2" style="height: 840px;">
@@ -1130,8 +1148,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<!--소견내용  -->
 							<div>
 								<textarea class="cont" id="patient_records" name="records"
-									style="width: 100%; height: 200px;">
-							</textarea>
+									style="width: 100%; height: 200px;"></textarea>
 							</div>
 						</div>
 
@@ -1254,11 +1271,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 			</div>
 
-
-
-
-
-
 		</div>
 	</div>
 	<!-- 약품 insert Modal -->
@@ -1280,11 +1292,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 								style="padding: 5px; margin: 5px;" readonly /><br> <span
 								style="font-weight: 600;"> 약품 명 : </span><input type="text"
 								id="medi_name" style="padding: 5px; margin: 5px;" readonly /><br>
-							<span style="font-weight: 600;"> 약 갯수 :</span><input type="text"
+							<span style="font-weight: 600;">1회 투여량 :</span><input type="text"
 								id="pres_account" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">일 투여 횟수 :</span><input
+							<span style="font-weight: 600;">1일  투여횟수 :</span><input
 								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">총 투여 일수 :</span><input
+							<span style="font-weight: 600;">총 투약일수 :</span><input
 								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
 							<input type="text" id="resv_no" style="display: none;">
 						</div>
@@ -1319,11 +1331,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 								style="padding: 5px; margin: 5px;" readonly /><br> <span
 								style="font-weight: 600;"> 약품 명 : </span><input type="text"
 								id="medi_name" style="padding: 5px; margin: 5px;" readonly /><br>
-							<span style="font-weight: 600;"> 약 갯수 :</span><input type="text"
+							<span style="font-weight: 600;"> 1회 투여량 :</span><input type="text"
 								id="pres_account" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">일 투여 횟수 :</span><input
+							<span style="font-weight: 600;">1일  투여횟수 :</span><input
 								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
-							<span style="font-weight: 600;">총 투여 일수 :</span><input
+							<span style="font-weight: 600;">총 투약일수 :</span><input
 								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
 							<input type="text" id="resv_no" style="display: none;"> <input
 								type="text" id="pres_no" style="display: none;">

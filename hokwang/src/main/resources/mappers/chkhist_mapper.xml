@@ -15,16 +15,18 @@
 		</where>
 	</select>
 
+	<!-- 미접종 -->
 	<select id="checkHistlistIncomplete" resultType="map">
-		select b.chk_name as chk_name,TO_CHAR(a.hist_date,'YYYY-MM-DD') as HIST_DATE,a.hist_state
-		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
-		CHECKHIST
-		a, CHECKUP b,reservation c,baby d
+		SELECT * FROM CHECKUP
 		<where>
-			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
-			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='N'
-			 ORDER BY a.hist_date
+			<if test="baby_no != null and baby_no != ''">
+				CHK_NO NOT IN(SELECT H.CHK_NO
+				FROM CHECKHIST H,
+				RESERVATION R
+				WHERE R.BABY_NO = #{baby_no})
+			</if>
 		</where>
+		ORDER BY CHK_NO
 	</select>
 	
 	<select id="checkHistlistComplete" resultType="map">

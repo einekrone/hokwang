@@ -73,6 +73,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 		$("#prePhoto").on('click',function(){
 			getImages();
 		})
+		$("#prescript").on('click',function(){
+			getQuestionInfo();
+		})
 	});
 	function openPrescript(){
 		window.open("${pageContext.request.contextPath}/Prescript.jsp", "문진표", "width=1500, height=900");
@@ -85,12 +88,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 		$("#diag7").css("display","none");
 	}
 	
+	//이미지
 	function getImages() {
 			$.ajax({
 				url : 'ajax/getImages',
 				type : 'GET',
 				data : {
-					resv_no : resv_no
+					qust_no : resv_no
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -111,6 +115,32 @@ div.dataTables_wrapper div.dataTables_paginate {
 			document.querySelector("#lastImagesList").appendChild(img);
 		});
 	}
+	
+	function getQuestionInfo() {
+		var modal = $('#getQuestionInfo')
+		
+		$.ajax({
+		url : "ajax/getQuestionInfo",
+		type : "GET",
+		dataType : "JSON",
+		data : {
+			nresv_no : resv_no
+		},
+		error : function(xhr, status, msg) {
+			alert("상태값 :" + status + " Http에러메시지 :" + msg);
+		},
+		success : function(data) {
+			console.log(data);
+
+			modal.find($('input[name=Ra1]')).val([ data[0].a1 ]);
+			modal.find($('input[name=Ra2]')).val([ data[0].a2 ]);
+			modal.find($('input[name=Ra3]')).val([ data[0].a3 ]);
+			modal.find($('input[name=Ra4]')).val([ data[0].a4 ]);
+			//modal.modal('show');
+		}
+	});
+} 
+	
 	
 	
 	 //약품 인설트
@@ -580,7 +610,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			//contentType:'application/json;charset=utf-8',
 			dataType : 'json',
 			data : {
-				emp_room : ${emp_vo.emp_room}
+				emp_room : "${emp_vo.emp_room}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -772,7 +802,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 			dataType : 'json',
 			data : {
 				resv_no : resv_no,
-				emp_no : ${emp_vo.emp_no}
+				emp_no : "${emp_vo.emp_no}"
 			},
 			error : function(xhr, status, msg) {
 				alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -797,6 +827,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 					 	   .appendTo('#injection');
 	}
 
+	
 </script>
 </head>
 <body>
@@ -1337,6 +1368,71 @@ div.dataTables_wrapper div.dataTables_paginate {
 			</div>
 		</div>
 	</div>
+
+<!-- 문진표 모달 -->
+	<div class="modal fade" id="getQuestionInfo">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">사전 문진표</h5>
+				</div>
+				<div class="modal-body">
+					<table style="width: 100%; display: block;" border="1">
+						<tr>
+							<td style="width: 10%">1</td>
+							<td>눈을 잘 맞추지 못하거나 눈동자가 흔들립니까?</td>
+							<td style="width: 35%"><label class="form-check"> <input
+									id="ra1" name="Ra1" type="radio" class="form-check-input"
+									value="Y"> <span class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra1" id="ra1"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>검은 눈동자(동공)가 혼탁합니까?</td>
+							<td><label class="form-check"> <input name="Ra2"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra2"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>정면(앞에 있는 사물)을 볼 때 늘 얼굴을 돌려 옆으로 쳐다보거나 고개를 기울이고 보는 편 입니까?</td>
+							<td><label class="form-check"> <input name="Ra3"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra3"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>책/TV/물건 등에 너무 가까이 다가가서 보거나 찡그리고 봅니까?</td>
+							<td><label class="form-check"> <input name="Ra4"
+									type="radio" class="form-check-input" value="Y"> <span
+									class="form-check-label">예</span>
+							</label> <label class="form-check"> <input name="Ra4"
+									type="radio" class="form-check-input" value="N"> <span
+									class="form-check-label">아니오</span>
+							</label></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal">확인
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 
 </body>

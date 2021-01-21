@@ -241,5 +241,12 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
-	
+	<select id="getQuestionInfo" resultType="QuestionVO" >
+		SELECT * FROM QUESTION
+		<where>
+			<if test="qust_no != null and qust_no != ''">
+				QUST_NO=#{qust_no}
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -25,6 +25,7 @@ import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -177,10 +178,19 @@ public class Diagcontroller {
 	  return diagDao.insertPayment(vo); 
 	  }
 	  
-	  // 진료 사진 관리(조회)
-		@ResponseBody
-		@RequestMapping("/ajax/getImages")
-		public List<Map<String, Object>> getImages(Images vo) {
-			return diagDao.getImages(vo);
-		}
+	 // 진료 사진 조회
+	@ResponseBody
+	@RequestMapping("/ajax/getImages")
+	public List<Map<String, Object>> getImages(Images vo) {
+	return diagDao.getImages(vo);
+	}
+		
+	// 진료 사전 문진표 조회
+	@ResponseBody
+	@RequestMapping("/ajax/getQuestionInfo")
+	public List<QuestionVO> getQuestionInfo(QuestionVO vo) {
+		return diagDao.getQuestionInfo(vo);
+	}
+		
+		
 }

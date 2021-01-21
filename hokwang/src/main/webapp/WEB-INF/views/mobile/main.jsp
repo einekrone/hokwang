@@ -21,7 +21,6 @@
 	rel="stylesheet">
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH21zH92cL76dalhNG4zwZXPIXsVwT738"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoJ9w0RDm18tB_UGtTqivSXgA7ng3WqNU&callback=initialize"></script>
 <style>
 #card1 {
 	width: 180px;

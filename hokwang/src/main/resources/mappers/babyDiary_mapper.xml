@@ -31,7 +31,7 @@
 		parent_no=#{parent_no} and baby_no=#{baby_no}
 	</select>
 
-	<select id="unpayList" resultType="map">
+	<select id="unpayList" resultType="reservation">
 	 	select *
 		from reservation
 		where

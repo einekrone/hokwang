@@ -34,9 +34,11 @@ public class MypagemController {
 	@ResponseBody
 	@RequestMapping("/updateparentinfo")
 	public ModelAndView updateparentinfo(HttpSession session,HttpServletRequest request, ParentVO vo) throws IllegalStateException, IOException {
+		System.out.println(session.getAttribute("parent_vo"));
 		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
+		
 			
-		System.out.println(vo);
+		System.out.println("부모수정"+vo);
 		dao.updateparentinfo(vo);
 		return new ModelAndView("redirect:/mmypage");
 	}
@@ -44,6 +46,8 @@ public class MypagemController {
 	@ResponseBody
 	@RequestMapping("/ajax/imgUpdate")
 	public int imgUpdate(HttpSession session,HttpServletRequest request, ParentVO vo) throws IllegalStateException, IOException {
+		System.out.println("맛잇나광호야"+session.getAttribute("parent_vo"));
+		System.out.println("vo값이 넘어오나?"+vo);
 		vo.setParent_no(((ParentVO)session.getAttribute("parent_vo")).getParent_no());
 		// request multipart로 캐스팅
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;

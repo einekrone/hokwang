@@ -42,4 +42,8 @@ public class MobileController {
 		model.addAttribute("resvType", type);
 		return "mobile/reservation";
 	}
+	@RequestMapping(value = "/popup")
+	public String popup() {
+		return "mobile/popup";
+	}
 }

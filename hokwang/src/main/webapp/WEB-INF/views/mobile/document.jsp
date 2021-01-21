@@ -24,9 +24,9 @@ function payment() {
 	var IMP = window.IMP; // 생략가능
 	IMP.init('imp59405263');
 	
-	$(document).on("click","#pay_doc",function(){
+	$(document).on("click","#pay_doc",function(e){
 	var vv=$(this).next().text()
-	
+	e.stopImmediatePropagation() 
 	IMP.request_pay({
 	    pg : 'html5_inicis',
 	    pay_method : 'card',

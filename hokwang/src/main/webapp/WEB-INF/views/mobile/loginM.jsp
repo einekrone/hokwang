@@ -24,7 +24,6 @@
 	width: 380px;
 	height: 800px;
 	position: relative;
-	margin: 6% auto;
 	background: #fff;
 	padding: 5px;
 	overflow: hidden;
@@ -285,8 +284,8 @@ span {
 		});
 	}
 </script>
-<div class="wrap">
-	<div class="form-wrap">
+<div class="wrap" style="height: 550px; margin-bottom: 10px;">
+	<div class="form-wrap" style="height: 100%;">
 		<div class="button-wrap">
 			<div id="btn"></div>
 			<button type="button" class="togglebtn" onclick="login()">
@@ -304,10 +303,10 @@ span {
 				name="idInput" required /> <input type="password"
 				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
 				required /> <br> <br> <br> <br> <input
-				type="button" class="submit" id="btnIn" name="btnIn" value="로그인" />
+				type="button" class="submit" id="btnIn" name="btnIn" value="로그인" style="border-radius: 15px; background-color: #96dfd8; color: white; margin: 0 auto;" />
 		</form>
 		<form id="register" action="" class="input-group"
-			style="left: 50px; overflow: auto; height: 400px;">
+			style="left: 50px; overflow: auto; height: 350px;">
 			<input type="text" class="input-fieldbtn" placeholder="id" id="id"
 				name="id" /> <input type="button" class="btn btn-secondary"
 				value="중복검사" id="overLapId" name="overLapId"> <input
@@ -329,7 +328,7 @@ span {
 				class="input-field" id="sample3_detailAddress" placeholder="상세주소">
 			<input type="text" class="input-field" id="sample3_extraAddress"
 				placeholder="참고항목"> <input type="button" class="submit"
-				id="btnRegister" name="btnRegister" value="등록" />
+				id="btnRegister" name="btnRegister" value="등록" style="border-radius: 15px; background-color: #96dfd8; color: white; margin: 0 auto;" />
 		</form>
 	</div>
 </div>

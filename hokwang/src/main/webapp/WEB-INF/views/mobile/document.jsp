@@ -81,6 +81,13 @@ function babyList() {//셀렉트박스 리스트
 		}
 	});
 }
+function clickDoc(){
+	$("#pay_doc").on("click",function(){
+		var vv=$(this).next().text()
+		location.href="doc?vv=" + vv
+	})
+	
+}
 
 function selectBabyResult(data){
 	$("#docBody").empty();
@@ -93,7 +100,8 @@ function selectBabyResult(data){
 						.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 						.append($("<p>").attr("id",'doc_price').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
 						.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
-						.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px").attr("onclick","location.href='doc2'"))
+						.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px").attr("onclick","location.href='doc2?'"))
+						.append($("<input>").attr("id",'doc_price').attr("type","hidden").html(item.RESV_NO))
 						.append($('<input min=1 max=5>').attr("type",'number').attr("id","doc_print").attr("style","width:80px")))
 	
 	)

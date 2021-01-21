@@ -1422,7 +1422,7 @@
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
 								<textarea class="form-control" id="message-text3"
-									name="message-text3"></textarea>
+									name="message-text3" readonly></textarea>
 							</div>
 						</form>
 					</div>

@@ -112,7 +112,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 					</ol>
-					<input type="button" class="btn btn-m" style="background-color: #b6e3e9;"
+					<input type="button" class="btn btn-m" style="background-color: #b6e3e9; ㄴㄴcolor:gray;"
 						value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
 				</nav>
 			</div>

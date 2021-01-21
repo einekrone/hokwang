@@ -169,13 +169,16 @@ button {
 					$('<td>').html(td.eq(2).text())).appendTo(
 					'#room' + offSel); */// todo 올바르게 됐는지 확인
 			// 진료실 변경사항 db
+			console.log("resvNo : "+resvNo);
+			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1).text();
+			console.log("!!!!!!!!! "+roomBabyNo);
 			$.ajax({
 				url : 'ajax/roomUpdate',
 				type : 'POST',
 				data : {
 					resv_no : resvNo,
 					resv_room : offSel,
-					baby_no : td.eq(2).text()
+					baby_no : roomBabyNo
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -456,10 +459,10 @@ button {
 											$(
 													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
+									.append($('<td style="display:none;">').html(item.BABY_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
 									.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
-									.append($('<td style="display:none;">').html(item.BABY_NO))
 									.appendTo('#resvList');
 
 							if (item.CHK_TYPE == "V") { // 예방접종

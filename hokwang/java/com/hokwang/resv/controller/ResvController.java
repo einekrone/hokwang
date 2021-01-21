@@ -138,8 +138,8 @@ public class ResvController {
 	public int roomUpdate(Reservation vo, AlertVO altVO) {
 		resvSvc.roomUpdate(vo);
 		altVO.setBaby_no(vo.getBaby_no());
-		altVO.setAlert_title("진료실"+vo.getResv_no()+" 배정");
-		String alertCont = vo.getResv_no() +" 진료실 배정되었습니다.";
+		altVO.setAlert_title("진료실"+vo.getResv_room()+" 배정");
+		String alertCont = vo.getResv_room() +" 진료실 배정되었습니다.";
 		altVO.setAlert_cont(alertCont);
 		altVO.setAlert_send("호광병원");
 		return resvmSvc.alertInsert(altVO);

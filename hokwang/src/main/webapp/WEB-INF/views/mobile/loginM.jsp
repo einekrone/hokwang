@@ -101,10 +101,11 @@
 	cursor: pointer;
 	display: block;
 	margin: auto;
-	background: linear-gradient(to right, #ff105f, #ffad06);
+/* 	background: linear-gradient(to right, #ff105f, #ffad06); */
 	border: 0;
 	outline: none;
-	border-radius: 30px;
+	margin: 0 auto;
+/* 	border-radius: 30px; */
 }
 
 .checkbox {
@@ -294,12 +295,9 @@ span {
 		</div>
 		<div class="social-icons">
 			<a href="${kakao_url}"><img
-				src="${pageContext.request.contextPath}/resources/img/kakao.png"
-				alt="kakao"></a> <img
-				src="${pageContext.request.contextPath}/resources/img/facebook.png"
-				alt="facebook"> <img
-				src="${pageContext.request.contextPath}/resources/img/twitter.png"
-				alt="twitter">
+				src="${pageContext.request.contextPath}/resources/img/kakaoimg.png" alt="kakao" style="width: 200px;"></a>
+<%-- 				<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> --%>
+<%-- 				<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter"> --%>
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"

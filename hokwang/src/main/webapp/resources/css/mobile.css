@@ -12623,7 +12623,7 @@ a.list-group-item {
 }
 
 .nav-item .indicator {
-	background: #3b7ddd;
+	background: #fdafab;
 	box-shadow: 0 .1rem .2rem rgba(0, 0, 0, .05);
 	border-radius: 50%;
 	display: block;
@@ -12716,7 +12716,7 @@ body {
 .sidebar, .sidebar-content {
 	transition: margin-left .35s ease-in-out, left .35s ease-in-out,
 		margin-right .35s ease-in-out, right .35s ease-in-out;
-	background: #8497b5
+	background: #e5e1e0;
 }
 
 .sidebar-content {
@@ -12741,7 +12741,7 @@ body {
 	text-decoration: none;
 	cursor: pointer;
 	color: rgb(0, 0, 0);
-	background: #8497b5;
+	background: #e5e1e0;
 	border-left: 3px solid transparent
 }
 
@@ -12756,7 +12756,7 @@ body {
 }
 
 .sidebar-link:hover {
-	background: #8497b5;
+	background: #e5e1e0;
 	border-left-color: transparent
 }
 
@@ -13034,7 +13034,7 @@ a {
 	align-items: stretch;
 	display: flex;
 	width: 100%;
-	background: #8497b5
+	background: #e5e1e0;
 }
 
 .bg-primary-light {

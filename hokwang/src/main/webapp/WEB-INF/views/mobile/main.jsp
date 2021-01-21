@@ -51,6 +51,7 @@
 .resvBtn {
 	color: white;
 	padding: 30px 15px;
+	height:80px;
 }
 </style>
 
@@ -111,7 +112,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 					</ol>
-					<input type="button" class="btn btn-primary btn-sm"
+					<input type="button" class="btn btn-m" style="background-color: #b6e3e9;"
 						value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
 				</nav>
 			</div>
@@ -151,17 +152,12 @@
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<div
-							style="display: table-cell; vertical-align: middle; height: 80px; text-align: center;">
-							<a style="background-color: #96bb7c;" class="btnt resvBtn resvT"
-								href="resv?type=T">당일예약</a> <a
-								style="background-color: #ffc764;" class="btnv resvBtn resvR"
-								href="resv?type=R">우선예약</a>
-						</div>
+						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;">
+						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;">
 					</div>
 					<div id="card2" class="card">
-						<input type="button" class="btn btn-info active" value="증명서 발급"
-							id="issue">
+						<input type="button" class="btn active" value="증명서 발급"
+							id="issue" style="background-color: #b6e3e9; color: white;">
 					</div>
 				</div>
 			</div>

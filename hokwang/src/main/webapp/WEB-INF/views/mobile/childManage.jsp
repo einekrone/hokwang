@@ -227,15 +227,14 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label>
-								 <div style="width:200px; height:250px; background-color:white;" class="img-print"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile" class="uploadFile" style="display:none;" onchange="changeValue(event)">
-									
 							</div>
-						<button type="submit" class="btn btn-primary" id="btnAdd"
-							name="btnAdd" onclick="return addFrm()">등록</button>
 						</form>
 					</div>
 					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="btnAdd"
+							name="btnAdd" onclick="return addFrm()">등록</button>
 					</div>
 				</div>
 			</div>
@@ -284,15 +283,15 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label><br>
-								 <div style="width:200px; height:250px; background-color:white;" class="img-print1"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print1"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile1" class="uploadFile1" style="display:none;" onchange="changeValue(event)">
 							</div>
-						<button type="submit" class="btn btn-primary" id="btnUpdate"
-							name="btnUpdate">수정</button>
-						<button class="btn btn-primary" type="button" id="btnCancel">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="btnUpdate"
+							name="btnUpdate">수정</button>
+						<button class="btn btn-primary" type="button" id="btnCancel">취소</button>
 					</div>
 				</div>
 			</div>

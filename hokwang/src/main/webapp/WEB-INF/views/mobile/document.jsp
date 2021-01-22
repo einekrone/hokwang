@@ -13,7 +13,8 @@
 $(function() {
 	babyList()
 	payment()
-
+	var IMP = window.IMP; // 생략가능
+	IMP.init('imp59405263');
 })
 </script>
 
@@ -21,18 +22,19 @@ $(function() {
 
 function payment() {
 	
-	var IMP = window.IMP; // 생략가능
-	IMP.init('imp59405263');
+	
 	
 	$(document).on("click","#pay_doc",function(e){
-	var vv=$(this).next().text()
+	var vv=$(this).next().text()//예약번호
+	var price= $(this).prev().text()//가격
+	console.log(">>>>>>>>>>>>>>가격 : ->" +price)
 	e.stopImmediatePropagation() 
 	IMP.request_pay({
 	    pg : 'html5_inicis',
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),
 	    name : '주문명:결제테스트',
-	    amount : 100,
+	    amount : price,
 	    buyer_email : '${parent_vo.parent_email}',
 	    buyer_name : '${parent_vo.parent_name}',
 	    buyer_tel : '${parent_vo.parent_tel}',
@@ -85,8 +87,8 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 	vbank_number_assigned(payment_result) //가상계좌 발급성공
 }else{
 	fail_post_process(payment_result) //결제실패 처리
-}
 
+	}
 	})//end of click function
 }//end on function
 
@@ -147,13 +149,13 @@ function selectBabyResult(data){
 	$.each(data,function(idx, item) {
 		console.log(">>>>>>>>>>>" +idx)
 	$("#docBody").append($('<div>').attr('class','col-12')
-					.append($('<div>').attr('class','card')
+					.append($('<div>').attr('class','card')// +item.DIS_PRICE
 						.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 						.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
-						.append($("<p>").attr("id",'doc_price').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
-						.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
+						.append($("<p>").attr("id",'doc_diease').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
+						.append($("<p>").html("가격 : ")).append($("<p>").attr("id",'doc_price').html(item.DIS_PRICE))
 						.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px"))
-						.append($("<input>").attr("id",'doc_price').attr("type","hidden").html(item.RESV_NO))
+						.append($("<input>").attr("id",'doc_resv_no').attr("type","hidden").html(item.RESV_NO))
 						.append($('<input min=1 max=5>').attr("type",'number').attr("id","doc_print").attr("style","width:80px")))
 	
 	)

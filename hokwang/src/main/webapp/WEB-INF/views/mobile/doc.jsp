@@ -106,6 +106,7 @@
 </head>
 <script type="text/javascript">
 	$(document).ready(function() {
+		
 		$("#print").click(function() {
 			$("#report").printThis();
 		});
@@ -122,7 +123,7 @@
 			});
 		});
 
-		
+		//예약번호 -> 쿠러리를 검색해서 뿌려
 		$("#pdfmake").click(function () { //버튼 id pdfmake 발생시 행동할 이벤트
 			 /* documentDefinition : pdf파일에 들어갈 내용 및 여러가지를 정의 */
 			 var documentDefinition = {
@@ -211,6 +212,9 @@
 			 pdfMake.createPdf(documentDefinition).download(pdf_name);
 			 })
 		
+			 
+			 
+			
 		
 		
 	})

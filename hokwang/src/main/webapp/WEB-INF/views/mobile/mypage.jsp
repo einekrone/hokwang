@@ -17,6 +17,21 @@
 	crossorigin="anonymous"></script>
 	
 <style>
+#chkImg {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	width: 100px;
+}
+
 .form-control{
 width:60%;
 display: inline-block;

@@ -535,7 +535,7 @@ button {
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {
-					baby_no : td.eq(5).text()
+					baby_no : td.eq(1).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -546,7 +546,7 @@ button {
 			$.ajax({
 				url : 'ajax/ptInfo',
 				data : {
-					baby_no : td.eq(5).text()
+					baby_no : td.eq(1).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);

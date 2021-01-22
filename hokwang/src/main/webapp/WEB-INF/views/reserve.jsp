@@ -8,8 +8,59 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/resvcss.css"
 	rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <style type="text/css">
+i.material-icons {
+	font-size: 1.5rem;
+	color: white;
+	position: relative;
+	border-radius: 50%;
+	padding: 10px;
+	margin: 3px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: color 0.2s ease, background-color 0.2s ease, transform 0.3s
+		ease;
+}
+
+i.material-icons:after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	border: solid 2px;
+	transform: scale(0.8);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+}
+
+i.material-icons:hover:after {
+	transform: scale(1);
+	box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px
+		rgba(0, 0, 0, 0.23);
+}
+
+i.material-icons:nth-of-type(1) {
+	background-color: #cd8484;
+}
+
+i.material-icons:nth-of-type(1):hover {
+	color: #cd8484;
+}
+
+i.material-icons:nth-of-type(1):after {
+	border-color: #cd8484;
+}
+
+i.material-icons:hover {
+	background-color: transparent;
+	transform: rotate(90deg);
+	cursor: pointer;
+	box-shadow: none;
+}
+
 .table td, .table th {
 	padding: .5rem !important;
 	vertical-align: middle;
@@ -169,9 +220,10 @@ button {
 					$('<td>').html(td.eq(2).text())).appendTo(
 					'#room' + offSel); */// todo 올바르게 됐는지 확인
 			// 진료실 변경사항 db
-			console.log("resvNo : "+resvNo);
-			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1).text();
-			console.log("!!!!!!!!! "+roomBabyNo);
+			console.log("resvNo : " + resvNo);
+			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1)
+					.text();
+			console.log("!!!!!!!!! " + roomBabyNo);
 			$.ajax({
 				url : 'ajax/roomUpdate',
 				type : 'POST',
@@ -373,7 +425,8 @@ button {
 												$('<td id="price'+idx+'">')
 														.html(item.PAY_PRICE))
 										.append(
-												$('<td style="display:none;" id="nonBabyNo">')
+												$(
+														'<td style="display:none;" id="nonBabyNo">')
 														.html(item.BABY_NO))
 										.appendTo('#nonPayList');
 
@@ -407,22 +460,25 @@ button {
 
 			if (item.RESV_ROOM == 1) {
 				$('<tr>').append(
-						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(item.RESV_NO))
-								.append($('<td>').html(item.BABY_NAME))
-								.append($('<td style="display:none;">').html(item.BABY_NO))
-								.appendTo('#room1');
+						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
+								item.RESV_NO)).append(
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room1');
 			} else if (item.RESV_ROOM == 2) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME))
-						.append($('<td style="display:none;">').html(item.BABY_NO)).appendTo('#room2');
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room2');
 			} else if (item.RESV_ROOM == 3) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME))
-						.append($('<td style="display:none;">').html(item.BABY_NO)).appendTo('#room3');
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room3');
 			}
 		});
 	}
@@ -459,10 +515,14 @@ button {
 											$(
 													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
-									.append($('<td style="display:none;">').html(item.BABY_NO))
+									.append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
-									.append($('<td id="regno'+idx+'">').html(item.BABY_REGNO1))
+									.append(
+											$('<td id="regno'+idx+'">').html(
+													item.BABY_REGNO1))
 									.appendTo('#resvList');
 
 							if (item.CHK_TYPE == "V") { // 예방접종
@@ -479,7 +539,11 @@ button {
 														+ '\');" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
-								$("#officeSel" + item.RESV_NO+ " option:eq("+ item.RESV_ROOM + ")").attr("selected", "selected");
+								$(
+										"#officeSel" + item.RESV_NO
+												+ " option:eq("
+												+ item.RESV_ROOM + ")").attr(
+										"selected", "selected");
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(
@@ -558,41 +622,34 @@ button {
 
 	function resvHstListResult(data) {
 		$("#resvHstList").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
-							var resvNo = "";
-							if (typeof item.RESV_NO != 'undefined') {
-								resvNo = item.RESV_NO;
-							}
-							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
-							$('<tr>').append($('<td>').html(item.RESV_NO))
-									.append($('<td>').html(item.RESV_DATE))
-									.append(
-											$('<td id="dtl'+idx+'">').html(
-													item.RESV_DETAIL)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
-									.appendTo('#resvHstList');
+		$.each(data, function(idx, item) {
+			var resvNo = "";
+			if (typeof item.RESV_NO != 'undefined') {
+				resvNo = item.RESV_NO;
+			}
+			imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
+			$('<tr>').append($('<td>').html(item.RESV_NO)).append(
+					$('<td>').html(item.RESV_DATE)).append(
+					$('<td id="dtl'+idx+'">').html(item.RESV_DETAIL)).append(
+					$('<td style="display:none;">').html(item.BABY_NO))
+					.appendTo('#resvHstList');
 
-							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
-								$("#dtl" + idx)
-										.eq(-1)
-										.after(
-												'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
-							}
+			if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
+				$("#dtl" + idx).eq(-1).after(
+						'<i class="material-icons" id="imgBtn" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">attach_file</i>');
+				// 										.after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
+			}
 
-							var d = new Date();
-							var today = d.getFullYear() + '-'
-									+ (d.getMonth() + 1) + '-' + d.getDate();
-							/* if (item.RESV_DATE == today) {
-								$("#imgDBtn").css("display", "none");
-							} else {
-								$("#imgInput").css("display", "none");
-								$("#imgRBtn").css("display", "none");
-							} */
-						});
+			var d = new Date();
+			var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-'
+					+ d.getDate();
+			/* if (item.RESV_DATE == today) {
+				$("#imgDBtn").css("display", "none");
+			} else {
+				$("#imgInput").css("display", "none");
+				$("#imgRBtn").css("display", "none");
+			} */
+		});
 	}
 
 	function RPAD(str, padStr, padLen) {
@@ -910,8 +967,8 @@ button {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" style="width: 520px;">
 				<div class="modal-header">
-					<button class="close" type="button" data-dismiss="modal" onclick="cancle_pop()"
-						aria-label="Close">
+					<button class="close" type="button" data-dismiss="modal"
+						onclick="cancle_pop()" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>

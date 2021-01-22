@@ -116,7 +116,7 @@ background-color: red;
 				url : 'ajax/getImages',
 				type : 'GET',
 				data : {
-					qust_no : resv_no
+					resv_no : resv_no
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -133,7 +133,7 @@ background-color: red;
 			img.setAttribute("src",
 					"${pageContext.request.contextPath}/resources/img/"
 							+ item.IMG_ADDR);
-			img.setAttribute('style', 'margin:0 20px;');
+			img.setAttribute('style', 'margin:0 20px; height:200px; width:200px;');
 			document.querySelector("#lastImagesList").appendChild(img);
 		});
 	}
@@ -232,6 +232,7 @@ background-color: red;
             	 if (confirm('상기 예방접종을 등록하시겠습니까?')) {
             		 getCheckHist();
                 	 insertPayment();
+                	 PaymnetProcedure();
                 	 UnChange();
                 	 $(".btn_injectInsert").hide();
                 	 alert("예방접종 등록 완료 되었습니다.")

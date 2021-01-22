@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hokwang.mobile.dao.DocMapper;
 import com.hokwang.mobile.service.DocService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.Reservation;
 
 @Service
 public class DocServiceImpl implements DocService{
@@ -24,6 +25,12 @@ public class DocServiceImpl implements DocService{
 	public List<BabyVO> babyLists(BabyVO vo) {
 		// TODO Auto-generated method stub
 		return dao.babyLists(vo);
+	}
+
+	@Override
+	public int updateDocStatus(Reservation vo) {
+		// TODO Auto-generated method stub
+		return dao.updateDocStatus(vo);
 	}
 
 }

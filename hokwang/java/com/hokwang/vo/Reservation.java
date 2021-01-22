@@ -29,4 +29,5 @@ public class Reservation {//예약
 	String emp_no;
 	
 	String nresv_no;	// 변경된 예약번호
+	String doc_status;
 }

@@ -4,8 +4,8 @@
 <mapper namespace="com.hokwang.mobile.dao.DocMapper">
 
 	<select id="selectBaby" resultType="map">
-		select a.baby_name,b.diag_time
-		,d.dis_code,d.dis_name,d.dis_price,b.resv_no from
+		select a.baby_name,b.diag_time,c.doc_status
+		,d.dis_code,d.dis_name,d.dis_price,b.resv_no,from
 		baby a,diagnosis
 		b,reservation c ,DISEASE d
 		<where> a.baby_no=c.baby_no and b.resv_no=c.resv_no and

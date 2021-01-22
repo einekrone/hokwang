@@ -138,8 +138,8 @@ public class Diagcontroller {
 	  //진단서 인설트
 	  @ResponseBody  
 	  @RequestMapping("/ajax/insertDiagList") 
-	  public int insertDiagList(DiagnosisVO vo){
-	  return diagDao.insertDiagList(vo); 
+	  public int insertDiagList(DiagnosisVO vo, Map<String, Object> map){
+		 return diagDao.insertDiagList(vo); 
 	  }
 	  
 	  //진료종료 / 시작시 예약 상태값 변경
@@ -192,5 +192,16 @@ public class Diagcontroller {
 		return diagDao.getQuestionInfo(vo);
 	}
 		
+	// 진료 사전 문진표 조회
+	@ResponseBody
+	@RequestMapping("/ajax/PaymnetProcedure")
+	public void PaymnetProcedure(Reservation vo, DiseaseVO Dvo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resv_no", vo.getResv_no());
+		map.put("dis_price", Dvo.getDis_price());
+		System.out.println(vo.getResv_no());
+		System.out.println(Dvo.getDis_price());
+		diagDao.PaymnetProcedure(map);
+	}
 		
 }

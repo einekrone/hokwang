@@ -19,4 +19,7 @@ public interface BabyDiaryService {
 	public List<Map<String,Object>> allreser(Reservation vo);
 	public int insertbodyinfo(BodyVO vo); // 키/체중등록
 	public int bodyDel(BodyVO vo); // 아기 키,몸무게 삭제
+	public int deleteTemp(TemporatureVO vo); // 아기 키,몸무게 삭제
+	public void insertBodyInf(BodyVO vo);
+	public void insertTempInf(TemporatureVO vo);
 }

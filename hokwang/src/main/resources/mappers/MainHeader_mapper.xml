@@ -75,6 +75,7 @@
 	</select>
 
 	<select id="alertInf" parameterType="parentVO" resultType="map">
+		<![CDATA[
 		select a.alert_no ,to_char(a.ALERT_DATE,'YY/MM/DD') as ALERT_DATE
 		,a.ALERT_TITLE,a.ALERT_CONT,b.BABY_PIC
 		from alert a,baby b ,parent p
@@ -82,7 +83,9 @@
 		p.PARENT_NO = b.PARENT_NO and
 		p.parent_no = #{parent_no} and
 		to_char(a.ALERT_DATE,'YY/MM/DD')=to_char(SYSDATE,'YY/MM/DD')
+		and ROWNUM <= 5 
 		order by a.alert_no
+		]]>
 	</select>
 
 	<delete id="deleteAlert" parameterType="alertVO">

@@ -95,12 +95,18 @@
 						<li><a href="patient">환자관리</a></li>
 						<li><a href="schedule">근태관리</a></li>
 						<li><a href="medicine">약품관리</a></li>
+						
+						
+						<c:if test= '${!empty emp_vo.emp_no && emp_vo.emp_author == "O"}'>
 						<li><a href="sales">매출</a></li>
-								<div class="diagMenu" style="float: right; display: none;">
-									<button id="diagEnd">진료종료</button>
-									<button id="prescript"  type="button"data-toggle="modal" data-target="#getQuestionInfo" data-num="resv_no">문진표</button>
-									<button id="prePhoto" type="button" data-toggle="modal" data-target="#imagesModal" data-num="resv_no">사진</button>
-								</div>
+						</c:if>
+						
+						
+						<div class="diagMenu" style="float: right; display: none;">
+							<button id="diagEnd">진료종료</button>
+							<button id="prescript"  type="button"data-toggle="modal" data-target="#getQuestionInfo" data-num="resv_no">문진표</button>
+							<button id="prePhoto" type="button" data-toggle="modal" data-target="#imagesModal" data-num="resv_no">사진</button>
+						</div>
 					</ul>
 				</div>
 			</div>

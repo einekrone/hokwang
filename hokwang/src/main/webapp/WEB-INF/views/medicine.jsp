@@ -134,6 +134,7 @@
 					},
 					success : function(data) {
 						console.log(data);
+						
 						$('#factory_tbody').empty();
 						$(data).find("item").each(function() {
 											var info = '<tr data-toggle="modal" data-target="#exampleModal">';

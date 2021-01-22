@@ -163,27 +163,25 @@ function numberMaxLength(e){
 </head>
 <body>
 	<h1 class="h3 mb-3" align="center">자녀 관리</h1>
-	<div class="row mb-2 mb-xl-3">
-		<div class="col-auto ml-auto text-right mt-n1">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-				</ol>
-				<input id="babybtn" type="button" class="btn btn-primary btn-sm" value="+" data-toggle="modal" data-target="#babyModal" />
-			</nav>
+	<div class="row">
+		<div class="col-xl-6 col-xxl-5 d-flex">
+			<div class="card mb-3">
+				<div class="h4 card-header" style="background-color:white; color:black;">
+					아기정보<input id="babybtn" type="button" class="btn btn-sm"
+						value="자녀등록" data-toggle="modal" data-target="#babyModal"
+						style="float: right; background-color: #faf1d6; color: gray;" />
+				</div>
+				<div class="card-body" id="imgInf" style="padding: 0 !important;">
+					<%-- 			<image
+						src="${pageContext.request.contextPath}/resources/icons/verify.png"
+						id="logo" width="100px" width="100px"> </image> --%>
+				</div>
+			</div>
 		</div>
 	</div>
 
 
-		<div class="col-xl-6 col-xxl-5 d-flex">
-			<div id ="imgInf">
-				<div class="card-body">
-		<%-- 			<image
-						src="${pageContext.request.contextPath}/resources/icons/verify.png"
-						id="logo" width="100px" width="100px"> </image> --%>
-				</div>
-				<div class="card-header">아기정보</div>
-			</div>
-		</div>
+		
 <!-- 아기등록 -->
 	<div class="modal fade" id="babyModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -229,15 +227,14 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label>
-								 <div style="width:200px; height:250px; background-color:white;" class="img-print"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile" class="uploadFile" style="display:none;" onchange="changeValue(event)">
-									
 							</div>
-						<button type="submit" class="btn btn-primary" id="btnAdd"
-							name="btnAdd" onclick="return addFrm()">등록</button>
 						</form>
 					</div>
 					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="btnAdd"
+							name="btnAdd" onclick="return addFrm()">등록</button>
 					</div>
 				</div>
 			</div>
@@ -286,15 +283,15 @@ function numberMaxLength(e){
 							</div>
 							<div class="form-group">
 								<label class="col-form-label">사진등록</label><br>
-								 <div style="width:200px; height:250px; background-color:white;" class="img-print1"><img class="gc-img"></div>
+								 <div style="width:200px; height:150px; background-color:white;" class="img-print1"><img class="gc-img"></div>
                                     <input id="baby-pic" type="file" name="uploadFile1" class="uploadFile1" style="display:none;" onchange="changeValue(event)">
 							</div>
-						<button type="submit" class="btn btn-primary" id="btnUpdate"
-							name="btnUpdate">수정</button>
-						<button class="btn btn-primary" type="button" id="btnCancel">취소</button>
 						</form>
 					</div>
 					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="btnUpdate"
+							name="btnUpdate">수정</button>
+						<button class="btn btn-primary" type="button" id="btnCancel">취소</button>
 					</div>
 				</div>
 			</div>
@@ -305,8 +302,8 @@ function numberMaxLength(e){
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div class="card-header">
-					<h5 class="card-title mb-0">아기</h5>
+				<div class="card-header" style="background-color:white; color:black;">
+					<h5 class="h4 card-title mb-0">아기목록</h5>
 				</div>
 				<table id="mobile-babyinfo" class="table table-hover my-0">
 					<thead>

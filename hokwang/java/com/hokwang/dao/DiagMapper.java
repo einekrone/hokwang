@@ -46,4 +46,6 @@ public interface DiagMapper {
 	
 	public List<Map<String, Object>> getImages(Images vo);
 	public List<QuestionVO> getQuestionInfo(QuestionVO vo);
+	
+	public void PaymnetProcedure(Map<String, Object> map);
 }

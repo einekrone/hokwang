@@ -10,10 +10,19 @@
 	</select>
 
 	<update id="updateparentinfo" parameterType="ParentVO">
-		update parent set parent_name=#{parent_name},
+		update parent set 
+						<if test="parent_name != null and parent_name != ''">
+						parent_name=#{parent_name},
+						</if>
+						<if test="parent_tel != null and parent_tel != ''">
 						parent_tel=#{parent_tel},
+						</if>
+						<if test="parent_addr != null and parent_addr != ''">
 						parent_addr=#{parent_addr},
+						</if>
+						<if test="parent_email != null and parent_email != ''">
 						parent_email=#{parent_email}
+						</if>
 		where parent_no = #{parent_no}
 	</update>
 	<update id="imgUpdate" parameterType="ParentVO">

@@ -19,11 +19,22 @@
 	</insert>
 	
 	<update id="updatebabyinfo" parameterType="babyVO">
-		update baby set baby_name=#{baby_name},
+		update baby set 
+						<if test="baby_name != null and baby_name != ''">
+						baby_name=#{baby_name},
+						</if>
+						<if test="baby_regno1 != null and baby_regno1 != ''">
 						baby_regno1=#{baby_regno1},
+						</if>
+						<if test="baby_gender != null and baby_gender != ''">
 						baby_gender=#{baby_gender},
+						</if>
+						<if test="baby_blood != null and baby_blood != ''">
 						baby_blood=#{baby_blood},
+						</if>
+						<if test="baby_pic != null and baby_pic != ''">
 						baby_pic=#{baby_pic}
+						</if>
 		where baby_name = #{baby_name} and parent_no = #{parent_no}
 	
 	</update>

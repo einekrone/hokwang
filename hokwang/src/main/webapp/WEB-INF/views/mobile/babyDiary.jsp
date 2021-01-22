@@ -150,6 +150,7 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 }
 
 	$(function() {
+		
 		d = new Date();
 
 		today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2)
@@ -161,6 +162,9 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 		chgBaby();
 		babyList();
 		deleteInf();
+		deleteTemp();
+		insertBodyInf();
+		insertTempInf();
 		
 		$("#cancelBtn").on("click", function() {
 			console.log("dddd");
@@ -351,6 +355,73 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 			}
 		});
 	}
+	
+	function insertBodyInf(){
+		$('#btnBodySave').on("click",function(){
+			console.log(babyNo);
+			$.ajax({
+				url : 'ajax/insertBodyInf',
+				type : 'GET',
+				data : {
+					body_weight : $('#weight').val(),
+					body_height : $('#height').val(),
+					baby_no : babyNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data){
+					alert("입력되었습니다.");
+					$('#allreser').empty();
+					$('#unpayList').empty();
+					$('#reser2').empty();
+					$('#checkup').empty();
+					$('#checkupCom').empty();
+					$('#bodyTable').empty();
+					$('#tempTable').empty();
+					chgBaby();	
+				}
+			});
+		})
+	}
+	
+	function insertTempInf(){
+		$('#btnTempSave').on("click",function(){
+			console.log(babyNo);
+			$.ajax({
+				url : 'ajax/insertTempInf',
+				type : 'GET',
+				data : {
+					temp_temp : $('#temp').val(),
+					baby_no : babyNo
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data){
+					alert("입력되었습니다.");
+					$('#allreser').empty();
+					$('#unpayList').empty();
+					$('#reser2').empty();
+					$('#checkup').empty();
+					$('#checkupCom').empty();
+					$('#bodyTable').empty();
+					$('#tempTable').empty();
+					chgBaby();	
+				}
+			});
+		})
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	// 예약일에 따라 예약시간 출력
 	function resvList(resvDate) {
@@ -424,30 +495,67 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 	
 	function deleteInf(){
 	 	$('#bodyTable').on("click",'tr',function(){
-			console.log($(this).children().eq(0).val());
-			$.ajax({
-				url : 'ajax/deleteInf',
-				type : 'GET',
-				data : {
-					body_no : $(this).children().eq(0).val()
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data){
-					alert("삭제되었습니다");
-					chgBaby();
-					//location.href = "#tab-6";
-					
-					
-				}
-			});	
-			
-			
-				
-		}) 
-			
+			var con_test = confirm("삭제 하시겠습니까?");
+			if(con_test == true){
+		 		console.log($(this).children().eq(0).val());
+				$.ajax({
+					url : 'ajax/deleteInf',
+					type : 'GET',
+					data : {
+						body_no : $(this).children().eq(0).val()
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data){
+						$('#allreser').empty();
+						$('#unpayList').empty();
+						$('#reser2').empty();
+						$('#checkup').empty();
+						$('#checkupCom').empty();
+						$('#bodyTable').empty();
+						$('#tempTable').empty();
+						chgBaby();			
+					}
+				});	
+			}
+							
+		}) 		
 	}
+	
+	
+	function deleteTemp(){
+	 	$('#tempTable').on("click",'tr',function(){
+			var con_test = confirm("삭제 하시겠습니까?");
+			if(con_test == true){
+		 		console.log($(this).children().eq(0).val());
+				$.ajax({
+					url : 'ajax/deleteTemp',
+					type : 'GET',
+					data : {
+						temp_no : $(this).children().eq(0).val()
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data){
+						$('#allreser').empty();
+						$('#unpayList').empty();
+						$('#reser2').empty();
+						$('#checkup').empty();
+						$('#checkupCom').empty();
+						$('#bodyTable').empty();
+						$('#tempTable').empty();
+						chgBaby();				
+					}
+				});	
+			}
+							
+		}) 		
+	}
+	
+	
+	
 	
 
 	// 등록된 예약 정보
@@ -739,6 +847,14 @@ function checkuphistResult(data) {
 	}
 
 	function chgBaby() {//체인지 아기
+		$('#allreser').empty();
+		$('#unpayList').empty();
+		$('#reser2').empty();
+		$('#checkup').empty();
+		$('#checkupCom').empty();
+		$('#bodyTable').empty();
+		$('#tempTable').empty();
+		
 		babyNo = $("#baby-name option:selected").val();
 		var babyNo2 = $("#baby-name option:selected").text();
 		console.log("아기 번호 : " + babyNo);
@@ -828,9 +944,7 @@ function checkuphistResult(data) {
 										.append($('<td>').html(item.body_date))
 										.append($('<td>').html(item.body_height))
 										.append($('<td>').html(item.body_weight))
-										/* .append($('<button class="btn btn-primary btn-sm" id="bodyDel">	<i class="fas fa-times"></i></button>')) */
-										.appendTo('#bodyTable');
-					
+										.appendTo('#bodyTable');	
 				});
 			}//end of function
 			
@@ -851,7 +965,7 @@ function checkuphistResult(data) {
 			success : function(data){
 				$.each(data, function(idx, item) {
 					$('#tempTable').append($('<tr>')
-										.append($('<td style="display:none">').html(item.temp_no))
+										.append($('<input style="display:none">').val(item.temp_no))
 										.append($('<td>').html(item.temp_date))
 										.append($('<td>').html(item.temp_temp))				
 						)
@@ -861,16 +975,7 @@ function checkuphistResult(data) {
 		
 		
 	}
-/* 	function tempTableDelete(){
-			$('#temptable').on('show.bs.modal', function(event){
-				var tbs = $(event.relatedTarget).find('td');
-				var modal = $(this);
-				
-				modal.find('#temp_no').val(tbs.eq(0).text())
-				modal.find('#temp_date').val(tbs.eq(1).text())
-				modal.find('#temp_temp').val(tbs.eq(2).text())
-			})
-		} */
+
 		
 function bodyDel(data){
 			
@@ -934,26 +1039,7 @@ function bodyDel(data){
 						+ '</td>'); */
 	}
 	
-	function insertbodyinfo() {
-		$.ajax({
-			url : 'ajax/insertbodyinfo',
-			type : 'POST',
-			data : {
-				parent_no : "${parent_vo.parent_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-			console.log( "떳니?"+data)
-			/* 	$.each(data, function(idx, item) {
-					$("#baby-name").append(
-							$('<option>').attr("value", item.baby_no).html(
-									item.baby_name));
-				}); */
-			}
-		});
-	}
+
 	
 </script>
 </head>
@@ -1035,27 +1121,13 @@ function bodyDel(data){
 
 									</div>
 
-									<!-- 예약/진료 => 결제완료탭  -->
-									<div class="tab-pane fade" id="tab-9" role="tabpanel">
-										<table class="table text-center">
-											<thead>
-												<tr>
-													<th class="text-center">진료일시</th>
-													<th class="text-center">병명</th>
-													<th class="text-center">결제여부</th>
-												</tr>
-											</thead>
-											<tbody id="#"></tbody>
-										</table>
-									</div>
-
 									<!-- 예약/진료 => 미결제탭  -->
 									<div class="tab-pane fade" id="tab-10" role="tabpanel">
 										<div style="height: 250px; overflow: auto;">
 											<table class="table text-center">
 												<thead>
 													<tr>
-														<th class="text-center">예약일시3</th>
+														<th class="text-center">예약일시</th>
 														<th class="text-center">문진표</th>
 														<th class="text-center">결제 여부</th>
 													</tr>
@@ -1129,23 +1201,6 @@ function bodyDel(data){
 											</div>
 										</div>
 
-
-<!-- 										<div class="tab-pane fade text-center" id="tab-2" -->
-<!-- 											role="tabpanel"> -->
-<!-- 											<div style="height: 250px; overflow: auto;"> -->
-<!-- 											<table class="table text-center"> -->
-<!-- 												<thead> -->
-<!-- 													<tr> -->
-<!-- 														<th class="text-center">접종이름</th> -->
-<!-- 														<th class="text-center">최초접종시기</th> -->
-<!-- 														<th class="text-center">설명</th> -->
-<!-- 													</tr> -->
-<!-- 												</thead> -->
-<!-- 												<tbody id="checkupIncom"></tbody> -->
-<!-- 											</table> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-
 										<div class="tab-pane fade text-center" id="tab-3"
 											role="tabpanel">
 											<div style="height: 250px; overflow: auto;">
@@ -1175,20 +1230,7 @@ function bodyDel(data){
 											<th class="text-center">몸무게</th>
 											<!-- <th class="text-center">    </th> -->
 										</tr>
-<!-- 										<tr>
-											<th class="text-center">21-01-18</th>
-											<th class="text-center">170.4</th>
-											<th class="text-center">56.8</th>
-											<th class="text-center">
-											<span class="txt_find" style="">
-													<button type="button" class="btn btn-primary btn-sm "
-														data-toggle="modal" data-target="#bupModal"
-														data-backdrop="static">수정</button>
-													<button type="button" class="btn btn-primary btn-sm"
-														data-toggle="modal" data-target="#bdelModal"
-														data-backdrop="static">삭제</button>
-											</span></th>
-										</tr> -->
+
 									</thead>
 									<tbody id="bodyTable">
 									</tbody>
@@ -1502,31 +1544,29 @@ function bodyDel(data){
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">등록</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close" id="btnX">
-						<span aria-hidden="true">×</span>
-					</button>
+				<div class="modal-header" >
+					<h5 class="modal-title" id="exampleModalLabel" align = "center">정보 등록</h5>
 				</div>
 
 				<div class="modal-body">
 					<div class="card-body">
-						<div id="bodyUpdate">
- 
+						<div class="card-body">
+							키: <input type="text" id="height" name="height" style ="width:150px" placeholder="입력시 cm는 제외">
+							<br>
+							몸무게: <input type="text" id="weight" name="weight" style ="width:150px" placeholder="입력시 kg은 제외">
 						</div>
 					</div>
 				</div>
 
 				<div class="modal-footer">
-					<input type="button" class="btn btn-primary" id="btnId"
-						name="btnId" value="찾기">
+					<input type="button" class="btn btn-primary" id="btnBodySave" name="btnBodySave" value="저장" data-dismiss="modal">
 					<button class="btn btn-secondary" type="button" id="Cancel"
-						data-dismiss="modal">Cancel</button>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<!-- 등록/수정 bupModal end -->
 	
 	
@@ -1536,27 +1576,22 @@ function bodyDel(data){
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">등록</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close" id="btnX">
-						<span aria-hidden="true">×</span>
-					</button>
+				<div class="modal-header" >
+					<h5 class="modal-title" id="exampleModalLabel" align = "center">정보 등록</h5>
 				</div>
 
 				<div class="modal-body">
 					<div class="card-body">
-						<div id="temporatureUpdate">
- 
+						<div class="card-body">
+							체온: <input type="text" id="temp" name="temp" style ="width:150px" placeholder="입력시 기호는 제외">
 						</div>
 					</div>
 				</div>
 
 				<div class="modal-footer">
-					<input type="button" class="btn btn-primary" id="btnId"
-						name="btnId" value="찾기">
+					<input type="button" class="btn btn-primary" id="btnTempSave" name="btnTempSave" value="저장" data-dismiss="modal">
 					<button class="btn btn-secondary" type="button" id="Cancel"
-						data-dismiss="modal">Cancel</button>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

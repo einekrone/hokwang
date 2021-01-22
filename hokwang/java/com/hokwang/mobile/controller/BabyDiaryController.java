@@ -95,6 +95,24 @@ public class BabyDiaryController {
 		return service.bodyDel(vo);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteTemp")
+	public int deleteTemp(TemporatureVO vo) {
+		return service.deleteTemp(vo);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajax/insertBodyInf")
+	public boolean insertBodyInf(BodyVO vo) {
+		service.insertBodyInf(vo);
+		return true; 
+	}
 
+	@ResponseBody
+	@RequestMapping("/ajax/insertTempInf")
+	public boolean insertTempInf(TemporatureVO vo) {
+		service.insertTempInf(vo);
+		return true; 
+	}
 	
 }

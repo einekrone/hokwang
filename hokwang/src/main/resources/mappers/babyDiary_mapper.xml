@@ -32,7 +32,7 @@
 	</select>
 
 	<select id="unpayList" resultType="reservation">
-	 	select *
+		select *
 		from reservation
 		where
 		resv_no=#{resv_no}
@@ -57,23 +57,54 @@
 	</insert>
 
 
-	<select id="checkBody" resultType="BodyVO" parameterType="BodyVO">
+	<select id="checkBody" resultType="BodyVO"
+		parameterType="BodyVO">
 		select *
 		from BODYINFO
 		where
 		baby_no=#{baby_no}
-		ORDER BY BODY_DATE DESC
+		ORDER BY
+		BODY_DATE DESC
 	</select>
 
-	<select id="checkTemporature" resultType="TemporatureVO" parameterType="TemporatureVO">
+	<select id="checkTemporature" resultType="TemporatureVO"
+		parameterType="TemporatureVO">
 		select *
 		from TEMPORATURE
 		where
 		baby_no=#{baby_no}
-		ORDER BY TEMP_DATE DESC
+		ORDER BY
+		TEMP_DATE DESC
 	</select>
 	<delete id="bodyDel" parameterType="bodyVO">
 		DELETE FROM BODYINFO
-		WHERE body_no = #{body_no}
+		WHERE
+		body_no = #{body_no}
 	</delete>
+
+	<delete id="deleteTemp" parameterType="TemporatureVO">
+		DELETE FROM TEMPORATURE
+		WHERE temp_no = #{temp_no}
+	</delete>
+
+	<insert id="insertBodyInf" parameterType="bodyVO">
+		<selectKey order="BEFORE" keyProperty="body_no"
+			resultType="string">
+			SELECT NVL(MAX(BODY_NO),0)+1 FROM BODYINFO
+		</selectKey>
+		insert into
+		BODYINFO(body_no,body_height,body_weight,body_date,baby_no)
+		values(#{body_no},#{body_height},#{body_weight},SYSDATE,#{baby_no})
+	</insert>
+
+	<insert id="insertTempInf" parameterType="temporatureVO">
+		<selectKey order="BEFORE" keyProperty="temp_no"
+			resultType="string">
+			SELECT NVL(MAX(TEMP_NO),0)+1 FROM TEMPORATURE
+		</selectKey>
+		insert into
+		TEMPORATURE(temp_no,temp_temp,temp_date,baby_no)
+		values(#{temp_no},#{temp_temp},SYSDATE,#{baby_no})
+	</insert>
+
 </mapper>

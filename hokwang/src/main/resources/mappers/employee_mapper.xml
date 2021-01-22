@@ -36,8 +36,7 @@
 
 	<!-- 비밀번호 수정 -->
 	<update id="updateInf" parameterType="employeeVO">
-		update EMPLOYEE
-		set
+		update EMPLOYEE set
 		<if test="emp_pwd != null and emp_pwd != ''">
 			emp_pwd = #{emp_pwd}
 		</if>
@@ -49,8 +48,7 @@
 
 	<!-- 전화번호/주소/프로필사진 수정 -->
 	<update id="updateImg" parameterType="EmployeeVO">
-		update EMPLOYEE
-		set
+		update EMPLOYEE set
 		<if test="emp_tel != null and emp_tel != ''">
 			emp_tel = #{emp_tel}
 		</if>

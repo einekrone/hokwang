@@ -253,6 +253,7 @@
 		oneSales();
 
 	});
+	
 
 	/* allSales() */
 	function oneSales() {
@@ -303,7 +304,10 @@
 							alert("변경되었습니다.");
 							location.href = "logout";
 						} else {
-							alert("기존 비밀번호 재확인 ")
+							alert("기존 비밀번호 재확인 ");
+							$('#oldpw').val("")
+							$('#pw').val("")
+							$('#pw2').val("")
 						}
 					}
 				});
@@ -1335,7 +1339,7 @@
 					<div class="modal-body">프로필변경하시겠습니까?</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="btnUpdateImg"
-							name="btnUpdateImg">변경</button>
+							name="btnUpdateImg" data-dismiss="modal">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>

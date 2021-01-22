@@ -135,8 +135,15 @@ $(function() {
 	
 });
 
-function chkEmail(str) {
+
+
+function chkEmail() {
 	$('#overLapEmail').on("click", function() {
+		var emailVal = $("#parent-email").val();
+
+		var regExp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i\r\n" + 
+		"\r\n";// 검증에 사용할 정규식 변수 regExp에 저장
+		
 		if ($('#parent-email').val() == '') {
 			alert("이메일을 입력하시오")
 		} else {
@@ -150,12 +157,12 @@ function chkEmail(str) {
 					alert("E-mail이 중복됩니다");
 				},
 				success : function(data) {
-					if (data == true) {
-						alert("사용가능합니다");
-						
-					}
-					else
-						alert("E-mail이 중복됩니다");	
+					if (emailVal.match(regExp) != null) {
+						  alert('이메일 사용가능합니다.');
+						}
+						else {
+						  alert('이메일 형식이 아닙니다.');
+						}
 				}
 			})
 		}

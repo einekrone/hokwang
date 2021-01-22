@@ -157,4 +157,9 @@ public class DiagServiceImpl implements DiagService{
 		return service.getQuestionInfo(vo);
 	}
 
+	@Override
+	public void PaymnetProcedure(Map<String, Object> map) {
+		service.PaymnetProcedure(map);
+	}
+
 }

@@ -91,6 +91,25 @@ background-color: red;
 		$("#diag7").css("display","none");
 	}
 	
+	// 진료종료 시 수납알림
+	function PaymnetProcedure(){
+		 $.ajax({ 
+             url: "ajax/PaymnetProcedure",  
+             type: 'POST',
+             data : {
+            	resv_no : resv_no,
+            	dis_price : pay_price
+             },
+             error:function(xhr, status, message) { 
+                 alert(" status: "+status+" er:"+message);
+             },
+
+             success: function(result){
+				console.log("수납 알람 프로시저 작동 성공");
+             }
+      });  		
+	} 
+	
 	//이미지
 	function getImages() {
 			$.ajax({
@@ -240,6 +259,7 @@ background-color: red;
 		             },
 		             success : function(result){
 		            	 UnChange();
+		            	 PaymnetProcedure();
 		             } 
 		});
 	} 
@@ -1016,9 +1036,9 @@ background-color: red;
 										</tr>
 										<tr>
 											<th class="text-center">처방명</th>
-											<th class="text-center">용량</th>
-											<th class="text-center">일투</th>
-											<th class="text-center">일수</th>
+											<th class="text-center">1회 투여량</th>
+											<th class="text-center">1일  투여횟수</th>
+											<th class="text-center">총 투약일수</th>
 										</tr>
 									</thead>
 									<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
@@ -1223,10 +1243,10 @@ background-color: red;
 								<table style="">
 									<thead>
 										<tr>
-											<th style="width: 400px;">약품명</th>
-											<th style="width: 200px;">용량</th>
-											<th style="width: 200px;">일수</th>
-											<th style="width: 200px;">일투</th>
+											<th style="width: 400px;">약품 명</th>
+											<th style="width: 200px;">1회 투여량</th>
+											<th style="width: 200px;">1일  투여횟수</th>
+											<th style="width: 200px;">총 투약일수</th>
 										</tr>
 									</thead>
 									<tbody id="insertMedicine"></tbody>

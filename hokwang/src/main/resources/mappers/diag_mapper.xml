@@ -249,4 +249,11 @@
 			</if>
 		</where>
 	</select>
+	
+	 <select id="PaymnetProcedure" parameterType="map" statementType="CALLABLE">
+        CALL MAKE_PAYMENT_PROC(
+        #{resv_no, mode=IN, jdbcType=VARCHAR, javaType=String},
+        #{dis_price, mode=IN, jdbcType=VARCHAR, javaType=String}
+        )
+    </select>
 </mapper>

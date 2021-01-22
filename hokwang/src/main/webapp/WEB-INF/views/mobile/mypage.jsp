@@ -222,6 +222,8 @@ function getImage(){
 				console.log(item);
 				if(item.parent_sns == 'social'){
 					$('#divimg').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${parent_vo.parent_img}"));
+				}else if(item.parent_img == null ){
+					$('#divimg').append($('<img id="img" class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/emptyimg.png"));
 				}else{
 					$('#divimg').append($('<img id="img" class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.parent_img));
 				}
@@ -333,12 +335,12 @@ function getparentinf(){
 					<img src="${pageContext.request.contextPath}/resources/img/${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" id="img"/>
 				</c:if> -->
 				</div>
-					<h5 id="main-name" class="card-title mb-0"></h5>
+					<h5 id="main-name" class="h5 card-title mb-0"></h5>
 					<span data-feather="phone" class="feather-sm mr-1"></span><a id="main-tel" style="color:black;"></a>
 				<c:if test="${parent_vo.parent_sns != 'social'}">
 					<input type="hidden" id="parent-no" name="parent_no">
-					<input type="file" name="file" id="uf"/>
-						<button id="chkImg" type="submit" class="btn-secondary btn-sm">사진변경</button>
+					<input type="file" name="file"  id="uf"/>
+						<button id="chkImg" type="submit" class="btn-secondary btn-sm" style="color:black;">사진변경</button>
 				</c:if>	
 				</form>
 				</div>
@@ -347,7 +349,7 @@ function getparentinf(){
 					<h5 class="h6 card-title">프로필 수정</h5>
 					<input id="updateModal" type="button" class="btn btn-primary btn-sm" value="정보변경" data-toggle="modal" data-target="#parentModal">
 					<c:if test="${parent_vo.parent_sns != 'social'}">
-					<input id="pwbtn" type="button" class="btn btn-primary btn-sm" value="비밀번호변경" data-toggle="modal" data-target="#pwModal">
+					<input id="pwbtn" type="button" class="btn btn-secondary btn-sm" value="비밀번호변경" data-toggle="modal" data-target="#pwModal">
 					</c:if>
 				</div>
 				<hr class="my-0" />
@@ -360,13 +362,14 @@ function getparentinf(){
 					</ul>
 				</div>
 				<hr class="my-0" />
-				<div class="card-body">
+				  
+				<!--<div class="card-body">
 					<h5 class="h6 card-title">Elsewhere</h5>
 					<ul class="list-unstyled mb-0">
 						<li class="mb-1"><span class="fas fa-globe fa-fw mr-1"></span>
 							<a href="#">staciehall.co</a></li>
 					</ul>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	<!-- 부모정보수정 -->

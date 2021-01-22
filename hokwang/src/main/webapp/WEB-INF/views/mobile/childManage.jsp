@@ -166,7 +166,7 @@ function numberMaxLength(e){
 	<div class="row">
 		<div class="col-xl-6 col-xxl-5 d-flex">
 			<div class="card mb-3">
-				<div class="card-header">
+				<div class="h4 card-header" style="background-color:white; color:black;">
 					아기정보<input id="babybtn" type="button" class="btn btn-sm"
 						value="자녀등록" data-toggle="modal" data-target="#babyModal"
 						style="float: right; background-color: #faf1d6; color: gray;" />
@@ -302,8 +302,8 @@ function numberMaxLength(e){
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div class="card-header">
-					<h5 class="card-title mb-0">아기</h5>
+				<div class="card-header" style="background-color:white; color:black;">
+					<h5 class="h4 card-title mb-0">아기목록</h5>
 				</div>
 				<table id="mobile-babyinfo" class="table table-hover my-0">
 					<thead>

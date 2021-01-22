@@ -392,6 +392,8 @@
 																	data.temp_cont);
 													modal.modal('show');
 												} else {
+													////////////////////
+													AllCntMsg();
 													modal.find(
 															'#recipient-name')
 															.html();
@@ -444,28 +446,34 @@
 			console.log($('#message-text').val());
 			console.log($('#recipient-name option:selected').val());
 
-			$.ajax({
-				url : "ajax/sendMsgInf",
-				type : 'POST',
-				/* dataType : 'json', */
-				data : {
-					emp_sendno : "${emp_vo.emp_no}",
-					msg_cont : $('#message-text').val(),
-					emp_resvno : $('#recipient-name option:selected').val()
+			if($('#message-text').val() == 0 || $('#recipient-name option:selected').val() ==0){
+				alert("필수값을 입력하시오.");
+			}
+			else{
+				$.ajax({
+					url : "ajax/sendMsgInf",
+					type : 'POST',
+					/* dataType : 'json', */
+					data : {
+						emp_sendno : "${emp_vo.emp_no}",
+						msg_cont : $('#message-text').val(),
+						emp_resvno : $('#recipient-name option:selected').val()
 
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					alert("전송되었습니다.");
-					AllCntMsg();
-					$('#dataTab1').DataTable().ajax.reload();
-					$('#dataTab2').DataTable().ajax.reload();
-					$('#dataTab3').DataTable().ajax.reload();
-					$('#dataTab4').DataTable().ajax.reload();
-				}
-			});
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						alert("전송되었습니다.");
+						AllCntMsg();
+						$('#dataTab1').DataTable().ajax.reload();
+						$('#dataTab2').DataTable().ajax.reload();
+						$('#dataTab3').DataTable().ajax.reload();
+						$('#dataTab4').DataTable().ajax.reload();
+					}
+				});	
+				
+			}
 		})
 	}//end of function (writeMsg)
 
@@ -656,6 +664,8 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab2').DataTable().ajax.reload();
+					//읽을 경우 헤더 부분의 카운트 감소
+					checkMsg();
 					$('button[name=btnDelete]').on('click', function() {
 						console.log("삭제버튼 클릭");
 						$.ajax({
@@ -788,12 +798,17 @@
 				$('#noReadMsg').empty();
 				$('#totalMsg').empty();
 				$('#tempMsg').empty();
-
+				
+				$('#recipient-name').empty();
+				
 				$('#sendMsg').text(data.send);
 				$('#noReadMsg').text(data.noread);
 				$('#totalMsg').text(data.total);
 				$('#tempMsg').text(data.temp);
-				$.each(data.empInf, function(idx, item) {
+				
+				$('#recipient-name').append($('<option>').attr("value","").html("==선택하세요=="));	//dhfn	
+				$.each(data.empInf, function(idx, item) {				
+					
 					$('#recipient-name').append(
 							$('<option>').attr("value", item.emp_no).html(
 									item.emp_name));

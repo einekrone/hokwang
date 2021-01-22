@@ -28,7 +28,8 @@
 		<if test="resv_date != '' and resv_date != null">
 			AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
 		</if>
-		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
+		<!-- ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME -->
+		ORDER BY RESV_DATETIME desc, R.RESV_TYPE
 	</select>
 
 	<select id="getResvHistList" resultType="map"

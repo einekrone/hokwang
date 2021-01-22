@@ -113,9 +113,7 @@
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("xxxxxxx"+data);
 								$.each(data,function(idx,item){
-												console.log(item.ALERT_NO);
 												$('#alertLabel').append(
 														$('<div class="bbbb" />').append(
 														$('<a>').attr("href","#").attr("class","list-group-item")

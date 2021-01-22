@@ -4,8 +4,10 @@
 <mapper namespace="com.hokwang.mobile.dao.DocMapper">
 
 	<select id="selectBaby" resultType="map">
-		select a.baby_name,b.diag_time ,d.dis_code,d.dis_name,d.dis_price from
-		baby a,diagnosis b,reservation c ,DISEASE d
+		select a.baby_name,b.diag_time
+		,d.dis_code,d.dis_name,d.dis_price,b.resv_no from
+		baby a,diagnosis
+		b,reservation c ,DISEASE d
 		<where> a.baby_no=c.baby_no and b.resv_no=c.resv_no and
 			b.dis_code=d.dis_code
 			and a.baby_no=#{baby_no} order by b.diag_time
@@ -18,5 +20,19 @@
 		from baby
 		where
 		parent_no=#{parent_no}
+	</select>
+
+	<select id="diagnosisDoc" resultType="map">
+		select e.emp_name,
+		b.baby_name,b.BABY_REGNO1,b.BABY_REGNO2,p.parent_name,p.parent_addr,
+		de.dis_name
+		from DIAGNOSIS d, RESERVATION r, EMPLOYEE e, BABY b, PARENT p, disease
+		DE,PRESCRIPTION f
+		where d.resv_no = r.resv_no
+		and d.emp_no = e.emp_no
+		and r.baby_no = b.baby_no
+		and b.parent_no = p.parent_no
+		and d.dis_code = de.dis_code
+		and d.resv_no = #{resv_no}
 	</select>
 </mapper>

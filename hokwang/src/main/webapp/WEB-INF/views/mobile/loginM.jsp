@@ -52,7 +52,7 @@
 	position: absolute;
 	width: 110px;
 	height: 100%;
-	background: #d6e9aa;
+	background: #7dabd0;
 	border-radius: 30px;
 	transition: .5s;
 }
@@ -100,11 +100,11 @@
 	cursor: pointer;
 	display: block;
 	margin: auto;
-/* 	background: linear-gradient(to right, #ff105f, #ffad06); */
+	/* 	background: linear-gradient(to right, #ff105f, #ffad06); */
 	border: 0;
 	outline: none;
 	margin: 0 auto;
-/* 	border-radius: 30px; */
+	/* 	border-radius: 30px; */
 }
 
 .checkbox {
@@ -158,9 +158,8 @@ span {
 							alert("사용가능합니다");
 							$('#email').attr("readonly", true);
 							e = true;
-						}
-						else
-							alert("E-mail이 중복됩니다");	
+						} else
+							alert("E-mail이 중복됩니다");
 					}
 				})
 			}
@@ -187,10 +186,9 @@ span {
 							alert("사용가능합니다");
 							$('#id').attr("readonly", true);
 							i = true;
-						}
-						else
+						} else
 							alert("ID가 중복됩니다");
-						
+
 					}
 				})
 			}
@@ -294,41 +292,48 @@ span {
 		</div>
 		<div class="social-icons">
 			<a href="${kakao_url}"><img
-				src="${pageContext.request.contextPath}/resources/img/kakaoimg.png" alt="kakao" style="width: 200px;"></a>
-<%-- 				<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> --%>
-<%-- 				<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter"> --%>
+				src="${pageContext.request.contextPath}/resources/img/kakaoimg.png"
+				alt="kakao" style="width: 200px;"></a>
+			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> --%>
+			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter"> --%>
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"
 				name="idInput" required /> <input type="password"
 				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
 				required /> <br> <br> <br> <br> <input
-				type="button" class="submit" id="btnIn" name="btnIn" value="로그인" style="border-radius: 15px; background-color: #96dfd8; color: white; margin: 0 auto;" />
+				type="button" class="submit" id="btnIn" name="btnIn" value="로그인"
+				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
 		<form id="register" action="" class="input-group"
 			style="left: 50px; overflow: auto; height: 350px;">
 			<input type="text" class="input-fieldbtn" placeholder="id" id="id"
 				name="id" /> <input type="button" class="btn btn-secondary"
-				value="중복검사" id="overLapId" name="overLapId"> <input
-				type="password" class="input-field" placeholder="password" id="pw"
-				name="pw" /> <input type="text" class="input-field"
-				placeholder="name" id="name" name="name" /> <input type="text"
-				class="input-fieldbtn" placeholder="email" id="email" name="email" />
-			<input type="button" class="btn btn-secondary" value="중복검사"
-				id="overLapEmail" name="overLapEmail"> <input type="tel"
-				class="input-field" placeholder="전화번호는 - 를 제외하고 입력하시오" id="tel"
-				name="tel" /> <input type="text" class="input-field"
+				value="중복검사" id="overLapId" name="overLapId"
+				style="border-radius: 10px;"> <input type="password"
+				class="input-field" placeholder="password" id="pw" name="pw" /> <input
+				type="text" class="input-field" placeholder="name" id="name"
+				name="name" /> <input type="text" class="input-fieldbtn"
+				placeholder="email" id="email" name="email" /> <input type="button"
+				class="btn btn-secondary" value="중복검사" id="overLapEmail"
+				name="overLapEmail" style="border-radius: 10px;"> <input
+				type="tel" class="input-field" placeholder="전화번호는 - 를 제외하고 입력하시오"
+				id="tel" name="tel" /> <input type="text" class="input-field"
 				placeholder="주민등록번호 앞자리" id="reg1" name="reg1" /> <input
 				type="password" class="input-field" placeholder="주민등록번호 뒷자리"
 				id="reg2" name="reg2" /> <input type="text" id="sample3_postcode"
-				placeholder="우편번호"> <input type="button"
-				onclick="sample3_execDaumPostcode()" value="우편번호 찾기" id="postBtn"><br>
+				placeholder="우편번호" style="margin-left: 5px; width: 150px;"
+				class="input-field" readonly> <input type="button"
+				onclick="sample3_execDaumPostcode()" value="우편번호 찾기" id="postBtn"
+				class="btn"
+				style="background: #e5e1e0; margin-left: 5px; border-radius: 10px;"><br>
 			<input type="text" class="input-field" id="sample3_address"
 				placeholder="주소"><br> <input type="text"
 				class="input-field" id="sample3_detailAddress" placeholder="상세주소">
 			<input type="text" class="input-field" id="sample3_extraAddress"
 				placeholder="참고항목"> <input type="button" class="submit"
-				id="btnRegister" name="btnRegister" value="등록" style="border-radius: 15px; background-color: #96dfd8; color: white; margin: 0 auto;" />
+				id="btnRegister" name="btnRegister" value="등록"
+				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
 	</div>
 </div>

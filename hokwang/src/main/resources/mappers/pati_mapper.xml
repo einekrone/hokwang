@@ -7,7 +7,7 @@
 		SELECT TO_CHAR(P.PAY_DATE,'YYYY-MM-DD') AS PAY_DATE,P.PAY_PRICE, P.PAY_STATE FROM
 		PAYMENT P, RESERVATION R
 		<where> P.RESV_NO = R.RESV_NO
-			AND R.BABY_NO = #{baby_no}
+			AND R.BABY_NO = #{baby_no} order by PAY_DATE DESC
 		</where>
 	</select>
 

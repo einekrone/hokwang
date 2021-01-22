@@ -16,7 +16,7 @@
 		</where>
 	</select>
 
-	<select id="getVacList" resultType="checkupVO">
+	<select id="getVacList" resultType="checkupVO"><!-- 청일  -->
 		SELECT * FROM CHECKUP
 		<where>
 			<if test="baby_no != null and baby_no != ''">

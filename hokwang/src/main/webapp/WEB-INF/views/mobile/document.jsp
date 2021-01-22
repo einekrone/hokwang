@@ -148,6 +148,7 @@ function payment() {
 	    		$("#btn_div").css("display","block");
 	    		$("#pay_doc").css("display","none");
 	    		//아작스 -> 컨트롤러 가서 매퍼간다음에 -> db->
+	    		ajax->update : status Y
 	    		} else {
 	    			var msg = '결제에 실패하였습니다.';
 	    			msg += '에러내용 : ' + rsp.error_msg;
@@ -230,22 +231,34 @@ function selectBabyResult(data){
 	$.each(data,function(idx, item) {
 		//if(item.)
 		console.log(">>>>>>>>>>>" +idx)
-	$("#docBody").append($('<div>').attr('class','col-12')
-					.append($('<div>').attr('class','card')
-						.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
-						.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
-						.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
-						.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
-						//.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
-						.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
-						.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
-								.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
 						
-						 if (item.DOC_PRICE == "N") {
-								//console.log(">> N" + idx + item.HIST_STATE);
-								$("#hist_date3"+idx).eq(-1).after(
-										$('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"));
-							} 
+						 if (item.DOC_STATUS == "N") {
+								$("#docBody").append($('<div>').attr('class','col-12')
+										.append($('<div>').attr('class','card')
+											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
+											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
+											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
+											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
+											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
+											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
+											.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
+											.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
+
+						 
+						 }else{
+								$("#docBody").append($('<div>').attr('class','col-12')
+										.append($('<div>').attr('class','card')
+											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
+											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
+											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
+											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
+											//.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
+											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
+											.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
+											.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
+
+							 
+						 }
 	
 	
 	});

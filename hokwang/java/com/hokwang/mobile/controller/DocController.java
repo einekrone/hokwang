@@ -22,12 +22,8 @@ public class DocController {
 	@ResponseBody
 	@RequestMapping("/ajax/successDoc")
 	public boolean updateDocStatus(Reservation vo) {
-		if (service.updateDocStatus(vo) == 1) {
 			service.updateDocStatus(vo);
 			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@RequestMapping(value = "/printDoc")

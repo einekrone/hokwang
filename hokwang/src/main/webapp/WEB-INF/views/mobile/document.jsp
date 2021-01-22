@@ -160,6 +160,8 @@ function payment() {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data){
+					$("#docBody").empty
+					chgBaby()
 					$("#btn_div").css("display","block");
 		    		$("#pay_doc").css("display","none");
 				}
@@ -246,7 +248,7 @@ function selectBabyResult(data){
 	
 	$.each(data,function(idx, item) {
 		//if(item.)
-		console.log(">>>>>>>>>>>" +idx)
+		console.log(">>>>>>>>>>>" +item.DOC_STATUS)
 						
 						 if (item.DOC_STATUS == "N") {
 								$("#docBody").append($('<div>').attr('class','col-12')
@@ -272,7 +274,7 @@ function selectBabyResult(data){
 											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
 											//.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
-											.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
+											.append($("<div>").attr("id","btn_div").append($('<input>').attr("type",'button').attr("id","pdfmake")
 											.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
 
 							 

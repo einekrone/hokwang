@@ -160,8 +160,8 @@ function payment() {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data){
-					$("#btn_div").css("display","block"),
-		    		$("#pay_doc").css("display","none")
+					$("#btn_div").css("display","block");
+		    		$("#pay_doc").css("display","none");
 				}
 	})//end of ajax
 	    		} else {

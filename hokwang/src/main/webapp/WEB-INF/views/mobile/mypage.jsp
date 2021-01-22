@@ -55,6 +55,7 @@ $(function() {
 	updateInf();
 	getparentinf();
 	chkEmail();
+	mainSelect();
 	
 	var fileTarget = $('.file-upload .upload-hidden');
 
@@ -236,25 +237,24 @@ function getImage(){
 
 function updateInf() {
 	$('#pwUpdate').on("click", function() {
-		var oldpw = $('#oldpw').val();
-		console.log(oldpw);
 		if ($('#pw').val() == $('#pw2').val()) {
 			$.ajax({
 				url : 'ajax/updatePw',
 				type : 'POST',
 				/* dataType : 'json', */
 				data : {
-					parent_pw1 : $('#oldpw').val(),
+					parent_pw1 : "${parent_vo.parent_pw}",
 					parent_pw : $('#pw').val()
 				},
 				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					alert("기존 비밀번호를 확인해주세요.");
 				},
 				success : function(data) {
 					console.log(data);
 					if (data == true) {
 						alert("변경되었습니다.");
-						location.href="mmypage";
+						//location.href="mmypage";
+						location.reload(true);
 					} else {
 						alert("비밀번호가 일치하지않습니다. ")
 					}
@@ -283,18 +283,40 @@ function getparentinf(){
 					$('#parent-name').val(item.parent_name);
 					$('#parent-tel').val(item.parent_tel);
 					$('#parent-email').val(item.parent_email);
+					$('#parent_addr').val(item.parent_addr);
 				})
 			},
 			error:function(){
 				alert("error");
 			}
 		});
+		
 	})
 }
 
-
-
-
+	function mainSelect() {
+		$.ajax({
+			url : 'ajax/getParentInf',
+			type : 'GET',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			dataType : 'json',
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					console.log(item.parent_name);
+					$('#main-name').html(item.parent_name);
+					$('#main-tel').html(item.parent_tel);
+					$('#main-email').html(item.parent_email);
+					$('#main-addr').html(item.parent_addr);
+					$('#main-id').html(item.parent_id);
+				})
+			},
+			error : function() {
+				alert("error");
+			}
+		});
+	}
 </script>
 	<h1 class="h3 mb-3">보호자정보</h1>
 
@@ -311,8 +333,8 @@ function getparentinf(){
 					<img src="${pageContext.request.contextPath}/resources/img/${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" id="img"/>
 				</c:if> -->
 				</div>
-					<h5 class="card-title mb-0">${parent_vo.parent_name}</h5>
-					<div class="text-muted mb-2">${parent_vo.parent_tel}</div>
+					<h5 id="main-name" class="card-title mb-0"></h5>
+					<span data-feather="phone" class="feather-sm mr-1"></span><a id="main-tel" style="color:black;"></a>
 				<c:if test="${parent_vo.parent_sns != 'social'}">
 					<input type="hidden" id="parent-no" name="parent_no">
 					<input type="file" name="file" id="uf"/>
@@ -332,8 +354,9 @@ function getparentinf(){
 				<div class="card-body">
 					<h5 class="h6 card-title">상세정보</h5>
 					<ul class="list-unstyled mb-0">
-						<li class="mb-1"><span data-feather="at-sign" class="feather-sm mr-1"></span> 이메일: <a style="color:blue;">${parent_vo.parent_email}</a></li>
-						<li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> 주소 : <a style="color:blue;">${parent_vo.parent_addr}</a></li>
+						<li class="mb-1"><span data-feather="info" class="feather-sm mr-1"></span> 아이디 : <a id="main-id" style="color:blue;"></a></li>
+						<li class="mb-1"><span data-feather="at-sign" class="feather-sm mr-1"></span> 이메일: <a id="main-email" style="color:blue;"></a></li>
+						<li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> 주소 : <a id="main-addr" style="color:blue;"></a></li>
 					</ul>
 				</div>
 				<hr class="my-0" />
@@ -387,7 +410,7 @@ function getparentinf(){
 							<hr>
 						<button type="submit" class="btn btn-primary" id="btnUpdate"
 							name="btnUpdate">수정</button>
-						<button type="cancel" class="btn btn-primary" id="btnCancel"
+						<button type="button" class="btn btn-primary" id="btnCancel"
 							name="btnCancel" data-dismiss="modal">취소</button>
 							</div>
 					</form>
@@ -415,7 +438,7 @@ function getparentinf(){
 						<table>
 							<tr>
 								<td><span class="point">&nbsp;*</span>비밀번호</td>
-								<td><input type="password" id="oldpw" name="oldpw"
+								<td><input type="password" id="parent_pw" name="parent_pw"
 									placeholder="기존 비밀번호를 입력하시오"></td>
 
 							</tr>
@@ -433,7 +456,7 @@ function getparentinf(){
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="pwUpdate"
-							data-dismiss="modal" name="pwUpdate">변경</button>
+							 name="pwUpdate">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>

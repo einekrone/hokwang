@@ -83,7 +83,7 @@
 				type : 'GET',
 				dataType : 'json',
 				data : {
-					alert_no : $(event.target).parentsUntil('.bbb').find('#checkHide').val()
+					alert_no : $(event.target).parentsUntil('.bbbb').find('#checkHide').val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);

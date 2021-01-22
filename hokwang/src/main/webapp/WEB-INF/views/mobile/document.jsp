@@ -125,6 +125,8 @@ function payment() {
 	
 	$(document).on("click","#pay_doc",function(e){
 	var vv=$(this).next().text()
+	var vv2=$(this).next().next().text()
+	
 	e.stopImmediatePropagation() 
 	IMP.request_pay({
 	    pg : 'html5_inicis',
@@ -145,10 +147,23 @@ function payment() {
 	    		msg += '결제 금액 : ' + rsp.paid_amount;
 	    		msg += '카드 승인번호 : ' + rsp.apply_num;
 	    		alert("결제성공")
-	    		$("#btn_div").css("display","block");
-	    		$("#pay_doc").css("display","none");
+	    		
 	    		//아작스 -> 컨트롤러 가서 매퍼간다음에 -> db->
-	    		ajax->update : status Y
+	    		//ajax->update : status Y
+	    		$.ajax({
+					url : 'ajax/successDoc',
+					type : 'GET',
+					data : {
+					resv_no : vv
+				},
+					error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data){
+					$("#btn_div").css("display","block"),
+		    		$("#pay_doc").css("display","none")
+				}
+	})//end of ajax
 	    		} else {
 	    			var msg = '결제에 실패하였습니다.';
 	    			msg += '에러내용 : ' + rsp.error_msg;
@@ -158,6 +173,7 @@ function payment() {
 	    	});
 	    	   //성공시 이동할 페이지
 	    	console.log("@@@@@@@@@@@@@@12345>");
+	    	console.log(vv+"vvvvvvvvvvvvvv"+vv2);
 	    	imp_uid = extract_POST_value_from_url('imp_uid') //post ajax request로부터 imp_uid확인
 	    	//merchant_uid = extract_GET_value_from_url('merchant_uid') //또는, GET query string으로부터 merchant_uid확인
 
@@ -241,11 +257,13 @@ function selectBabyResult(data){
 											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
 											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
-											.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
-											.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
+											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
+											//.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
+											//.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
 
 						 
-						 }else{
+						 }else
+						 {
 								$("#docBody").append($('<div>').attr('class','col-12')
 										.append($('<div>').attr('class','card')
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))

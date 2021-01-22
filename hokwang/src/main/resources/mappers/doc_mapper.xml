@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hokwang.mobile.dao.DocMapper">
-
+	<update id="updateDocStatus" parameterType="reservation">
+		UPDATE RESERVATION
+		SET DOC_STATUS = 'Y'
+		WHERE RESV_NO = #{resv_no}
+	</update>
+	
 	<select id="selectBaby" resultType="map">
 		select a.baby_name,b.diag_time,c.doc_status
 		,d.dis_code,d.dis_name,d.dis_price,b.resv_no from

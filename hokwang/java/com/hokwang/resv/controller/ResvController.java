@@ -80,14 +80,32 @@ public class ResvController {
 	@RequestMapping("/ajax/imgInsert")
 	public int imgInsert(HttpServletRequest request, Images vo) throws IllegalStateException, IOException {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile multipartFile = multipartRequest.getFile("imgInput");
-		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
-			String path = request.getSession().getServletContext().getRealPath("/resources/img"); // 업로드할 경로
-			// getOriginalFilename : 업로드 후 파일명
-			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
-			vo.setImg_addr(multipartFile.getOriginalFilename());
-		}
-		return resvSvc.imgInsert(vo);
+//		MultipartFile multipartFile = multipartRequest.getFile("imgInput");
+//		if (!multipartFile.isEmpty() && multipartFile.getSize() > 0) {
+//			String path = request.getSession().getServletContext().getRealPath("/resources/img"); // 업로드할 경로
+//			// getOriginalFilename : 업로드 후 파일명
+//			multipartFile.transferTo(new File(path, multipartFile.getOriginalFilename()));
+//			vo.setImg_addr(multipartFile.getOriginalFilename());
+//		}
+		List<MultipartFile> fileList = multipartRequest.getFiles("imgInput");
+
+        String path = request.getSession().getServletContext().getRealPath("/resources/img"); // 업로드할 경로
+        for (MultipartFile mf : fileList) {
+//            String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+//            long fileSize = mf.getSize(); // 파일 사이즈
+//            System.out.println("originFileName : " + originFileName);
+//            System.out.println("fileSize : " + fileSize);
+
+            mf.transferTo(new File(path, mf.getOriginalFilename()));
+			vo.setImg_addr(mf.getOriginalFilename());
+            try {
+            	resvSvc.imgInsert(vo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+		return 0;
 	}
 
 	// 진료 사진 관리(삭제)

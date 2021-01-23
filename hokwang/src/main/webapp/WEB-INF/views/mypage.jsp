@@ -211,14 +211,15 @@
 #wri_m_bt {
 	margin-left: 30px;
 	padding: 10px 20px 10px 20px;
-	background: #013ADF;
+	background: #007bff;
 	border: 0;
 	color: white;
 	font-size: 12px;
+	border-radius: 10px;
 }
 
 #wri_m_bt:hover {
-	background: #08298A;
+	background: #369ec7;
 	color: white;
 }
 
@@ -252,6 +253,7 @@
 		oneSales();
 
 	});
+	
 
 	/* allSales() */
 	function oneSales() {
@@ -302,7 +304,10 @@
 							alert("변경되었습니다.");
 							location.href = "logout";
 						} else {
-							alert("기존 비밀번호 재확인 ")
+							alert("기존 비밀번호 재확인 ");
+							$('#oldpw').val("")
+							$('#pw').val("")
+							$('#pw2').val("")
 						}
 					}
 				});
@@ -391,6 +396,8 @@
 																	data.temp_cont);
 													modal.modal('show');
 												} else {
+													////////////////////
+													AllCntMsg();
 													modal.find(
 															'#recipient-name')
 															.html();
@@ -443,28 +450,34 @@
 			console.log($('#message-text').val());
 			console.log($('#recipient-name option:selected').val());
 
-			$.ajax({
-				url : "ajax/sendMsgInf",
-				type : 'POST',
-				/* dataType : 'json', */
-				data : {
-					emp_sendno : "${emp_vo.emp_no}",
-					msg_cont : $('#message-text').val(),
-					emp_resvno : $('#recipient-name option:selected').val()
+			if($('#message-text').val() == 0 || $('#recipient-name option:selected').val() ==0){
+				alert("필수값을 입력하시오.");
+			}
+			else{
+				$.ajax({
+					url : "ajax/sendMsgInf",
+					type : 'POST',
+					/* dataType : 'json', */
+					data : {
+						emp_sendno : "${emp_vo.emp_no}",
+						msg_cont : $('#message-text').val(),
+						emp_resvno : $('#recipient-name option:selected').val()
 
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(data) {
-					alert("전송되었습니다.");
-					AllCntMsg();
-					$('#dataTab1').DataTable().ajax.reload();
-					$('#dataTab2').DataTable().ajax.reload();
-					$('#dataTab3').DataTable().ajax.reload();
-					$('#dataTab4').DataTable().ajax.reload();
-				}
-			});
+					},
+					error : function(xhr, status, msg) {
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+						alert("전송되었습니다.");
+						AllCntMsg();
+						$('#dataTab1').DataTable().ajax.reload();
+						$('#dataTab2').DataTable().ajax.reload();
+						$('#dataTab3').DataTable().ajax.reload();
+						$('#dataTab4').DataTable().ajax.reload();
+					}
+				});	
+				
+			}
 		})
 	}//end of function (writeMsg)
 
@@ -655,6 +668,8 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab2').DataTable().ajax.reload();
+					//읽을 경우 헤더 부분의 카운트 감소
+					checkMsg();
 					$('button[name=btnDelete]').on('click', function() {
 						console.log("삭제버튼 클릭");
 						$.ajax({
@@ -787,12 +802,17 @@
 				$('#noReadMsg').empty();
 				$('#totalMsg').empty();
 				$('#tempMsg').empty();
-
+				
+				$('#recipient-name').empty();
+				
 				$('#sendMsg').text(data.send);
 				$('#noReadMsg').text(data.noread);
 				$('#totalMsg').text(data.total);
 				$('#tempMsg').text(data.temp);
-				$.each(data.empInf, function(idx, item) {
+				
+				$('#recipient-name').append($('<option>').attr("value","").html("==선택하세요=="));	//dhfn	
+				$.each(data.empInf, function(idx, item) {				
+					
 					$('#recipient-name').append(
 							$('<option>').attr("value", item.emp_no).html(
 									item.emp_name));
@@ -937,7 +957,7 @@
 
 						<div class="col-xl-6 col-md-6 mb-4 card">
 							<div class="card-body" style="padding-top: 2.5rem;">
-								<div style="float: left;">
+								<div>
 									<form id='form1' method="post">
 										<input type="hidden" name="emp_no" value="${emp_vo.emp_no}">
 										<table style="margin: auto;">
@@ -951,10 +971,9 @@
 												<td class="content" style="margin: 10px;">
 											</tr>
 										</table>
-										<div class="btn-group file-upload btn-group-toggle">
-											<input type="text" class="upload-name" value="파일선택"
-												disabled="disabled" /> <label for="uf">업로드</label> <input
-												type="file" class="upload-hidden" id='uf' name="uf">
+										<div class="btn-group file-upload btn-group-toggle" style="float: right;">
+											<input type="hidden" class="upload-name" value="파일선택" /> <label for="uf">프로필사진 업로드</label> <input
+												type="file" class="upload-hidden upload-name" id='uf' name="uf">
 										</div>
 									</form>
 								</div>
@@ -998,7 +1017,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer" style="height: 50px; float: right;">
+							<div class="card-footer" style="height: 50px; text-align: right;">
 								<a class="text-primary" href="#" data-toggle="modal"
 									data-target="#UpdateModal" data-backdrop="static"
 									style="font-size: 15px"> 비밀번호 변경 </a> / <a class="text-primary"
@@ -1007,14 +1026,7 @@
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-6 mb-4 card">
-							
-
-
-
-							<!-- Earnings (Monthly) Card Example -->
-
 							<div class="row1" style="margin-top: 40px;">
-															<!-- Pending Requests Card Example -->
 								<div class="col-xl-6 col-md-6 mb-4">
 									<div class="card border-left-warning shadow h-100 py-2">
 										<div class="card-body">
@@ -1076,7 +1088,7 @@
 						</div>
 
 						<div class="card shadow py-2 main_in"
-							style="height: 480px; width: 100%;">
+							style="height: 480px; width: 100%; padding: 5px 10px;">
 							<aside>
 								<div class="card shadow py-2" style="height: 462px; width: 20%;">
 									<div class="card-body">
@@ -1122,7 +1134,7 @@
 								</ul>
 							</div> -->
 
-							<div class="note_bt" style="display: block" id="cont1">
+							<div class="note_bt" style="display: block; top: 70px;" id="cont1">
 								<table id="dataTab1">
 									<thead>
 										<tr>
@@ -1327,7 +1339,7 @@
 					<div class="modal-body">프로필변경하시겠습니까?</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="btnUpdateImg"
-							name="btnUpdateImg">변경</button>
+							name="btnUpdateImg" data-dismiss="modal">변경</button>
 						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
 				</div>
@@ -1357,7 +1369,7 @@
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
 								<textarea class="form-control" id="message-text1"
-									name="message-text1"></textarea>
+									name="message-text1" readonly></textarea>
 							</div>
 						</form>
 					</div>
@@ -1429,7 +1441,7 @@
 							<div class="form-group">
 								<label for="message-text" class="col-form-label">내용</label>
 								<textarea class="form-control" id="message-text3"
-									name="message-text3"></textarea>
+									name="message-text3" readonly></textarea>
 							</div>
 						</form>
 					</div>

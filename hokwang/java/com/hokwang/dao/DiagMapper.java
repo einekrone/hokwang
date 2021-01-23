@@ -13,6 +13,7 @@ import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 
 
@@ -44,4 +45,7 @@ public interface DiagMapper {
 	public int insertPayment(PaymentVO vo);
 	
 	public List<Map<String, Object>> getImages(Images vo);
+	public List<QuestionVO> getQuestionInfo(QuestionVO vo);
+	
+	public void PaymnetProcedure(Map<String, Object> map);
 }

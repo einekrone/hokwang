@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.hokwang.mobile.dao.BabyDiaryMapper;
 import com.hokwang.mobile.service.BabyDiaryService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
+import com.hokwang.vo.TemporatureVO;
 
 @Service
 public class BabyDiaryServiceImpl implements BabyDiaryService {
@@ -44,6 +46,48 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public List<Map<String, Object>> allreser(Reservation vo) {
 		// TODO Auto-generated method stub
 		return dao.allreser(vo);
+	}
+
+	@Override
+	public int insertbodyinfo(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.insertbodyinfo(vo);
+				
+	}
+
+	@Override
+	public List<BodyVO> checkBody(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkBody(vo);
+	}
+
+	@Override
+	public List<TemporatureVO> checkTemporature(TemporatureVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkTemporature(vo);
+	}
+
+	@Override
+	public int bodyDel(BodyVO vo) {
+		// TODO Auto-generated method stub
+		return dao.bodyDel(vo);
+	}
+
+	@Override
+	public int deleteTemp(TemporatureVO vo) {
+		// TODO Auto-generated method stub
+		return dao.deleteTemp(vo);
+	}
+
+	@Override
+	public void insertBodyInf(BodyVO vo) {
+		// TODO Auto-generated method stub
+		dao.insertBodyInf(vo);
+	}
+	@Override
+	public void insertTempInf(TemporatureVO vo) {
+		// TODO Auto-generated method stub
+		dao.insertTempInf(vo);
 	}
 	
 	

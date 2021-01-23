@@ -49,6 +49,8 @@ public class PatientController {
 		map.put("patientInfo",patientService.patientInfo(vo));
 		map.put("diagnosisRecord",patientService.diagnosisRecord(vo));
 		map.put("chart",patientService.bodyInfo(vo2));
+		map.put("payPatient", patientService.paymentPatient(vo));
+		
 		return map;
 	}
 	

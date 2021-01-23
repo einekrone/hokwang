@@ -53,4 +53,24 @@ public class ResvmServiceImpl implements ResvmService {
 		return resvmDao.getResvInfo(vo);
 	}
 
+	@Override
+	public int resvDelete(Reservation vo) {
+		return resvmDao.resvDelete(vo);
+	}
+
+	@Override
+	public int resvUpdate(Reservation vo) {
+		return resvmDao.resvUpdate(vo);
+	}
+
+	@Override
+	public int questUpdate(QuestionVO vo) {
+		return resvmDao.questUpdate(vo);
+	}
+
+	@Override
+	public Object checkResvNo(Reservation vo) {
+		return resvmDao.checkResvNo(vo);
+	}
+
 }

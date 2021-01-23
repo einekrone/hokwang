@@ -11,19 +11,24 @@
 	</select>
 
 	<select id="reserlist" resultType="reservation">
-		select * from reservation
+		select
+		TO_CHAR(RESV_DATE,'YYYY-MM-DD') AS
+		RESV_DATE,baby_no,resv_status,resv_no,resv_payyn from reservation
 		where baby_no=(select baby_no from baby where baby_no=#{baby_no})
+		order by resv_date
 	</select>
 
 	<select id="getBabyList" resultType="BabyVO">
 		select *
 		from baby
-		where parent_no=#{parent_no}
+		where
+		parent_no=#{parent_no}
 	</select>
 	<select id="getBabyinfo" resultType="BabyVO">
 		select *
 		from baby
-		where parent_no=#{parent_no} and baby_no=#{baby_no}
+		where
+		parent_no=#{parent_no} and baby_no=#{baby_no}
 	</select>
 
 	<select id="unpayList" resultType="reservation">
@@ -34,10 +39,72 @@
 	</select>
 
 	<select id="allreser" resultType="map">
-		select a.resv_date,d.dis_name,a.resv_status
-		from reservation a ,DIAGNOSIS b,disease d
+		select
+		TO_CHAR(a.RESV_DATE,'YYYY-MM-DD') AS
+		RESV_DATE,d.dis_name,a.resv_status
+		from reservation a ,DIAGNOSIS
+		b,disease d
 		where a.resv_no=b.resv_no
 		and b.dis_code=d.dis_code
-		and a.baby_no = (select baby_no from baby where baby_no=#{baby_no})
+		and
+		a.baby_no = (select baby_no from baby where baby_no=#{baby_no})
 	</select>
+
+	<insert id="insertbodyinfo" parameterType="bodyVO">
+		insert into
+		BODYINFO(baby_no,body_no,body_height,body_weight,body_date,baby_no)
+		values(#{baby_no},#{body_no},#{body_height},#{body_weight},#{body_date},#{baby_no})
+	</insert>
+
+
+	<select id="checkBody" resultType="BodyVO"
+		parameterType="BodyVO">
+		select *
+		from BODYINFO
+		where
+		baby_no=#{baby_no}
+		ORDER BY
+		BODY_DATE DESC
+	</select>
+
+	<select id="checkTemporature" resultType="TemporatureVO"
+		parameterType="TemporatureVO">
+		select *
+		from TEMPORATURE
+		where
+		baby_no=#{baby_no}
+		ORDER BY
+		TEMP_DATE DESC
+	</select>
+	<delete id="bodyDel" parameterType="bodyVO">
+		DELETE FROM BODYINFO
+		WHERE
+		body_no = #{body_no}
+	</delete>
+
+	<delete id="deleteTemp" parameterType="TemporatureVO">
+		DELETE FROM TEMPORATURE
+		WHERE temp_no = #{temp_no}
+	</delete>
+
+	<insert id="insertBodyInf" parameterType="bodyVO">
+		<selectKey order="BEFORE" keyProperty="body_no"
+			resultType="string">
+			SELECT NVL(MAX(BODY_NO),0)+1 FROM BODYINFO
+		</selectKey>
+		insert into
+		BODYINFO(body_no,body_height,body_weight,body_date,baby_no)
+		values(#{body_no},#{body_height},#{body_weight},SYSDATE,#{baby_no})
+	</insert>
+
+	<insert id="insertTempInf" parameterType="temporatureVO">
+		<selectKey order="BEFORE" keyProperty="temp_no"
+			resultType="string">
+			SELECT NVL(MAX(TEMP_NO),0)+1 FROM TEMPORATURE
+		</selectKey>
+		insert into
+		TEMPORATURE(temp_no,temp_temp,temp_date,baby_no)
+		values(#{temp_no},#{temp_temp},SYSDATE,#{baby_no})
+	</insert>
+
 </mapper>

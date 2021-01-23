@@ -17,4 +17,8 @@ public interface ResvmMapper {
 	public int alertInsert(AlertVO vo);
 	public List<Map<String, Object>> getCntTimeList(Reservation vo);
 	public Map<String, Object> getResvInfo(Reservation vo);
+	public int resvDelete(Reservation vo);
+	public int resvUpdate(Reservation vo);
+	public int questUpdate(QuestionVO vo);
+	public Object checkResvNo(Reservation vo);
 }

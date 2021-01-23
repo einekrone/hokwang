@@ -57,16 +57,8 @@
 								$('#showMessage').append($('<a>').addClass("dropdown-item d-flex align-items-center")
 														.append($('<div>').addClass("dropdown-list-image mr-3")
 														.append($('<img>').addClass('rounded-circle')
-																						.attr(
-																								'src',
-																								"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
-														.append(
-																$('<div>')
-																		.addClass(
-																				"font-weight-bold")
-																		.append(
-																				$(
-																						'<div>')
+																.attr('src',"${pageContext.request.contextPath}/resources/img/"+item.emp_profile)))
+														.append($('<div>').addClass("font-weight-bold").append($('<div>')
 																						.addClass(
 																								"text-truncate")
 																						.text(
@@ -180,7 +172,7 @@
 					<div
 						class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
 						aria-labelledby="messagesDropdown" id="showMessage">
-						<h6 class="dropdown-header">쪽지함</h6>
+						<h4 class="dropdown-header" style="font-size: 1rem !important;">쪽지함</h4>
 						<%-- <a class="dropdown-item d-flex align-items-center">
 							<div class="dropdown-list-image mr-3">
 								<img class="rounded-circle" src="${pageContext.request.contextPath}/resources/img/d1.png">
@@ -211,13 +203,13 @@
 						class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 						aria-labelledby="userDropdown">
 						<a class="dropdown-item" href="mypage"> <i
-							class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
+							class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 마이페이지
 						</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#" data-toggle="modal"
 							data-target="#logoutModal"> <i
 							class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-							Logout
+							로그아웃
 						</a>
 					</div></li>
 			</c:if>

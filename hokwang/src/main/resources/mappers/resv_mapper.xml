@@ -28,7 +28,8 @@
 		<if test="resv_date != '' and resv_date != null">
 			AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
 		</if>
-		ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME
+		<!-- ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME -->
+		ORDER BY RESV_DATETIME desc, R.RESV_TYPE
 	</select>
 
 	<select id="getResvHistList" resultType="map"
@@ -61,21 +62,23 @@
 		<where>
 			<if test="resv_no != null and resv_no != ''">
 				RESV_NO LIKE '%'||#{resv_no}||'%'
-				
+
 			</if>
 		</where>
 	</select>
 
 	<select id="getNonPayList" resultType="map"
 		parameterType="resvSearch">
-		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYYYMMDD') AS PAY_DATE,
+		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYMMDD') AS PAY_DATE,
 		P.PAY_PRICE,
-		P.PAY_STATE, B.*, D.RESV_NO
-		FROM PAYMENT P, DIAGNOSIS D,
-		RESERVATION R, BABY B
-		WHERE D.RESV_NO = R.RESV_NO
+		P.PAY_STATE, B.*, P.RESV_NO
+		FROM PAYMENT P,
+		RESERVATION R,
+		BABY B
+		WHERE P.RESV_NO = R.RESV_NO
 		AND R.BABY_NO = B.BABY_NO
-		AND P.PAY_STATE IN('N', 'W', 'Y')
+		AND
+		P.PAY_STATE IN('N', 'W', 'Y')
 		<if
 			test="searchType != null and searchType != '' and keyword != null and keyword != ''">
 			<if test="searchType == 'chkType' and keyword == 'today2'">
@@ -125,12 +128,13 @@
 
 	<select id="getPayInfo" resultType="map"
 		parameterType="paymentVO">
-		SELECT P.*, D.RESV_NO, B.BABY_NAME, PA.PARENT_NAME,
+		SELECT P.*, R.RESV_NO, B.BABY_NAME, PA.PARENT_NAME,
 		TO_CHAR(P.PAY_DATE, 'YYYY-MM-DD') as PAY_DATEE
 		FROM PAYMENT P,
-		DIAGNOSIS D, RESERVATION R, BABY B, PARENT PA
-		WHERE D.RESV_NO = R.RESV_NO
-		AND R.BABY_NO = B.BABY_NO
+		RESERVATION R, BABY B, PARENT PA
+		WHERE P.RESV_NO = R.RESV_NO
+		AND
+		R.BABY_NO = B.BABY_NO
 		AND
 		B.PARENT_NO = PA.PARENT_NO
 		<if test="pay_no != null and pay_no != ''">
@@ -140,7 +144,7 @@
 
 	<update id="payUpdate" parameterType="paymentVO">
 		UPDATE PAYMENT
-		SET PAY_STATE = 'Y'
+		SET PAY_STATE = 'Y', PAY_DATE = sysdate
 		<where>
 			<if test="pay_no != null and pay_no != ''">
 				PAY_NO = #{pay_no}

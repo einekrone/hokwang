@@ -20,8 +20,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/mobile.css"
 	rel="stylesheet">
 
-<script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH21zH92cL76dalhNG4zwZXPIXsVwT738"></script>
 <style>
 #card1 {
 	width: 180px;
@@ -48,18 +47,10 @@
 	height: 80px;
 }
 
-.btnt {
-	height: 100%;
-	width: 45%;
-	background-color: #96bb7c;
+.resvBtn {
 	color: white;
-}
-
-.btnv {
-	height: 100%;
-	width: 45%;
-	background-color: #ffc764;
-	color: white;
+	padding: 30px 15px;
+	height:80px;
 }
 </style>
 
@@ -114,14 +105,13 @@
 	</script>
 <body>
 
-	
 	<c:if test="${parent_vo != null }">
 		<div class="row mb-2 mb-xl-3">
 			<div class="col-auto ml-auto text-right mt-n1">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 					</ol>
-					<input type="button" class="btn btn-primary btn-sm"
+					<input type="button" class="btn btn-m" style="background-color: #b6e3e9; color:gray;"
 						value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
 				</nav>
 			</div>
@@ -146,7 +136,7 @@
 										</div>
 										<div class="carousel-item">
 											<img class="d-block w-100" style="height: 150px;"
-												src="${pageContext.request.contextPath}/resources/img/hohoLogo2.png"
+												src="${pageContext.request.contextPath}/resources/img/corona2.jpg"
 												alt="Second slide">
 										</div>
 										<div class="carousel-item">
@@ -161,19 +151,12 @@
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<div>
-							<div style="height: 80px; text-align: center;">
-								<button class="btn btnt" onclick="location.href='resv?type=T'">당일예약</button>
-								<!-- 								<h5 id ="resvname" class="card-title mb-4">예약/접수</h5> -->
-								<button class="btn btnv" onclick="location.href='resv?type=R'">우선예약</button>
-							</div>
-						</div>
+						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;" onclick="location.href='resv?type=T'" >
+						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;" onclick="location.href='resv?type=R'" >
 					</div>
 					<div id="card2" class="card">
-						<div>
-							<input type="button" class="btn btn-info active" value="증명서 발급"
-								id="issue">
-						</div>
+						<input type="button" class="btn active" value="증명서 발급"
+							id="issue" style="background-color: #b6e3e9; color: white;">
 					</div>
 				</div>
 			</div>
@@ -183,7 +166,7 @@
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-				
+
 					<h5 class="card-title mb-0">코로나 현황</h5>
 				</div>
 				<div style="height: 200px; overflow: auto;">

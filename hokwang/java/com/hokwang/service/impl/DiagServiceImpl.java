@@ -19,6 +19,7 @@ import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -148,6 +149,17 @@ public class DiagServiceImpl implements DiagService{
 	public List<Map<String, Object>> getImages(Images vo) {
 		
 		return service.getImages(vo);
+	}
+
+	@Override
+	public List<QuestionVO> getQuestionInfo(QuestionVO vo) {
+		
+		return service.getQuestionInfo(vo);
+	}
+
+	@Override
+	public void PaymnetProcedure(Map<String, Object> map) {
+		service.PaymnetProcedure(map);
 	}
 
 }

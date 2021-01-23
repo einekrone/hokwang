@@ -1,203 +1,488 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>HOHO</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+	crossorigin="anonymous"></script>
+	
+<style>
+#chkImg {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	width: 100px;
+}
 
+.form-control{
+width:60%;
+display: inline-block;
+}
+#postBtn{
+display: inline-table;
+}
+#parent_addr{
+width:100%;
+}
+</style>
 </head>
 <body>
-	<h1 class="h3 mb-3">Profile</h1>
+<script>
+var e = false;
+var i = false;
+$(function() {
+	checkImg();
+	changeImg();
+	getImage();
+	updateInf();
+	getparentinf();
+	chkEmail();
+	mainSelect();
+	
+	var fileTarget = $('.file-upload .upload-hidden');
+
+	fileTarget.on('change',
+			function() { // 값이 변경되면
+				if (window.FileReader) { // modern browser
+					var filename = $(this)[0].files[0].name;
+				} else { // old IE
+					var filename = $(this).val().split('/').pop().split(
+							'\\').pop(); // 파일명만 추출
+				}
+				// 추출한 파일명 삽입
+				$(this).siblings('.upload-name').val(filename);
+			});
+
+	$("#uf").on('change', function(e) {
+		var files = e.target.files;
+		var arr = Array.prototype.slice.call(files);
+		for (var i = 0; i < files.length; i++) {
+			if (!checkExtension(files[i].name, files[i].size)) {
+				return false;
+			}
+		}
+		preview(arr);
+	});
+
+	function checkExtension(fileName, fileSize) {
+
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var maxSize = 20971520; //20MB
+
+		if (fileSize >= maxSize) {
+			alert('파일 사이즈 초과');
+			$("input[type='file']").val(""); //파일 초기화
+			return false;
+		}
+
+		if (regex.test(fileName)) {
+			alert('업로드 불가능한 파일이 있습니다.');
+			$("input[type='file']").val(""); //파일 초기화
+			return false;
+		}
+		return true;
+	}
+
+	function preview(arr) {
+		arr
+				.forEach(function(f) {
+
+					//파일명이 길면 파일명...으로 처리
+					var fileName = f.name;
+					if (fileName.length > 10) {
+						fileName = fileName.substring(0, 7) + "...";
+					}
+
+					//div에 이미지 추가
+					var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+					str += '<span>' + fileName + '</span><br>';
+
+					//이미지 파일 미리보기
+					if (f.type.match('image.*')) {
+						var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+						reader.onload = function(e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+							//str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+
+							$('#img').attr('src', e.target.result);
+							$('#img').attr('style',
+									"width:150px; height: 160px");
+						}
+						reader.readAsDataURL(f);
+					} else {
+						$('#img').attr('src', e.target.result);
+						$('#img').attr('style',
+								"width:150px; height: 160px");
+					}
+				});//arr.forEach
+	}
+	
+});
+
+
+
+function chkEmail() {
+	$('#overLapEmail').on("click", function() {
+		var emailVal = $("#parent-email").val();
+
+		var regExp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i\r\n" + 
+		"\r\n";// 검증에 사용할 정규식 변수 regExp에 저장
+		
+		if ($('#parent-email').val() == '') {
+			alert("이메일을 입력하시오")
+		} else {
+			$.ajax({
+				url : "ajax/chkEmail",
+				type : 'GET',
+				data : {
+					parent_email : $('#parent-email').val(),
+				},
+				error : function(xhr, status, msg) {
+					alert("E-mail이 중복됩니다");
+				},
+				success : function(data) {
+					if (emailVal.match(regExp) != null) {
+						  alert('이메일 사용가능합니다.');
+						}
+						else {
+						  alert('이메일 형식이 아닙니다.');
+						}
+				}
+			})
+		}
+	})
+
+}
+
+function checkImg(){
+	
+	$('#chkImg').on('click',function(){
+		var file = $('#file').val();
+		if(file == ''){
+			alert("사진을 선택하세요");
+			return false;
+		}
+	})
+}
+
+function changeImg(){
+	$('#chkImg').on('click',function(){
+		var form = $('#form1')[0];
+		var formData = new FormData(form);
+		console.log(form);
+		console.log(formData);
+		$.ajax({
+			url:'ajax/imgUpdate',
+			method : 'post',
+			enctype : 'multipart/form-data',
+			contentType : false,
+			processData : false,
+			data:formData,
+			dataType:'json',
+			success:function(){
+				alert("성공");
+			},
+			error:function(){
+				alert("실패");
+			}
+			
+		});
+		
+		
+	})
+}
+
+function getImage(){
+	$.ajax({
+		url:'ajax/getParentInf',
+		type:'GET',
+		data:{
+			parent_no:"${parent_vo.parent_no}"
+		},
+		dataType:'json',
+		success:function(data){
+			$.each(data,function(idx,item){
+				console.log(item);
+				if(item.parent_sns == 'social'){
+					$('#divimg').append($('<img class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${parent_vo.parent_img}"));
+				}else if(item.parent_img == null ){
+					$('#divimg').append($('<img id="img" class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/emptyimg.png"));
+				}else{
+					$('#divimg').append($('<img id="img" class="rounded-circle mb-2" style="width:110px; height:110px; overflow:auto;">').attr("src","${pageContext.request.contextPath}/resources/img/"+item.parent_img));
+				}
+				
+			});
+		},
+		error:function(){
+			alert("error");
+		}
+	})
+}
+
+
+function updateInf() {
+	$('#pwUpdate').on("click", function() {
+		if ($('#pw').val() == $('#pw2').val()) {
+			$.ajax({
+				url : 'ajax/updatePw',
+				type : 'POST',
+				/* dataType : 'json', */
+				data : {
+					parent_pw1 : "${parent_vo.parent_pw}",
+					parent_pw : $('#pw').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("기존 비밀번호를 확인해주세요.");
+				},
+				success : function(data) {
+					console.log(data);
+					if (data == true) {
+						alert("변경되었습니다.");
+						//location.href="mmypage";
+						location.reload(true);
+					} else {
+						alert("비밀번호가 일치하지않습니다. ")
+					}
+				}
+			});
+		} else {
+			alert("새 비밀번호가 일치하지않습니다. ");
+		}
+	});
+}
+
+
+function getparentinf(){
+	$('#updateModal').on('click',function(){
+		var modal = $('#updateModal');
+		$.ajax({
+			url:'ajax/getParentInf',
+			type:'GET',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			dataType:'json',
+			success: function(data){
+				$.each(data,function(idx,item){
+					console.log(item.parent_name);
+					$('#parent-name').val(item.parent_name);
+					$('#parent-tel').val(item.parent_tel);
+					$('#parent-email').val(item.parent_email);
+					$('#parent_addr').val(item.parent_addr);
+				})
+			},
+			error:function(){
+				alert("error");
+			}
+		});
+		
+	})
+}
+
+	function mainSelect() {
+		$.ajax({
+			url : 'ajax/getParentInf',
+			type : 'GET',
+			data : {
+				parent_no : "${parent_vo.parent_no}"
+			},
+			dataType : 'json',
+			success : function(data) {
+				$.each(data, function(idx, item) {
+					console.log(item.parent_name);
+					$('#main-name').html(item.parent_name);
+					$('#main-tel').html(item.parent_tel);
+					$('#main-email').html(item.parent_email);
+					$('#main-addr').html(item.parent_addr);
+					$('#main-id').html(item.parent_id);
+				})
+			},
+			error : function() {
+				alert("error");
+			}
+		});
+	}
+</script>
+	<h1 class="h3 mb-3">보호자정보</h1>
 
 	<div class="row">
 		<div class="col-md-4 col-xl-3">
 			<div class="card mb-3">
-				<div class="card-header"></div>
-				<div class="card-body text-center">
-					<img src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" alt="Christina Mason"
-						class="img-fluid rounded-circle mb-2" width="128" height="128" />
-					<h5 class="card-title mb-0">Christina Mason</h5>
-					<div class="text-muted mb-2">Lead Developer</div>
-
-					<div>
-						<a class="btn btn-primary btn-sm" href="#">Follow</a> <a
-							class="btn btn-primary btn-sm" href="#"><span
-							data-feather="message-square"></span> Message</a>
-					</div>
+				<div  class="card-body text-center">
+				<form id='form1' method="post">
+				<div id="divimg"class="card-body">
+				<!--   <c:if test="${parent_vo.parent_sns == 'social' }">
+					<img src="${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" />
+				</c:if> 
+				<c:if test="${parent_vo.parent_sns != 'social' }">
+					<img src="${pageContext.request.contextPath}/resources/img/${parent_vo.parent_img}" class="img-fluid rounded-circle mb-2 gc-img" width="200" height="30" id="img"/>
+				</c:if> -->
+				</div>
+					<h5 id="main-name" class="h5 card-title mb-0"></h5>
+					<span data-feather="phone" class="feather-sm mr-1"></span><a id="main-tel" style="color:black;"></a>
+				<c:if test="${parent_vo.parent_sns != 'social'}">
+					<input type="hidden" id="parent-no" name="parent_no">
+					<input type="file" name="file"  id="uf"/>
+						<button id="chkImg" type="submit" class="btn-secondary btn-sm" style="color:black;">사진변경</button>
+				</c:if>	
+				</form>
 				</div>
 				<hr class="my-0" />
 				<div class="card-body">
-					<h5 class="h6 card-title">Skills</h5>
-					<a href="#" class="badge bg-primary mr-1 my-1">HTML</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">JavaScript</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">Sass</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">Angular</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">Vue</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">React</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">Redux</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">UI</a> <a href="#"
-						class="badge bg-primary mr-1 my-1">UX</a>
+					<h5 class="h6 card-title">프로필 수정</h5>
+					<input id="updateModal" type="button" class="btn btn-primary btn-sm" value="정보변경" data-toggle="modal" data-target="#parentModal">
+					<c:if test="${parent_vo.parent_sns != 'social'}">
+					<input id="pwbtn" type="button" class="btn btn-secondary btn-sm" value="비밀번호변경" data-toggle="modal" data-target="#pwModal">
+					</c:if>
 				</div>
 				<hr class="my-0" />
 				<div class="card-body">
-					<h5 class="h6 card-title">About</h5>
+					<h5 class="h6 card-title">상세정보</h5>
 					<ul class="list-unstyled mb-0">
-						<li class="mb-1"><span data-feather="home"
-							class="feather-sm mr-1"></span> Lives in <a href="#">San
-								Francisco, SA</a></li>
-
-						<li class="mb-1"><span data-feather="briefcase"
-							class="feather-sm mr-1"></span> Works at <a href="#">GitHub</a></li>
-						<li class="mb-1"><span data-feather="map-pin"
-							class="feather-sm mr-1"></span> From <a href="#">Boston</a></li>
+						<li class="mb-1"><span data-feather="info" class="feather-sm mr-1"></span> 아이디 : <a id="main-id" style="color:blue;"></a></li>
+						<li class="mb-1"><span data-feather="at-sign" class="feather-sm mr-1"></span> 이메일: <a id="main-email" style="color:blue;"></a></li>
+						<li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> 주소 : <a id="main-addr" style="color:blue;"></a></li>
 					</ul>
 				</div>
 				<hr class="my-0" />
-				<div class="card-body">
+				  
+				<!--<div class="card-body">
 					<h5 class="h6 card-title">Elsewhere</h5>
 					<ul class="list-unstyled mb-0">
 						<li class="mb-1"><span class="fas fa-globe fa-fw mr-1"></span>
 							<a href="#">staciehall.co</a></li>
-						<li class="mb-1"><span class="fab fa-twitter fa-fw mr-1"></span>
-							<a href="#">Twitter</a></li>
-						<li class="mb-1"><span class="fab fa-facebook fa-fw mr-1"></span>
-							<a href="#">Facebook</a></li>
-						<li class="mb-1"><span class="fab fa-instagram fa-fw mr-1"></span>
-							<a href="#">Instagram</a></li>
-						<li class="mb-1"><span class="fab fa-linkedin fa-fw mr-1"></span>
-							<a href="#">LinkedIn</a></li>
 					</ul>
+				</div>-->
+			</div>
+		</div>
+	<!-- 부모정보수정 -->
+	<div class="modal fade" id="parentModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">정보수정</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				<div class="modal-body">
+					<form id="form" name="form" method="post" action="updateparentinfo">
+					<input type="hidden" id="parent-no" name="parent_no">
+						<div class="form-group">
+							<label>이름:&nbsp;</label><input type="text" class="form-control"
+								id="parent-name" name="parent_name">
+						</div>
+						<div class="form-group">
+							<label>아이디:&nbsp;</label><input type="text"
+								class="form-control" id="parent-id"
+								value="${parent_vo.parent_id}" readonly>
+						</div>
+						<div class="form-group">
+							<label>전화번호:&nbsp;</label><input type="text" class="form-control"
+								id="parent-tel" name="parent_tel">
+						</div>
+						<div class="form-group">
+							<label>이메일:&nbsp;</label><input type="text" class="form-control"
+								id="parent-email" name="parent_email">
+								<input type="button" class="btn btn-secondary" value="중복검사"
+									id="overLapEmail" name="overLapEmail">
+									</div>
+							<div class="form-group">
+							<button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>		
+							<input type="text" id="parent_addr" name="parent_addr" class="form-control" placeholder="Enter Addr" required="true" readonly="true"/>
+							<br>
+							<hr>
+						<button type="submit" class="btn btn-primary" id="btnUpdate"
+							name="btnUpdate">수정</button>
+						<button type="button" class="btn btn-primary" id="btnCancel"
+							name="btnCancel" data-dismiss="modal">취소</button>
+							</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="col-md-8 col-xl-9">
-			<div class="card">
-				<div class="card-header">
-
-					<h5 class="card-title mb-0">Activities</h5>
-				</div>
-				<div class="card-body h-100">
-
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-5.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Vanessa Tucker">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">5m ago</small> <strong>Vanessa
-								Tucker</strong> started following <strong>Christina Mason</strong><br />
-							<small class="text-muted">Today 7:51 pm</small><br />
-
-						</div>
+		
+		
+		<!-- 비밀번호 변경-->
+		<div class="modal fade" id="pwModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">비밀번호 재확인</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">x</span>
+						</button>
 					</div>
+					<div class="modal-body">
+						<table>
+							<tr>
+								<td><span class="point">&nbsp;*</span>비밀번호</td>
+								<td><input type="password" id="parent_pw" name="parent_pw"
+									placeholder="기존 비밀번호를 입력하시오"></td>
 
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Charles Hall">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">30m ago</small> <strong>Charles
-								Hall</strong> posted something on <strong>Christina Mason</strong>'s
-							timeline<br /> <small class="text-muted">Today 7:21 pm</small>
-
-							<div class="border text-sm text-muted p-2 mt-1">Etiam
-								rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem
-								quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam
-								quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.
-								Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-								ut libero venenatis faucibus. Nullam quis ante.</div>
-
-							<a href="#" class="btn btn-sm btn-danger mt-1"><i
-								class="feather-sm" data-feather="heart"></i> Like</a>
-						</div>
+							</tr>
+							<tr>
+								<td><span class="point">&nbsp;*</span>새비밀번호</td>
+								<td><input type="password" id="pw" name="pw"
+									placeholder="변경할 비밀번호를 입력하시오"></td>
+							</tr>
+							<tr>
+								<td><span class="point">&nbsp;*</span>새비밀번호 확인</td>
+								<td><input type="password" id="pw2" name="pw2"
+									placeholder="비밀번호를 재입력하시오"></td>
+							</tr>
+						</table>
 					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Christina Mason">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1h ago</small> <strong>Christina
-								Mason</strong> posted a new blog<br /> <small class="text-muted">Today
-								6:35 pm</small>
-						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="pwUpdate"
+							 name="pwUpdate">변경</button>
+						<button class="btn btn-primary" type="button" data-dismiss="modal">취소</button>
 					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-2.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="William Harris">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">3h ago</small> <strong>William
-								Harris</strong> posted two photos on <strong>Christina Mason</strong>'s
-							timeline<br /> <small class="text-muted">Today 5:12 pm</small>
-
-							<div class="row g-0 mt-1">
-								<div class="col-6 col-md-4 col-lg-4 col-xl-3">
-									<img src="${pageContext.request.contextPath}/resources/img/unsplash-1.jpg" class="img-fluid pr-2"
-										alt="Unsplash">
-								</div>
-								<div class="col-6 col-md-4 col-lg-4 col-xl-3">
-									<img src="${pageContext.request.contextPath}/resources/img/unsplash-2.jpg" class="img-fluid pr-2"
-										alt="Unsplash">
-								</div>
-							</div>
-
-							<a href="#" class="btn btn-sm btn-danger mt-1"><i
-								class="feather-sm" data-feather="heart"></i> Like</a>
-						</div>
-					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-2.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="William Harris">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>William
-								Harris</strong> started following <strong>Christina Mason</strong><br />
-							<small class="text-muted">Yesterday 3:12 pm</small>
-
-							<div class="d-flex align-items-start mt-1">
-								<a class="pr-3" href="#"> <img
-									src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" width="36" height="36"
-									class="rounded-circle mr-2" alt="Christina Mason">
-								</a>
-								<div class="flex-grow-1">
-									<div class="border text-sm text-muted p-2 mt-1">Nam quam
-										nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.
-										Maecenas nec odio et ante tincidunt tempus.</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar-4.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Christina Mason">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>Christina
-								Mason</strong> posted a new blog<br /> <small class="text-muted">Yesterday
-								2:43 pm</small>
-						</div>
-					</div>
-
-					<hr />
-					<div class="d-flex align-items-start">
-						<img src="${pageContext.request.contextPath}/resources/img/avatar.jpg" width="36" height="36"
-							class="rounded-circle mr-2" alt="Charles Hall">
-						<div class="flex-grow-1">
-							<small class="float-right text-navy">1d ago</small> <strong>Charles
-								Hall</strong> started following <strong>Christina Mason</strong><br /> <small
-								class="text-muted">Yesterdag 1:51 pm</small>
-						</div>
-					</div>
-
-					<hr />
-					<a href="#" class="btn btn-primary btn-block">Load more</a>
 				</div>
 			</div>
 		</div>
-	</div>
+		
+		
+		<script language="javascript">
+function goPopup(){
+	
+	// 주소검색을 수행할 팝업 페이지를 호출합니다.
+	// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+	var pop = window.open("popup","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+	
+	// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+    //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+}
+
+function jusoCallBack(roadFullAddr){
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.	
+		document.form.parent_addr.value = roadFullAddr;		
+}
+</script>
+		
 </body>
 </html>

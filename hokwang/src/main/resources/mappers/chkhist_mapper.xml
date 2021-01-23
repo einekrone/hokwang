@@ -3,12 +3,45 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- sale_mapper.xml -->
 <mapper namespace="com.hokwang.mobile.dao.CheckHistMapper">
+	
 	<select id="checkHistlist" resultType="map">
-		select b.chk_name ,b.chk_total,a.hist_count,a.hist_state from
-		CHECKHIST a,CHECKUP b
+		select b.chk_name as chk_name,TO_CHAR(a.hist_date,'YYYY-MM-DD') as HIST_DATE,a.hist_state
+		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
+		CHECKHIST
+		a, CHECKUP b,reservation c,baby d
 		<where>
-			a.chk_no=b.chk_no and a.baby_no=1
+			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} ORDER BY a.hist_date
 		</where>
 	</select>
 
+	<!-- 미접종 -->
+	<select id="checkHistlistIncomplete" resultType="map">
+		SELECT * FROM CHECKUP
+		<where>
+			<if test="baby_no != null and baby_no != ''">
+				CHK_NO NOT IN(SELECT H.CHK_NO
+				FROM CHECKHIST H,
+				RESERVATION R
+				WHERE R.BABY_NO = #{baby_no})
+			</if>
+		</where>
+		ORDER BY CHK_NO
+	</select>
+	
+	<select id="checkHistlistComplete" resultType="map">
+		select b.chk_name as chk_name,TO_CHAR(a.hist_date,'YYYY-MM-DD') as HIST_DATE,a.hist_state
+		as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from
+		CHECKHIST
+		a, CHECKUP b,reservation c,baby d
+		<where>
+			a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO
+			and c.baby_no=d.baby_no and d.baby_no=#{baby_no} and a.hist_state='Y'
+			 ORDER BY a.hist_date
+		</where>
+	</select>
 </mapper>
+<!-- select b.chk_name as chk_name,a.hist_date as hist_date,a.hist_state 
+	as hist_state,c.baby_no as baby_no,d.parent_no as parent_no from checkhist 
+	a, checkup b,reservation c,baby d where a.chk_no=b.chk_no and c.RESV_NO=a.RESV_NO 
+	and c.baby_no=d.baby_no and d.baby_no=1; -->

@@ -18,4 +18,5 @@ public class BabyVO { //아기
 	String baby_pic;//사진
 	String keyword;
 	String parent_no;//보호자 번호
+	String resv_no;//추가 예약번호
 }

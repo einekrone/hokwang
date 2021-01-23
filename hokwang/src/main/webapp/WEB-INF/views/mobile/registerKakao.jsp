@@ -139,46 +139,54 @@ span {
 				.on(
 						"click",
 						function() {
-
-							$
-									.ajax({
-										url : "ajax/registerAction",
-										type : 'GET',
-										data : {
-											parent_id : $('#id').val(),
-											parent_pw : $('#pw').val(),
-											parent_name : $('#name').val(),
-											parent_email : $('#email').val(),
-											parent_tel : $('#tel').val(),
-											parent_regno1 : $('#reg1').val(),
-											parent_regno2 : $('#reg2').val(),
-											parent_addr : $('#sample3_address')
-													.val(),
-											parent_addrdetail : $(
-													'#sample3_detailAddress')
-													.val(),
-											parent_addrextra : $(
-													'#sample3_extraAddress')
-													.val(),
-											parent_post : $('#sample3_postcode')
-													.val()
-										},
-										dataType : 'json',
-										error : function(xhr, status, msg) {
-											alert("상태값 :" + status
-													+ " Http에러메시지 :" + msg);
-										},
-										success : function(data) {
-											alert("회원가입에 성공하였습니다");
-											$(
-													"#register input:not([id=btnRegister]):not([id=postBtn])")
-													.val('');
-											login();
-										}
-									})
-
+							if ($('#pw').val() == '' || $('#reg1').val() == ''
+									|| $('#reg2').val() == ''
+									|| $('#sample3_detailAddress').val() == '') {
+								alert('필수 입력을 해야합니다');
+							} else {
+								$
+										.ajax({
+											url : "ajax/kakaoRegisterAction",
+											type : 'POST',
+											data : {
+												parent_id : $('#id').val(),
+												parent_pw : $('#pw').val(),
+												parent_name : $('#name').val(),
+												parent_email : $('#email')
+														.val(),
+												parent_tel : $('#tel').val(),
+												parent_regno1 : $('#reg1')
+														.val(),
+												parent_regno2 : $('#reg2')
+														.val(),
+												parent_addr : $(
+														'#sample3_address')
+														.val(),
+												parent_addrdetail : $(
+														'#sample3_detailAddress')
+														.val(),
+												parent_addrextra : $(
+														'#sample3_extraAddress')
+														.val(),
+												parent_post : $(
+														'#sample3_postcode')
+														.val(),
+												parent_img : "${kimage}"
+											},
+											dataType : 'json',
+											error : function(xhr, status, msg) {
+												alert("상태값 :" + status
+														+ " Http에러메시지 :" + msg);
+											},
+											success : function(data) {
+												alert("회원가입에 성공하였습니다");
+												location.href="loginM";
+											}
+										})
+							}
 						});
 	}
+	
 </script>
 <div class="wrap">
 	<div class="form-wrap">
@@ -190,11 +198,12 @@ span {
 		<form id="register" action="" class="input-group"
 			style="left: 50px; overflow: auto; height: 400px;">
 			<input type="text" class="input-fieldbtn" placeholder="id" id="id"
-				name="id" /><input type="password" class="input-field"
-				placeholder="password" id="pw" name="pw" /> <input type="text"
-				class="input-field" placeholder="name" id="name" name="name" value = "${kname}" readonly/> <input
-				type="text" class="input-fieldbtn" placeholder="email" id="email"
-				name="email" value = "${kemail}" readonly/><input type="tel" class="input-field"
+				name="id" value="${kid}" readonly /><input type="password"
+				class="input-field" placeholder="password" id="pw" name="pw" /> <input
+				type="text" class="input-field" placeholder="name" id="name"
+				name="name" value="${kname}" readonly /> <input type="text"
+				class="input-fieldbtn" placeholder="email" id="email" name="email"
+				value="${kemail}" readonly /><input type="tel" class="input-field"
 				placeholder="전화번호는 - 를 제외하고 입력하시오" id="tel" name="tel" /> <input
 				type="text" class="input-field" placeholder="주민등록번호 앞자리" id="reg1"
 				name="reg1" /> <input type="password" class="input-field"

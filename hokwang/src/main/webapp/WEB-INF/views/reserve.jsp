@@ -8,11 +8,59 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/resvcss.css"
 	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <style type="text/css">
+i.material-icons {
+	font-size: 1.5rem;
+	color: white;
+	position: relative;
+	border-radius: 50%;
+	padding: 10px;
+	margin: 3px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: color 0.2s ease, background-color 0.2s ease, transform 0.3s
+		ease;
+}
+
+i.material-icons:after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	border: solid 2px;
+	transform: scale(0.8);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+}
+
+i.material-icons:hover:after {
+	transform: scale(1);
+	box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px
+		rgba(0, 0, 0, 0.23);
+}
+
+i.material-icons:nth-of-type(1) {
+	background-color: #cd8484;
+}
+
+i.material-icons:nth-of-type(1):hover {
+	color: #cd8484;
+}
+
+i.material-icons:nth-of-type(1):after {
+	border-color: #cd8484;
+}
+
+i.material-icons:hover {
+	background-color: transparent;
+	transform: rotate(90deg);
+	cursor: pointer;
+	box-shadow: none;
+}
+
 .table td, .table th {
 	padding: .5rem !important;
 	vertical-align: middle;
@@ -73,18 +121,16 @@ button {
 		var keyword = "";
 		var keyword2 = "";
 
-		resvList(searchType, keyword); // 전체 예약 환자
+		resvList("chkType", "today"); // 전체 예약 환자
 		resvHstList(); // 환자 이력
 		resvUniq(); // 특이사항
 		imgSave(); // 이미지 등록
 		imgDelete(); // 이미지 삭제
 		roomList(); // 진료실 대기환자 목록
-
 		nonPayList(searchType, keyword2); // 미수납/수납대기 목록
 
 		$("#imgChk").change(function() {
 			if ($(this).is(':checked')) {
-				console.log(">>checked");
 				$("input[id='imgChk']").prop("checked", true);
 			} else {
 				$("input[id='imgChk']").prop("checked", false);
@@ -95,9 +141,9 @@ button {
 			searchType = "chkType";
 			// 전체 예약 환자
 			if ($('.rsvTg').is(":checked")) {
-				keyword = "today";
-			} else {
 				keyword = "all";
+			} else {
+				keyword = "today";
 			}
 
 			// 수납 대기
@@ -130,19 +176,18 @@ button {
 		// 수납 대기 승인 -> 수납 완료
 		$("body").on("click", "#stRBtn2", function() {
 			var payNo = $(this).data("no");
-			console.log("수납 승인 버튼 : " + payNo);
 			// 1. 수납 상태를 완료로 수정
 			$.ajax({
 				url : 'ajax/payUpdate',
 				type : 'POST',
 				data : {
-					pay_no : payNo
+					pay_no : payNo,
+					baby_no : $("#nonBabyNo").val()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log("payUpdate 성공");
 					// 2. 수납대기, 수납완료 목록 조회
 					nonPayList(searchType, keyword);
 					$(".modal-backdrop").hide();
@@ -160,17 +205,13 @@ button {
 	// 진료실 이동
 	function roomMove(resvNo) {
 		var offSel = $("#officeSel" + resvNo + " option:selected").val();
-		console.log("roomMove : " + resvNo);
-		console.log("change : " + offSel);
 		if (offSel != "-") {
-			console.log("진료실로 이동");
 			var tdArr = new Array();
 			var td = $(this).parent().siblings();
 
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-			console.log("resvNo : " + resvNo);
 			/* $('<tr>').append(
 					$(
 							'<td id="resvNo" value="'
@@ -179,18 +220,22 @@ button {
 					$('<td>').html(td.eq(2).text())).appendTo(
 					'#room' + offSel); */// todo 올바르게 됐는지 확인
 			// 진료실 변경사항 db
+			console.log("resvNo : " + resvNo);
+			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1)
+					.text();
+			console.log("!!!!!!!!! " + roomBabyNo);
 			$.ajax({
 				url : 'ajax/roomUpdate',
 				type : 'POST',
 				data : {
 					resv_no : resvNo,
-					resv_room : offSel
+					resv_room : offSel,
+					baby_no : roomBabyNo
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					console.log("roomUpdate 성공");
 					// 2. 진료실 목록 조회
 					$("#room1").empty();
 					$("#room2").empty();
@@ -217,7 +262,6 @@ button {
 	}
 
 	function payInfoResult(data) {
-		console.log("payInfoResult : " + data.BABY_NAME);
 		$("#payInfo").empty();
 		$("#payInfo")
 				.append($('<p>').html('보호자 : ' + data.PARENT_NAME))
@@ -248,10 +292,8 @@ button {
 	}
 
 	function imgListResult(data) {
-		console.log("imgListResult");
 		$("#imgShow").empty();
 		$.each(data, function(idx, item) {
-			console.log("?? " + item.IMG_ADDR);
 			var img = document.createElement("img");
 			img.setAttribute("src",
 					"${pageContext.request.contextPath}/resources/img/"
@@ -273,7 +315,6 @@ button {
 			var formData = new FormData();
 			var inputFile = $('input[name="imgInput"]');
 			var files = inputFile[0].files;
-			console.log("files : " + files.length);
 			if (files.length > 0) {
 				for (var i = 0; i < files.length; i++) {
 					formData.append('imgInput', files[i]);
@@ -290,7 +331,6 @@ button {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("imgSave 성공");
 						$("#imgShow").empty();
 						imgList();
 						imgForm.reset();
@@ -305,16 +345,12 @@ button {
 			var chk = $('#imgForm input:checkbox').is(':checked');
 			var chk2 = $('input:checkbox[id="imgChk"]').length;
 			var chk3 = $('input:checkbox[id="imgChk"] :checked').length;
-			console.log("chk2 : " + chk2);
 
 			var delArr = new Array();
 
 			$('input[type="checkbox"]:checked').each(function(index) {
 				delArr.push($(this).val());
 			});
-			console.log("select : " + delArr);
-
-			console.log("chk3 : " + chk3);
 			//$('input:checkbox[id="imgChk"] :checked').each(function() { });
 			if (chk) { // true
 				$.ajax({
@@ -327,7 +363,6 @@ button {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						console.log("result : " + data);
 						if (data != 0) {
 							var chk = $("[id='imgChk']:checked");
 							for (var i = 0; i < chk.length; i++) {
@@ -366,7 +401,6 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log("@@ "+item.PAY_STATE);
 							if (item.PAY_STATE == 'Y') { // 수납 완료
 								$('<tr>')
 										.append(
@@ -391,7 +425,8 @@ button {
 												$('<td id="price'+idx+'">')
 														.html(item.PAY_PRICE))
 										.append(
-												$('<td style="display:none;">')
+												$(
+														'<td style="display:none;" id="nonBabyNo">')
 														.html(item.BABY_NO))
 										.appendTo('#nonPayList');
 
@@ -421,24 +456,29 @@ button {
 
 	function roomListResult(data) {
 		// item.진료실번호 해서 각각 알맞은 곳에 출력
-		console.log("roomListResult");
 		$.each(data, function(idx, item) {
 
 			if (item.RESV_ROOM == 1) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room1');
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room1');
 			} else if (item.RESV_ROOM == 2) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room2');
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room2');
 			} else if (item.RESV_ROOM == 3) {
 				$('<tr>').append(
 						$('<td id="resvNo" value="'+item.RESV_NO+'">').html(
 								item.RESV_NO)).append(
-						$('<td>').html(item.BABY_NAME)).appendTo('#room3');
+						$('<td>').html(item.BABY_NAME)).append(
+						$('<td style="display:none;">').html(item.BABY_NO))
+						.appendTo('#room3');
 			}
 		});
 	}
@@ -464,7 +504,6 @@ button {
 				.each(
 						data,
 						function(idx, item) {
-							console.log(">>>> " + item.CHK_TYPE);
 							var date = item.RESV_DATETIME.substring(0, 10);
 							var d = new Date();
 							var today = d.getFullYear() + '-'
@@ -476,13 +515,14 @@ button {
 											$(
 													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
+									.append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
 									.append(
 											$('<td id="regno'+idx+'">').html(
-													item.BABY_REGNO1)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
+													item.BABY_REGNO1))
 									.appendTo('#resvList');
 
 							if (item.CHK_TYPE == "V") { // 예방접종
@@ -499,7 +539,11 @@ button {
 														+ '\');" class="officeSel" id="officeSel'
 														+ item.RESV_NO
 														+ '"><option value="-">---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>');
-								$("#officeSel" + item.RESV_NO+ " option:eq("+ item.RESV_ROOM + ")").attr("selected", "selected");
+								$(
+										"#officeSel" + item.RESV_NO
+												+ " option:eq("
+												+ item.RESV_ROOM + ")").attr(
+										"selected", "selected");
 							} else {
 								if (typeof item.RESV_ROOM == 'undefined') {
 									$("#regno" + idx).eq(-1).after(
@@ -522,8 +566,6 @@ button {
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});
-
-			//console.log("예약번호 : " + td.eq(0).text());
 
 			$.ajax({
 				url : 'ajax/uniqInfo',
@@ -557,7 +599,7 @@ button {
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {
-					baby_no : td.eq(5).text()
+					baby_no : td.eq(1).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -568,7 +610,7 @@ button {
 			$.ajax({
 				url : 'ajax/ptInfo',
 				data : {
-					baby_no : td.eq(5).text()
+					baby_no : td.eq(1).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -580,43 +622,34 @@ button {
 
 	function resvHstListResult(data) {
 		$("#resvHstList").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
-							console.log("CHK_TYPE : " + item.CHK_TYPE);
-							var resvNo = "";
-							if (typeof item.RESV_NO != 'undefined') {
-								resvNo = item.RESV_NO;
-							}
-							//console.log("ph> " + item.IMG_ADDR);
-							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
-							$('<tr>').append($('<td>').html(item.RESV_NO))
-									.append($('<td>').html(item.RESV_DATE))
-									.append(
-											$('<td id="dtl'+idx+'">').html(
-													item.RESV_DETAIL)).append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
-									.appendTo('#resvHstList');
+		$.each(data, function(idx, item) {
+			var resvNo = "";
+			if (typeof item.RESV_NO != 'undefined') {
+				resvNo = item.RESV_NO;
+			}
+			imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
+			$('<tr>').append($('<td>').html(item.RESV_NO)).append(
+					$('<td>').html(item.RESV_DATE)).append(
+					$('<td id="dtl'+idx+'">').html(item.RESV_DETAIL)).append(
+					$('<td style="display:none;">').html(item.BABY_NO))
+					.appendTo('#resvHstList');
 
-							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
-								$("#dtl" + idx)
-										.eq(-1)
-										.after(
-												'<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
-							}
+			if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
+				$("#dtl" + idx).eq(-1).after(
+						'<i class="material-icons" id="imgBtn" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">attach_file</i>');
+				// 										.after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
+			}
 
-							var d = new Date();
-							var today = d.getFullYear() + '-'
-									+ (d.getMonth() + 1) + '-' + d.getDate();
-							/* if (item.RESV_DATE == today) {
-								$("#imgDBtn").css("display", "none");
-							} else {
-								$("#imgInput").css("display", "none");
-								$("#imgRBtn").css("display", "none");
-							} */
-						});
+			var d = new Date();
+			var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-'
+					+ d.getDate();
+			/* if (item.RESV_DATE == today) {
+				$("#imgDBtn").css("display", "none");
+			} else {
+				$("#imgInput").css("display", "none");
+				$("#imgRBtn").css("display", "none");
+			} */
+		});
 	}
 
 	function RPAD(str, padStr, padLen) {
@@ -631,7 +664,6 @@ button {
 	function ptInfoResult(data) {
 		$("#ptInfo").empty();
 		var regno2 = data.BABY_REGNO2;
-		console.log("주민번호: " + regno2 + ", 이름 : " + data.BABY_NAME);
 		regno2 = RPAD(regno2, '*', 7);
 		$("#ptInfo").append(
 				$('<p>').html(
@@ -653,7 +685,6 @@ button {
 		var files = event.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		filesArr.forEach(function(f) {
-			console.log(f.type);
 			if (f.type.match('image/JPEG') || f.type.match('image/PNG')
 					|| f.type.match('image/jpg')) {
 				alert("파일확장자를 바꿔주세요.");
@@ -677,7 +708,6 @@ button {
 	}
 
 	function cancle_pop() {
-		console.log("cancel_pop");
 		$("#stPopup").show();
 	}
 </script>
@@ -751,7 +781,7 @@ button {
 								class="font-weight-bold"
 								style="background: #bed3c3; padding: 5px; margin-left: 10px;">예방접종</span><span>
 								사전예약(R) | 방문예약(T)</span><span class="mb-0 font-weight-bold"
-								style="float: right; margin: 4px 0 0 5px;">당일만</span> <span
+								style="float: right; margin: 4px 0 0 5px;">전체</span> <span
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>
@@ -883,10 +913,10 @@ button {
 					</button>
 				</div>
 				<div class="modal-body" style="min-height: 100px;">
-					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
+					<form enctype="multipart/form-data" id="imgForm" name="imgForm" enctype="multipart/form-data">
 						<input type="hidden" id="resv_no" value="">
 						<div class="filebox" style="float: left; padding-right: 600px;">
-							<label for="imgInput">업로드</label> <input type="file"
+							<label for="imgInput">업로드</label> <input type="file" multiple="multiple"
 								id="imgInput" name="imgInput" accept="image/*"
 								onchange="setImages(event);">
 						</div>
@@ -938,7 +968,7 @@ button {
 			<div class="modal-content" style="width: 520px;">
 				<div class="modal-header">
 					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
+						onclick="cancle_pop()" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
 				</div>

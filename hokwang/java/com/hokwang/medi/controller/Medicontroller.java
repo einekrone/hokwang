@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.dao.MediMapper;
 import com.hokwang.vo.MedicineVO;
+import com.hokwang.vo.MessageVO;
 
 @Controller
 public class Medicontroller {
@@ -89,6 +90,19 @@ public class Medicontroller {
 			return 0;
 		
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/deleteMedi")
+	public boolean deleteMedi(Model model, MedicineVO vo) {
+		dao.deleteMedi(vo);
+		return true;
+	}
+
+	
+	
+	
+	
 	
 	
 }

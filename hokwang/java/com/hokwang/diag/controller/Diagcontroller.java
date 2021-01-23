@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.service.DiagService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.BabyVO;
 import com.hokwang.vo.BodyVO;
 import com.hokwang.vo.CheckHistVO;
@@ -23,6 +25,7 @@ import com.hokwang.vo.Images;
 import com.hokwang.vo.MedicineVO;
 import com.hokwang.vo.PaymentVO;
 import com.hokwang.vo.PrescriptionVO;
+import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 
@@ -30,7 +33,8 @@ import com.hokwang.vo.ResvSearch;
 public class Diagcontroller {
 	@Autowired
 	DiagService diagDao;
-	
+	@Autowired ResvmService resvmSvc;
+
 	// 페이지이동하는
 	@RequestMapping("/diagnosis")
 	public ModelAndView diagForm(BabyVO vo) {
@@ -134,8 +138,8 @@ public class Diagcontroller {
 	  //진단서 인설트
 	  @ResponseBody  
 	  @RequestMapping("/ajax/insertDiagList") 
-	  public int insertDiagList(DiagnosisVO vo){
-	  return diagDao.insertDiagList(vo); 
+	  public int insertDiagList(DiagnosisVO vo, Map<String, Object> map){
+		 return diagDao.insertDiagList(vo); 
 	  }
 	  
 	  //진료종료 / 시작시 예약 상태값 변경
@@ -174,10 +178,30 @@ public class Diagcontroller {
 	  return diagDao.insertPayment(vo); 
 	  }
 	  
-	  // 진료 사진 관리(조회)
-		@ResponseBody
-		@RequestMapping("/ajax/getImages")
-		public List<Map<String, Object>> getImages(Images vo) {
-			return diagDao.getImages(vo);
-		}
+	 // 진료 사진 조회
+	@ResponseBody
+	@RequestMapping("/ajax/getImages")
+	public List<Map<String, Object>> getImages(Images vo) {
+	return diagDao.getImages(vo);
+	}
+		
+	// 진료 사전 문진표 조회
+	@ResponseBody
+	@RequestMapping("/ajax/getQuestionInfo")
+	public List<QuestionVO> getQuestionInfo(QuestionVO vo) {
+		return diagDao.getQuestionInfo(vo);
+	}
+		
+	// 진료 사전 문진표 조회
+	@ResponseBody
+	@RequestMapping("/ajax/PaymnetProcedure")
+	public void PaymnetProcedure(Reservation vo, DiseaseVO Dvo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("resv_no", vo.getResv_no());
+		map.put("dis_price", Dvo.getDis_price());
+		System.out.println(vo.getResv_no());
+		System.out.println(Dvo.getDis_price());
+		diagDao.PaymnetProcedure(map);
+	}
+		
 }

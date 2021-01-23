@@ -14,23 +14,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.MainHeaderService;
+import com.hokwang.mobile.service.PaymentService;
+import com.hokwang.vo.AlertVO;
 import com.hokwang.vo.ParentVO;
 
 @Controller
 public class MainHeaderController {
 	@Autowired
 	MainHeaderService dao;
-
+	@Autowired PaymentService paydao;
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
+	
+
+	@ResponseBody
+	@RequestMapping("/ajax/deleteAlert")
+	public boolean deleteAlert(AlertVO vo) {
+		dao.deleteAlert(vo);
+		return true;
+	}
+	
 	
 	
 	@ResponseBody
 	@RequestMapping("/ajax/logInAction")
 	public boolean logInAction(ParentVO vo,HttpSession session) {
+		System.out.println("ccccccccccc");
 		vo = dao.logInAction(vo);
 		if (vo != null) {
 			session.setAttribute("parent_vo", vo);
+			paydao.CheckProcedure(vo);
 			return true;
 		}
 		return false;
@@ -39,12 +52,14 @@ public class MainHeaderController {
 	@ResponseBody
 	@RequestMapping("/ajax/registerAction")
 	public boolean registerAction(ParentVO vo){
+		System.out.println("암호화전 : "+vo);
 		String inputPass = vo.getParent_pw();
 		String pwd = pwdEncoder.encode(inputPass);
 		String inputReg2 = vo.getParent_regno2();
 		String reg2 = pwdEncoder.encode(inputReg2);
 		vo.setParent_regno2(reg2);
 		vo.setParent_pw(pwd);
+		System.out.println("암호화후 : "+vo);
 		dao.registerAction(vo);
 		return true;
 	}
@@ -82,6 +97,7 @@ public class MainHeaderController {
 	@ResponseBody
 	@RequestMapping("/ajax/alertInf")
 	public List<Map<String,Object>> alertInf(ParentVO vo) {
+		System.out.println("점검"+dao.alertInf(vo));
 		return dao.alertInf(vo);
 	}
 	

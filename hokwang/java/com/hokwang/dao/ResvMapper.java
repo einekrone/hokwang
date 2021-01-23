@@ -3,11 +3,8 @@ package com.hokwang.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.hokwang.vo.Images;
 import com.hokwang.vo.PaymentVO;
-import com.hokwang.vo.QuestionVO;
 import com.hokwang.vo.Reservation;
 import com.hokwang.vo.ResvSearch;
 

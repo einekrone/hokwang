@@ -1,6 +1,6 @@
 package com.hokwang.mobile.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hokwang.mobile.service.CheckHistService;
 import com.hokwang.vo.BabyVO;
-import com.hokwang.vo.CheckHistVO;
 
 @Controller
 public class CheckHistListController {
@@ -18,7 +17,11 @@ public class CheckHistListController {
 
 	@ResponseBody
 	@RequestMapping("/ajax/checkhist")
-	public List<Map<String,Object>> checkHistlist(BabyVO vo){// 전체 접종 리스트 
-		return service.checkHistlist(vo);
+	public Map<String,Object> checkHistlist(BabyVO vo){// 전체 접종 리스트
+		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("checkhistlist",service.checkHistlist(vo));
+		map.put("checkhistIncom",service.checkHistlistIncomplete(vo));
+		map.put("checkCom",service.checkHistlistComplete(vo));
+		return map;//접종 
 	}
 }

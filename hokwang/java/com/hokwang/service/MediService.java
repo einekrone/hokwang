@@ -8,4 +8,5 @@ public interface MediService {
 	public List<MedicineVO> getMediList();
 	public int saveMedi(MedicineVO vo);
 	public MedicineVO selectMedi(MedicineVO vo);
+	public boolean deleteMedi(MedicineVO vo);
 }

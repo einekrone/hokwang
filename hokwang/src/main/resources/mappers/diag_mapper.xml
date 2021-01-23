@@ -241,4 +241,20 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
+	
+	<select id="getQuestionInfo" resultType="QuestionVO" >
+		SELECT * FROM QUESTION
+		<where>
+			<if test="qust_no != null and qust_no != ''">
+				QUST_NO=#{qust_no}
+			</if>
+		</where>
+	</select>
+	
+	 <select id="PaymnetProcedure" parameterType="map" statementType="CALLABLE">
+        CALL MAKE_PAYMENT_PROC(
+        #{resv_no, mode=IN, jdbcType=VARCHAR, javaType=String},
+        #{dis_price, mode=IN, jdbcType=VARCHAR, javaType=String}
+        )
+    </select>
 </mapper>

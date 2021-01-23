@@ -335,6 +335,7 @@
 				success : function(data) {
 					alert("수정되었습니다");
 					empSelect();
+					
 				},
 				error : function(xhr, status, message) {
 					alert(" status: " + status + " er:" + message);
@@ -352,6 +353,7 @@
 				method : 'post',
 				success : function(data) {
 					empSelect();
+					location.reload();//새로고침
 				},
 				error : function(xhr, status, message) {
 					alert(" status: " + status + " er:" + message);

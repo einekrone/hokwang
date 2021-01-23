@@ -6,8 +6,7 @@
 
 	<select id="logInAction" parameterType="parentVO"
 		resultType="parentVO">
-		select * from parent where parent_id = #{parent_id} and
-		parent_pw = #{parent_pw}
+		select * from parent where parent_id = #{parent_id}
 	</select>
 
 	<insert id="kakaoRegisterAction" parameterType="parentVO">

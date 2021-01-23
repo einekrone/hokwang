@@ -26,7 +26,6 @@ public class MainHeaderController {
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
 	
-
 	@ResponseBody
 	@RequestMapping("/ajax/deleteAlert")
 	public boolean deleteAlert(AlertVO vo) {
@@ -34,18 +33,22 @@ public class MainHeaderController {
 		return true;
 	}
 	
-	
-	
 	@ResponseBody
 	@RequestMapping("/ajax/logInAction")
 	public boolean logInAction(ParentVO vo,HttpSession session) {
+		
 		System.out.println("ccccccccccc");
-		vo = dao.logInAction(vo);
-		if (vo != null) {
-			session.setAttribute("parent_vo", vo);
-			paydao.CheckProcedure(vo);
-			return true;
+		ParentVO vo2 = new ParentVO();
+		vo2 = dao.logInAction(vo);
+		
+		if(vo2 != null) {
+			if (pwdEncoder.matches(vo.getParent_pw(),vo2.getParent_pw()) == true) {
+				session.setAttribute("parent_vo", vo);
+				paydao.CheckProcedure(vo);
+				return true;
+			}
 		}
+		
 		return false;
 	}
 	

@@ -366,7 +366,7 @@
 				.on(
 						"click",
 						function() {
-							console.log("asdasdasd");
+							
 							$
 									.ajax({
 										url : 'ajax/checkTemp',
@@ -397,6 +397,7 @@
 													modal.modal('show');
 												} else {
 													////////////////////
+													$('#message-text').empty();
 													AllCntMsg();
 													modal.find(
 															'#recipient-name')
@@ -412,6 +413,7 @@
 														.html("");
 												modal.modal('show');
 											}
+											$('#dataTab3').DataTable().ajax.reload();
 										}
 									}); //endof 
 						})//end of click function
@@ -439,6 +441,7 @@
 				success : function(data) {
 					alert("임시저장되었습니다.");
 					AllCntMsg();
+					$('#dataTab4').DataTable().ajax.reload();
 				}
 			});
 		})
@@ -622,6 +625,11 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab1').DataTable().ajax.reload();
+					$('#dataTab2').DataTable().ajax.reload();
+					$('#showMessage').empty();
+					checkMsg();
+					showNotReadMsg();
+					//
 
 					$('button[name=btnDelete]').on('click', function() {
 						console.log(data.msg_no);
@@ -668,6 +676,9 @@
 					modal.modal('show');
 					AllCntMsg();
 					$('#dataTab2').DataTable().ajax.reload();
+					$('#showMessage').empty();
+					checkMsg();
+					showNotReadMsg();
 					//읽을 경우 헤더 부분의 카운트 감소
 					checkMsg();
 					$('button[name=btnDelete]').on('click', function() {
@@ -1275,9 +1286,9 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="btnSave"
-							name="btnSave">보내기</button>
+							name="btnSave" data-dismiss="modal">보내기</button>
 						<button type="button" class="btn btn-secondary" id="btnTempSave"
-							name="btnTempSave">임시저장</button>
+							name="btnTempSave" data-dismiss="modal">임시저장</button>
 					</div>
 				</div>
 			</div>
@@ -1375,7 +1386,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" id="btnDelete"
-							name="btnDelete">삭제</button>
+							name="btnDelete" data-dismiss="modal">삭제</button>
 					</div>
 				</div>
 			</div>
@@ -1411,9 +1422,9 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="TempSaveBtn"
-							name="TempSaveBtn">보내기</button>
+							name="TempSaveBtn" data-dismiss="modal">보내기</button>
 						<button type="button" class="btn btn-secondary" id="TempDeleteBtn"
-							name="TempDeleteBtn">삭제</button>
+							name="TempDeleteBtn" data-dismiss="modal">삭제</button>
 					</div>
 				</div>
 			</div>
@@ -1446,8 +1457,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" id="btnDeleteT"
-							name="btnDelete">삭제</button>
+						<button type="button" class="btn btn-secondary" id="btnDeleteT" name="btnDelete" data-dismiss="modal">삭제</button>
 					</div>
 				</div>
 			</div>

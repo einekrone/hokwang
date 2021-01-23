@@ -23,50 +23,116 @@
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 <!-- CSS only -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
  -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+<style type="text/css">
+*{font-family: 'Nanum Gothic', sans-serif;}
+#topBtn {
+	position: fixed;
+	float: right;
+	bottom: 50px;
+	display: none;
+	z-index: 999;
+	height: 40px;
+	margin-left: 85%;
+}
+</style>
 <script type="text/javascript">
 	$(function() {
 		changeMenu();
 		alertCntAction();
 		alertInf();
+		deleteAlert();
+		
+		$(window).scroll(function() {
+			if ($(this).scrollTop() > 200) {
+				$("#topBtn").fadeIn();
+			} else {
+				$("#topBtn").fadeOut();
+			}
+		});
+
+		$("#topBtn").click(function() {
+			$('html, body').animate({
+				scrollTop : 0
+			}, 400);
+			return false;
+		});
+
+		$(".resvT, .resvR").on("click", function() {
+			var parentinfo = '${parent_vo}';
+			if (parentinfo == '') {
+				event.preventDefault();
+				alert("로그인 후 사용 가능합니다.");
+			}
+		});
 	});
 	
-	function alertInf() { 
-		$.ajax({
-			url : "ajax/alertInf",
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				parent_no : "${parent_vo.parent_no}"
-			},
-			error : function(xhr, status, msg) {
-				alert("상태값 :" + status + " Http에러메시지 :" + msg);
-			},
-			success : function(data) {
-				$.each(data,function(idx,item){
-					$('#alertLabel').append($('<a>').attr("href","#").attr("class","list-group-item")
-							.append($('<div>').attr("class","row g-0 align-items-center")
-									.append($('<div>').attr("class","col-2").append($('<img width="60px">').css("padding-right","15px").attr("src","${pageContext.request.contextPath}/resources/img/"+item.BABY_PIC)))
-							.append($('<div>').attr("class","col-10")
-									.append($('<div>').attr("class","text-dark").html(item.ALERT_TITLE))
-									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_CONT))
-									.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_DATE))
-									)));
-				});
-				
-				
-				
-				
-			}
-		})
+	
+	function deleteAlert(){	
+		$('#alertLabel').on('click',function(event) {
+			$.ajax({
+				url : "ajax/deleteAlert",
+				type : 'GET',
+				dataType : 'json',
+				data : {
+					alert_no : $(event.target).parentsUntil('.bbbb').find('#checkHide').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					alertCntAction();
+					$('#alertLabel').empty();
+					alertInf();
+				}
+			})
+
+		});
 	}
 	
-	function alertCntAction() { 
+	
+
+	function alertInf() {
+		
+		$.ajax({
+					url : "ajax/alertInf",
+					type : 'GET',
+					dataType : 'json',
+					data : {
+						parent_no : "${parent_vo.parent_no}"
+					},
+					error : function(xhr, status, msg) { 
+						alert("상태값 :" + status + " Http에러메시지 :" + msg);
+					},
+					success : function(data) {
+								$.each(data,function(idx,item){
+												$('#alertLabel').append(
+														$('<div class="bbbb" />').append(
+														$('<a>').attr("href","#").attr("class","list-group-item")
+														        .append($('<div>').attr("class","row g-0 align-items-center")
+																.append($('<input>').attr("type","hidden").attr("id","checkHide").val(item.ALERT_NO))
+																.append($('<div>').attr("class","col-2").append($('<img width="60px">').css("padding-right","15px").attr("src","${pageContext.request.contextPath}/resources/img/"+item.BABY_PIC)))
+														        .append($('<div>').attr("class","col-10")
+																.append($('<div>').attr("class","text-dark").html(item.ALERT_TITLE))
+																.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_CONT))
+																.append($('<div>').attr("class","text-muted small mt-1").html(item.ALERT_DATE))
+																
+														))));
+										});
+
+					}
+				})
+	}
+
+	function alertCntAction() {
 		$.ajax({
 			url : "ajax/alertCntAction",
 			type : 'GET',
@@ -84,7 +150,14 @@
 	}
 
 	function changeMenu() {
-		console.log("changeMenu");
+// 		var sBtn = $("ul.sidebar-nav > li"); //  ul > li 이를 sBtn으로 칭한다. (클릭이벤트는 li에 적용 된다.)
+// 		sBtn.find("a").click(function() { // sBtn에 속해 있는  a 찾아 클릭 하면.
+// 			sBtn.removeClass("active"); // sBtn 속에 (active) 클래스를 삭제 한다.
+// 			$(this).parent().addClass("active"); // 클릭한 a에 (active)클래스를 넣는다.
+// 			event.preventDefault();
+// 		});
+
+		// 		console.log("changeMenu");
 		// todo: 메뉴 클릭 시 색상변경
 		/* $(".sidebar-nav").on("click", "li", function(event) {
 			console.log("click");
@@ -111,7 +184,7 @@
 							<span class="align-middle">홈</span>
 					</a></li>
 
-					<c:if test="${parent_vo != null }">
+					<c:if test="${parent_vo != null}">
 						<li class="sidebar-item"><a class="sidebar-link"
 							href="mmypage"> <i class="align-middle" data-feather="user"></i>
 								<span class="align-middle">마이페이지</span>
@@ -138,19 +211,17 @@
 					</a>
 						<ul id="resv" class="sidebar-dropdown list-unstyled collapse "
 							data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link"
+							<li class="sidebar-item"><a class="sidebar-link resvT"
 								href="resv?type=T">당일 예약</a></li>
-							<li class="sidebar-item"><a class="sidebar-link"
+							<li class="sidebar-item"><a class="sidebar-link resvR"
 								href="resv?type=R">우선 예약</a></li>
 						</ul></li>
 				</ul>
 
 				<div class="sidebar-cta">
-					<div class="sidebar-cta-content">
-						<strong class="d-inline-block mb-2">광고 제목</strong>
-						<div class="mb-3 text-sm">광고 내용</div>
-
-					</div>
+					<img id='img'
+						src="${pageContext.request.contextPath}/resources/img/papang.png"
+						style="width: 240px; height: 160px; margin: 0 0 30px 10px; border-radius: 10px;">
 				</div>
 			</div>
 		</nav>
@@ -172,7 +243,7 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
-				${kemail}
+					${kemail}
 					<!-- 로그인모양 -->
 					<c:if test="${parent_vo == null }">
 
@@ -193,16 +264,16 @@
 								data-toggle="dropdown">
 									<div class="position-relative">
 										<i class="align-middle" data-feather="bell"></i> <span
-											class="indicator" id="alertCnt">4</span>
+											class="indicator" id="alertCnt"></span>
 									</div>
 							</a>
 								<div
 									class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
 									aria-labelledby="alertsDropdown">
 									<!-- <div class="dropdown-menu-header">4 New Notifications</div> -->
-									<div class="list-group" id="alertLabel"> 
-										<!-- 알림 출력부분 --> 
-							
+									<div class="list-group" id="alertLabel">
+										<!-- 알림 출력부분 -->
+
 									</div>
 								</div></li>
 
@@ -263,6 +334,7 @@
 			</footer>
 		</div>
 	</div>
-
+	<img alt="TOP" id="topBtn"
+		src="${pageContext.request.contextPath}/resources/img/top.png">
 </body>
 </html>

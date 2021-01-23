@@ -13,9 +13,12 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<style type="text/css">
+*{font-family: 'Nanum Gothic', sans-serif;}
+</style>
 <title>호광병원</title>
-
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 <!-- Custom fonts for this template-->
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -47,6 +50,13 @@
 <%-- <script
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script> --%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+
+<script
+	src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
 
 <script type="text/javascript">
 	$(function() {
@@ -85,12 +95,18 @@
 						<li><a href="patient">환자관리</a></li>
 						<li><a href="schedule">근태관리</a></li>
 						<li><a href="medicine">약품관리</a></li>
+						
+						
+						<c:if test= '${!empty emp_vo.emp_no && emp_vo.emp_author == "O"}'>
 						<li><a href="sales">매출</a></li>
-								<div class="diagMenu" style="float: right; display: none;">
-									<button id="diagEnd">진료종료</button>
-									<button id="prescript">문진표</button>
-									<button id="prePhoto" type="button" data-toggle="modal" data-target="#imagesModal" data-num="resv_no">사진</button>
-								</div>
+						</c:if>
+						
+						
+						<div class="diagMenu" style="float: right; display: none;">
+							<button id="diagEnd">진료종료</button>
+							<button id="prescript"  type="button"data-toggle="modal" data-target="#getQuestionInfo" data-num="resv_no">문진표</button>
+							<button id="prePhoto" type="button" data-toggle="modal" data-target="#imagesModal" data-num="resv_no">사진</button>
+						</div>
 					</ul>
 				</div>
 			</div>
@@ -113,17 +129,16 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">수고하셨습니다</h5>
 					<button class="close" type="button" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body">${emp_vo.emp_name}님 정말로 로그아웃 하시겠습니까?</div>
+				<div class="modal-body">${emp_vo.emp_name}님 로그아웃 하시겠습니까?</div>
 				<div class="modal-footer">
+					<a class="btn btn-primary" href="logout">로그아웃</a>
 					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="logout">Logout</a>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

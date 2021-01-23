@@ -173,12 +173,12 @@ span {
 	}
 	
 	function findPwInf(){
-		$('#btnFindId').on("click",function(){
+		$('#btnFindPw').on("click",function(){
 			$.ajax({
 				url : "ajax/findPwInf",
 				type : 'GET',
 				data : {
-					parent_name : $('#findId').val(),
+					parent_id : $('#findId').val(),
 					parent_email : $('#findEmail2').val()
 				},
 				error : function(xhr, status, msg) {
@@ -436,7 +436,7 @@ span {
 						<table>
 							<tr>
 								<td><h5 class="card-com">아이디 :</h5></td>
-								<td><input type="text" class="card-name" id="findEmail" name="findEmail"></td>
+								<td><input type="text" class="card-name" id="findId" name="findId"></td>
 							</tr>
 							<tr>
 								<td><h5 class="card-composition">이메일 :</h5></td>

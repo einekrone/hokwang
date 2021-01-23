@@ -6,7 +6,7 @@
 
 	<select id="logInAction" parameterType="parentVO"
 		resultType="parentVO">
-		select * from parent where parent_id = #{parent_id}
+		select * from parent where parent_id = #{parent_id} and parent_temppw = #{parent_pw} 
 	</select>
 
 	<insert id="kakaoRegisterAction" parameterType="parentVO">
@@ -98,7 +98,7 @@
 	</select>
 
 	<update id="changeTempPw" parameterType="ParentVO">
-		update parent set parent_pw=#{parent_pw} , parent_temppw= #{parent_temppw}
+		update parent set parent_temppw= #{parent_temppw}
 		where parent_id=#{parent_id}
 	</update>
 

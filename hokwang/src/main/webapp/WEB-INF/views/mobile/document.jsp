@@ -59,6 +59,7 @@ function pdfPrint(data){
 	//$(document).on("click","#pdfmake",function(){  //버튼 id pdfmake 발생시 행동할 이벤트
 		 /* documentDefinition : pdf파일에 들어갈 내용 및 여러가지를 정의 */
 		 var documentDefinition = {
+				 
 		 //content : pdf의 내용을 정의
 		 content: [
 		  // 스타일 적용 없이 그냥 출력

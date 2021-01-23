@@ -333,7 +333,6 @@
 				contentType : false,
 				processData : false,
 				success : function(data) {
-					alert("수정되었습니다");
 					empSelect();
 					
 				},
@@ -352,8 +351,8 @@
 				},
 				method : 'post',
 				success : function(data) {
-					empSelect();
-					location.reload();//새로고침
+					alert("변경되었습니다  다시 로그인 하세요.")
+					location.href="logout";//새로고침
 				},
 				error : function(xhr, status, message) {
 					alert(" status: " + status + " er:" + message);

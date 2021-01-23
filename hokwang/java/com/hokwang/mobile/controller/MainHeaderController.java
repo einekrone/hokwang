@@ -57,6 +57,7 @@ public class MainHeaderController {
 		if(dao.checkId(vo).getParent_temppw() != null) { //임시비밀번호가 발급된 계정
 			if(dao.logInAction(vo) != null) {
 				session.setAttribute("parent_vo",dao.logInAction(vo));
+				System.out.println("임시비빌번호가 발급된 계정");
 				return true;
 			}
 		}

@@ -245,7 +245,7 @@ function updateInf() {
 				type : 'POST',
 				/* dataType : 'json', */
 				data : {
-					parent_pw1 : "${parent_vo.parent_pw}",
+					parent_pw1 : $('#parent_pw').val(),
 					parent_pw : $('#pw').val()
 				},
 				error : function(xhr, status, msg) {
@@ -254,9 +254,9 @@ function updateInf() {
 				success : function(data) {
 					console.log(data);
 					if (data == true) {
-						alert("변경되었습니다.");
-						//location.href="mmypage";
-						location.reload(true);
+						alert("변경되었습니다 다시로그인 하세요.");
+						location.href = "logoutM";
+						//location.reload(true);
 					} else {
 						alert("비밀번호가 일치하지않습니다. ")
 					}

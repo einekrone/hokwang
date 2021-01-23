@@ -39,6 +39,11 @@ public class MypageServiceImpl implements MypageService {
 	public ParentVO chkEmail(ParentVO vo) {
 		return dao.chkEmail(vo);
 	}
+
+	@Override
+	public void deleteTempPw(ParentVO vo) {
+		dao.deleteTempPw(vo);		
+	}
 	
 	
 

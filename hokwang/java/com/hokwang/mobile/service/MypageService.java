@@ -10,4 +10,5 @@ public interface MypageService {
 	public int imgUpdate(ParentVO vo);
 	public int updatePw(ParentVO vo);
 	public ParentVO chkEmail(ParentVO vo);
+	public void deleteTempPw(ParentVO vo);
 }

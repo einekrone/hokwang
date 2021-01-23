@@ -19,9 +19,44 @@
 $(function() {
 	babyList();
 	payment();
+	pdfajax();
 	
-	
+
+})
+</script>
+
+<script type="text/javascript">/* 결제 메소드 */
+function pdfajax() {
 	$(document).on("click","#pdfmake",function(){  //버튼 id pdfmake 발생시 행동할 이벤트
+		
+	//ajax->update : status Y
+	var resvNo = $("#pdfmake").parent().siblings("#doc_res").text();
+	$.ajax({
+	url : 'ajax/printDoc',
+	type : 'GET',
+	data : {
+	resv_no : resvNo
+	},
+	error : function(xhr, status, msg) {
+	alert("상태값 :" + status + " Http에러메시지 :" + msg);
+	},
+	success : function(data){
+			console.log("@#$%@#@" + data)
+			pdfPrint(data)
+		}
+		})//end of ajax
+	})//end of click function
+}
+function pdfPrint(data){
+	var gender = '';
+	if(data.BABY_GENDER="F")
+		 gender = '여자';
+	else {
+		 gender = '남자';
+	}
+	var addr = data.BABY_REGNO1 + ' - '+ data.BABY_REGNO2;
+	console.log(addr)
+	//$(document).on("click","#pdfmake",function(){  //버튼 id pdfmake 발생시 행동할 이벤트
 		 /* documentDefinition : pdf파일에 들어갈 내용 및 여러가지를 정의 */
 		 var documentDefinition = {
 		 //content : pdf의 내용을 정의
@@ -40,25 +75,17 @@ $(function() {
 		 table: {
 		 widths: [100, '*', 80, '*'],
 		 body: [
-		 ['성명',//tr
-		{ text: '여기 성명입력', italics: true, color: 'black' },//td
-		{ text: '성별', italics: true, color: 'black' },
-		{ text: '여기성별입력', italics: true, color: 'black' }],//td
+		 ['성명',	data.BABY_NAME ,'성별',gender	],//td
 		
-		 ['주소',//tr
-		{ text: '여기 주소', italics: true, color: 'black' },
-		{ text: '주민번호', italics: true, color: 'black' },
-		{ text: '주민번호 입력', italics: true, color: 'black' }],//td
-
+		 ['주민번호',addr,'담당의',data.EMP_NAME],
+		 
+		 ['주소',{text : data.PARENT_ADDR, colSpan: 3},'',''],//td */
 		
-		 ['상병명',//tr
-		{ text: ' 감기 ,너무아픈 다리', italics: true, color: 'black',colSpan: 3 },'',''],//td
+		 ['상병명',{ text: data.DIS_NAME ,colSpan: 3 },'',''],//td
 		
-		 ['진료기간',//tr
-		{ text: '2020/01/21', italics: true, color: 'black',colSpan: 3 },'',''],//td */
+		 ['진료기간',{text : data.DIAG_TIME, colSpan: 3},'',''],//td */
 	
-		 ['특기사항',//tr
-		{ text: '많이 아픈데 곧 괜찮아질듯', italics: true, color: 'black',colSpan: 3 },'','']//td  */
+		 ['특기사항',{text : data.DIAGLIST_MEMO, colSpan: 3},'','']//td */
 		
 		 ]//end of body
 		 }//end of table
@@ -107,16 +134,8 @@ $(function() {
 
 		 var pdf_name = '진단서.pdf'; // pdf 만들 파일의 이름
 		 pdfMake.createPdf(documentDefinition).download(pdf_name);
-		 })
-})
-</script>
-
-<script type="text/javascript">/* 결제 메소드 */
-	
-	
-	
-	
-
+		 //})
+	}
 
 
 function payment() {
@@ -262,7 +281,7 @@ function selectBabyResult(data){
 											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
 											//.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
 											//.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
-
+							
 						 
 						 }else
 						 {

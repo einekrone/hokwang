@@ -12,4 +12,6 @@ public List<Map<String, Object>> selectBaby(BabyVO vo);
 public List<BabyVO> babyLists(BabyVO vo);
 
 public int updateDocStatus(Reservation vo);
+
+public Map<String, Object> diagnosisDoc(Reservation vo);
 }

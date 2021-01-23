@@ -18,7 +18,8 @@ import com.hokwang.vo.Reservation;
 public class DocController {
 	@Autowired
 	DocService service;
-
+	
+	
 	@ResponseBody
 	@RequestMapping("/ajax/successDoc")
 	public boolean updateDocStatus(Reservation vo) {
@@ -26,11 +27,10 @@ public class DocController {
 			return true;
 	}
 
-	@RequestMapping(value = "/printDoc")
-	public ModelAndView createForm(Model model) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mobile/doc");// 여기선 결제로 넘어거야함
-		return mav;
+	@ResponseBody
+	@RequestMapping(value = "/ajax/printDoc")//값뿌리기 pdf
+	public Map<String,Object> createForm(Reservation vo) {
+		return service.diagnosisDoc(vo);
 	}
 
 	@ResponseBody

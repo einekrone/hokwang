@@ -43,8 +43,8 @@ public class MainHeaderController {
 		
 		if(vo2 != null) {
 			if (pwdEncoder.matches(vo.getParent_pw(),vo2.getParent_pw()) == true) {
-				session.setAttribute("parent_vo", vo);
-				paydao.CheckProcedure(vo);
+				session.setAttribute("parent_vo", vo2);
+				paydao.CheckProcedure(vo2);
 				return true;
 			}
 		}
@@ -104,6 +104,35 @@ public class MainHeaderController {
 		return dao.alertInf(vo);
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/findIdInf")
+	public String findIdInf(ParentVO vo) {
+		String result;
+		vo = dao.findIdInf(vo);
+		if(vo != null) {
+			result = vo.getParent_id(); 
+		}
+		else {
+			result = "";
+		}
+		return result;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/findPwInf")
+	public String findPwInf(ParentVO vo) {
+		String result;
+		vo = dao.findPwInf(vo);
+		if(vo != null) {
+			//맞는 계정
+		}
+		else {
+			result = "";
+		}
+		return "";
+	}
 	
 	
 	

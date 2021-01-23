@@ -137,7 +137,72 @@ span {
 		registerAction();
 		checkId();
 		checkEmail();
+		findIdInf();
+		findPwInf();
 	});
+	
+	function findIdInf(){
+		$('#btnFindId').on("click",function(){
+			$.ajax({
+				url : "ajax/findIdInf",
+				type : 'GET',
+				data : {
+					parent_name : $('#findName').val(),
+					parent_email : $('#findEmail1').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if(data!=""){
+						$('#findName').val("");
+						$('#findEmail1').val("");
+						alert("Id는 "+ data + " 입니다.");
+					}
+					else{//없는경우
+						$('#findName').val("");
+						$('#findEmail1').val("");
+						alert("등록된 계정이 없습니다.");
+					}
+				}
+			})//endAjax
+		
+		
+		
+		})
+	}
+	
+	function findPwInf(){
+		$('#btnFindId').on("click",function(){
+			$.ajax({
+				url : "ajax/findPwInf",
+				type : 'GET',
+				data : {
+					parent_name : $('#findId').val(),
+					parent_email : $('#findEmail2').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if(data!=""){
+						$('#findId').val("");
+						$('#findEmail2').val("");
+						alert("임시비밀번호는 "+ data + " 입니다. 로그인 후  반드시 변경해주세요. ");
+					}
+					else{//없는경우
+						$('#findId').val("");
+						$('#findEmail2').val("");
+						alert("등록된 계정이 없습니다.");
+					}
+				}
+			})//endAjax
+		
+		
+		
+		})
+	}
+	
 
 	function checkEmail() {
 		$('#overLapEmail').on("click", function() {
@@ -226,8 +291,7 @@ span {
 														.val(),
 												parent_regno2 : $('#reg2')
 														.val(),
-												parent_addr : $(
-														'#parent_addr')
+												parent_addr : $('#parent_addr')
 														.val()
 											},
 											dataType : 'json',
@@ -285,8 +349,6 @@ span {
 			<a href="${kakao_url}"><img
 				src="${pageContext.request.contextPath}/resources/img/kakaoimg.png"
 				alt="kakao" style="width: 200px;"></a>
-			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> --%>
-			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter"> --%>
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"
@@ -294,6 +356,9 @@ span {
 				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
 				required /> <br> <br> <br> <br> <input
 				type="button" class="submit" id="btnIn" name="btnIn" value="로그인"
+				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
+			<input type="button" class="submit" id="btnFind" name="btnIn"
+				value="ID/PW찾기" data-toggle="modal" data-target="#findInf"
 				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
 		<form id="register" name="form" action="" class="input-group"
@@ -313,13 +378,15 @@ span {
 				placeholder="주민등록번호 앞자리" id="reg1" name="reg1" /> <input
 				type="password" class="input-field" placeholder="주민등록번호 뒷자리"
 				id="reg2" name="reg2" />
-				<div>
-					<button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>		
-					<input type="text" id="parent_addr" name="parent_addr" class="form-control" placeholder="Enter Addr" required="true" readonly="true"/>
-				</div>
-				
-			 <input type="button" class="submit"
-				id="btnRegister" name="btnRegister" value="등록"
+			<div>
+				<button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>
+				<input type="text" id="parent_addr" name="parent_addr"
+					class="form-control" placeholder="Enter Addr" required="true"
+					readonly="true" />
+			</div>
+
+			<input type="button" class="submit" id="btnRegister"
+				name="btnRegister" value="등록"
 				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
 	</div>
@@ -329,24 +396,60 @@ span {
 
 
 <!-- 확인 Modal-->
-<div class="modal fade" id="idCheck" tabindex="-1"
+<div class="modal fade" id="findInf" tabindex="-1"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">아이디 중복 확인</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Id/Pw찾기</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="form-group">
-					<input type="text" class="form-control" id="idid" name="idid">
-					<input type="button" class="btn btn-secondary" id="checkIdid"
-						name="checkIdid" value="중복 검사">
+				<div class="card" style="width: 30rem;">
+						<div class="card-body">
+						<h3>아이디찾기</h3>
+						<table>
+							<tr>
+								<td><h5 class="card-com">이름 :</h5></td>
+								<td><input type="text" class="card-name" id="findName" name="findName" ></td>
+							</tr>
+							<tr>
+								<td><h5 class="card-composition">이메일 :</h5></td>
+								<td><input type="text" class="card-name" id="findEmail1" name="findEmail1"></td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" class="card-name" id="btnFindId" name="btnFindId" value ="찾기">
+								</td>
+							</tr>
+						</table>
+					</div>
 				</div>
-
+			</div>
+			<div class="modal-body">
+				<div class="card" style="width: 30rem;">
+					<div class="card-body">
+						<h3>비밀번호찾기</h3>
+						<table>
+							<tr>
+								<td><h5 class="card-com">아이디 :</h5></td>
+								<td><input type="text" class="card-name" id="findEmail" name="findEmail"></td>
+							</tr>
+							<tr>
+								<td><h5 class="card-composition">이메일 :</h5></td>
+								<td><input type="text" class="card-name" id="findEmail2" name="findEmail2"></td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" class="card-name" id="btnFindPw" name="btnFindPw" value ="찾기">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -372,19 +475,20 @@ span {
 		y.style.left = "50px";
 		z.style.left = "110px";
 	}
-	
-	function goPopup(){
-		
+
+	function goPopup() {
+
 		// 주소검색을 수행할 팝업 페이지를 호출합니다.
 		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-		var pop = window.open("popup","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
-		
+		var pop = window.open("popup", "pop",
+				"width=570,height=420, scrollbars=yes, resizable=yes");
+
 		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
-	    //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+		//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
 	}
 
-	function jusoCallBack(roadFullAddr){
-			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.	
-			document.form.parent_addr.value = roadFullAddr;		
+	function jusoCallBack(roadFullAddr) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.	
+		document.form.parent_addr.value = roadFullAddr;
 	}
 </script>

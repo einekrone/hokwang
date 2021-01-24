@@ -260,16 +260,12 @@ function clickDoc(){
 		var vv=$(this).next().text()
 		location.href="doc?vv=" + vv
 	})
-	
 }
 
 function selectBabyResult(data){
 	$("#docBody").empty();
 	
 	$.each(data,function(idx, item) {
-		//if(item.)
-		console.log(">>>>>>>>>>>" +item.DOC_STATUS)
-						
 						 if (item.DOC_STATUS == "N") {
 								$("#docBody").append($('<div>').attr('class','col-12')
 										.append($('<div>').attr('class','card')
@@ -282,12 +278,10 @@ function selectBabyResult(data){
 											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
 											//.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
 											//.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
-							
-						 
 						 }else
 						 {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card').attr('style', 'padding:10px;')
+										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;')
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
@@ -296,11 +290,7 @@ function selectBabyResult(data){
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<div>").attr("id","btn_div").append($('<input>').attr("type",'button').attr("id","pdfmake")
 											.attr("class","pdfmakes btn").attr("value","증명서 출력").attr("style","width:100px; background:#78aac3; color:white;")))))
-
-							 
 						 }
-	
-	
 	});
 }
 </script>

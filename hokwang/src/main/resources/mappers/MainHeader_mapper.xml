@@ -6,8 +6,7 @@
 
 	<select id="logInAction" parameterType="parentVO"
 		resultType="parentVO">
-		select * from parent where parent_id = #{parent_id} and
-		parent_pw = #{parent_pw}
+		select * from parent where parent_id = #{parent_id} and parent_temppw = #{parent_pw} 
 	</select>
 
 	<insert id="kakaoRegisterAction" parameterType="parentVO">
@@ -16,14 +15,11 @@
 			SELECT NVL(MAX(PARENT_NO),0)+1 FROM PARENT
 		</selectKey>
 		insert into
-		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw,parent_img,parent_sns)
+		parent(parent_no,parent_name,parent_tel,parent_addr,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw,parent_img,parent_sns)
 		values(#{parent_no}
 		,#{parent_name}
 		,#{parent_tel}
 		,#{parent_addr}
-		,#{parent_addrdetail}
-		,#{parent_addrextra}
-		,#{parent_post}
 		,#{parent_email}
 		,#{parent_regno1}
 		,#{parent_regno2}
@@ -42,14 +38,11 @@
 			SELECT NVL(MAX(PARENT_NO),0)+1 FROM PARENT
 		</selectKey>
 		insert into
-		parent(parent_no,parent_name,parent_tel,parent_addr,parent_addrdetail,parent_addrextra,parent_post,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw)
+		parent(parent_no,parent_name,parent_tel,parent_addr,parent_email,parent_regno1,parent_regno2,parent_id,parent_pw)
 		values(#{parent_no}
 		,#{parent_name}
 		,#{parent_tel}
 		,#{parent_addr}
-		,#{parent_addrdetail}
-		,#{parent_addrextra}
-		,#{parent_post}
 		,#{parent_email}
 		,#{parent_regno1}
 		,#{parent_regno2}
@@ -61,7 +54,8 @@
 	<select id="alertCntAction" parameterType="parentVO"
 		resultType="int">
 		select count(alert_no) from alert where BABY_NO in (select
-		baby_no from baby where parent_no = #{parent_no}) and to_char(ALERT_DATE,'YY/MM/DD')= to_char(SYSDATE,'YY/MM/DD')
+		baby_no from baby where parent_no = #{parent_no}) and
+		to_char(ALERT_DATE,'YY/MM/DD')= to_char(SYSDATE,'YY/MM/DD')
 	</select>
 
 	<select id="checkId" parameterType="parentVO"
@@ -90,7 +84,25 @@
 
 	<delete id="deleteAlert" parameterType="alertVO">
 		DELETE FROM alert
-		WHERE alert_no = #{alert_no}
+		WHERE
+		alert_no = #{alert_no}
 	</delete>
+
+
+	<select id="findIdInf" parameterType="parentVO" resultType="parentVO">
+		select * from parent where parent_name = #{parent_name} and parent_email = #{parent_email}
+	</select>
+	
+	<select id="findPwInf" parameterType="parentVO" resultType="parentVO">
+		select * from parent where parent_id = #{parent_id} and parent_email = #{parent_email}
+	</select>
+
+	<update id="changeTempPw" parameterType="ParentVO">
+		update parent set parent_temppw= #{parent_temppw}
+		where parent_id=#{parent_id}
+	</update>
+
+
+
 
 </mapper>

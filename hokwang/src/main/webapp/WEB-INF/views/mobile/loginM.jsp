@@ -137,7 +137,65 @@ span {
 		registerAction();
 		checkId();
 		checkEmail();
+		findIdInf();
+		findPwInf();
 	});
+
+	function findIdInf() {
+		$('#btnFindId').on("click", function() {
+			$.ajax({
+				url : "ajax/findIdInf",
+				type : 'GET',
+				data : {
+					parent_name : $('#findName').val(),
+					parent_email : $('#findEmail1').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if (data != "") {
+						$('#findName').val("");
+						$('#findEmail1').val("");
+						alert("Id는 " + data + " 입니다.");
+					} else {//없는경우
+						$('#findName').val("");
+						$('#findEmail1').val("");
+						alert("등록된 계정이 없습니다.");
+					}
+				}
+			})//endAjax
+
+		})
+	}
+
+	function findPwInf() {
+		$('#btnFindPw').on("click", function() {
+			$.ajax({
+				url : "ajax/findPwInf",
+				type : 'GET',
+				data : {
+					parent_id : $('#findId').val(),
+					parent_email : $('#findEmail2').val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(data) {
+					if (data != "") {
+						$('#findId').val("");
+						$('#findEmail2').val("");
+						alert("임시비밀번호는 " + data + " 입니다. 로그인 후  반드시 변경해주세요. ");
+					} else {//없는경우
+						$('#findId').val("");
+						$('#findEmail2').val("");
+						alert("등록된 계정이 없습니다.");
+					}
+				}
+			})//endAjax
+
+		})
+	}
 
 	function checkEmail() {
 		$('#overLapEmail').on("click", function() {
@@ -208,7 +266,7 @@ span {
 									|| $('#name').val() == ''
 									|| $('#reg1').val() == ''
 									|| $('#reg2').val() == ''
-									|| $('#sample3_detailAddress').val() == '') {
+									|| $('#parent_addr').val() == '') {
 								alert('필수 입력을 해야합니다');
 							} else {
 								$
@@ -226,17 +284,7 @@ span {
 														.val(),
 												parent_regno2 : $('#reg2')
 														.val(),
-												parent_addr : $(
-														'#sample3_address')
-														.val(),
-												parent_addrdetail : $(
-														'#sample3_detailAddress')
-														.val(),
-												parent_addrextra : $(
-														'#sample3_extraAddress')
-														.val(),
-												parent_post : $(
-														'#sample3_postcode')
+												parent_addr : $('#parent_addr')
 														.val()
 											},
 											dataType : 'json',
@@ -294,18 +342,20 @@ span {
 			<a href="${kakao_url}"><img
 				src="${pageContext.request.contextPath}/resources/img/kakaoimg.png"
 				alt="kakao" style="width: 200px;"></a>
-			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/facebook.png" alt="facebook"> --%>
-			<%-- 				<img src="${pageContext.request.contextPath}/resources/img/twitter.png" alt="twitter"> --%>
 		</div>
 		<form id="login" action="" class="input-group">
 			<input type="text" class="input-field" placeholder="id" id="idInput"
 				name="idInput" required /> <input type="password"
 				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
-				required /> <br> <br> <br> <br> <input
-				type="button" class="submit" id="btnIn" name="btnIn" value="로그인"
+				style="margin-bottom: 10px;" required />
+			<input type="button"
+				class="submit" id="btnIn" name="btnIn" value="로그인"
+				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
+			<input type="button" class="submit" id="btnFind" name="btnIn"
+				value="ID/PW찾기" data-toggle="modal" data-target="#findInf"
 				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
-		<form id="register" action="" class="input-group"
+		<form id="register" name="form" action="" class="input-group"
 			style="left: 50px; overflow: auto; height: 350px;">
 			<input type="text" class="input-fieldbtn" placeholder="id" id="id"
 				name="id" /> <input type="button" class="btn btn-secondary"
@@ -321,18 +371,16 @@ span {
 				id="tel" name="tel" /> <input type="text" class="input-field"
 				placeholder="주민등록번호 앞자리" id="reg1" name="reg1" /> <input
 				type="password" class="input-field" placeholder="주민등록번호 뒷자리"
-				id="reg2" name="reg2" /> <input type="text" id="sample3_postcode"
-				placeholder="우편번호" style="margin-left: 5px; width: 150px;"
-				class="input-field" readonly> <input type="button"
-				onclick="sample3_execDaumPostcode()" value="우편번호 찾기" id="postBtn"
-				class="btn"
-				style="background: #e5e1e0; margin-left: 5px; border-radius: 10px;"><br>
-			<input type="text" class="input-field" id="sample3_address"
-				placeholder="주소"><br> <input type="text"
-				class="input-field" id="sample3_detailAddress" placeholder="상세주소">
-			<input type="text" class="input-field" id="sample3_extraAddress"
-				placeholder="참고항목"> <input type="button" class="submit"
-				id="btnRegister" name="btnRegister" value="등록"
+				id="reg2" name="reg2" />
+			<div>
+				<button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>
+				<input type="text" id="parent_addr" name="parent_addr"
+					class="form-control" placeholder="Enter Addr" required="true"
+					readonly="true" />
+			</div>
+
+			<input type="button" class="submit" id="btnRegister"
+				name="btnRegister" value="등록"
 				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 		</form>
 	</div>
@@ -342,42 +390,66 @@ span {
 
 
 <!-- 확인 Modal-->
-<div class="modal fade" id="idCheck" tabindex="-1"
+<div class="modal fade" id="findInf" tabindex="-1"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">아이디 중복 확인</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Id/Pw찾기</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="form-group">
-					<input type="text" class="form-control" id="idid" name="idid">
-					<input type="button" class="btn btn-secondary" id="checkIdid"
-						name="checkIdid" value="중복 검사">
+				<div class="card" style="width: 30rem;">
+					<div class="card-body">
+						<h3>아이디찾기</h3>
+						<table>
+							<tr>
+								<td><h5 class="card-com">이름 :</h5></td>
+								<td><input type="text" class="card-name" id="findName"
+									name="findName"></td>
+							</tr>
+							<tr>
+								<td><h5 class="card-composition">이메일 :</h5></td>
+								<td><input type="text" class="card-name" id="findEmail1"
+									name="findEmail1"></td>
+							</tr>
+							<tr>
+								<td><input type="button" class="card-name" id="btnFindId"
+									name="btnFindId" value="찾기"></td>
+							</tr>
+						</table>
+					</div>
 				</div>
-
+			</div>
+			<div class="modal-body">
+				<div class="card" style="width: 30rem;">
+					<div class="card-body">
+						<h3>비밀번호찾기</h3>
+						<table>
+							<tr>
+								<td><h5 class="card-com">아이디 :</h5></td>
+								<td><input type="text" class="card-name" id="findId"
+									name="findId"></td>
+							</tr>
+							<tr>
+								<td><h5 class="card-composition">이메일 :</h5></td>
+								<td><input type="text" class="card-name" id="findEmail2"
+									name="findEmail2"></td>
+							</tr>
+							<tr>
+								<td><input type="button" class="card-name" id="btnFindPw"
+									name="btnFindPw" value="찾기"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
-
-<div id="wrap"
-	style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
-	<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
-		id="btnFoldWrap"
-		style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
-		onclick="foldDaumPostcode()" alt="접기 버튼">
-</div>
-
-
 
 
 <script
@@ -400,82 +472,19 @@ span {
 		z.style.left = "110px";
 	}
 
-	var element_wrap = document.getElementById('wrap');
+	function goPopup() {
 
-	function foldDaumPostcode() {
-		// iframe을 넣은 element를 안보이게 한다.
-		element_wrap.style.display = 'none';
+		// 주소검색을 수행할 팝업 페이지를 호출합니다.
+		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+		var pop = window.open("popup", "pop",
+				"width=570,height=420, scrollbars=yes, resizable=yes");
+
+		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+		//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
 	}
 
-	function sample3_execDaumPostcode() {
-		// 현재 scroll 위치를 저장해놓는다.
-		var currentScroll = Math.max(document.body.scrollTop,
-				document.documentElement.scrollTop);
-		new daum.Postcode(
-				{
-					oncomplete : function(data) {
-						// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
-						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-						var addr = ''; // 주소 변수
-						var extraAddr = ''; // 참고항목 변수
-
-						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-							addr = data.roadAddress;
-						} else { // 사용자가 지번 주소를 선택했을 경우(J)
-							addr = data.jibunAddress;
-						}
-
-						// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-						if (data.userSelectedType === 'R') {
-							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-							if (data.bname !== ''
-									&& /[동|로|가]$/g.test(data.bname)) {
-								extraAddr += data.bname;
-							}
-							// 건물명이 있고, 공동주택일 경우 추가한다.
-							if (data.buildingName !== ''
-									&& data.apartment === 'Y') {
-								extraAddr += (extraAddr !== '' ? ', '
-										+ data.buildingName : data.buildingName);
-							}
-							// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-							if (extraAddr !== '') {
-								extraAddr = ' (' + extraAddr + ')';
-							}
-							// 조합된 참고항목을 해당 필드에 넣는다.
-							document.getElementById("sample3_extraAddress").value = extraAddr;
-
-						} else {
-							document.getElementById("sample3_extraAddress").value = '';
-						}
-
-						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-						document.getElementById('sample3_postcode').value = data.zonecode;
-						document.getElementById("sample3_address").value = addr;
-						// 커서를 상세주소 필드로 이동한다.
-						document.getElementById("sample3_detailAddress")
-								.focus();
-
-						// iframe을 넣은 element를 안보이게 한다.
-						// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-						element_wrap.style.display = 'none';
-
-						// 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-						document.body.scrollTop = currentScroll;
-					},
-					// 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-					onresize : function(size) {
-						element_wrap.style.height = size.height + 'px';
-					},
-					width : '100%',
-					height : '100%'
-				}).embed(element_wrap);
-
-		// iframe을 넣은 element를 보이게 한다.
-		element_wrap.style.display = 'block';
+	function jusoCallBack(roadFullAddr) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.	
+		document.form.parent_addr.value = roadFullAddr;
 	}
 </script>

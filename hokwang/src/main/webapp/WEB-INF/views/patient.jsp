@@ -17,7 +17,17 @@
 		//dignosisDetail2();//상세진료
 
 	})
-
+	function RPAD(str, padStr, padLen) {
+		str = str.toString().substr(1, 1); //주민번호 첫글자
+		while (padLen > 1) {
+			str += padStr; //뒤에서 부터
+			padLen--; //글자길이만큼 뒤에서부터 감소
+		}
+		return str;
+	}
+	
+	
+	
 	function patientList(keyword) {
 
 		$.ajax({
@@ -36,18 +46,19 @@
 
 	}/* end of function */
 	function patientListResult(data) {
-		console.log("patientListResult전체환자 리스트 출력 콘솔");
-
+		console.log("patientListResult전체환자 리스트 출력 콘솔" );
+		
 		$("#patientList").empty();
 		$.each(data, function(idx, item) {
-
+			var regno2 = item.baby_regno2;
+			console.log("patientListResult전체환자 " + regno2);
+			regno2 = RPAD(regno2, '*', 7);
 			$("<tr>").append(
 					$("<td id='baby_no' value= '"+item.baby_no+"'>").html(
 							item.baby_no)).append(
 					$("<td>").html(item.baby_name)).append(
-					$("<td id='regno "+idx+"'>").html(item.baby_regno1))
-					.append($("<td>").html(item.baby_regno2)).append(
-							$('<td style="display:none;">').html(item.baby_no))
+					$("<td id='regno "+idx+"'>").html(item.baby_regno1+" - "+ regno2))
+					.append($('<td style="display:none;">').html(item.baby_no))
 					.appendTo('#patientList');
 			//console.log("예약번호 : "+td.eq(5).text());
 		})/* end of ajax  */
@@ -71,11 +82,11 @@
 			});//end of each function
 
 			console.log("환자클릭시 진료기록 요청");
-			console.log("아기번호 : " + td.eq(4).text());
+			console.log("아기번호 : " + td.eq(3).text());
 			$.ajax({
 				url : "ajax/diagDetailAndInfo",
 				data : {
-					baby_no : td.eq(4).text()
+					baby_no : td.eq(3).text()
 				},
 				dataType : "JSON",
 				error : function(xhr, status, msg) {
@@ -91,14 +102,7 @@
 		});//end of onclick function
 	}//end of function
 
-	function RPAD(str, padStr, padLen) {
-		str = str.toString().substr(1, 1); //주민번호 첫글자
-		while (padLen > 1) {
-			str += padStr; //뒤에서 부터
-			padLen--; //글자길이만큼 뒤에서부터 감소
-		}
-		return str;
-	}
+	
 	function payPatientRuselt(data) {
 		console.log("수납내역 리스트 출력");
 		$("#payStat").empty();
@@ -142,15 +146,13 @@
 						"이름 : " + data.BABY_NAME + " (" + data.BABY_BLOOD
 								+ "형, " + data.BABY_GENDER + ")")).append(
 				$("<p>").html(
-						"주민번호: " + data.BABY_REGNO1 + "-" + data.BABY_REGNO2))
+						"주민번호: " + data.BABY_REGNO1 + "-" + regno2))
 				.append($("<p>").html("방문 여부 : " + data.BABY_VISIT)).append(
 						$("<hr>")).append(
 						$("<p>").html("보호자명 : " + data.PARENT_NAME)).append(
 						$("<p>").html("연락처 : " + data.PARENT_TEL)).append(
 						$("<p>").html(
-								"주소 : " + data.PARENT_ADDR + " "
-										+ data.PARENT_ADDRDETAIL + " "
-										+ data.PARENT_POST))
+								"주소 : " + data.PARENT_ADDR + " "))
 	}
 
 	function diagnosisRecordResult(data) {
@@ -186,8 +188,8 @@
 				},
 				success : function(result) {
 					dignosisDetailResult(result.medicine);//resv_no
-					dignosisDetailResult3(result.diag3);//diag_no
 					dignosisDetailResult2(result.diag2);//diag_no
+					dignosisDetailResult3(result.diag3);//diag_no
 				}
 			});//end of ajax
 
@@ -376,7 +378,6 @@
 								<th class="text-center">환자번호</th>
 								<th class="text-center">성명</th>
 								<th class="text-center">생년월일</th>
-								<th class="text-center">주민번호</th>
 							</tr>
 						</thead>
 						<tbody id="patientList"></tbody>

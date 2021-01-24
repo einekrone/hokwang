@@ -25,7 +25,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
 }
 .diagActive{
-background-color: red;
+background-color: #ffc0cb;
+}
+.diagDeleteBtn{
+border-radius: 5px;
+background-color: #ffc0cb;
+border: none;
+width: 30px;
+height: 30px;
+text-align: center;
 }
 </style>
 <script
@@ -116,7 +124,7 @@ background-color: red;
 				url : 'ajax/getImages',
 				type : 'GET',
 				data : {
-					qust_no : resv_no
+					resv_no : resv_no
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -133,7 +141,7 @@ background-color: red;
 			img.setAttribute("src",
 					"${pageContext.request.contextPath}/resources/img/"
 							+ item.IMG_ADDR);
-			img.setAttribute('style', 'margin:0 20px;');
+			img.setAttribute('style', 'margin:0 20px; height:200px; width:200px;');
 			document.querySelector("#lastImagesList").appendChild(img);
 		});
 	}
@@ -232,6 +240,7 @@ background-color: red;
             	 if (confirm('상기 예방접종을 등록하시겠습니까?')) {
             		 getCheckHist();
                 	 insertPayment();
+                	 PaymnetProcedure();
                 	 UnChange();
                 	 $(".btn_injectInsert").hide();
                 	 alert("예방접종 등록 완료 되었습니다.")
@@ -338,7 +347,7 @@ background-color: red;
 		 $("#InsertDisease").empty();
 			console.log("질병 data:"+data);
 			$.each(data, function(idx, item) {
-					$("<tr>").append($('<td>').html(item.dis_code))
+					$("<tr>").append($('<td style="display:none;">').html(item.dis_code))
 							 .append($('<td>').html(item.dis_name))
 							 .append($('<td>').html(item.dis_desc))
 							 .append($('<td style="display:none;">').html(item.dis_price))
@@ -534,7 +543,7 @@ background-color: red;
 						 .append($('<td>').html(td.eq(1).text()))
 					     .append($('<td>').html(td.eq(2).text()))
 					     .append($('<td style="display:none;">').html(td.eq(3).text()))
-				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" style="width:50px;">X</button></td>'))
+				 		 .append($('<td> <button type="button" id="deleteDiseTr" onclick="deleteDisease()" class="diagDeleteBtn">X</button></td>'))
 				 .appendTo($('#insertDiagLast'));
 			
 				 dis_name = td.eq(1).text();
@@ -734,12 +743,23 @@ background-color: red;
 			chk_type = td.eq(3).text();
 			baby_no = td.eq(4).text();
 			
-			
 			console.log("변수 예약번호 콘솔 :" +resv_no);
 			console.log("변수 아기번호 콘솔 :" +baby_no);
 			console.log("진료타입 : " + td.eq(3).text());
 			console.log("아기번호 : " + td.eq(4).text());
 			console.log("예약번호 : " + td.eq(0).text());
+			$.ajax({
+				url : 'ajax/MemoInfo',
+				data : {
+					resv_no : td.eq(0).text()
+				},
+				dataType : 'json',
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : MemoResult
+			});
+			
 			$.ajax({
 				url : 'ajax/HistoryList',
 				data : {
@@ -827,9 +847,7 @@ background-color: red;
 				  .append($('<hr>'))
 				  .append($('<p>').html('보호자명 : ' + data.PARENT_NAME))
 				  .append($('<p>').html('연락처 : ' + data.PARENT_TEL))
-				  .append($('<p>').html('주소 : ' + data.PARENT_ADDR + ' '
-												+ data.PARENT_ADDRDETAIL + ' '
-												+ data.PARENT_POST))
+				  .append($('<p>').html('주소 : ' + data.PARENT_ADDR))
 	}
 	
 	//예방접종 띄우기
@@ -1035,13 +1053,13 @@ background-color: red;
 											<th>처방</th>
 										</tr>
 										<tr>
-											<th class="text-center">처방명</th>
-											<th class="text-center">1회 투여량</th>
-											<th class="text-center">1일  투여횟수</th>
-											<th class="text-center">총 투약일수</th>
+											<th>처방명</th>
+											<th>1회 투여량</th>
+											<th>1일 투여횟수</th>
+											<th>총 투약일수</th>
 										</tr>
 									</thead>
-									<tbody id="getMedicine" style="overflow: auto; width: 100%;"></tbody>
+									<tbody id="getMedicine" style="overflow: auto; width: 100%;" class="text-center"></tbody>
 								</table>
 							</div>
 						</div>
@@ -1117,7 +1135,7 @@ background-color: red;
 								<table class="table">
 									<thead>
 										<tr>
-											<th style="width: 200px;">코드</th>
+											<th style="display: none;">코드</th>
 											<th style="width: 400px;">상병명</th>
 											<th style="width: 500px;">상병상세</th>
 										</tr>

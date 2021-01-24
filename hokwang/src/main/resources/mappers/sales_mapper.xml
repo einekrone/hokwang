@@ -5,18 +5,18 @@
 <mapper namespace="com.hokwang.dao.SaleMapper">
 	<select id="getDaySales" resultType="integer">
 		select sum(pay_price)
-		from payment where pay_date = TO_CHAR(SYSDATE,'YY/MM/DD')
+		from payment where pay_date = TO_CHAR(SYSDATE,'YY/MM/DD') and pay_state = 'Y'
 	</select>
 
 	<select id="getMonthSales" resultType="integer">
 		select sum(pay_price)
-		from payment where TO_CHAR(pay_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM')
+		from payment where TO_CHAR(pay_date,'YY/MM') = TO_CHAR(SYSDATE,'YY/MM') and pay_state = 'Y'
 	</select>
 
 	<select id="getYearSales" resultType="integer">
 		select sum(pay_price)
 		from
-		payment where TO_CHAR(pay_date,'YY') = TO_CHAR(SYSDATE,'YY')
+		payment where TO_CHAR(pay_date,'YY') = TO_CHAR(SYSDATE,'YY') and pay_state = 'Y'
 	</select>
 
 	<select id="getCountResv" resultType="integer">

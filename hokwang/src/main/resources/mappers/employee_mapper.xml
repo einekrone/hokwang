@@ -112,7 +112,7 @@
 		select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_resvNO and m.EMP_resvNO =#{emp_no} 
+		e,message m where e.EMP_NO=m.EMP_sendNO and m.EMP_resvNO =#{emp_no} 
 	</select>
 
 	<!-- asd -->
@@ -126,14 +126,12 @@
 	</select>
 
 
-
-
 	<select id="noReadTotalMsg" parameterType="employeeVO"
 		resultType="messageVO">
 		select
 		m.emp_sendno,e.emp_name,m.MSG_CONT,m.MSG_DATE,m.MSG_YN,m.msg_no from
 		employee
-		e,message m where e.EMP_NO=m.EMP_resvNO and m.MSG_YN ='N' and
+		e,message m where e.EMP_NO=m.EMP_sendNO and m.MSG_YN ='N' and
 		m.EMP_resvNO = #{emp_no}
 	</select>
 

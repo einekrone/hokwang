@@ -57,5 +57,23 @@ public class MainHeaderServiceImpl implements MainHeaderService {
 	public void deleteAlert(AlertVO vo) {
 		dao.deleteAlert(vo);
 	}
+
+	@Override
+	public ParentVO findIdInf(ParentVO vo) {
+		// TODO Auto-generated method stub
+		return dao.findIdInf(vo);
+	}
+
+	@Override
+	public ParentVO findPwInf(ParentVO vo) {
+		// TODO Auto-generated method stub
+		return dao.findPwInf(vo);
+	}
+
+	@Override
+	public void changeTempPw(ParentVO vo) {
+		dao.changeTempPw(vo);
+		
+	}
 	
 }

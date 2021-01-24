@@ -2,9 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hokwang.mobile.dao.DocMapper">
-
+	<update id="updateDocStatus" parameterType="reservation">
+		UPDATE RESERVATION
+		SET DOC_STATUS = 'Y'
+		WHERE RESV_NO = #{resv_no}
+	</update>
+	
 	<select id="selectBaby" resultType="map">
-		select a.baby_name,b.diag_time
+		select a.baby_name,b.diag_time,c.doc_status
 		,d.dis_code,d.dis_name,d.dis_price,b.resv_no from
 		baby a,diagnosis
 		b,reservation c ,DISEASE d
@@ -23,9 +28,9 @@
 	</select>
 
 	<select id="diagnosisDoc" resultType="map">
-		select e.emp_name,
+		select DISTINCT e.emp_name,
 		b.baby_name,b.BABY_REGNO1,b.BABY_REGNO2,p.parent_name,p.parent_addr,
-		de.dis_name
+		de.dis_name,b.baby_gender,d.diag_time,d.diaglist_memo
 		from DIAGNOSIS d, RESERVATION r, EMPLOYEE e, BABY b, PARENT p, disease
 		DE,PRESCRIPTION f
 		where d.resv_no = r.resv_no

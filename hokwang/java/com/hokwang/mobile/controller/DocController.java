@@ -12,19 +12,27 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hokwang.mobile.service.DocService;
 import com.hokwang.vo.BabyVO;
+import com.hokwang.vo.Reservation;
 
 @Controller
 public class DocController {
 	@Autowired
 	DocService service;
-
-	@RequestMapping(value = "/printDoc")
-	public ModelAndView createForm(Model model) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mobile/doc");//여기선 결제로 넘어거야함
-		return mav;
-	}
 	
+	
+	@ResponseBody
+	@RequestMapping("/ajax/successDoc")
+	public boolean updateDocStatus(Reservation vo) {
+			service.updateDocStatus(vo);
+			return true;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/ajax/printDoc")//값뿌리기 pdf
+	public Map<String,Object> createForm(Reservation vo) {
+		return service.diagnosisDoc(vo);
+	}
+
 	@ResponseBody
 	@RequestMapping("/ajax/babyLists")
 	public List<BabyVO> babyLists(BabyVO vo) {

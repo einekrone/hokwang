@@ -46,7 +46,12 @@
 		select * from parent where parent_email = #{parent_email}
 	</select>
 	
-	
+	<update id="deleteTempPw" parameterType="ParentVO">
+		update parent
+		set parent_temppw = NULL
+		where parent_no=#{parent_no}
+		
+	</update>
 	
 
 </mapper>

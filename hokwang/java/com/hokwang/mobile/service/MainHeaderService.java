@@ -16,4 +16,7 @@ public interface MainHeaderService {
 	public ParentVO checkEmail(ParentVO vo);
 	public List<Map<String,Object>> alertInf(ParentVO vo);
 	public void deleteAlert(AlertVO vo);
+	public void changeTempPw(ParentVO vo);
+	public ParentVO findIdInf(ParentVO vo);
+	public ParentVO findPwInf(ParentVO vo);
 }

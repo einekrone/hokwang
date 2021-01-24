@@ -241,6 +241,7 @@
 		</where>
 		ORDER BY IMG_DATE
 	</select>
+	
 	<select id="getQuestionInfo" resultType="QuestionVO" >
 		SELECT * FROM QUESTION
 		<where>

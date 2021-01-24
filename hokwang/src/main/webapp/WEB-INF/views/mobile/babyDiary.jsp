@@ -55,21 +55,11 @@ ul.tabs li.current {
 }
 
 .notification {
-	color: #000;
 	bottom: 0;
-	width: auto;
-	text-align: right;
-	font-size: inherit;
-	font-weight: inherit;
-	font-style: inherit;
-	margin: 0;
-	padding: 15px;
-	font-family: "Malgun Gothic", dotum, gulim, sans-serif;
+	padding: 15px 20px;
 	border: 0;
 	position: absolute;
-	/* height: 60px; */
 	border-radius: 50%;
-	background: #e3e3e3;
 	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
 	display: block;
 	right: 0;
@@ -685,7 +675,7 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				.each(data,function(idx, item) {
 							$("<tr id='a2'>")
 									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='question_reser' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+									.append($("<td>").attr("id", 'que'+ idx).append($("<input type='button' id='question_reser' class='btn' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
 									.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
 									.appendTo('#reser2');
@@ -699,7 +689,7 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 							else if (item.resv_status == "N") {
 								console.log(">>2 " + item.resv_status);
 								text = "";
-								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
+								$("#que" + idx).eq(-1).after("<td><input type='button' id='modi' style='background:#5b5759; color:white;' class='btn' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
 							}
 						})
 	}
@@ -712,14 +702,14 @@ if(payment_result.status == 'paid' && payment_result.amount == amount_to_be_paid
 				.each(data,function(idx, item) {
 							$("<tr>")
 									.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
-									.append($("<td>").attr("id",'question' + idx).append($("<input type='button' id='que2' style='width:70px;height:50px;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+									.append($("<td>").attr("id",'question' + idx).append($("<input type='button' class='btn' id='que2' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
 									.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
 									.appendTo('#unpayList');
 							if (item.resv_payyn == "N") {
 								console.log(">> " + item.resv_payyn);
 								$("#question" + idx)
 										.eq(-1)
-										.after('<td id="resv_payyn">'+ '<input type="button" class="btn btn-primary btn-sm" value="결제" onclick="payment()">'
+										.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" onclick="payment()">'
 														+ '</td>');
 							} else if (item.resv_payyn == "Y") {
 								console.log(">> " + item.resv_payyn);
@@ -1057,11 +1047,11 @@ function bodyDel(data){
 				<div style="align-self: center;">
 					<img id="babyImg" class="img-fluid rounded-circle mb-2" style="height:120px; width:120px;" />
 				</div>
-				<input type="button" class="card-title mb-0" value="예약하기" onClick="location.href='resv?type=R&resvBaby='+babyNo+''" />
+				<input type="button" class="btn" value="예약하기" style="background: #faf1d6; color: gray;" onClick="location.href='resv?type=R&resvBaby='+babyNo+''" />
 			</div>
 		</div>
 		<div class="col-7 col-lg-8 col-xxl-9 d-flex">
-			<div class="card flex-fill">
+			<div class="card flex-fill" style="padding: 10px;">
 				<div id="babyInfo" style="text-align: left;"></div>
 			</div>
 		</div>

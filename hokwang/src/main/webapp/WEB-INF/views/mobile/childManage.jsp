@@ -6,15 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous">
-	
-</script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 	function addFrm() {
 		var ad = document.frm;
@@ -187,17 +181,14 @@
 </script>
 </head>
 <body>
-	<h1 class="h3 mb-3" align="center">자녀 관리</h1>
+	<input id="babybtn" type="button" class="btn btn-sm"
+						value="자녀등록" data-toggle="modal" data-target="#babyModal"
+						style="float: right; background-color: #faf1d6; color: gray; margin-bottom: 10px;" />
+	<br><br>
 	<div class="row">
 		<div class="col-xl-6 col-xxl-5 d-flex">
 			<div class="card mb-3" style="width:100%;">
-				<div class="h4 card-header"
-					style="background-color: white; color: black;">
-					아기정보<input id="babybtn" type="button" class="btn btn-sm"
-						value="자녀등록" data-toggle="modal" data-target="#babyModal"
-						style="float: right; background-color: #faf1d6; color: gray;" />
-				</div>
-				<div class="card-body" id="imgInf" style="padding: 0 !important;">
+				<div class="card-body" id="imgInf" style="padding: 10px !important;">
 					<%-- 			<image
 						src="${pageContext.request.contextPath}/resources/icons/verify.png"
 						id="logo" width="100px" width="100px"> </image> --%>
@@ -350,11 +341,7 @@
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<div class="card-header"
-					style="background-color: white; color: black;">
-					<h5 class="h4 card-title mb-0">아기목록</h5>
-				</div>
-				<table id="mobile-babyinfo" class="table table-hover my-0">
+				<table id="mobile-babyinfo" style="text-align: center;" class="table table-hover my-0">
 					<thead>
 						<tr>
 							<th>이름</th>

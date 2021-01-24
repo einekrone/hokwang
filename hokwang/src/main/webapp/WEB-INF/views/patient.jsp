@@ -188,8 +188,8 @@
 				},
 				success : function(result) {
 					dignosisDetailResult(result.medicine);//resv_no
-					dignosisDetailResult3(result.diag3);//diag_no
 					dignosisDetailResult2(result.diag2);//diag_no
+					dignosisDetailResult3(result.diag3);//diag_no
 				}
 			});//end of ajax
 

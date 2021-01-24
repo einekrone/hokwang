@@ -160,7 +160,7 @@
 					</div>
 					<div id="card2" class="card">
 						<input type="button" class="btn active" value="증명서 발급" id="issue"
-							style="background-color: #b6e3e9; color: white;">
+							style="background-color: #b6e3e9; color: white;" onclick="location.href='doc'">
 					</div>
 				</div>
 			</div>

@@ -273,7 +273,7 @@ function selectBabyResult(data){
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
 											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
-											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
+											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:100px; background:#78aac3;color:white;display:block;"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
 											//.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")

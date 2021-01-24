@@ -140,9 +140,9 @@ span {
 		findIdInf();
 		findPwInf();
 	});
-	
-	function findIdInf(){
-		$('#btnFindId').on("click",function(){
+
+	function findIdInf() {
+		$('#btnFindId').on("click", function() {
 			$.ajax({
 				url : "ajax/findIdInf",
 				type : 'GET',
@@ -154,26 +154,23 @@ span {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					if(data!=""){
+					if (data != "") {
 						$('#findName').val("");
 						$('#findEmail1').val("");
-						alert("Id는 "+ data + " 입니다.");
-					}
-					else{//없는경우
+						alert("Id는 " + data + " 입니다.");
+					} else {//없는경우
 						$('#findName').val("");
 						$('#findEmail1').val("");
 						alert("등록된 계정이 없습니다.");
 					}
 				}
 			})//endAjax
-		
-		
-		
+
 		})
 	}
-	
-	function findPwInf(){
-		$('#btnFindPw').on("click",function(){
+
+	function findPwInf() {
+		$('#btnFindPw').on("click", function() {
 			$.ajax({
 				url : "ajax/findPwInf",
 				type : 'GET',
@@ -185,24 +182,20 @@ span {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(data) {
-					if(data!=""){
+					if (data != "") {
 						$('#findId').val("");
 						$('#findEmail2').val("");
-						alert("임시비밀번호는 "+ data + " 입니다. 로그인 후  반드시 변경해주세요. ");
-					}
-					else{//없는경우
+						alert("임시비밀번호는 " + data + " 입니다. 로그인 후  반드시 변경해주세요. ");
+					} else {//없는경우
 						$('#findId').val("");
 						$('#findEmail2').val("");
 						alert("등록된 계정이 없습니다.");
 					}
 				}
 			})//endAjax
-		
-		
-		
+
 		})
 	}
-	
 
 	function checkEmail() {
 		$('#overLapEmail').on("click", function() {
@@ -354,8 +347,9 @@ span {
 			<input type="text" class="input-field" placeholder="id" id="idInput"
 				name="idInput" required /> <input type="password"
 				class="input-field" placeholder="pw" id="pwInput" name="pwInput"
-				required /> <br> <br> <br> <br> <input
-				type="button" class="submit" id="btnIn" name="btnIn" value="로그인"
+				style="margin-bottom: 10px;" required />
+			<input type="button"
+				class="submit" id="btnIn" name="btnIn" value="로그인"
 				style="border-radius: 15px; background-color: #7dabd0; color: white; margin: 0 auto;" />
 			<input type="button" class="submit" id="btnFind" name="btnIn"
 				value="ID/PW찾기" data-toggle="modal" data-target="#findInf"
@@ -409,21 +403,22 @@ span {
 			</div>
 			<div class="modal-body">
 				<div class="card" style="width: 30rem;">
-						<div class="card-body">
+					<div class="card-body">
 						<h3>아이디찾기</h3>
 						<table>
 							<tr>
 								<td><h5 class="card-com">이름 :</h5></td>
-								<td><input type="text" class="card-name" id="findName" name="findName" ></td>
+								<td><input type="text" class="card-name" id="findName"
+									name="findName"></td>
 							</tr>
 							<tr>
 								<td><h5 class="card-composition">이메일 :</h5></td>
-								<td><input type="text" class="card-name" id="findEmail1" name="findEmail1"></td>
+								<td><input type="text" class="card-name" id="findEmail1"
+									name="findEmail1"></td>
 							</tr>
 							<tr>
-								<td>
-									<input type="button" class="card-name" id="btnFindId" name="btnFindId" value ="찾기">
-								</td>
+								<td><input type="button" class="card-name" id="btnFindId"
+									name="btnFindId" value="찾기"></td>
 							</tr>
 						</table>
 					</div>
@@ -436,16 +431,17 @@ span {
 						<table>
 							<tr>
 								<td><h5 class="card-com">아이디 :</h5></td>
-								<td><input type="text" class="card-name" id="findId" name="findId"></td>
+								<td><input type="text" class="card-name" id="findId"
+									name="findId"></td>
 							</tr>
 							<tr>
 								<td><h5 class="card-composition">이메일 :</h5></td>
-								<td><input type="text" class="card-name" id="findEmail2" name="findEmail2"></td>
+								<td><input type="text" class="card-name" id="findEmail2"
+									name="findEmail2"></td>
 							</tr>
 							<tr>
-								<td>
-									<input type="button" class="card-name" id="btnFindPw" name="btnFindPw" value ="찾기">
-								</td>
+								<td><input type="button" class="card-name" id="btnFindPw"
+									name="btnFindPw" value="찾기"></td>
 							</tr>
 						</table>
 					</div>

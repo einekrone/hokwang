@@ -57,6 +57,11 @@
 	src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
+#profileInf td {
+	width: 80px;
+	margin-right: 10px;
+}
+
 .file-upload label {
 	display: inline-block;
 	padding: .5em .75em;
@@ -253,7 +258,6 @@
 		oneSales();
 
 	});
-	
 
 	/* allSales() */
 	function oneSales() {
@@ -334,7 +338,7 @@
 				processData : false,
 				success : function(data) {
 					empSelect();
-					
+
 				},
 				error : function(xhr, status, message) {
 					alert(" status: " + status + " er:" + message);
@@ -352,7 +356,7 @@
 				method : 'post',
 				success : function(data) {
 					alert("변경되었습니다  다시 로그인 하세요.")
-					location.href="logout";//새로고침
+					location.href = "logout";//새로고침
 				},
 				error : function(xhr, status, message) {
 					alert(" status: " + status + " er:" + message);
@@ -367,7 +371,7 @@
 				.on(
 						"click",
 						function() {
-							
+
 							$
 									.ajax({
 										url : 'ajax/checkTemp',
@@ -414,7 +418,8 @@
 														.html("");
 												modal.modal('show');
 											}
-											$('#dataTab3').DataTable().ajax.reload();
+											$('#dataTab3').DataTable().ajax
+													.reload();
 										}
 									}); //endof 
 						})//end of click function
@@ -449,40 +454,54 @@
 	}//end of function (writeTempMsg)
 
 	function writeMsg() {
-		$('#btnSave').on("click", function() {
-			console.log("${emp_vo.emp_no}");
-			console.log($('#message-text').val());
-			console.log($('#recipient-name option:selected').val());
+		$('#btnSave')
+				.on(
+						"click",
+						function() {
+							console.log("${emp_vo.emp_no}");
+							console.log($('#message-text').val());
+							console.log($('#recipient-name option:selected')
+									.val());
 
-			if($('#message-text').val() == 0 || $('#recipient-name option:selected').val() ==0){
-				alert("필수값을 입력하시오.");
-			}
-			else{
-				$.ajax({
-					url : "ajax/sendMsgInf",
-					type : 'POST',
-					/* dataType : 'json', */
-					data : {
-						emp_sendno : "${emp_vo.emp_no}",
-						msg_cont : $('#message-text').val(),
-						emp_resvno : $('#recipient-name option:selected').val()
+							if ($('#message-text').val() == 0
+									|| $('#recipient-name option:selected')
+											.val() == 0) {
+								alert("필수값을 입력하시오.");
+							} else {
+								$
+										.ajax({
+											url : "ajax/sendMsgInf",
+											type : 'POST',
+											/* dataType : 'json', */
+											data : {
+												emp_sendno : "${emp_vo.emp_no}",
+												msg_cont : $('#message-text')
+														.val(),
+												emp_resvno : $(
+														'#recipient-name option:selected')
+														.val()
 
-					},
-					error : function(xhr, status, msg) {
-						alert("상태값 :" + status + " Http에러메시지 :" + msg);
-					},
-					success : function(data) {
-						alert("전송되었습니다.");
-						AllCntMsg();
-						$('#dataTab1').DataTable().ajax.reload();
-						$('#dataTab2').DataTable().ajax.reload();
-						$('#dataTab3').DataTable().ajax.reload();
-						$('#dataTab4').DataTable().ajax.reload();
-					}
-				});	
-				
-			}
-		})
+											},
+											error : function(xhr, status, msg) {
+												alert("상태값 :" + status
+														+ " Http에러메시지 :" + msg);
+											},
+											success : function(data) {
+												alert("전송되었습니다.");
+												AllCntMsg();
+												$('#dataTab1').DataTable().ajax
+														.reload();
+												$('#dataTab2').DataTable().ajax
+														.reload();
+												$('#dataTab3').DataTable().ajax
+														.reload();
+												$('#dataTab4').DataTable().ajax
+														.reload();
+											}
+										});
+
+							}
+						})
 	}//end of function (writeMsg)
 
 	function firstMsg() {
@@ -814,17 +833,18 @@
 				$('#noReadMsg').empty();
 				$('#totalMsg').empty();
 				$('#tempMsg').empty();
-				
+
 				$('#recipient-name').empty();
-				
+
 				$('#sendMsg').text(data.send);
 				$('#noReadMsg').text(data.noread);
 				$('#totalMsg').text(data.total);
 				$('#tempMsg').text(data.temp);
-				
-				$('#recipient-name').append($('<option>').attr("value","").html("==선택하세요=="));	//dhfn	
-				$.each(data.empInf, function(idx, item) {				
-					
+
+				$('#recipient-name').append(
+						$('<option>').attr("value", "").html("==선택하세요==")); //dhfn	
+				$.each(data.empInf, function(idx, item) {
+
 					$('#recipient-name').append(
 							$('<option>').attr("value", item.emp_no).html(
 									item.emp_name));
@@ -983,46 +1003,48 @@
 												<td class="content" style="margin: 10px;">
 											</tr>
 										</table>
-										<div class="btn-group file-upload btn-group-toggle" style="float: right;">
-											<input type="hidden" class="upload-name" value="파일선택" /> <label for="uf">프로필사진 업로드</label> <input
-												type="file" class="upload-hidden upload-name" id='uf' name="uf">
+										<div class="btn-group file-upload btn-group-toggle"
+											style="float: right;">
+											<input type="hidden" class="upload-name" value="파일선택" /> <label
+												for="uf">프로필사진 업로드</label> <input type="file"
+												class="upload-hidden upload-name" id='uf' name="uf">
 										</div>
 									</form>
 								</div>
 								<!-- 추가 -->
 								<div>
-									<div id="profileInf">
-										<table style="margin: auto;">
+									<div>
+										<table style="margin: auto;" id="profileInf">
 											<tr>
-												<td>&nbsp;&nbsp;이름</td>
-												<td id='name'>&nbsp;&nbsp;${emp_vo.emp_name}</td>
+												<td>이름</td>
+												<td id='name'>${emp_vo.emp_name}</td>
 											</tr>
 											<tr>
-												<td>&nbsp;&nbsp;사원번호</td>
+												<td>사원번호</td>
 												<td id="no">${emp_vo.emp_no}</td>
 											</tr>
 											<tr>
-												<td>&nbsp;&nbsp;주민등록번호</td>
-												<td id='regno'>&nbsp;&nbsp;${emp_vo.emp_regno}</td>
+												<td>생년월일</td>
+												<td id='regno'>${emp_vo.emp_regno}</td>
 											</tr>
 											<tr>
-												<td>&nbsp;&nbsp;면허 정보</td>
-												<td id='lic'>&nbsp;&nbsp;${emp_vo.emp_lic}</td>
+												<td>면허 정보</td>
+												<td id='lic'>${emp_vo.emp_lic}</td>
 											</tr>
 											<tr>
-												<td>&nbsp;&nbsp;전화번호</td>
+												<td>전화번호</td>
 												<td><input type="text" value="${emp_vo.emp_tel}"
 													id="tel" name="emp_tel"></td>
 											</tr>
 											<tr>
-												<td>&nbsp;&nbsp;주소</td>
+												<td>주소</td>
 												<td><input type="text" value="${emp_vo.emp_addr}"
 													id="addr" name="emp_addr"></td>
 											</tr>
 											<c:if test="${emp_vo.emp_author=='D'}">
 												<tr>
-													<td>&nbsp;&nbsp;진료실</td>
-													<td id='room'>&nbsp;&nbsp;${emp_vo.emp_room} 진료실</td>
+													<td>진료실</td>
+													<td id='room'>${emp_vo.emp_room}진료실</td>
 												</tr>
 											</c:if>
 										</table>
@@ -1044,9 +1066,11 @@
 										<div class="card-body">
 											<div class="row1 no-gutters align-items-center">
 												<div class="col mr-2">
-													<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+													<div
+														class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 														당일 예약 건수</div>
-													<div class="h5 mb-0 font-weight-bold text-gray-800" id="countResv">
+													<div class="h5 mb-0 font-weight-bold text-gray-800"
+														id="countResv">
 														<div class="col-auto" style="float: right;">
 															<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
 														</div>
@@ -1056,35 +1080,39 @@
 										</div>
 									</div>
 								</div>
-								
-							<div class="col-xl-6 col-md-6 mb-4">
-				<div class="card border-left-success shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row1 no-gutters align-items-center">
-							<div class="col mr-2">
-								<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-									월 매출</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800" id="monthSales">
-							<div class="col-auto" style="float: right;">
-								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+
+								<div class="col-xl-6 col-md-6 mb-4">
+									<div class="card border-left-success shadow h-100 py-2">
+										<div class="card-body">
+											<div class="row1 no-gutters align-items-center">
+												<div class="col mr-2">
+													<div
+														class="text-xs font-weight-bold text-success text-uppercase mb-1">
+														월 매출</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800"
+														id="monthSales">
+														<div class="col-auto" style="float: right;">
+															<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-							
-							
-							
+
+
+
 								<div class="col-xl-6 col-md-6 mb-4">
 									<div class="card border-left-primary shadow h-100 py-2">
 										<div class="card-body">
 											<div class="row1 no-gutters align-items-center">
 												<div class="col mr-2">
-													<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+													<div
+														class="text-xs font-weight-bold text-primary text-uppercase mb-1">
 														일 매출</div>
-													<div class="h5 mb-0 font-weight-bold text-gray-800" id="daySales">
+													<div class="h5 mb-0 font-weight-bold text-gray-800"
+														id="daySales">
 														<div class="col-auto" style="float: right;">
 															<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 														</div>
@@ -1146,8 +1174,9 @@
 								</ul>
 							</div> -->
 
-							<div class="note_bt" style="display: block; top: 70px;" id="cont1">
-								<table id="dataTab1">
+							<div class="note_bt" style="display: block; top: 70px;"
+								id="cont1">
+								<table id="dataTab1" style="text-align: center;">
 									<thead>
 										<tr>
 											<!-- <th width="50" class="tc"><input type="checkbox" /></th> -->
@@ -1158,7 +1187,6 @@
 											<th class="tc">수신여부</th>
 											<th width='20%' class="tc">히든</th>
 										</tr>
-
 									</thead>
 									<tbody>
 									</tbody>
@@ -1242,7 +1270,7 @@
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
-					<div class="modal-body">${emp_vo.emp_name}님정말로로그아웃하시겠습니까?</div>
+					<div class="modal-body">${emp_vo.emp_name}님로그아웃 하시겠습니까?</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancel</button>
@@ -1458,7 +1486,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" id="btnDeleteT" name="btnDelete" data-dismiss="modal">삭제</button>
+						<button type="button" class="btn btn-secondary" id="btnDeleteT"
+							name="btnDelete" data-dismiss="modal">삭제</button>
 					</div>
 				</div>
 			</div>

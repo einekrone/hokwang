@@ -11,6 +11,17 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <style type="text/css">
+#resvHstTable th:nth-of-type(1), #resvHstTable td:nth-of-type(1) { width: 134px; }
+#resvHstTable th:nth-of-type(2), #resvHstTable td:nth-of-type(2) { width: 80px; }
+#resvHstTable th:nth-of-type(3), #resvHstTable td:nth-of-type(3) { width: 166px; }
+#resvHstTable th:nth-of-type(4), #resvHstTable td:nth-of-type(4) { width: 46px; }
+
+#resvTable th:nth-of-type(1), #resvTable td:nth-of-type(2) { width: 161px; }
+#resvTable th:nth-of-type(2), #resvTable td:nth-of-type(3) { width: 185px; }
+#resvTable th:nth-of-type(3), #resvTable td:nth-of-type(4) { width: 93px; }
+#resvTable th:nth-of-type(4), #resvTable td:nth-of-type(5) { width: 100px; }
+#resvTable th:nth-of-type(5), #resvTable td:nth-of-type(6) { width: 70px; }
+
 i.material-icons {
 	font-size: 1.5rem;
 	color: white;
@@ -511,13 +522,13 @@ button {
 									+ '-' + ('0' + d.getDate()).slice(-2);
 
 							$('<tr>')
+							.append(
+									$('<td style="display:none;">')
+											.html(item.BABY_NO))
 									.append(
 											$(
 													'<td id="resvNo'+idx+'" value="'+item.RESV_NO+'">')
 													.html(item.RESV_NO))
-									.append(
-											$('<td style="display:none;">')
-													.html(item.BABY_NO))
 									.append($('<td>').html(item.RESV_DATETIME))
 									.append($('<td>').html(item.BABY_NAME))
 									.append(
@@ -599,7 +610,7 @@ button {
 			$.ajax({
 				url : 'ajax/resvHstList',
 				data : {
-					baby_no : td.eq(1).text()
+					baby_no : td.eq(0).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -610,7 +621,7 @@ button {
 			$.ajax({
 				url : 'ajax/ptInfo',
 				data : {
-					baby_no : td.eq(1).text()
+					baby_no : td.eq(0).text()
 				},
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -622,34 +633,42 @@ button {
 
 	function resvHstListResult(data) {
 		$("#resvHstList").empty();
-		$.each(data, function(idx, item) {
-			var resvNo = "";
-			if (typeof item.RESV_NO != 'undefined') {
-				resvNo = item.RESV_NO;
-			}
-			imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
-			$('<tr>').append($('<td>').html(item.RESV_NO)).append(
-					$('<td>').html(item.RESV_DATE)).append(
-					$('<td id="dtl'+idx+'">').html(item.RESV_DETAIL)).append(
-					$('<td style="display:none;">').html(item.BABY_NO))
-					.appendTo('#resvHstList');
+		$
+				.each(
+						data,
+						function(idx, item) {
+							var resvNo = "";
+							if (typeof item.RESV_NO != 'undefined') {
+								resvNo = item.RESV_NO;
+							}
+							imgsrc = item.IMG_ADDR; // todo: undefined 아닐 경우에만 담아야함..
+							$('<tr>').append($('<td>').html(item.RESV_NO))
+									.append($('<td>').html(item.RESV_DATE))
+									.append(
+											$('<td id="dtl'+idx+'">').html(
+													item.RESV_DETAIL)).append(
+											$('<td style="display:none;">')
+													.html(item.BABY_NO))
+									.appendTo('#resvHstList');
 
-			if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
-				$("#dtl" + idx).eq(-1).after(
-						'<i class="material-icons" id="imgBtn" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">attach_file</i>');
-				// 										.after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
-			}
+							if (item.CHK_TYPE == "N") { // 일반 검진. 사진 버튼 출력
+								$("#dtl" + idx)
+										.eq(-1)
+										.after(
+												'<i class="material-icons" id="imgBtn" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">attach_file</i>');
+								// 										.after('<button id="imgBtn" type="button" data-toggle="modal" data-target="#imgPopup" data-num="'+resvNo+'">사진</button>');
+							}
 
-			var d = new Date();
-			var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-'
-					+ d.getDate();
-			/* if (item.RESV_DATE == today) {
-				$("#imgDBtn").css("display", "none");
-			} else {
-				$("#imgInput").css("display", "none");
-				$("#imgRBtn").css("display", "none");
-			} */
-		});
+							var d = new Date();
+							var today = d.getFullYear() + '-'
+									+ (d.getMonth() + 1) + '-' + d.getDate();
+							/* if (item.RESV_DATE == today) {
+								$("#imgDBtn").css("display", "none");
+							} else {
+								$("#imgInput").css("display", "none");
+								$("#imgRBtn").css("display", "none");
+							} */
+						});
 	}
 
 	function RPAD(str, padStr, padLen) {
@@ -751,13 +770,12 @@ button {
 					</div>
 				</div>
 				<div class="card shadow py-2" style="height: 266px">
-					<div class="card-body"
-						style="overflow-y: auto; border-collapse: collapse;">
+					<div class="card-body" style="border-collapse: collapse;">
+						<!-- overflow-y: auto;  -->
 						<!-- style="position:sticky; position: absolute; top:5px;" -->
 						<p class="text-s font-weight-bold text-success">진료/예약 이력</p>
-						<table class="table text-center">
+						<table class="table text-center" style="display: block;" id="resvHstTable">
 							<thead>
-								<!-- style="position:sticky; position: absolute; top:35px;" -->
 								<tr>
 									<th class="text-center">No</th>
 									<th class="text-center">일시</th>
@@ -765,7 +783,8 @@ button {
 									<th class="text-center">사진</th>
 								</tr>
 							</thead>
-							<tbody id="resvHstList"></tbody>
+							<tbody id="resvHstList"
+								style="display: block; height: 150px; overflow: auto; overflow-x:hidden;"></tbody>
 						</table>
 					</div>
 				</div>
@@ -785,17 +804,17 @@ button {
 								style="float: right;"> <input class="tgl tgl-flat rsvTg"
 								id="cb1" type="checkbox" /> <label class="tgl-btn" for="cb1"></label>
 							</span>
-							<table class="table text-center">
+							<table class="table text-center" style="display: block; margin-top: 20px;" id="resvTable">
 								<thead class="font-weight-bold text-center">
 									<tr>
 										<th>예약번호</th>
 										<th>일시</th>
 										<th>성명</th>
-										<th style="width: 100px;">생년월일</th>
-										<th style="width: 70px;">진료실</th>
+										<th>생년월일</th>
+										<th>진료실</th>
 									</tr>
 								</thead>
-								<tbody id="resvList"></tbody>
+								<tbody id="resvList" style="display: block; height: 630px; overflow: auto; overflow-x:hidden;"></tbody>
 							</table>
 						</div>
 					</div>
@@ -913,12 +932,13 @@ button {
 					</button>
 				</div>
 				<div class="modal-body" style="min-height: 100px;">
-					<form enctype="multipart/form-data" id="imgForm" name="imgForm" enctype="multipart/form-data">
+					<form enctype="multipart/form-data" id="imgForm" name="imgForm"
+						enctype="multipart/form-data">
 						<input type="hidden" id="resv_no" value="">
 						<div class="filebox" style="float: left; padding-right: 600px;">
-							<label for="imgInput">업로드</label> <input type="file" multiple="multiple"
-								id="imgInput" name="imgInput" accept="image/*"
-								onchange="setImages(event);">
+							<label for="imgInput">업로드</label> <input type="file"
+								multiple="multiple" id="imgInput" name="imgInput"
+								accept="image/*" onchange="setImages(event);">
 						</div>
 						<div id="imgShow"
 							style="max-height: 640px; overflow-y: auto; width: 100%;"></div>

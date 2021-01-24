@@ -34,7 +34,7 @@
 
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
-		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') AS RESV_DATE,
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYMMDD') AS RESV_DATE,
 		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO, R.CHK_TYPE
 		FROM DIAGNOSIS D RIGHT
 		JOIN
@@ -44,7 +44,7 @@
 				R.BABY_NO = #{baby_no}
 			</if>
 		</where>
-		ORDER BY RESV_NO
+		ORDER BY R.RESV_DATE DESC, R.RESV_TYPE
 	</select>
 
 	<select id="getPtInfo" resultType="map"

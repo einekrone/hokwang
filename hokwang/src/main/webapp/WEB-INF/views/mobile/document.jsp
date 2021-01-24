@@ -287,7 +287,7 @@ function selectBabyResult(data){
 						 }else
 						 {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card')
+										.append($('<div>').attr('class','card').attr('style', 'padding:10px;')
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
@@ -295,7 +295,7 @@ function selectBabyResult(data){
 											//.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<div>").attr("id","btn_div").append($('<input>').attr("type",'button').attr("id","pdfmake")
-											.attr("class","pdfmakes").attr("value","pdf_file만들기").attr("style","width:60px")))))
+											.attr("class","pdfmakes btn").attr("value","증명서 출력").attr("style","width:100px; background:#78aac3; color:white;")))))
 
 							 
 						 }
@@ -308,7 +308,7 @@ function selectBabyResult(data){
 <body>
 	<h1 class="h3 mb-3">증명서 페이지</h1>
 	<div>
-	<select class="form-control" name="baby_no" id="baby-names"
+	<select class="form-control" name="baby_no" id="baby-names" style="margin-bottom: 10px;"
 			onchange="chgBaby()">
 			<option value="" selected>==자녀선택==</option>
 		</select>

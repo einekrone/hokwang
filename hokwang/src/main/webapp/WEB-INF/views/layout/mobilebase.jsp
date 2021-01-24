@@ -70,7 +70,7 @@
 			var parentinfo = '${parent_vo}';
 			if (parentinfo == '') {
 				event.preventDefault();
-				alert("로그인 후 사용 가능합니다.");
+				alert("로그인 후 예약 가능합니다.");
 			}
 		});
 	});

@@ -20,7 +20,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/mobile.css"
 	rel="stylesheet">
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH21zH92cL76dalhNG4zwZXPIXsVwT738"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCH21zH92cL76dalhNG4zwZXPIXsVwT738"></script>
 <style>
 #card1 {
 	width: 180px;
@@ -50,7 +51,7 @@
 .resvBtn {
 	color: white;
 	padding: 30px 15px;
-	height:80px;
+	height: 80px;
 }
 </style>
 
@@ -111,8 +112,9 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 					</ol>
-					<input type="button" class="btn btn-m" style="background-color: #b6e3e9; color:gray;"
-						value="모바일 아기 수첩" onclick="location.href='babyDiary'" />
+					<input type="button" class="btn btn-m"
+						style="background-color: #b6e3e9; color: gray;" value="모바일 아기 수첩"
+						onclick="location.href='babyDiary'" />
 				</nav>
 			</div>
 		</div>
@@ -151,12 +153,14 @@
 					</div>
 					<!-- 예약,증명서 -->
 					<div id="card1" class="card">
-						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;" onclick="location.href='resv?type=T'" >
-						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;" onclick="location.href='resv?type=R'" >
+						<!-- 						<input type="button" class="btn btnt resvBtn resvT" value="당일예약" style="background-color: #fdafab; width:49%; margin-right: 1%;" onclick="location.href='resv?type=T'" > -->
+						<!-- 						<input type="button" class="btn btnv resvBtn resvR" value="우선예약" style="background-color: #fad4ae; width:50%;" onclick="location.href='resv?type=R'" > -->
+						<a href="resv?type=T" class="btn resvBtn resvT" style="background-color: #fdafab; width:49%; margin-right: 1%;">당일예약</a>
+						<a href="resv?type=R" class="btn resvBtn resvR" style="background-color: #fad4ae; width:50%;">우선예약</a>
 					</div>
 					<div id="card2" class="card">
-						<input type="button" class="btn active" value="증명서 발급"
-							id="issue" style="background-color: #b6e3e9; color: white;">
+						<input type="button" class="btn active" value="증명서 발급" id="issue"
+							style="background-color: #b6e3e9; color: white;">
 					</div>
 				</div>
 			</div>

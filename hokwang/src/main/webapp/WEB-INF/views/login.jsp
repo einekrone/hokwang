@@ -55,7 +55,7 @@
             },
             success : function(data) {
                if (data.result == true) {
-                  $('#resultId').html(data.employeeVO.emp_no);
+                  $('#resultId').html("사원번호는 ' " + data.employeeVO.emp_no+ " ' 입니다.");
                   
                } else {
                   alert("검색결과가 없습니다.")
@@ -86,7 +86,7 @@
             },
             success : function(data) {
                if (data.result == true) {
-                  $('#resultPw').html(data.employeeVO.emp_pwd);
+                  $('#resultPw').html("비밀번호는 ' " +data.employeeVO.emp_pwd+ " ' 입니다.");
                } else {
                   alert("검색결과가 없습니다.")
                } 
@@ -339,7 +339,7 @@
                         </div>
                      </div>
 
-                     <h1 id="resultId"></h1>
+                     <h3 id="resultId"></h3>
                   </div>
                </div>
             </div>

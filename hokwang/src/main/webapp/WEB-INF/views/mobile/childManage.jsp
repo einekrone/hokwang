@@ -155,6 +155,7 @@
 						success : function(data) {
 							console.log(data);
 							var modal = $('#updateModal');
+							modal.find('#baby-no').val(data.baby_no);
 							modal.find('#baby-name').val(data.baby_name);
 							modal.find('#baby-regno1').attr("readonly", true)
 									.val(data.baby_regno1);
@@ -220,6 +221,7 @@
 						</div>
 						<input type="hidden" class="form-control" id="parent-no"
 							name="parent_no">
+							
 						<div class="form-group">
 							<input type="number" class="form-control" id="baby-regno1"
 								name="baby_regno1" placeholder="생년월일 6자리 ex)910504"
@@ -283,12 +285,15 @@
 				<form encType="multipart/form-data" method="post"
 					action="updatebabyinfo">
 					<div class="modal-body">
+					<input type="hidden" class="form-control" id="baby-no"
+							name="baby_no">
 						<div class="form-group">
 							<label>이름</label><input type="text" class="form-control"
 								id="baby-name" name="baby_name" placeholder="이름">
 						</div>
 						<input type="hidden" class="form-control" id="parent-no"
 							name="parent_no">
+							
 						<div class="form-group">
 							<label>생년월일</label><input type="number" class="form-control"
 								id="baby-regno1" name="baby_regno1"

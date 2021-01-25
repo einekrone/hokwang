@@ -32,7 +32,7 @@
 						<if test="baby_pic != null and baby_pic != ''">
 						,baby_pic=#{baby_pic}
 						</if>
-		where baby_name = #{baby_name} and parent_no = #{parent_no}
+		where baby_no = #{baby_no} and parent_no = #{parent_no}
 	
 	</update>
 	<select id="getInfo" parameterType="babyVO" resultType="babyVO">

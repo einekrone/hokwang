@@ -17,7 +17,7 @@
 
 function init(){
 	var url = location.href;
-	var confmKey = "devU01TX0FVVEgyMDIxMDEyMjE0NTgzMjExMDczMTc=";
+	var confmKey = "devU01TX0FVVEgyMDIxMDEyNTE3MTc1NTExMDc0MDg=";
 	var resultType = "4"; // 도로명주소 검색결과 화면 출력내용, 1 : 도로명, 2 : 도로명+지번, 3 : 도로명+상세건물명, 4 : 도로명+지번+상세건물명
 	var inputYn= "<%=inputYn%>";
 	if(inputYn != "Y"){
@@ -33,8 +33,8 @@ function init(){
 		}
 }
 </script>
-<body onload="init()">
-	<form id="form" name="form">
+<body onload="init();">
+	<form id="form" name="form" method="post">
 		<input type="hidden" id="confmKey" name="confmKey" value=""/>
 		<input type="hidden" id="returnUrl" name="returnUrl" value=""/>
 		<input type="hidden" id="resultType" name="resultType" value=""/>

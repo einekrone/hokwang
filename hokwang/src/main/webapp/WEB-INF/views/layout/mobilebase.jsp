@@ -250,7 +250,6 @@
 				</form>
 
 				<div class="navbar-collapse collapse">
-					${kemail}
 					<!-- 로그인모양 -->
 					<c:if test="${parent_vo == null }">
 

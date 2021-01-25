@@ -45,7 +45,7 @@
 		});/* end of ajax */
 
 	}/* end of function */
-	function patientListResult(data) {
+	function patientListResult(data) {//전체환자리스트
 		console.log("patientListResult전체환자 리스트 출력 콘솔" );
 		
 		$("#patientList").empty();
@@ -76,7 +76,10 @@
 		$("body").on("click", "#patientList tr", function() {
 			var tdArr = new Array();
 			var td = $(this).children();
-
+			$("#mediName").empty();
+			$("#diagDetail1").empty();
+			$("#diagDetail2").empty();
+			
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
 			});//end of each function
@@ -93,6 +96,7 @@
 					alert("상태값 :" + status + " Http에러메시지 : 일단진료기록에러임" + msg);
 				},
 				success : function(result) {
+					
 					diagnosisRecordResult(result.diagnosisRecord)
 					patientInfoResult(result.patientInfo)
 					chartListRuselt(result.chart)
@@ -103,7 +107,7 @@
 	}//end of function
 
 	
-	function payPatientRuselt(data) {
+	function payPatientRuselt(data) {//수납상태
 		console.log("수납내역 리스트 출력");
 		$("#payStat").empty();
 		var text = "";
@@ -134,7 +138,7 @@
 					}
 				});//endonf each function
 	}
-	function patientInfoResult(data) {
+	function patientInfoResult(data) {//환자정보
 		$("#ptInfo2").empty();
 
 		var regno2 = data.BABY_REGNO2;
@@ -155,7 +159,7 @@
 								"주소 : " + data.PARENT_ADDR + " "))
 	}
 
-	function diagnosisRecordResult(data) {
+	function diagnosisRecordResult(data) {//진료기록
 		console.log("진료기록 리스트 출력");
 		$("#diagnosisRecord").empty();
 
@@ -170,7 +174,7 @@
 
 	}//end of fucntion
 
-	function dignosisDetail1() {
+	function dignosisDetail1() {//환자상세 
 
 		$("body").on("click", "#diagnosisRecord tr", function() {
 			var td = $(this).children();
@@ -187,9 +191,10 @@
 					alert("상태값 :" + status + " Http에러메시지 : 상세진료내역" + msg);
 				},
 				success : function(result) {
-					dignosisDetailResult(result.medicine);//resv_no
-					dignosisDetailResult2(result.diag2);//diag_no
-					dignosisDetailResult3(result.diag3);//diag_no
+					
+					dignosisDetailResult(result.medicine);//resv_no//약이름
+					dignosisDetailResult2(result.diag2);//diag_no//질병이름
+					dignosisDetailResult3(result.diag3);//diag_no//메모
 				}
 			});//end of ajax
 
@@ -200,10 +205,11 @@
 
 		console.log("약이름 출력");
 		//console.log(key);
-		$("#mediName").empty();
+		
 		/* 	$("#mediName")
 			.append($("<p>").html("약이름 : " + key)).append($("<hr>"))
 		 */
+			$("#mediName").empty();
 		$.each(data, function(idx, item) {
 			var key = Object.values(data[idx]);
 			console.log(">>>>>>>>>>>>>>>>>>>" + data)
@@ -217,7 +223,6 @@
 		var key = Object.values(data)
 		console.log("상세진료 병,메모 ->" + key);
 		$("#diagDetail1").empty();
-
 		$("#diagDetail1").append($("<p>").html("질병이름 : " + key)).append(
 				$("<hr>"))
 
@@ -226,7 +231,6 @@
 		var key = Object.values(data)
 		console.log("상세진료 병,메모 ->" + key);
 		$("#diagDetail2").empty();
-
 		$("#diagDetail2").append($("<p>").html("메모 : " + key))
 				.append($("<hr>"))
 	}
@@ -404,7 +408,7 @@
 				style="height: 400px; float: left; width: 49%; padding:5px;">
 				<p class="text-s font-weight-bold text-danger"
 					style="margin-bottom: 3px !important;">환자 상세 진료 내역</p>
-				<div class="card-body">
+				<div class="card-body22">
 					<p class="text-s font-weight-bold text-info">질병이름</p>
 					<div style="width: 100%; height: 70px; overflow: auto;"
 						id="diagDetail1"></div>

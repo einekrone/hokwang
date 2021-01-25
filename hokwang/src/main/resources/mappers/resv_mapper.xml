@@ -29,12 +29,12 @@
 			AND TO_CHAR(R.RESV_DATE, 'YYYY-MM-DD') = #{resv_date}
 		</if>
 		<!-- ORDER BY R.RESV_NO, R.RESV_TYPE, RESV_DATETIME -->
-		ORDER BY RESV_DATETIME desc, R.RESV_TYPE
+		ORDER BY R.RESV_DATE DESC, R.RESV_TIME ASC, R.RESV_TYPE
 	</select>
 
 	<select id="getResvHistList" resultType="map"
 		parameterType="reservation">
-		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YYMMDD') AS RESV_DATE,
+		SELECT R.RESV_NO, TO_CHAR(R.RESV_DATE, 'YY/MM/DD') AS RESV_DATE,
 		R.RESV_DETAIL, R.BABY_NO, D.DIAG_NO, R.CHK_TYPE
 		FROM DIAGNOSIS D RIGHT
 		JOIN
@@ -69,7 +69,7 @@
 
 	<select id="getNonPayList" resultType="map"
 		parameterType="resvSearch">
-		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YYMMDD') AS PAY_DATE,
+		SELECT P.PAY_NO, TO_CHAR(P.PAY_DATE, 'YY/MM/DD') AS PAY_DATE,
 		P.PAY_PRICE,
 		P.PAY_STATE, B.*, P.RESV_NO
 		FROM PAYMENT P,

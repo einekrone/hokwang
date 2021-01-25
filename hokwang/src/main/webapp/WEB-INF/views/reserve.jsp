@@ -232,7 +232,7 @@ button {
 					'#room' + offSel); */// todo 올바르게 됐는지 확인
 			// 진료실 변경사항 db
 			console.log("resvNo : " + resvNo);
-			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(1)
+			var roomBabyNo = $("#officeSel" + resvNo).parent().siblings().eq(0)
 					.text();
 			console.log("!!!!!!!!! " + roomBabyNo);
 			$.ajax({

@@ -54,8 +54,8 @@
 			var img = $(".gc-img");
 			img.attr("src", event.target.result);
 			img.attr({
-				"width" : "250px",
-				"height" : "250px"
+				"width" : "200px",
+				"height" : "170px"
 			});
 		}
 		reader.readAsDataURL(event.target.files[0]);
@@ -248,7 +248,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">사진등록</label>
+							<label class="col-form-label">사진등록(하단의 빈공간을 눌러주세요)</label>
 							<div
 								style="width: 200px; height: 150px; background-color: white;"
 								class="img-print">
@@ -315,7 +315,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="col-form-label">사진등록</label><br>
+							<label class="col-form-label">사진등록(하단의 빈공간을 눌러주세요)</label><br>
 							<div
 								style="width: 200px; height: 150px; background-color: white;"
 								class="img-print1">

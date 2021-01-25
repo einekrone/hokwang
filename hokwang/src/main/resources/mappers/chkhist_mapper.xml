@@ -26,7 +26,7 @@
 				WHERE R.BABY_NO = #{baby_no})
 			</if>
 		</where>
-		ORDER BY CHK_NO
+		ORDER BY CHK_FIRST ASC
 	</select>
 	
 	<select id="checkHistlistComplete" resultType="map">

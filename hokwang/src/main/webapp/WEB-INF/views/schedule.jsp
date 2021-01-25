@@ -119,7 +119,7 @@
 			<fieldset>
 				<label>카테고리</label> <select id="work_ctg" name="work_ctg"
 					onchange="ctgchange()">
-					<option value="">선택</option>
+					<option value="" selected>선택</option>
 					<option value="work">근무</option>
 					<option value="holiday">휴가</option>
 				</select><br> <label id="work">근무일자</label> <input type="date"
@@ -225,6 +225,17 @@
 			businessHours : true,
 
 			select : function(arg) { //날짜클릭시 dialog 오픈
+				$("#work_date").css("display", "none");
+				$("#holiday").css("display", "none");
+				$("#holiday").css("display", "none");
+				$("#work").css("display", "none");
+				$("#work_stdate").css("display", "none");
+				$("#work_endate").css("display", "none");
+				$("#work_stdate").css("display", "none");
+				$("#work_endate").css("display", "none");
+				$("#holiday").css("display", "none");
+				$("#work").css("display", "none");
+				$("#work_date").css("display", "none");
 
 				var start = moment(arg.start).format('YYYY-MM-DD');
 				var end = moment(arg.end).format('YYYY-MM-DD');

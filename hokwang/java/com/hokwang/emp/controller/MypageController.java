@@ -131,8 +131,12 @@ public class MypageController {
 	// 등록처리
 	@ResponseBody
 	@RequestMapping("/ajax/updateImg")
-	public boolean updateImg(HttpServletRequest request, EmployeeVO vo) throws IllegalStateException, IOException {
+	public boolean updateImg(HttpSession session,HttpServletRequest request, EmployeeVO vo) throws IllegalStateException, IOException {
 		// request multipart로 캐스팅
+		vo.setEmp_no(((EmployeeVO) session.getAttribute("emp_vo")).getEmp_no());
+		vo.setEmp_name(((EmployeeVO) session.getAttribute("emp_vo")).getEmp_name());
+		
+		
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		// 이미지파일
 		MultipartFile multipartFile = multipartRequest.getFile("uf");
@@ -193,6 +197,7 @@ public class MypageController {
 	@ResponseBody
 	@RequestMapping(value = "/ajax/updateFinal")
 	public EmployeeVO updateFinal(EmployeeVO vo, Model model,HttpSession session) {
+		System.out.println("사원 이름 :" + vo.getEmp_name());
 		dao.updateImg(vo);
 		session.setAttribute("emp_vo", vo);
 		return vo;

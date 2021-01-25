@@ -114,7 +114,7 @@
 span {
 	color: #777;
 	font-size: 12px;
-	bottom: 68px;
+
 	position: absolute;
 }
 

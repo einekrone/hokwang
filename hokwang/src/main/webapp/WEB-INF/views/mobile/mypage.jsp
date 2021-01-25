@@ -144,8 +144,8 @@
 							function() {
 								var emailVal = $("#parent-email").val();
 
-								var regExp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i\r\n"
-										+ "\r\n";// 검증에 사용할 정규식 변수 regExp에 저장
+								var regExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
 
 								if ($('#parent-email').val() == '') {
 									alert("이메일을 입력하시오")

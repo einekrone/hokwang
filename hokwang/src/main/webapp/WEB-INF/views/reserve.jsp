@@ -932,8 +932,7 @@ button {
 					</button>
 				</div>
 				<div class="modal-body" style="min-height: 100px;">
-					<form enctype="multipart/form-data" id="imgForm" name="imgForm"
-						enctype="multipart/form-data">
+					<form enctype="multipart/form-data" id="imgForm" name="imgForm">
 						<input type="hidden" id="resv_no" value="">
 						<div class="filebox" style="float: left; padding-right: 600px;">
 							<label for="imgInput">업로드</label> <input type="file"

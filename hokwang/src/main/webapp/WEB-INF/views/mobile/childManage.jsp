@@ -11,38 +11,56 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 	function addFrm() {
-		var ad = document.frm;
-		if (ad.baby_name.value == "") {
-			alert("이름을 입력하세요");
-			ad.baby_name.focus();
-			return false;
-		}
-		if (ad.baby_regno1.value == "") {
-			alert("생년월일을 입력하세요");
-			ad.baby_regno1.focus();
-			return false;
-		}
-		if (ad.baby_regno2.value == "") {
-			alert("주민번호 뒷자리를 입력하세요");
-			ad.baby_regno2.focus();
-			return false;
-		}
-		if (ad.baby_gender.value == "") {
-			alert("성별을 선택하세요");
-			ad.baby_gender.focus();
-			return false;
-		}
-		if (ad.baby_blood.value == "") {
-			alert("혈액형을 선택하세요");
-			ad.baby_blood.focus();
-			return false;
-		}
-		if (ad.uploadFile.value == "") {
-			alert("사진을 선택하세요");
-			ad.uploadFile.focus();
-			return false;
-		}
-		return true;
+		$("#btnAdd").on("click", function() {
+			console.log("DDDD");
+			var ad = document.frm;
+			if (ad.baby_name.value == "") {
+				alert("이름을 입력하세요");
+				ad.baby_name.focus();
+				return;
+			}
+			if (ad.baby_regno1.value == "") {
+				alert("생년월일을 입력하세요");
+				ad.baby_regno1.focus();
+				return;
+			}
+			if (ad.baby_regno2.value == "") {
+				alert("주민번호 뒷자리를 입력하세요");
+				ad.baby_regno2.focus();
+				return;
+			}
+			if (ad.baby_gender.value == "") {
+				alert("성별을 선택하세요");
+				ad.baby_gender.focus();
+				return;
+			}
+			if (ad.baby_blood.value == "") {
+				alert("혈액형을 선택하세요");
+				ad.baby_blood.focus();
+				return;
+			}
+			if (ad.uploadFile.value == "") {
+				alert("사진을 선택하세요");
+				ad.uploadFile.focus();
+				return;
+			}
+
+			var form = new FormData($("#frm")[0]);
+			$.ajax({
+				url : "insertbabyinfo",
+				method : "post",
+				processData : false,
+				contentType : false,
+				data : form,
+				success : function(response) {
+					showBabyInf();
+					getBabyInf();
+				},
+				error : function(xhr, status, message) {
+					alert("status : " + status + " error : " + message);
+				}
+			});
+		});
 	}
 
 	//사진 미리보기 변경
@@ -70,6 +88,7 @@
 	$(function() {
 		showBabyInf();
 		getBabyInf();
+		addFrm();
 
 		//파일 div클릭시
 		$(".img-print").on("click", function() {
@@ -82,6 +101,8 @@
 		});
 	});
 	function showBabyInf() {
+		$('#babyList').empty();
+		$('#imgInf').empty();
 		$
 				.ajax({
 					url : "ajax/getBabyInf",
@@ -94,7 +115,6 @@
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						$('#babyList').empty();
 						$
 								.each(
 										data,
@@ -182,13 +202,14 @@
 </script>
 </head>
 <body>
-	<input id="babybtn" type="button" class="btn btn-sm"
-						value="자녀등록" data-toggle="modal" data-target="#babyModal"
-						style="float: right; background-color: #faf1d6; color: gray; margin-bottom: 10px;" />
-	<br><br>
+	<input id="babybtn" type="button" class="btn btn-sm" value="자녀등록"
+		data-toggle="modal" data-target="#babyModal"
+		style="float: right; background-color: #faf1d6; color: gray; margin-bottom: 10px;" />
+	<br>
+	<br>
 	<div class="row">
 		<div class="col-xl-6 col-xxl-5 d-flex">
-			<div class="card mb-3" style="width:100%;">
+			<div class="card mb-3" style="width: 100%;">
 				<div class="card-body" id="imgInf" style="padding: 10px !important;">
 					<%-- 			<image
 						src="${pageContext.request.contextPath}/resources/icons/verify.png"
@@ -212,8 +233,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form name="frm" id="frm" encType="multipart/form-data"
-					method="post" action="insertbabyinfo">
+				<form name="frm" id="frm" encType="multipart/form-data">
 					<div class="modal-body">
 						<div class="form-group">
 							<input type="text" class="form-control" id="baby-name"
@@ -221,7 +241,7 @@
 						</div>
 						<input type="hidden" class="form-control" id="parent-no"
 							name="parent_no">
-							
+
 						<div class="form-group">
 							<input type="number" class="form-control" id="baby-regno1"
 								name="baby_regno1" placeholder="생년월일 6자리 ex)910504"
@@ -261,11 +281,11 @@
 								onchange="changeValue(event)">
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary" id="btnAdd"
-							name="btnAdd" onclick="addFrm()">등록</button>
-					</div>
 				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnAdd"
+						name="btnAdd" data-dismiss="modal">등록</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -285,7 +305,7 @@
 				<form encType="multipart/form-data" method="post"
 					action="updatebabyinfo">
 					<div class="modal-body">
-					<input type="hidden" class="form-control" id="baby-no"
+						<input type="hidden" class="form-control" id="baby-no"
 							name="baby_no">
 						<div class="form-group">
 							<label>이름</label><input type="text" class="form-control"
@@ -293,7 +313,7 @@
 						</div>
 						<input type="hidden" class="form-control" id="parent-no"
 							name="parent_no">
-							
+
 						<div class="form-group">
 							<label>생년월일</label><input type="number" class="form-control"
 								id="baby-regno1" name="baby_regno1"
@@ -346,7 +366,8 @@
 	<div class="row">
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
-				<table id="mobile-babyinfo" style="text-align: center;" class="table table-hover my-0">
+				<table id="mobile-babyinfo" style="text-align: center;"
+					class="table table-hover my-0">
 					<thead>
 						<tr>
 							<th>이름</th>

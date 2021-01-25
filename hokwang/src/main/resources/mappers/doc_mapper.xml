@@ -40,4 +40,11 @@
 		and d.dis_code = de.dis_code
 		and d.resv_no = #{resv_no}
 	</select>
+	
+		<select id="mediDoc" resultType="map">
+		select me.MEDI_NAME from PRESCRIPTION PRE, MEDICINE ME ,DIAGNOSIS d 
+		where pre.MEDI_NO=me.MEDI_NO
+		and d.resv_no=pre.resv_no
+		and pre.resv_no = #{resv_no}
+	</select>
 </mapper>

@@ -39,4 +39,10 @@ public class DocServiceImpl implements DocService{
 		return dao.diagnosisDoc(vo);
 	}
 
+	@Override
+	public List<Map<String, Object>> mediDoc(Reservation vo) {
+		// TODO Auto-generated method stub
+		return dao.mediDoc(vo);
+	}
+
 }

@@ -30,7 +30,7 @@
 	<select id="diagnosisDoc" resultType="map">
 		select DISTINCT e.emp_name,
 		b.baby_name,b.BABY_REGNO1,b.BABY_REGNO2,p.parent_name,p.parent_addr,
-		de.dis_name,b.baby_gender,d.diag_time,d.diaglist_memo
+		de.dis_name,b.baby_gender,d.diag_time,d.diaglist_memo,de.DIS_DESC
 		from DIAGNOSIS d, RESERVATION r, EMPLOYEE e, BABY b, PARENT p, disease
 		DE,PRESCRIPTION f
 		where d.resv_no = r.resv_no

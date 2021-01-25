@@ -96,9 +96,9 @@ function pdfPrint(data,data2){
 		 
 		 ['주소',{text : data.PARENT_ADDR, colSpan: 3},'',''],//td */
 		
-		 ['상병명',{text: data.DIS_NAME ,colSpan: 3 },'',''],//td
-		
-		 ['상병명',{text: rows.join(',') ,colSpan: 3 },'',''],//td
+		 [{text: '상병명',rowSpan : 2 },{text: data.DIS_NAME ,colSpan: 3 },'',''],//td
+		 ['',{text : data.DIS_DESC, colSpan: 3},'',''],//td */
+		 ['처방약',{text: rows.join(', ') ,colSpan: 3 },'',''],//td
 		
 		 ['진료기간',{text : data.DIAG_TIME, colSpan: 3},'',''],//td */
 	
@@ -160,7 +160,7 @@ function payment() {
 	IMP.init('imp59405263');
 	
 	$(document).on("click","#pay_doc",function(e){
-	var vv=$(this).next().text()
+	var resv_no=$(this).next().text()
 	var vv2=$(this).next().next().text()
 	
 	e.stopImmediatePropagation() 
@@ -173,8 +173,8 @@ function payment() {
 	    buyer_email : '${parent_vo.parent_email}',
 	    buyer_name : '${parent_vo.parent_name}',
 	    buyer_tel : '${parent_vo.parent_tel}',
-	  //  buyer_addr : vv,
-	    m_redirect_url : 'http://192.168.0.114:80/hokwang/maindoc?resv_no='+vv
+	  //  buyer_addr : resv_no,
+	    m_redirect_url : 'http://192.168.0.114:80/hokwang/maindoc?resv_no='+resv_no
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -192,7 +192,7 @@ function payment() {
 					url : 'ajax/successDoc',
 					type : 'GET',
 					data : {
-					resv_no : vv
+					resv_no : resv_no
 				},
 					error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
@@ -213,7 +213,7 @@ function payment() {
 	    	});
 	    	   //성공시 이동할 페이지
 	    	console.log("@@@@@@@@@@@@@@12345>");
-	    	console.log(vv+"vvvvvvvvvvvvvv"+vv2);
+	    	console.log(resv_no+"vvvvvvvvvvvvvv"+vv2);
 	    	imp_uid = extract_POST_value_from_url('imp_uid') //post ajax request로부터 imp_uid확인
 	    	//merchant_uid = extract_GET_value_from_url('merchant_uid') //또는, GET query string으로부터 merchant_uid확인
 
@@ -275,8 +275,8 @@ function babyList() {//셀렉트박스 리스트
 }
 function clickDoc(){
 	$("#pay_doc").on("click",function(){
-		var vv=$(this).next().text()
-		location.href="doc?vv=" + vv
+		var resv_no=$(this).next().text()
+		location.href="doc?resv_no=" + resv_no
 	})
 }
 
@@ -290,7 +290,7 @@ function selectBabyResult(data){
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
-											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
+											.append($("<p>").attr("id",'doc_price').html("질병가격 : " +item.DIS_PRICE))
 											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:100px; background:#a0c49d; border:0px; color:white;").attr("class","pdfmakes btn"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
@@ -303,7 +303,7 @@ function selectBabyResult(data){
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
-											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
+											.append($("<p>").attr("id",'doc_price').html("질병가격 : " +item.DIS_PRICE))
 											//.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:50px;display:block"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<div>").attr("id","btn_div").append($('<input>').attr("type",'button').attr("id","pdfmake")

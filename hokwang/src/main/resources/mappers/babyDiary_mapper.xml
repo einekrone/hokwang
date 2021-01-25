@@ -39,15 +39,12 @@
 	</select>
 
 	<select id="allreser" resultType="map">
-		select
-		TO_CHAR(a.RESV_DATE,'YYYY-MM-DD') AS
-		RESV_DATE,d.dis_name,a.resv_status
-		from reservation a ,DIAGNOSIS
-		b,disease d
-		where a.resv_no=b.resv_no
-		and b.dis_code=d.dis_code
-		and
-		a.baby_no = (select baby_no from baby where baby_no=#{baby_no})
+	  select TO_CHAR(r.RESV_DATE,'YYYY-MM-DD') AS
+	  RESV_DATE, r.resv_status, d.dis_name
+  	  from reservation r
+   	  left join DIAGNOSIS b on r.resv_no = b.resv_no
+      left join disease d on b.dis_code=d.dis_code
+   	  where baby_no = #{baby_no} order by RESV_DATE DESC
 	</select>
 
 	<insert id="insertbodyinfo" parameterType="bodyVO">

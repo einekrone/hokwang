@@ -165,7 +165,7 @@
 						<a href="resv?type=R" class="btn resvBtn resvR" style="background-color: #fad4ae; width:50%;">우선예약</a>
 					</div>
 					<div id="card2" class="card">
-						<a href="doc" class="btn docBtn docPage" style="background-color: #fad4ae; width:50%;">증명서 발급</a>
+						<a href="doc" class="btn docBtn docPage" style="background-color: #b6e3e9; width:100%;">증명서 발급</a>
 					</div>
 				</div>
 			</div>

@@ -222,8 +222,6 @@
 								href="resv?type=T">당일 예약</a></li>
 							<li class="sidebar-item"><a class="sidebar-link resvR"
 								href="resv?type=R">우선 예약</a></li>
-								<li class="sidebar-item"><a class="sidebar-link resvR"
-								href="doc">증명서</a></li>
 						</ul></li>
 				</ul>
 

@@ -60,6 +60,7 @@ public class BabyDiaryController {
 	@ResponseBody
 	@RequestMapping("/ajax/allreser")
 	public List<Map<String, Object>> getallreser(Reservation vo) {
+		System.out.println(vo);
 		return service.allreser(vo);
 
 	}

@@ -1,5 +1,6 @@
 package com.hokwang.mobile.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,34 +19,33 @@ import com.hokwang.vo.Reservation;
 public class DocController {
 	@Autowired
 	DocService service;
-	
-	
+
 	@RequestMapping(value = "/maindoc")
-	public String maindoc(Reservation vo,@RequestParam String resv_no) {
+	public String maindoc(Reservation vo, @RequestParam String resv_no, @RequestParam Map map) {
 		vo.setResv_no(resv_no);
-		service.updateDocStatus(vo);
-		
-		return "redirect:doc";
-	}
-	
-	@ResponseBody
-	@RequestMapping("/ajax/successDoc")
-	public boolean updateDocStatus(Reservation vo) {
+		System.out.println(map);
+		if ("true".equals(map.get("imp_success"))) {
 			service.updateDocStatus(vo);
-			return true;
+		}
+		return "redirect:doc";
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/ajax/printDoc")//값뿌리기 pdf
-	public Map<String,Object> createForm(Reservation vo) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("diagnosisDoc",service.diagnosisDoc(vo));
-		map.put("mediDoc",service.mediDoc(vo));
+	@RequestMapping("/ajax/successDoc")
+	public boolean updateDocStatus(Reservation vo) {
+		service.updateDocStatus(vo);
+		return true;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/ajax/printDoc") // 값뿌리기 pdf
+	public Map<String, Object> createForm(Reservation vo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("diagnosisDoc", service.diagnosisDoc(vo));
+		map.put("mediDoc", service.mediDoc(vo));
 		return map;
 	}
-		
-		
-		
+
 	@ResponseBody
 	@RequestMapping("/ajax/babyLists")
 	public List<BabyVO> babyLists(BabyVO vo) {

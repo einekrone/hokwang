@@ -174,7 +174,7 @@ function payment() {
 	    buyer_name : '${parent_vo.parent_name}',
 	    buyer_tel : '${parent_vo.parent_tel}',
 	  //  buyer_addr : resv_no,
-	    m_redirect_url : 'http://192.168.0.114:80/hokwang/maindoc'
+	    m_redirect_url : 'http://192.168.0.114:80/hokwang/maindoc?resv_no='+resv_no
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -184,6 +184,7 @@ function payment() {
 	    		msg += '결제 금액 : ' + rsp.paid_amount;
 	    		msg += '카드 승인번호 : ' + rsp.apply_num;
 	    		msg += '예약번호 : ' + rsp.buyer_addr;
+	    		
 	    		alert("결제성공")
 	    		resv_no
 	    		//아작스 -> 컨트롤러 가서 매퍼간다음에 -> db->

@@ -13,7 +13,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-
+.card
+ {
+	font-weight : 900;
+}
 </style>
 <script type="text/javascript">
 $(function() {
@@ -157,7 +160,7 @@ function payment() {
 	    buyer_email : '${parent_vo.parent_email}',
 	    buyer_name : '${parent_vo.parent_name}',
 	    buyer_tel : '${parent_vo.parent_tel}',
-	    m_redirect_url : 'http://192.168.0.59:808/hokwang/mobile'
+	    m_redirect_url : 'http://192.168.0.114:80/hokwang/mobile'
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -268,7 +271,7 @@ function selectBabyResult(data){
 	$.each(data,function(idx, item) {
 						 if (item.DOC_STATUS == "N") {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card')
+										.append($('<div>').attr('class','card').attr("style","background-color: gold")
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
@@ -281,7 +284,7 @@ function selectBabyResult(data){
 						 }else
 						 {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;')
+										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;').attr('class','card').attr("style","background-color:#F6CEEC")
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"

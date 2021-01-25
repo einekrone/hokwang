@@ -58,7 +58,7 @@ public class MypageController {
 	@ResponseBody
 	@RequestMapping("/ajax/showNotReadMsg")
 	public List<MessageVO> showNotReadMsg(Model model, EmployeeVO vo) {
-		return dao.showNotReadMsg(vo);
+		return dao.showNotReadMsg(vo);	
 	}
 
 	@ResponseBody

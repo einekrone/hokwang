@@ -352,6 +352,7 @@ ul.tabs li.current {
 	function insertBodyInf() {
 		$('#btnBodySave').on("click", function() {
 			console.log(babyNo);
+			
 			$.ajax({
 				url : 'ajax/insertBodyInf',
 				type : 'GET',
@@ -372,6 +373,8 @@ ul.tabs li.current {
 					$('#checkupCom').empty();
 					$('#bodyTable').empty();
 					$('#tempTable').empty();
+					$('#height').val("");
+					$('#weight').val("");
 					chgBaby();
 				}
 			});
@@ -400,6 +403,7 @@ ul.tabs li.current {
 					$('#checkupCom').empty();
 					$('#bodyTable').empty();
 					$('#tempTable').empty();
+					$('#temp').val("");
 					chgBaby();
 				}
 			});

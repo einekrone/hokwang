@@ -403,7 +403,7 @@
 													modal.modal('show');
 												} else {
 													////////////////////
-													$('#message-text').empty();
+													$('#message-text').val("");
 													AllCntMsg();
 													modal.find(
 															'#recipient-name')
@@ -666,7 +666,9 @@
 							},
 							success : function(data) {
 								alert("삭제되었습니다.");
+								$('#showMessage').empty();
 								AllCntMsg();
+								showNotReadMsg();
 								$('#dataTab1').DataTable().ajax.reload();
 							}
 						});
@@ -716,6 +718,8 @@
 							},
 							success : function(data) {
 								alert("삭제되었습니다.");
+								$('#showMessage').empty();
+								showNotReadMsg();
 								AllCntMsg();
 								$('#dataTab2').DataTable().ajax.reload();
 							}
@@ -759,6 +763,8 @@
 							},
 							success : function(data) {
 								alert("삭제되었습니다.");
+								$('#showMessage').empty();
+								showNotReadMsg();
 								AllCntMsg();
 								$('#dataTab3').DataTable().ajax.reload();
 							}

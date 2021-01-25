@@ -73,6 +73,13 @@
 				alert("로그인 후 예약 가능합니다.");
 			}
 		});
+		$(".docPage").on("click", function() {
+			var parentinfo = '${parent_vo}';
+			if (parentinfo == '') {
+				event.preventDefault();
+				alert("로그인 후 가능합니다.");
+			}
+		});
 	});
 	
 	
@@ -215,6 +222,8 @@
 								href="resv?type=T">당일 예약</a></li>
 							<li class="sidebar-item"><a class="sidebar-link resvR"
 								href="resv?type=R">우선 예약</a></li>
+								<li class="sidebar-item"><a class="sidebar-link resvR"
+								href="doc">증명서</a></li>
 						</ul></li>
 				</ul>
 

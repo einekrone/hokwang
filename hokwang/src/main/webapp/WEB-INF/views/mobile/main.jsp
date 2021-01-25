@@ -53,6 +53,12 @@
 	padding: 30px 15px;
 	height: 80px;
 }
+.docBtn {
+	color: white;
+	padding: 30px 15px;
+	height : 80px;
+	width: 100%;
+}
 </style>
 
 </head>
@@ -159,8 +165,7 @@
 						<a href="resv?type=R" class="btn resvBtn resvR" style="background-color: #fad4ae; width:50%;">우선예약</a>
 					</div>
 					<div id="card2" class="card">
-						<input type="button" class="btn active" value="증명서 발급" id="issue"
-							style="background-color: #b6e3e9; color: white;" onclick="location.href='doc'">
+						<a href="doc" class="btn docBtn docPage" style="background-color: #fad4ae; width:50%;">증명서 발급</a>
 					</div>
 				</div>
 			</div>

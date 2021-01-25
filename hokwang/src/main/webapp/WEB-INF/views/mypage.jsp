@@ -341,7 +341,7 @@
 
 				},
 				error : function(xhr, status, message) {
-					alert(" status: " + status + " er:" + message);
+					alert(" 이미지 status: " + status + " er:" + message);
 				}
 			});
 
@@ -350,6 +350,7 @@
 				dataType : 'json',
 				data : {
 					emp_no : "${emp_vo.emp_no}",
+					emp_name : "${emp_vo.emp_name}", 
 					emp_tel : $('#tel').val(),
 					emp_addr : $('#addr').val()
 				},
@@ -359,7 +360,7 @@
 					location.href = "logout";//새로고침
 				},
 				error : function(xhr, status, message) {
-					alert(" status: " + status + " er:" + message);
+					alert(" 정보 status: " + status + " er:" + message);
 				}
 			});
 

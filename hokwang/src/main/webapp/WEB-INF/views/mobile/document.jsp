@@ -271,12 +271,12 @@ function selectBabyResult(data){
 	$.each(data,function(idx, item) {
 						 if (item.DOC_STATUS == "N") {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card').attr("style","background-color: gold")
+										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;')
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"
 											.append($("<p>").attr("id",'doc_price').html("가격 : " +item.DIS_PRICE))
-											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:100px; background:#78aac3;color:white;display:block;"))
+											.append($('<input>').attr("type",'button').attr("id","pay_doc").attr("value","결제").attr("style","width:100px; background:#a0c49d; border:0px; color:white;").attr("class","pdfmakes btn"))
 											.append($("<input>").attr("id",'doc_res').attr("type","hidden").html(item.RESV_NO))
 											.append($("<input>").attr("id",'doc_stu').attr("type","hidden"))));
 											//.append($("<div>").attr("id","btn_div").attr("style","display:none").append($('<input>').attr("type",'button').attr("id","pdfmake")
@@ -284,7 +284,7 @@ function selectBabyResult(data){
 						 }else
 						 {
 								$("#docBody").append($('<div>').attr('class','col-12')
-										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;').attr('class','card').attr("style","background-color:#F6CEEC")
+										.append($('<div>').attr('class','card').attr('style', 'padding:10px; margin-bottom:10px;').attr('class','card')
 											.append($("<p>").attr("id",'diag_times').html('진료일시 : ' + item.DIAG_TIME))
 											.append($("<p>").attr("id",'diag_names').html("이름 : " + item.BABY_NAME))
 											.append($("<p>").attr("id",'doc_dis').html("질병 : " +item.DIS_NAME))//onclick="location.href='doc2'"

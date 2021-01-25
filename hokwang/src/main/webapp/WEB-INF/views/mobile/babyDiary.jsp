@@ -647,10 +647,9 @@ ul.tabs li.current {
 	}
 </script>
 <script type="text/javascript">
-	function question1() {
+	function question1() {//문진표 예약
 		console.log("문진표 클릭/////////////////");
-
-		$('#reser2').on("click", "#que1", function() {
+		$('#reser2').on("click", "#question_reser", function() {
 			var modal = $('#question');
 			var resvNo = $(event.target).parent().siblings("#aa1").text();
 			console.log("aaaaaaaaaaa" + resvNo);
@@ -675,12 +674,12 @@ ul.tabs li.current {
 		});
 
 	}
-	function question2() {//문진표
+	function question2() {//문진표 결제
 
 		$('#unpayList').on("click", "#que2", function() {
 			var modal = $('#question');
 			var resvNo = $(event.target).parent().siblings("#aa2").text();
-			console.log("aaaaaaaaaaa" + resvNo);
+			//console.log("aaaaaaaaaaa" + resvNo);
 			$.ajax({
 				url : "ajax/question",
 				type : "GET",
@@ -702,31 +701,16 @@ ul.tabs li.current {
 		});
 
 	}
-	function reserlistResult(data) {
+	function reserlistResult(data) {//예약 탭 문진표/결제
 		$("#reser2").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
-							$("<tr id='a2'>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.resv_date)
-													.html(item.resv_date))
-									.append(
-											$("<td>")
-													.attr("id", 'que' + idx)
-													.append(
-															$("<input type='button' id='question_reser' class='btn' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
+		$.each(data,function(idx, item) {
+			$("<tr id='resv'>")
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id", 'que' + idx)
+			.append($("<input type='button' id='question_reser' class='btn' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa1').attr(
-															'value',
-															item.resv_no).html(
-															item.resv_no))
-									.appendTo('#reser2');
+			.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
+			.appendTo('#reser2');
 
 							if (item.resv_status == "Y") {
 								console.log(">>2 " + item.resv_status);
@@ -745,46 +729,26 @@ ul.tabs li.current {
 	}
 
 	//미결제
-	function reserlistResult2(data) {
+	function reserlistResult2(data) {//결제탭 문진표/결제
 		$("#unpayList").empty();
-		$
-				.each(
-						data,
-						function(idx, item) {
-							$("<tr>")
-									.append(
-											$("<td>").attr("id", 'resv_date')
-													.attr('value',
-															item.resv_date)
-													.html(item.resv_date))
-									.append(
-											$("<td>")
-													.attr("id",
-															'question' + idx)
-													.append(
-															$("<input type='button' class='btn' id='que2' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-									.append(
-											$("<td style='display:none;'>")
-													.attr("id", 'aa2').attr(
-															'value',
-															item.resv_no).html(
-															item.resv_no))
-									.appendTo('#unpayList');
-							if (item.resv_payyn == "N") {
-								console.log(">> " + item.resv_payyn);
-								$("#question" + idx)
-										.eq(-1)
-										.after(
-												'<td id="resv_payyn">'
-														+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" onclick="payment()">'
-														+ '</td>');
-							} else if (item.resv_payyn == "Y") {
+		$.each(data,function(idx, item) {
+			$("<tr>")
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id",'question' + idx)
+			.append($("<input type='button' class='btn' id='que2' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
+			.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
+			.appendTo('#unpayList');
+			
+				if (item.resv_payyn == "N") {
+						console.log(">> " + item.resv_payyn);
+						$("#question" + idx)
+						.eq(-1)
+						.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" onclick="payment()">'+'</td>');
+						} else if (item.resv_payyn == "Y") {
 								console.log(">> " + item.resv_payyn);
 								text = "결제 완료";
 								$("#question" + idx).eq(-1)
-										.after(
-												'<td id="resv_payyn">' + text
-														+ '</td>');
+										.after('<td id="resv_payyn">' + text + '</td>');
 							}
 
 						})

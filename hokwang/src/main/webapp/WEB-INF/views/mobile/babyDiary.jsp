@@ -1248,7 +1248,7 @@ ul.tabs li.current {
 														<tr>
 															<th class="text-center">접종이름</th>
 															<th class="text-center">일시</th>
-															<th class="text-center">상태</th>
+															<th class="text-center">병명</th>
 														</tr>
 													</thead>
 													<tbody id="checkup"></tbody>

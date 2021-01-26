@@ -17,6 +17,9 @@
 	text-align: center;
 }
 
+label {
+	 width: 90px;
+}
 td {
 	width: 100px;
 }
@@ -287,7 +290,7 @@ td {
 			}
 		}
 		if (!chk) {
-			$("#resvTime").append('<label>예약 가능한 시간이 없습니다.</label>');
+			$("#resvTime").append('<span>예약 가능한 시간이 없습니다.</span>');
 		}
 	}
 
@@ -379,12 +382,12 @@ td {
 				<div class="card">
 					<div class="card-body">
 						<div style="display: block;">
-							<label class="form-check"> <input name="chk_type"
+							<label class="form-check" style="width: 90px;"> <input name="chk_type"
 								type="radio" class="form-check-input" value="N"> <span
-								class="form-check-label">일반 검진</span>
-							</label> <label class="form-check"> <input name="chk_type"
+								class="form-check-label">일반검진</span>
+							</label> <label class="form-check"  style="width: 90px;"> <input name="chk_type"
 								type="radio" class="form-check-input" value="V"> <span
-								class="form-check-label">예방 접종</span>
+								class="form-check-label">예방접종</span>
 							</label>
 						</div>
 						<div style="display: none;" id="resvTypeDiv">

@@ -1725,16 +1725,13 @@ ul.tabs li.current {
 				<div class="modal-header">
 					<h3 class="modal-title" id="exampleModalLabel">결제 선택</h3>
 				</div>
-				<div id="accountblock" style="float: left; width: 290px" >
+				<div class="modal-body">
 				<button type="button" class="btn btn-primary" id="Account"
-						name="updateAccount" style="width: 250px; height: 200px;" ><h2>계좌이체</h2></button>
-				</div>
-				<div id="paymentblock" style="width: 290px">
+						name="updateAccount" style="width: 49%; height: 100px; background: #b6e3e9; border: 0;"><h2>계좌이체</h2></button>
 				<button type="button" class="btn btn-primary" id="Payment"
-						name="updatePayment" style="width: 250px; height: 200px;"><h2>카드결제</h2></button>
-				</div>			
-				<div class="modal-body" id="accountdisplay" style="display: none;">
-					<div class="card" style="width: 30rem;">
+						name="updatePayment" style="width: 49% ; height: 100px; background: #f7e4ab; border: 0;"><h2>카드결제</h2></button>
+				<div id="accountdisplay" style="display: none; margin-top: 10px;">
+					<div class="card">
 						<div class="card-body">
 							<span style="font-weight: 600;"> 계좌 이체 은행 명 :</span>
 							<select id="pay_bank">
@@ -1771,13 +1768,14 @@ ul.tabs li.current {
 								id="pay_account" style="padding: 5px; margin: 5px;"/><br>
 							<input type="text" id="resv_no" style="display: none;"> 			
 							<button type="button" class="btn btn-primary" id="updateAccount"
-							name="updateAccount" data-dismiss="modal">결제 계좌 입력</button>	
+							name="updateAccount" data-dismiss="modal" style="background: #698476; color: white;">결제 계좌 입력</button>	
 						</div>
 					</div>
 				</div>
+				</div>
 				<div class="modal-footer" align="center">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

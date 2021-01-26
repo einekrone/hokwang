@@ -161,6 +161,8 @@ ul.tabs li.current {
 		deleteTemp();
 		insertBodyInf();
 		insertTempInf();
+		updateAccount();
+		updatePaymentForm();
 
 		$("#cancelBtn").on("click", function() {
 			console.log("dddd");
@@ -189,6 +191,7 @@ ul.tabs li.current {
 			});
 		});
 		
+		//결제 모달띄우기
 		function updatePaymentForm(){
 			$('#unpayList').on("click", "#updatePayBtn", function() {
 				console.log("dadafsdaf");
@@ -211,12 +214,13 @@ ul.tabs li.current {
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
-				success : 
-			
-			});
-		});
-	}
-		
+				success : function(){
+					alert("이체 계좌 입력 완료");
+					reservationPayY();
+			}
+		});			
+	});
+}	
 		function reservationPayW(data){
 			$.ajax({
 				url : 'ajax/reservationPayW',
@@ -228,11 +232,30 @@ ul.tabs li.current {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
 				success : function(){
-					console.log(resv_no);
+					alert("예약도 변경했음 W")
 				}
 			});
 		}
-			
+		
+		function reservationPayY(data){
+			$.ajax({
+				url : 'ajax/reservationPayY',
+				type : 'GET',
+				data : {
+					resv_no : updateResv_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(){
+					alert("예약도 변경했음 Y")
+				}
+			});
+		}
+		
+		
+		
+		
 		// 계좌이체 선택 업데이트
 		function updateAccount(){
 			var resvNo = $(this).data("num");

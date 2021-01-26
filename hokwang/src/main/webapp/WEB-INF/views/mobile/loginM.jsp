@@ -199,6 +199,10 @@ span {
 
 	function checkEmail() {
 		$('#overLapEmail').on("click", function() {
+			var emailVal = $("#email").val();
+
+			var regExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+			
 			if ($('#email').val() == '') {
 				alert("이메일을 입력하시오")
 			} else {
@@ -212,12 +216,11 @@ span {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						if (data == true) {
-							alert("사용가능합니다");
-							$('#email').attr("readonly", true);
-							e = true;
-						} else
-							alert("E-mail이 중복됩니다");
+						if (emailVal.match(regExp) != null) {
+							alert('이메일 사용가능합니다.');
+						} else {
+							alert('이메일 형식이 아닙니다.');
+						}
 					}
 				})
 			}

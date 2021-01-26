@@ -10,12 +10,13 @@
 		</where>
 	</select>
 
-	<select id="reserlist" resultType="reservation">
-		select
-		TO_CHAR(RESV_DATE,'YYYY-MM-DD') AS
-		RESV_DATE,baby_no,resv_status,resv_no,resv_payyn from reservation
-		where baby_no=(select baby_no from baby where baby_no=#{baby_no})
-		order by resv_date
+	<select id="reserlist" resultType="map">
+		   select
+		TO_CHAR(r.RESV_DATE,'YYYY-MM-DD') AS
+		RESV_DATE,r.baby_no,r.resv_status,r.resv_no,p.pay_state from reservation r,payment p
+		where r.baby_no=(select baby_no from baby where baby_no=#{baby_no})
+    	and r.resv_no = p.resv_no
+		order by r.resv_date
 	</select>
 
 	<select id="getBabyList" resultType="BabyVO">

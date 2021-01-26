@@ -783,29 +783,29 @@ ul.tabs li.current {
 		});
 
 	}
-	function reserlistResult(data) {//예약 탭 문진표/결제
+	function reserlistResult(data) {//예약 탭 문진표/예약
 		$("#reser2").empty();
 		$.each(data,function(idx, item) {
 			$("<tr id='resv'>")
-			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
 			.append($("<td>").attr("id", 'que' + idx)
 			.append($("<input type='button' id='question_reser' class='btn' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
-			.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
+			.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.RESV_NO).html(item.RESV_NO))
 			.appendTo('#reser2');
 
-							if (item.resv_status == "Y") {
-								console.log(">>2 " + item.resv_status);
+							if (item.RESV_STATUS == "Y") {
+								console.log(">>2 " + item.RESV_STATUS);
 								text = "진료완료";
 								$("#que" + idx).eq(-1).after(
 										'<td id="diag_yn">' + text + '</td>');
-							} else if (item.resv_status == "N") {
-								console.log(">>2 " + item.resv_status);
+							} else if (item.RESV_STATUS == "N") {
+								console.log(">>2 " + item.RESV_STATUS);
 								text = "";
 								$("#que" + idx)
 										.eq(-1)
 										.after(
-												"<td><input type='button' id='modi' style='background:#5b5759; color:white;' class='btn' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
+												"<td><input type='button' id='modi' style='background:#5b5759; color:white;' class='btn' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.BABY_NO+" /></td>");
 							}
 						})
 	}
@@ -815,22 +815,25 @@ ul.tabs li.current {
 		$("#unpayList").empty();
 		$.each(data,function(idx, item) {
 			$("<tr>")
-			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
 			.append($("<td>").attr("id",'question' + idx)
 			.append($("<input type='button' class='btn' id='que2' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-			.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
+			.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.RESV_NO).html(item.RESV_NO))
 			.appendTo('#unpayList');
 			
-				if (item.resv_payyn == "N") {
-						console.log(">> " + item.resv_payyn);
-						$("#question" + idx)
-						.eq(-1)
-						.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" id="updatePayBtn" data-toggle="modal" data-target="#updatePaymentModal">');
-						} else if (item.resv_payyn == "Y") {
-								console.log(">> " + item.resv_payyn);
+				if (item.PAY_STATE == "N") {
+						console.log(">>>>>>>>>>>>> " + item.PAY_STATE);
+						$("#question" + idx).eq(-1)
+						.after('<td id="pay_state">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" id="updatePayBtn" data-toggle="modal" data-target="#updatePaymentModal">');
+				} else if (item.PAY_STATE == "Y") {
+								console.log(">>>>>>>>>>>>>> " + item.PAY_STATE);
 								text = "결제 완료";
 								$("#question" + idx).eq(-1)
-										.after('<td id="resv_payyn">' + text + '</td>');
+										.after('<td id="pay_state">' + text + '</td>');
+							}else if (item.PAY_STATE == "W"){
+								text = "결제 대기";
+								$("#question"+idx).eq(-1)
+								.after('<td id="pay_state">' + text + '</td>');
 							}
 
 						})
@@ -1125,12 +1128,17 @@ ul.tabs li.current {
 
 					if (item.RESV_STATUS == "N") {
 						console.log(">> 1 " + item.RESV_STATUS);
-						text = "";
+						text = "진료대기";
 						$("#diagsis" + idx).eq(-1).after(
-								'<td id="diag_yn">' + '</td>');
+								'<td id="diag_yn">' + text +'</td>');
 					} else if (item.RESV_STATUS == "Y") {
 						console.log(">>2 " + item.RESV_STATUS);
 						text = "진료완료";
+						$("#diagsis" + idx).eq(-1).after(
+								'<td id="diag_yn">' + text + '</td>');
+					} else if (item.RESV_STATUS == "I") {
+						console.log(">>2 " + item.RESV_STATUS);
+						text = "진료중";
 						$("#diagsis" + idx).eq(-1).after(
 								'<td id="diag_yn">' + text + '</td>');
 					}

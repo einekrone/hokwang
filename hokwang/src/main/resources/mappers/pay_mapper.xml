@@ -42,13 +42,13 @@
 		WHERE RESV_NO = #{resv_no}
 	</update>
 	
-	<update id="reservationPayW" parameterType="resvervation">
+	<update id="reservationPayW" parameterType="reservation">
 		UPDATE RESERVATION
 		SET RESV_PAYYN ='W'
 		WHERE RESV_NO =#{resv_no}
 	</update>
 	
-	<update id="reservationPayY" parameterType="resvervation">
+	<update id="reservationPayY" parameterType="reservation">
 		UPDATE RESERVATION
 		SET RESV_PAYYN ='Y'
 		WHERE RESV_NO =#{resv_no}

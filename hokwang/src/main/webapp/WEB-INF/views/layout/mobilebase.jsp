@@ -319,7 +319,7 @@
 					<div class="row text-muted">
 						<span><a href="mobile" class="text-muted"><strong>호광 병원 HOKWANG</strong></a></span>
 						<div class="col-6">
-							<ul class="list-inline" style="padding-top: 20px;">
+							<ul class="list-inline" style="padding-top: 10px;">
 								<li class="list-inline-item"><a class="text-muted" href="#">Support</a>
 								</li>
 								<li class="list-inline-item"><a class="text-muted" href="#">Help Center</a></li>

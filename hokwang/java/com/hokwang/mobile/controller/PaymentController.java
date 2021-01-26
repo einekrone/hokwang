@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hokwang.mobile.service.PaymentService;
 import com.hokwang.mobile.service.ResvmService;
 import com.hokwang.vo.ParentVO;
+import com.hokwang.vo.PaymentVO;
 
 
 @Controller
@@ -21,7 +22,7 @@ public class PaymentController {
 	
 	@Autowired PaymentService payservice;
 
-	// 미수납 리스트
+	//결제완료 리스트
 	@ResponseBody
 	@RequestMapping(value = "/ajax/getUnPaidList")
 	public List<Map<String, Object>> getUnPaidList(ParentVO vo, HttpSession session) {
@@ -30,4 +31,35 @@ public class PaymentController {
 		return payservice.getUnPaidList(vo);
 	}
 	
+		//계좌이체 
+		@ResponseBody
+		@RequestMapping(value = "/ajax/updateAccount")
+		public int updateAccount(PaymentVO vo) {
+
+			return payservice.updateAccount(vo);
+		}
+	
+		//카드결제 선택
+		@ResponseBody
+		@RequestMapping(value = "/ajax/updatePayment")
+		public int updatePayment(PaymentVO vo) {
+
+			return payservice.updatePayment(vo);
+		}
+	
+		//예약테이블 결제여부 입력 W
+		@ResponseBody
+		@RequestMapping(value = "/ajax/reservationPayW")
+		public int reservationPayW(PaymentVO vo) {
+			return payservice.reservationPayW(vo);
+		}
+		
+		//예약테이블 결제여부 입력 Y
+		@ResponseBody
+		@RequestMapping(value = "/ajax/reservationPayY")
+		public int reservationPayY(PaymentVO vo) {
+			return payservice.reservationPayY(vo);
+		}
+		
+		
 }

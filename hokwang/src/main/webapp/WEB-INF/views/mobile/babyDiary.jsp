@@ -81,6 +81,8 @@ ul.tabs li.current {
 	var oldtime;
 	var detailArr = [];
 	var babyNo;
+	var updateResv_no;
+	
 	function payment() {
 		IMP.request_pay({
 			pg : 'html5_inicis',
@@ -111,7 +113,8 @@ ul.tabs li.current {
 						msg += '\n상점 거래ID : ' + rsp.merchant_uid;
 						msg += '\결제 금액 : ' + rsp.paid_amount;
 						msg += '카드 승인번호 : ' + rsp.apply_num;
-
+						
+						updatePayment();
 						alert(msg);
 					} else {
 						//[3] 아직 제대로 결제가 되지 않았습니다.
@@ -185,6 +188,88 @@ ul.tabs li.current {
 				}
 			});
 		});
+		
+		function updatePaymentForm(){
+			$('#unpayList').on("click", "#updatePayBtn", function() {
+				console.log("dadafsdaf");
+				updateResv_no = $(event.target).parent().siblings("#aa2").text();
+				console.log(updateResv_no);
+			});
+		}
+
+		
+		// 카드결제 후 업데이트
+		function updatePayment(){
+
+		$("#updatePayment").on("click",function(){
+			$.ajax({
+				url : 'ajax/updatePayment',
+				type : 'GET',
+				data : {
+					resv_no : updateResv_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : 
+			
+			});
+		});
+	}
+		
+		function reservationPayW(data){
+			$.ajax({
+				url : 'ajax/reservationPayW',
+				type : 'GET',
+				data : {
+					resv_no : updateResv_no
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(){
+					console.log(resv_no);
+				}
+			});
+		}
+			
+		// 계좌이체 선택 업데이트
+		function updateAccount(){
+			var resvNo = $(this).data("num");
+			console.log(resvNo);
+		$("#updateAccount").on("click",function(){
+			$.ajax({
+				url : 'ajax/updateAccount',
+				type : 'GET',
+				data : {
+					resv_no : updateResv_no,
+					pay_account : $("#pay_account").val(),
+					pay_bank :$("#pay_bank option:selected").val()
+				},
+				error : function(xhr, status, msg) {
+					alert("상태값 :" + status + " Http에러메시지 :" + msg);
+				},
+				success : function(){
+					alert("이체 계좌 입력 완료");
+					$("#pay_account").val("");
+					$("#pay_bank").val("");
+					reservationPayW();
+				}
+			});
+		});
+	}
+		
+		//카드 결제 선택시
+		$("#Payment").on("click",function(){
+			payment();
+		})
+		
+		//계좌이체 선택시
+		$("#Account").on("click",function(){
+			$("#accountdisplay").css("display","block");
+		})
+		
+	
 
 		$("#modiBtn").on("click", function() {
 			console.log("bbbb");
@@ -743,7 +828,7 @@ ul.tabs li.current {
 						console.log(">> " + item.resv_payyn);
 						$("#question" + idx)
 						.eq(-1)
-						.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" onclick="payment()">'+'</td>');
+						.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" id="updatePayBtn" data-toggle="modal" data-target="#updatePaymentModal">');
 						} else if (item.resv_payyn == "Y") {
 								console.log(">> " + item.resv_payyn);
 								text = "결제 완료";
@@ -1626,5 +1711,72 @@ ul.tabs li.current {
 		</div>
 	</div>
 	<!-- 등록/수정 temporatureModal end -->
+	
+	<!-- 결제 모달-->
+	<div class="modal fade" id="updatePaymentModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel">결제 선택</h3>
+				</div>
+				<div id="accountblock" style="float: left; width: 290px" >
+				<button type="button" class="btn btn-primary" id="Account"
+						name="updateAccount" style="width: 250px; height: 200px;" ><h2>계좌이체</h2></button>
+				</div>
+				<div id="paymentblock" style="width: 290px">
+				<button type="button" class="btn btn-primary" id="Payment"
+						name="updatePayment" style="width: 250px; height: 200px;"><h2>카드결제</h2></button>
+				</div>			
+				<div class="modal-body" id="accountdisplay" style="display: none;">
+					<div class="card" style="width: 30rem;">
+						<div class="card-body">
+							<span style="font-weight: 600;"> 계좌 이체 은행 명 :</span>
+							<select id="pay_bank">
+                        <option value="">은행명을 선택하세요</option>
+                        <option value="경남은행">경남은행</option>
+                        <option value="광주은행">광주은행</option>
+                        <option value="국민은행">국민은행</option>
+                        <option value="기업은행">기업은행</option>
+                        <option value="농협중앙회">농협중앙회</option>
+                        <option value="농협회원조합">농협회원조합</option>
+                        <option value="대구은행">대구은행</option>
+                        <option value="도이치은행">도이치은행</option>
+                        <option value="부산은행">부산은행</option>
+                        <option value="산업은행">산업은행</option>
+                        <option value="상호저축은행">상호저축은행</option>
+                        <option value="새마을금고">새마을금고</option>
+                        <option value="수협중앙회">수협중앙회</option>
+                        <option value="신한금융투자">신한금융투자</option>
+                        <option value="신한은행">신한은행</option>
+                        <option value="신협중앙회">신협중앙회</option>
+                        <option value="외환은행">외환은행</option>
+                        <option value="우리은행">우리은행</option>
+                        <option value="우체국">우체국</option>
+                        <option value="전북은행">전북은행</option>
+                        <option value="제주은행">제주은행</option>
+                        <option value="카카오뱅크">카카오뱅크</option>
+                        <option value="케이뱅크">케이뱅크</option>
+                        <option value="하나은행">하나은행</option>
+                        <option value="한국씨티은행">한국씨티은행</option>
+                        <option value="HSBC">HSBC은행</option>
+                        <option value="제일은행">SC제일은행</option>
+					</select><br> 
+							<span style="font-weight: 600;"> 계좌 번호 :</span><input type="text"
+								id="pay_account" style="padding: 5px; margin: 5px;"/><br>
+							<input type="text" id="resv_no" style="display: none;"> 			
+							<button type="button" class="btn btn-primary" id="updateAccount"
+							name="updateAccount" data-dismiss="modal">결제 계좌 입력</button>	
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" align="center">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

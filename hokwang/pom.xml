@@ -41,7 +41,6 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
@@ -210,9 +209,6 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>5.0.8.RELEASE</version>
 		</dependency>
-
-
-
 
 
 	</dependencies>

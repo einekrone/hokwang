@@ -188,7 +188,7 @@ text-align: center;
 				error : function(xhr, status, msg) {
 					alert("상태값 :" + status + " Http에러메시지 :" + msg);
 				},
-				success : alert("인설트 성공")
+				success : alert("진료가 종료 되었습니다.")
 			});
 	 }  
 

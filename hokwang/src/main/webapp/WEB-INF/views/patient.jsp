@@ -77,8 +77,6 @@
 			var tdArr = new Array();
 			var td = $(this).children();
 			$("#mediName").empty();
-			$("#diagDetail1").empty();
-			$("#diagDetail2").empty();
 			
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());

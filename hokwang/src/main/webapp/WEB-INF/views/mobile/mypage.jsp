@@ -139,15 +139,10 @@
 		});
 
 		function chkEmail() {
-			$('#overLapEmail')
-					.on(
-							"click",
+			$('#overLapEmail').on("click",
 							function() {
 								var emailVal = $("#parent-email").val();
-
 								var regExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-
-
 								if ($('#parent-email').val() == '') {
 									alert("이메일을 입력하시오")
 								} else {
@@ -162,14 +157,21 @@
 												},
 												error : function(xhr, status,
 														msg) {
-													alert("E-mail이 중복됩니다");
+													alert("에러");
 												},
 												success : function(data) {
-													if (emailVal.match(regExp) != null) {
-														alert('이메일 사용가능합니다.');
-													} else {
-														alert('이메일 형식이 아닙니다.');
+													if(data == true){
+														if (emailVal.match(regExp) != null) {
+															alert('이메일 사용가능합니다.');
+														} else {
+															alert('이메일 형식이 아닙니다.');
+														}	
+													}else{
+														alert('E-mail이 중복됩니다');
 													}
+													
+													
+
 												}
 											})
 								}

@@ -216,10 +216,14 @@ span {
 						alert("상태값 :" + status + " Http에러메시지 :" + msg);
 					},
 					success : function(data) {
-						if (emailVal.match(regExp) != null) {
-							alert('이메일 사용가능합니다.');
-						} else {
-							alert('이메일 형식이 아닙니다.');
+						if(data == true){
+							if (emailVal.match(regExp) != null) {
+								alert('이메일 사용가능합니다.');
+							} else {
+								alert('이메일 형식이 아닙니다.');
+							}	
+						}else{
+							alert('E-mail이 중복됩니다');
 						}
 					}
 				})

@@ -77,6 +77,8 @@
 			var tdArr = new Array();
 			var td = $(this).children();
 			$("#mediName").empty();
+			$("#diagDetail1").empty();
+			$("#diagDetail2").empty();
 			
 			td.each(function(i) {
 				tdArr.push(td.eq(i).text());
@@ -107,33 +109,49 @@
 	
 	function payPatientRuselt(data) {//수납상태
 		console.log("수납내역 리스트 출력");
-		$("#payStat").empty();
+		$("#pay_Stat2").empty();
 		var text = "";
-		$.each(data,
-				function(idx, item) {
-					$("<tr>").append($("<td>").html(item.PAY_DATE)).append(
-							$("<td id='price2" +idx+"'>").html(item.PAY_PRICE + " 원")).appendTo(
-							'#payStat');
-					
-					//Y(결제완료)/W(결제대기)/N(미수납).css("background", "#bed3c3")
+		$.each(data,function(idx, item) {
+			if (item.PAY_STATE == "Y") {
+					text = "결제 완료";
+					$("<tr>").append($("<td id='pay_date2'>").html(item.PAY_DATE))
+					.append($("<td id='price" +idx+"'>").html(item.PAY_PRICE+ " 원"))
+					.append($("<td>").attr("id", 'pay_statePatient').attr('value',item.PAY_STATE).html(text))
+					.appendTo('#pay_Stat2');
+			}	
+			if (item.PAY_STATE == "W") {
+				text = "결제 대기";
+				$("<tr>").append($("<td id='pay_date2'>").html(item.PAY_DATE))
+				.append($("<td id='price" +idx+"'>").html(item.PAY_PRICE+ " 원"))
+				.append($("<td>").attr("id", 'pay_statePatient').attr('value',item.PAY_STATE).html(text))
+				.appendTo('#pay_Stat2');
+			}	
+			if (item.PAY_STATE == "N") {
+				text = "미수납";
+				$("<tr>").append($("<td id='pay_date2'>").html(item.PAY_DATE))
+				.append($("<td id='price" +idx+"'>").html(item.PAY_PRICE+ " 원"))//style="background:#a0c49d;color:white;
+				.append($("<td>").attr("id", 'pay_statePatient').attr('value',item.PAY_STATE).attr("style","background:#a0c49d;color:white;")
+						.html(text))
+				.appendTo('#pay_Stat2');
+		}	
+				/* 	//Y(결제완료)/W(결제대기)/N(미수납).css("background", "#bed3c3")
 					if (item.PAY_STATE == "Y") {
-						console.log(">>결제완료 " + item.PAY_STATE);
+						console.log(">>결제완료 " + item.PAY_STATE+idx);
 						text = "결제 완료";
-						$("#price2" + idx).eq(-1).after('<td id="payStatus" >' + text + '</td>');
+						$("#price2" + idx).eq(-1).after('<td id="pay_statePatient" >' + text + '</td>');
 					}
 					
-					else if (item.PAY_STATE == "W") {
-						console.log(">>결제 대기" + item.PAY_STATE);
+					else if (item.PAY_STATE == "W"){
+						console.log(">>결제완료 " +  item.PAY_STATE+idx);
 						text = "결제 대기";
-						$("#price2" + idx).eq(-1).after(
-								'<td id="payStatus" >' + text + '</td>');
+						$("price2"+idx).eq(-1).after('<td id="pay_statePatient">'+text+'</td>');
 					}
 					else if (item.PAY_STATE == "N") {
-						console.log(">>미수납 " + item.PAY_STATE);
+						console.log(">>미수납 " +  item.PAY_STATE+idx);
 						text = "미수납";
 						$("#price2" + idx).eq(-1).after(
-								'<td id="payStatus" style="background:#a0c49d;color:white;">' + text + '</td>');
-					}
+								'<td id="pay_statePatient" style="background:#a0c49d;color:white;">' + text + '</td>');
+					} */
 				});//endonf each function
 	}
 	function patientInfoResult(data) {//환자정보
@@ -437,7 +455,7 @@
 											<th>결제 상태</th>
 										</tr>
 									</thead>
-									<tbody id="payStat"></tbody>
+									<tbody id="pay_Stat2"></tbody>
 								</table>
 
 							</div>

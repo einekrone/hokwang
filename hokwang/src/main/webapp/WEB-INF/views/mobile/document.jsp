@@ -186,7 +186,7 @@ function payment() {
 	    		msg += '예약번호 : ' + rsp.buyer_addr;
 	    		
 	    		alert("결제성공")
-	    		resv_no
+	    		
 	    		//아작스 -> 컨트롤러 가서 매퍼간다음에 -> db->
 	    		//ajax->update : status Y
 	    		$.ajax({

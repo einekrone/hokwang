@@ -39,7 +39,7 @@
 	</select>
 
 	<select id="allreser" resultType="map">
-	  select TO_CHAR(r.RESV_DATE,'YYYY-MM-DD') AS
+	  select TO_CHAR(r.RESV_DATE,'YY/MM/DD') AS
 	  RESV_DATE, r.resv_status, d.dis_name
   	  from reservation r
    	  left join DIAGNOSIS b on r.resv_no = b.resv_no

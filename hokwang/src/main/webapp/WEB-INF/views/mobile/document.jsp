@@ -69,7 +69,6 @@ function pdfPrint(data,data2){
 		rows.push(item.MEDI_NAME)
 		
 	})
-	console.log("@@@@@@@@@@@@@@@@@@"+rows);
 	//$(document).on("click","#pdfmake",function(){  //버튼 id pdfmake 발생시 행동할 이벤트
 		 /* documentDefinition : pdf파일에 들어갈 내용 및 여러가지를 정의 */
 		 var documentDefinition = {
@@ -174,7 +173,7 @@ function payment() {
 	    buyer_name : '${parent_vo.parent_name}',
 	    buyer_tel : '${parent_vo.parent_tel}',
 	  //  buyer_addr : resv_no,
-	    m_redirect_url : 'http://192.168.0.114:80/hokwang/maindoc?resv_no='+resv_no
+	    m_redirect_url : 'http://192.168.0.59:808/hokwang/maindoc?resv_no='+resv_no
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기

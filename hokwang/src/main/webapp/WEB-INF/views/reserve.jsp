@@ -22,6 +22,20 @@
 #resvTable th:nth-of-type(4), #resvTable td:nth-of-type(5) { width: 100px; }
 #resvTable th:nth-of-type(5), #resvTable td:nth-of-type(6) { width: 70px; }
 
+#nonPayTable th:nth-of-type(1), #nonPayTable td:nth-of-type(1) { width: 128px !important; }
+#nonPayTable th:nth-of-type(2), #nonPayTable td:nth-of-type(2) { width: 92px !important; }
+#nonPayTable th:nth-of-type(3), #nonPayTable td:nth-of-type(3) { width: 95px !important; }
+#nonPayTable th:nth-of-type(4), #nonPayTable td:nth-of-type(4) { width: 67px !important; }
+#nonPayTable th:nth-of-type(5), #nonPayTable td:nth-of-type(5) { width: 80px !important; }
+
+.col-xl-3 {
+	padding: 0 !important;
+}
+
+#nonPayTable th, #nonPayTable td {
+	padding: 10px 0 !important;
+}
+
 i.material-icons {
 	font-size: 1.5rem;
 	color: white;
@@ -694,9 +708,7 @@ button {
 						$('<p>').html('보호자명 : ' + data.PARENT_NAME)).append(
 						$('<p>').html('연락처 : ' + data.PARENT_TEL)).append(
 						$('<p>').html(
-								'주소 : ' + data.PARENT_ADDR + ' '
-										+ data.PARENT_ADDRDETAIL + ' '
-										+ data.PARENT_POST));
+								'주소 : ' + data.PARENT_ADDR));
 	}
 
 	function setImages(event) {
@@ -883,18 +895,18 @@ button {
 								class="tgl-btn" for="cb4"></label>
 							</span>
 						</div>
-						<div style="overflow: auto; height: 300px;">
-							<table class="table text-center">
+						<div>
+							<table class="table text-center" id="nonPayTable" style="display: block;">
 								<thead>
 									<tr>
 										<th class="text-center">예약번호</th>
 										<th class="text-center">일시</th>
-										<th class="text-center" style="width: 100px;">성명</th>
+										<th class="text-center">성명</th>
 										<th class="text-center">금액</th>
-										<th class="text-center" style="width: 80px;">상태</th>
+										<th class="text-center">상태</th>
 									</tr>
 								</thead>
-								<tbody id="nonPayList"></tbody>
+								<tbody id="nonPayList" style="display: block; height: 250px; overflow: auto; overflow-x:hidden;"></tbody>
 							</table>
 						</div>
 					</div>

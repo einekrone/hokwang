@@ -197,6 +197,16 @@ ul.tabs li.current {
 
 		// 계좌이체 선택 업데이트
 		function updateAccount(){
+			//유효성 체크
+			if($('#pay_bank').val() == 'none'){
+				alert("계좌이체 은행을 선택해 주세요 ");
+				return false;
+			}
+			 if ($('#pay_account') == null && $('#pay_account') == ''){
+				alert("계좌번호를 입력해 주세요 ");
+				return false;
+			}
+
 			var resvNo = $(this).data("num");
 			console.log(resvNo);
 		$("#updateAccount").on("click",function(){
@@ -283,6 +293,7 @@ ul.tabs li.current {
 		});
 		// 예약 취소/수정 모달 E
 	});
+
 
 	// 예약 수정
 	function resvUpdate() {

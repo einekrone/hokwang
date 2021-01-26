@@ -74,7 +74,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 		//진료종료 버튼클릭
 		$("#diagEnd").on('click',function(){
 			diagEndInsert();
-			insertPayment();
 		});
 		$("#prePhoto").on('click',function(){
 			getImages();
@@ -248,10 +247,16 @@ div.dataTables_wrapper div.dataTables_paginate {
 	
   	  //진료 종료 인설트
 	function diagEndInsert(){
-		
+		var flag = true;
+		if ($('#patient_records').val() == null || $('#patient_records').val() == ''){
+			
+			flag = false;
+		}	  
+				if(flag){
 		         $.ajax({ 
 		             url: "ajax/insertDiagList",  
-		             type: 'POST',  
+		             type: 'POST', 
+		             async: false,
 		             data : {
 		            	resv_no : resv_no,
 		            	emp_no : "${emp_vo.emp_no}",
@@ -264,8 +269,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 		             success : function(result){
 		            	 UnChange();
 		            	 PaymnetProcedure();
+		            	 insertPayment();
 		             } 
-		});
+			});
+				}else{
+					alert("진단서를 입력해주세요.");
+				}	
 	} 
 	  
 	function UnChange(){
@@ -394,9 +403,22 @@ div.dataTables_wrapper div.dataTables_paginate {
 	}
    	 //약품 인설트
 	 function mediSave(){
-		 $('#mediSave').on("click",function(){
+   		 
+   		 $('#mediSave').on("click",function(){
+   			var flag = true;
+   			if ($('#pres_account').val() == null || $('#pres_account').val() == ''){			
+				flag = false;
+			}
+			 if ($(".pres_count").val() == null || $(".pres_count").val() == ''){
+				flag = false;
+			 }
+			if ($('#pres_total').val() == null || $('#pres_total').val() == ''){
+				flag = false;
+			}
+ 
 			 console.log($('#medi_no').val());
 			 console.log(resv_no)
+			 if(flag){ 
 			 $.ajax({
 					url : "ajax/insertPres",
 					type : 'POST',
@@ -414,6 +436,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 					},
 					success : lastInsertList
 				});
+			 }else{
+				 alert("처방전을 입력해주세요.")
+			 }
 		 });
 	 }  
 	 
@@ -1326,7 +1351,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 							<span style="font-weight: 600;">1회 투여량 :</span><input type="text"
 								id="pres_account" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">1일  투여횟수 :</span><input
-								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
+								type="text" id="pres_count" class="pres_count" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">총 투약일수 :</span><input
 								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
 							<input type="text" id="resv_no" style="display: none;">

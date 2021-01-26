@@ -293,6 +293,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 				$("#diag3").css("display", "none");
 				$("#diag4").css("display", "none");
 				$("#diag5").css("display", "none");
+				$("#diag6").css("display", "block");
 				$("#diag7").css("display", "none");
 				$(".diagMenu").hide();
 			}

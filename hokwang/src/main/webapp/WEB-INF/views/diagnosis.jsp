@@ -24,22 +24,17 @@
 div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
 }
-.diagActive{
-background-color: #ffc0cb;
+
+.diagActive {
+	background-color: #faf1d6;
 }
-.diagDeleteBtn{
-border-radius: 5px;
-background-color: #ffc0cb;
-border: none;
-width: 30px;
-height: 30px;
-text-align: center;
+
+.diagDeleteBtn {
+	border-radius: 5px;
 }
 </style>
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./resources/json.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -907,7 +902,7 @@ text-align: center;
 
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
-								<div style="width: 100%; height: 160px; overflow: auto;"
+								<div style="width: 100%; height: 200px; overflow: auto;"
 									id="Info"></div>
 							</div>
 						</div>
@@ -1047,11 +1042,9 @@ text-align: center;
 							</div>
 
 							<div style="height: 70px;">
-								<table id="noborder_table">
-									<thead>
-										<tr id="nbab">
-											<th>처방</th>
-										</tr>
+							<p style="font-weight: 600;">처방</p>
+								<table id="noborder_table" class="table">
+									<thead style="text-align: center;">
 										<tr>
 											<th>처방명</th>
 											<th>1회 투여량</th>
@@ -1234,7 +1227,7 @@ text-align: center;
 						<div class="card-body"
 							style="overflow: auto; width: 100%; height: 200px;">
 							<div>
-								<table style="text-align: center;">
+								<table style="text-align: center;" class="table">
 									<thead>
 										<tr>
 											<th style="width: 100px;">약품코드</th>
@@ -1258,13 +1251,13 @@ text-align: center;
 
 							<!-- 처방전작성 -->
 							<div style="overflow: auto; height: 350px;">
-								<table style="">
-									<thead>
+								<table class="table">
+									<thead style="text-align: center;">
 										<tr>
-											<th style="width: 400px;">약품 명</th>
-											<th style="width: 200px;">1회 투여량</th>
-											<th style="width: 200px;">1일  투여횟수</th>
-											<th style="width: 200px;">총 투약일수</th>
+											<th>약품 명</th>
+											<th>1회 투여량</th>
+											<th>1일  투여횟수</th>
+											<th>총 투약일수</th>
 										</tr>
 									</thead>
 									<tbody id="insertMedicine"></tbody>

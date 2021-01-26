@@ -157,7 +157,7 @@
 												},
 												error : function(xhr, status,
 														msg) {
-													alert("에러");
+													console.log("에러");
 												},
 												success : function(data) {
 													if(data == true){
@@ -208,7 +208,7 @@
 						alert("성공");
 					},
 					error : function() {
-						alert("실패");
+						console.log("실패");
 					}
 
 				});
@@ -317,7 +317,7 @@
 						})
 					},
 					error : function() {
-						alert("error");
+						console.log("error");
 					}
 				});
 
@@ -343,7 +343,7 @@
 					})
 				},
 				error : function() {
-					alert("error");
+					console.log("error");
 				}
 			});
 		}

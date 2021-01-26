@@ -19,11 +19,6 @@
     and(work_date is not null or work_stdate is not null)
 	and e.emp_author = #{emp_author}
 	  
-
-	
-	
-	
-
 	</select>
 	<!-- 일정 등록 -->
 	<insert id="insertSche" parameterType="ManagementVO">
@@ -58,5 +53,7 @@
 		WHERE work_no = #{work_no}
 	</delete>
 	
+
+
 
 </mapper>

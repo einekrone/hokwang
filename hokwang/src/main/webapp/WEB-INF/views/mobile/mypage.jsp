@@ -356,7 +356,7 @@
 						<div id="divimg" class="card-body" style="padding: 0;"></div>
 						<h5 id="main-name" class="h5 card-title mb-0"></h5>
 						<span data-feather="phone" class="feather-sm mr-1"></span><a
-							id="main-tel" style="color: black;"></a>
+							id="main-tel" style="color: black;"></a><br>
 						<c:if test="${parent_vo.parent_sns != 'social'}">
 							<input type="hidden" id="parent-no" name="parent_no">
 							<input type="file" name="file" id="uf" style="width: 200px;" />

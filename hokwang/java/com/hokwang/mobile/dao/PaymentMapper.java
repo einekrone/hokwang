@@ -14,6 +14,4 @@ public interface PaymentMapper {
 	public int updateAccount(PaymentVO vo);
 	public int updatePayment(PaymentVO vo);
 
-	public int reservationPayW(PaymentVO vo);
-	public int reservationPayY(PaymentVO vo);
 }

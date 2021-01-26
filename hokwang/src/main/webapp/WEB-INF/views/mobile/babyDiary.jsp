@@ -112,12 +112,11 @@ ul.tabs li.current {
 							error : function(xhr, status, msg) {
 								alert("상태값 :" + status + " Http에러메시지 :" + msg);
 							},
-							success : function(data){
-								alert("이체 계좌 입력 완료");
-								reservationPayY();
+							success : function(){
+								alert(msg);
 						}
 					});	
-						alert(msg);
+						
 			} else {
 				var msg = '결제에 실패하였습니다.';
 				msg += '에러내용 : ' + rsp.error_msg;
@@ -196,40 +195,6 @@ ul.tabs li.current {
 			});
 		}
 
-		
-		function reservationPayW(data){
-			$.ajax({
-				url : 'ajax/reservationPayW',
-				type : 'GET',
-				data : {
-					resv_no : updateResv_no
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(){
-					alert("예약도 변경했음 W")
-				}
-			});
-		}
-		
-		function reservationPayY(data){
-			$.ajax({
-				url : 'ajax/reservationPayY',
-				type : 'GET',
-				data : {
-					resv_no : updateResv_no
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(){
-					alert("예약도 변경했음 Y")
-				}
-			});
-		}
-		
-
 		// 계좌이체 선택 업데이트
 		function updateAccount(){
 			var resvNo = $(this).data("num");
@@ -250,7 +215,6 @@ ul.tabs li.current {
 					alert("이체 계좌 입력 완료");
 					$("#pay_account").val("");
 					$("#pay_bank").val("");
-					reservationPayW();
 				}
 			});
 		});

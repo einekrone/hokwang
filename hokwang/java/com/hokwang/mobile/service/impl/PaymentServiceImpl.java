@@ -39,16 +39,4 @@ public class PaymentServiceImpl implements PaymentService {
 		return paydao.updatePayment(vo);
 	}
 
-	@Override
-	public int reservationPayW(PaymentVO vo) {
-		// TODO Auto-generated method stub
-		return paydao.reservationPayW(vo);
-	}
-
-	@Override
-	public int reservationPayY(PaymentVO vo) {
-		// TODO Auto-generated method stub
-		return paydao.reservationPayW(vo);
-	}
-
 }

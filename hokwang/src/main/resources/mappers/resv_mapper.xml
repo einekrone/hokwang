@@ -86,7 +86,7 @@
 				'YYYY-MM-DD')
 			</if>
 		</if>
-		ORDER BY P.PAY_DATE, P.PAY_STATE
+		ORDER BY P.PAY_DATE DESC, P.PAY_STATE DESC
 	</select>
 
 	<insert id="imgInsert" parameterType="images">

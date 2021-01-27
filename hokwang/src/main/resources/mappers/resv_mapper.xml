@@ -86,7 +86,7 @@
 				'YYYY-MM-DD')
 			</if>
 		</if>
-		ORDER BY R.RESV_NO, R.RESV_TYPE
+		ORDER BY P.PAY_DATE, P.PAY_STATE
 	</select>
 
 	<insert id="imgInsert" parameterType="images">

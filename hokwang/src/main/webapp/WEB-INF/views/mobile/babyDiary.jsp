@@ -72,6 +72,9 @@ ul.tabs li.current {
 	margin-bottom: 20px;
 	margin-right: 20px;
 }
+label {
+width : 90px;
+}
 </style>
 <script type="text/javascript">
 	var IMP = window.IMP; // 생략가능

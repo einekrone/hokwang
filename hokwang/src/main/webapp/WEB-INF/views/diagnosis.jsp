@@ -24,22 +24,17 @@
 div.dataTables_wrapper div.dataTables_paginate {
 	margin-right: 30%;
 }
-.diagActive{
-background-color: #ffc0cb;
+
+.diagActive {
+	background-color: #faf1d6;
 }
-.diagDeleteBtn{
-border-radius: 5px;
-background-color: #ffc0cb;
-border: none;
-width: 30px;
-height: 30px;
-text-align: center;
+
+.diagDeleteBtn {
+	border-radius: 5px;
 }
 </style>
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-	crossorigin="anonymous"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./resources/json.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -79,7 +74,6 @@ text-align: center;
 		//진료종료 버튼클릭
 		$("#diagEnd").on('click',function(){
 			diagEndInsert();
-			insertPayment();
 		});
 		$("#prePhoto").on('click',function(){
 			getImages();
@@ -253,10 +247,16 @@ text-align: center;
 	
   	  //진료 종료 인설트
 	function diagEndInsert(){
-		
+		var flag = true;
+		if ($('#patient_records').val() == null || $('#patient_records').val() == ''){
+			
+			flag = false;
+		}	  
+				if(flag){
 		         $.ajax({ 
 		             url: "ajax/insertDiagList",  
-		             type: 'POST',  
+		             type: 'POST', 
+		             async: false,
 		             data : {
 		            	resv_no : resv_no,
 		            	emp_no : "${emp_vo.emp_no}",
@@ -269,8 +269,12 @@ text-align: center;
 		             success : function(result){
 		            	 UnChange();
 		            	 PaymnetProcedure();
+		            	 insertPayment();
 		             } 
-		});
+			});
+				}else{
+					alert("진단서를 입력해주세요.");
+				}	
 	} 
 	  
 	function UnChange(){
@@ -289,6 +293,7 @@ text-align: center;
 				$("#diag3").css("display", "none");
 				$("#diag4").css("display", "none");
 				$("#diag5").css("display", "none");
+				$("#diag6").css("display", "block");
 				$("#diag7").css("display", "none");
 				$(".diagMenu").hide();
 			}
@@ -399,9 +404,22 @@ text-align: center;
 	}
    	 //약품 인설트
 	 function mediSave(){
-		 $('#mediSave').on("click",function(){
+   		 
+   		 $('#mediSave').on("click",function(){
+   			var flag = true;
+   			if ($('#pres_account').val() == null || $('#pres_account').val() == ''){			
+				flag = false;
+			}
+			 if ($(".pres_count").val() == null || $(".pres_count").val() == ''){
+				flag = false;
+			 }
+			if ($('#pres_total').val() == null || $('#pres_total').val() == ''){
+				flag = false;
+			}
+ 
 			 console.log($('#medi_no').val());
 			 console.log(resv_no)
+			 if(flag){ 
 			 $.ajax({
 					url : "ajax/insertPres",
 					type : 'POST',
@@ -419,6 +437,9 @@ text-align: center;
 					},
 					success : lastInsertList
 				});
+			 }else{
+				 alert("처방전을 입력해주세요.")
+			 }
 		 });
 	 }  
 	 
@@ -907,7 +928,7 @@ text-align: center;
 
 								<!-- content -->
 								<span class="tit" style="font-weight: 600;">환자정보</span>
-								<div style="width: 100%; height: 160px; overflow: auto;"
+								<div style="width: 100%; height: 200px; overflow: auto;"
 									id="Info"></div>
 							</div>
 						</div>
@@ -1047,11 +1068,9 @@ text-align: center;
 							</div>
 
 							<div style="height: 70px;">
-								<table id="noborder_table">
-									<thead>
-										<tr id="nbab">
-											<th>처방</th>
-										</tr>
+							<p style="font-weight: 600;">처방</p>
+								<table id="noborder_table" class="table">
+									<thead style="text-align: center;">
 										<tr>
 											<th>처방명</th>
 											<th>1회 투여량</th>
@@ -1234,7 +1253,7 @@ text-align: center;
 						<div class="card-body"
 							style="overflow: auto; width: 100%; height: 200px;">
 							<div>
-								<table style="text-align: center;">
+								<table style="text-align: center;" class="table">
 									<thead>
 										<tr>
 											<th style="width: 100px;">약품코드</th>
@@ -1258,13 +1277,13 @@ text-align: center;
 
 							<!-- 처방전작성 -->
 							<div style="overflow: auto; height: 350px;">
-								<table style="">
-									<thead>
+								<table class="table">
+									<thead style="text-align: center;">
 										<tr>
-											<th style="width: 400px;">약품 명</th>
-											<th style="width: 200px;">1회 투여량</th>
-											<th style="width: 200px;">1일  투여횟수</th>
-											<th style="width: 200px;">총 투약일수</th>
+											<th>약품 명</th>
+											<th>1회 투여량</th>
+											<th>1일  투여횟수</th>
+											<th>총 투약일수</th>
 										</tr>
 									</thead>
 									<tbody id="insertMedicine"></tbody>
@@ -1333,7 +1352,7 @@ text-align: center;
 							<span style="font-weight: 600;">1회 투여량 :</span><input type="text"
 								id="pres_account" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">1일  투여횟수 :</span><input
-								type="text" id="pres_count" style="padding: 5px; margin: 5px;"><br>
+								type="text" id="pres_count" class="pres_count" style="padding: 5px; margin: 5px;"><br>
 							<span style="font-weight: 600;">총 투약일수 :</span><input
 								type="text" id="pres_total" style="padding: 5px; margin: 5px;"><br>
 							<input type="text" id="resv_no" style="display: none;">

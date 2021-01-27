@@ -47,19 +47,4 @@ public class PaymentController {
 			return payservice.updatePayment(vo);
 		}
 	
-		//예약테이블 결제여부 입력 W
-		@ResponseBody
-		@RequestMapping(value = "/ajax/reservationPayW")
-		public int reservationPayW(PaymentVO vo) {
-			return payservice.reservationPayW(vo);
-		}
-		
-		//예약테이블 결제여부 입력 Y
-		@ResponseBody
-		@RequestMapping(value = "/ajax/reservationPayY")
-		public int reservationPayY(PaymentVO vo) {
-			return payservice.reservationPayY(vo);
-		}
-		
-		
 }

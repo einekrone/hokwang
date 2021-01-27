@@ -10,7 +10,7 @@ import com.hokwang.vo.Reservation;
 import com.hokwang.vo.TemporatureVO;
 
 public interface BabyDiaryMapper {
-	public List<Reservation> reserlist(Reservation vo);// 예약 리스트
+	public List<Map<String,Object>> reserlist(Reservation vo);// 예약 리스트
 	public List<QuestionVO> question(QuestionVO vo); //문진표 리스트
 	public List<BabyVO> getBabyList(BabyVO vo);//아기 셀렉트
 	public List<BabyVO> getBabyinfo(BabyVO vo);//아기 정보

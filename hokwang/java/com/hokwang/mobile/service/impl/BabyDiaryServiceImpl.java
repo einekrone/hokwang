@@ -18,11 +18,6 @@ import com.hokwang.vo.TemporatureVO;
 public class BabyDiaryServiceImpl implements BabyDiaryService {
 	@Autowired BabyDiaryMapper dao;
 
-	@Override
-	public List<Reservation> reserlist(Reservation vo) {
-		// TODO Auto-generated method stub
-		return dao.reserlist(vo);
-	}
 
 	@Override
 	public List<QuestionVO> question(QuestionVO vo) {
@@ -88,6 +83,12 @@ public class BabyDiaryServiceImpl implements BabyDiaryService {
 	public void insertTempInf(TemporatureVO vo) {
 		// TODO Auto-generated method stub
 		dao.insertTempInf(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> reserlist(Reservation vo) {
+		// TODO Auto-generated method stub
+		return dao.reserlist(vo);
 	}
 	
 	

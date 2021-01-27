@@ -112,12 +112,11 @@ ul.tabs li.current {
 							error : function(xhr, status, msg) {
 								alert("상태값 :" + status + " Http에러메시지 :" + msg);
 							},
-							success : function(data){
-								alert("이체 계좌 입력 완료");
-								reservationPayY();
+							success : function(){
+								alert(msg);
 						}
 					});	
-						alert(msg);
+						
 			} else {
 				var msg = '결제에 실패하였습니다.';
 				msg += '에러내용 : ' + rsp.error_msg;
@@ -196,42 +195,18 @@ ul.tabs li.current {
 			});
 		}
 
-		
-		function reservationPayW(data){
-			$.ajax({
-				url : 'ajax/reservationPayW',
-				type : 'GET',
-				data : {
-					resv_no : updateResv_no
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(){
-					alert("예약도 변경했음 W")
-				}
-			});
-		}
-		
-		function reservationPayY(data){
-			$.ajax({
-				url : 'ajax/reservationPayY',
-				type : 'GET',
-				data : {
-					resv_no : updateResv_no
-				},
-				error : function(xhr, status, msg) {
-					alert("상태값 :" + status + " Http에러메시지 :" + msg);
-				},
-				success : function(){
-					alert("예약도 변경했음 Y")
-				}
-			});
-		}
-		
-
 		// 계좌이체 선택 업데이트
 		function updateAccount(){
+			//유효성 체크
+			if($('#pay_bank').val() == 'none'){
+				alert("계좌이체 은행을 선택해 주세요 ");
+				return false;
+			}
+			 if ($('#pay_account') == null && $('#pay_account') == ''){
+				alert("계좌번호를 입력해 주세요 ");
+				return false;
+			}
+
 			var resvNo = $(this).data("num");
 			console.log(resvNo);
 		$("#updateAccount").on("click",function(){
@@ -250,7 +225,6 @@ ul.tabs li.current {
 					alert("이체 계좌 입력 완료");
 					$("#pay_account").val("");
 					$("#pay_bank").val("");
-					reservationPayW();
 				}
 			});
 		});
@@ -319,6 +293,7 @@ ul.tabs li.current {
 		});
 		// 예약 취소/수정 모달 E
 	});
+
 
 	// 예약 수정
 	function resvUpdate() {
@@ -783,29 +758,29 @@ ul.tabs li.current {
 		});
 
 	}
-	function reserlistResult(data) {//예약 탭 문진표/결제
+	function reserlistResult(data) {//예약 탭 문진표/예약
 		$("#reser2").empty();
 		$.each(data,function(idx, item) {
 			$("<tr id='resv'>")
-			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
 			.append($("<td>").attr("id", 'que' + idx)
 			.append($("<input type='button' id='question_reser' class='btn' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-num='qust_no' data-backdrop='static'>")))
 									//.append($("<td>").attr("id", 'modi' ).append($("<input type='button' id='modi' style='width:85px;height:50px;' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+">")))
-			.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.resv_no).html(item.resv_no))
+			.append($("<td style='display:none;'>").attr("id", 'aa1').attr('value',item.RESV_NO).html(item.RESV_NO))
 			.appendTo('#reser2');
 
-							if (item.resv_status == "Y") {
-								console.log(">>2 " + item.resv_status);
+							if (item.RESV_STATUS == "Y") {
+								console.log(">>2 " + item.RESV_STATUS);
 								text = "진료완료";
 								$("#que" + idx).eq(-1).after(
 										'<td id="diag_yn">' + text + '</td>');
-							} else if (item.resv_status == "N") {
-								console.log(">>2 " + item.resv_status);
+							} else if (item.RESV_STATUS == "N") {
+								console.log(">>2 " + item.RESV_STATUS);
 								text = "";
 								$("#que" + idx)
 										.eq(-1)
 										.after(
-												"<td><input type='button' id='modi' style='background:#5b5759; color:white;' class='btn' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.baby_no+" /></td>");
+												"<td><input type='button' id='modi' style='background:#5b5759; color:white;' class='btn' value='수정/취소' data-toggle='modal' data-target='#modifyAndCancel' data-backdrop='static' data-baby="+item.BABY_NO+" /></td>");
 							}
 						})
 	}
@@ -815,22 +790,25 @@ ul.tabs li.current {
 		$("#unpayList").empty();
 		$.each(data,function(idx, item) {
 			$("<tr>")
-			.append($("<td>").attr("id", 'resv_date').attr('value',item.resv_date).html(item.resv_date))
+			.append($("<td>").attr("id", 'resv_date').attr('value',item.RESV_DATE).html(item.RESV_DATE))
 			.append($("<td>").attr("id",'question' + idx)
 			.append($("<input type='button' class='btn' id='que2' style='background:#eeab73; color:white;' value='문진표' data-toggle='modal' data-target='#question' data-backdrop='static'>")))
-			.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.resv_no).html(item.resv_no))
+			.append($("<td style='display:none;'>").attr("id", 'aa2').attr('value',item.RESV_NO).html(item.RESV_NO))
 			.appendTo('#unpayList');
 			
-				if (item.resv_payyn == "N") {
-						console.log(">> " + item.resv_payyn);
-						$("#question" + idx)
-						.eq(-1)
-						.after('<td id="resv_payyn">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" id="updatePayBtn" data-toggle="modal" data-target="#updatePaymentModal">');
-						} else if (item.resv_payyn == "Y") {
-								console.log(">> " + item.resv_payyn);
+				if (item.PAY_STATE == "N") {
+						console.log(">>>>>>>>>>>>> " + item.PAY_STATE);
+						$("#question" + idx).eq(-1)
+						.after('<td id="pay_state">'+ '<input type="button" class="btn" style="background:#698476; color:white;" value="결제" id="updatePayBtn" data-toggle="modal" data-target="#updatePaymentModal">');
+				} else if (item.PAY_STATE == "Y") {
+								console.log(">>>>>>>>>>>>>> " + item.PAY_STATE);
 								text = "결제 완료";
 								$("#question" + idx).eq(-1)
-										.after('<td id="resv_payyn">' + text + '</td>');
+										.after('<td id="pay_state">' + text + '</td>');
+							}else if (item.PAY_STATE == "W"){
+								text = "결제 대기";
+								$("#question"+idx).eq(-1)
+								.after('<td id="pay_state">' + text + '</td>');
 							}
 
 						})
@@ -1125,12 +1103,17 @@ ul.tabs li.current {
 
 					if (item.RESV_STATUS == "N") {
 						console.log(">> 1 " + item.RESV_STATUS);
-						text = "";
+						text = "진료대기";
 						$("#diagsis" + idx).eq(-1).after(
-								'<td id="diag_yn">' + '</td>');
+								'<td id="diag_yn">' + text +'</td>');
 					} else if (item.RESV_STATUS == "Y") {
 						console.log(">>2 " + item.RESV_STATUS);
 						text = "진료완료";
+						$("#diagsis" + idx).eq(-1).after(
+								'<td id="diag_yn">' + text + '</td>');
+					} else if (item.RESV_STATUS == "I") {
+						console.log(">>2 " + item.RESV_STATUS);
+						text = "진료중";
 						$("#diagsis" + idx).eq(-1).after(
 								'<td id="diag_yn">' + text + '</td>');
 					}
@@ -1717,16 +1700,13 @@ ul.tabs li.current {
 				<div class="modal-header">
 					<h3 class="modal-title" id="exampleModalLabel">결제 선택</h3>
 				</div>
-				<div id="accountblock" style="float: left; width: 290px" >
+				<div class="modal-body">
 				<button type="button" class="btn btn-primary" id="Account"
-						name="updateAccount" style="width: 250px; height: 200px;" ><h2>계좌이체</h2></button>
-				</div>
-				<div id="paymentblock" style="width: 290px">
+						name="updateAccount" style="width: 49%; height: 100px; background: #b6e3e9; border: 0;"><h2>계좌이체</h2></button>
 				<button type="button" class="btn btn-primary" id="Payment"
-						name="updatePayment" style="width: 250px; height: 200px;"><h2>카드결제</h2></button>
-				</div>			
-				<div class="modal-body" id="accountdisplay" style="display: none;">
-					<div class="card" style="width: 30rem;">
+						name="updatePayment" style="width: 49% ; height: 100px; background: #f7e4ab; border: 0;"><h2>카드결제</h2></button>
+				<div id="accountdisplay" style="display: none; margin-top: 10px;">
+					<div class="card">
 						<div class="card-body">
 							<span style="font-weight: 600;"> 계좌 이체 은행 명 :</span>
 							<select id="pay_bank">
@@ -1763,13 +1743,14 @@ ul.tabs li.current {
 								id="pay_account" style="padding: 5px; margin: 5px;"/><br>
 							<input type="text" id="resv_no" style="display: none;"> 			
 							<button type="button" class="btn btn-primary" id="updateAccount"
-							name="updateAccount" data-dismiss="modal">결제 계좌 입력</button>	
+							name="updateAccount" data-dismiss="modal" style="background: #698476; color: white;">결제 계좌 입력</button>	
 						</div>
 					</div>
 				</div>
+				</div>
 				<div class="modal-footer" align="center">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

@@ -13,7 +13,8 @@
 	<select id="reserlist" resultType="map">
 		   select
 		TO_CHAR(r.RESV_DATE,'YYYY-MM-DD') AS
-		RESV_DATE,r.baby_no,r.resv_status,r.resv_no,p.pay_state from reservation r,payment p
+		RESV_DATE,r.baby_no,r.resv_status,r.resv_no,p.pay_state from reservation r
+		LEFT JOIN payment p on r.resv_no = p.resv_no
 		where r.baby_no=(select baby_no from baby where baby_no=#{baby_no})
     	and r.resv_no = p.resv_no
 		order by r.resv_date

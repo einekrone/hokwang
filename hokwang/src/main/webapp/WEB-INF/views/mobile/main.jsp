@@ -105,8 +105,9 @@
 			console.log("aa" + data);
 			$('#dcList').empty();
 			$.each(data, function(idx, item) {
-				$('<tr>').append($('<td>').html(item.emp_name)).append(
-						$('<td>').html(item.emp_room)).appendTo('#dcList');
+				$('<tr>')
+				.append($('<td>').attr("style","text-align:center;").html(item.emp_name))
+				.append($('<td>').attr("style","text-align:center;").html(item.emp_room+" 진료실")).appendTo('#dcList');
 			})
 		}
 	</script>
@@ -176,7 +177,7 @@
 			<div class="card flex-fill">
 				<div class="card-header">
 
-					<h5 class="card-title mb-0">코로나 현황</h5>
+					<h5 class="card-title mb-0" style="text-align: center; border-bottom:1px solid; font-size: 20px; font-weight: bold;">코로나 현황</h5>
 				</div>
 				<div style="height: 200px; overflow: auto;">
 					<table class="table" style="text-align: center;">
@@ -204,13 +205,13 @@
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-					<h5 class="card-title mb-0">의료진 소개</h5>
+					<h5 class="card-title mb-0" style="text-align: center; font-size: 20px; border-bottom:1px solid; font-weight: bold;">의료진 소개</h5>
 				</div>
 				<table id="empinfo" class="table table-hover my-0">
 					<thead>
 						<tr>
-							<th>이름</th>
-							<th>진료실</th>
+							<th style="text-align: center;">이름</th>
+							<th style="text-align: center;">진료실</th>
 						</tr>
 					</thead>
 					<tbody id="dcList">
@@ -225,7 +226,7 @@
 		<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-					<h5 class="card-title mb-0">병원 위치</h5>
+					<h5 class="card-title mb-0" style="text-align: center; font-size: 20px; border-bottom:1px solid; font-weight: bold;">병원 위치</h5>
 				</div>
 				<div class="card-body px-4">
 					<div id="map_canvas" style="width: 330px; height: 350px;"></div>
